@@ -26,8 +26,6 @@ public class SettingsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         mContext = getActivity();
         ButterKnife.bind(this, mView);
-
-
         return mView;
     }
 }
