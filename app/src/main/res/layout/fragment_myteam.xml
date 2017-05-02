@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:id="@+id/relativeGroupProfile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.android.wcf.utils.CircleImageView
+                    android:id="@+id/imageView_profile"
+                    android:layout_width="125dp"
+                    android:layout_height="125dp"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/placeholder_contact" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/imageView_profile">
+
+                    <TextView
+                        android:id="@+id/textWalkChallenge"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Walk4Change"
+                        android:textColor="@android:color/black"
+                        android:textSize="22sp" />
+
+                    <TextView
+                        android:id="@+id/textNumberofMembers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textWalkChallenge"
+                        android:text="7 Members"
+                        android:textColor="@color/grey"
+                        android:textSize="18sp" />
+
+                    <ImageView
+                        android:id="@+id/imageNumberofMembers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tint="@color/grey"
+                        android:layout_below="@+id/textWalkChallenge"
+                        android:layout_toRightOf="@+id/textNumberofMembers"
+                        android:src="@drawable/right_arrow" />
+
+                </RelativeLayout>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/relativeMoneyMilesMilestone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeGroupProfile"
+                android:layout_marginTop="25dp"
+                android:orientation="horizontal"
+                android:weightSum="90">
+
+                <RelativeLayout
+                    android:id="@+id/relativeDollars"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|center_horizontal"
+                    android:layout_weight="30">
+
+                    <TextView
+                        android:id="@+id/text$"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$"
+                        android:textColor="@color/green"
+                        android:textSize="45sp" />
+
+                    <TextView
+                        android:id="@+id/textDollars"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_toRightOf="@+id/text$"
+                        android:text="2073.30"
+                        android:textColor="@android:color/black"
+                        android:textSize="22sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeMiles"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_weight="30">
+
+                    <ProgressBar
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="100"
+                        android:progressDrawable="@drawable/circleprog_myteam_miles_bg" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarMyTeamMiles"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:indeterminate="false"
+                        android:max="100"
+                        android:progress="80"
+                        android:progressDrawable="@drawable/circleprog_myteam_miles_fg"
+                        android:rotation="-90" />
+
+                    <TextView
+                        android:id="@+id/textCurrentMiles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:text="900"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/textOutofMiles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textCurrentMiles"
+                        android:layout_centerHorizontal="true"
+                        android:gravity="center"
+                        android:text="out of\n1200 miles"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top"
+                    android:layout_marginTop="10dp"
+                    android:layout_weight="30"
+                    android:gravity="top|center_horizontal">
+
+                    <View
+                        android:id="@+id/viewMilestones"
+                        android:layout_width="25dp"
+                        android:layout_height="50dp"
+                        android:layout_alignBottom="@+id/textMilestone"
+                        android:layout_alignParentStart="true"
+                        android:background="@color/grey" />
+
+                    <TextView
+                        android:id="@+id/textMilestoneCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/viewMilestones"
+                        android:gravity="center"
+                        android:text="12/30"
+                        android:textColor="@android:color/black"
+                        android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/textMilestone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/textMilestoneCount"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_toRightOf="@+id/viewMilestones"
+                        android:gravity="center"
+                        android:text="milestones"
+                        android:textColor="@color/grey"
+                        android:textSize="12sp" />
+                </RelativeLayout>
+
+            </LinearLayout>
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>
