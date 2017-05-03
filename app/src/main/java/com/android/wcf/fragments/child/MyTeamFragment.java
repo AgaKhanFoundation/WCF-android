@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.wcf.R;
+import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.adapter.LeaderBoardMyTeamAdapter;
 import com.android.wcf.model.LeaderBoardModel;
 import com.android.wcf.utils.CircleImageView;
@@ -60,10 +61,11 @@ public class MyTeamFragment extends Fragment {
         mContext = getActivity();
         ButterKnife.bind(this, mView);
         listLeaderBoard.setExpanded(true);
+        ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.GONE);
+        ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.VISIBLE);
         populateData();
         return mView;
     }
-
 
     private void populateData() {
         List<LeaderBoardModel> arrLeaderBoard = new ArrayList<>();

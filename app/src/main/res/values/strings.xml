@@ -9,7 +9,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="leaderboard">Leaderboard</string>
-
+    <string name="currentsupporters">Current Supporters</string>
+    <string name="pastevents">Past Events</string>
 
     <string-array name="sorting">
         <item>This Week</item>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:layout_marginStart="10dp">
+
+        <ImageView
+            android:id="@+id/imageEventName"
+            android:layout_width="130dp"
+            android:layout_height="130dp"
+            android:layout_alignParentStart="true"
+            android:background="@mipmap/ic_launcher" />
+
+        <RelativeLayout
+            android:id="@+id/relativeEventandDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="15dp"
+            android:layout_toRightOf="@+id/imageEventName">
+
+            <TextView
+                android:id="@+id/textEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="AKF Walk Los Angeles"
+                android:textColor="@android:color/black"
+                android:textSize="22sp" />
+
+            <TextView
+                android:id="@+id/textEventMonthYear"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textEventName"
+                android:text="November 2016"
+                android:textColor="@color/grey"
+                android:textSize="18sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeTeamName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/relativeMoneyMiles"
+            android:layout_marginStart="15dp"
+            android:layout_toRightOf="@+id/imageEventName">
+
+
+            <TextView
+                android:id="@+id/textTeamNameHeading"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Team: "
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textTeamName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/textTeamNameHeading"
+                android:text="AKF Ambassadors 2016"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/relativeMoneyMiles"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/imageEventName">
+
+
+            <TextView
+                android:id="@+id/textMoney"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$500"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+
+            <View
+                android:id="@+id/viewMoneyMiles"
+                android:layout_width="0.5dp"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textMoney"
+                android:layout_alignTop="@+id/textMoney"
+                android:layout_marginEnd="25dp"
+                android:layout_marginStart="25dp"
+                android:layout_toRightOf="@+id/textMoney"
+                android:background="@android:color/black" />
+
+            <TextView
+                android:id="@+id/textMiles"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/viewMoneyMiles"
+                android:text="300 miles"
+                android:textColor="@android:color/black"
+                android:textSize="18sp" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

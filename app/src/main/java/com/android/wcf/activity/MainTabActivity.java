@@ -66,6 +66,12 @@ public class MainTabActivity extends AppCompatActivity {
         setContentView(R.layout.activity_maintab);
         ButterKnife.bind(this);
         mContext = this;
+        mTextBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                popUpBack();
+            }
+        });
         displayView(0);
     }
 
@@ -202,6 +208,15 @@ public class MainTabActivity extends AppCompatActivity {
                     .setTransition(FragmentTransaction.TRANSIT_NONE)
                     .addToBackStack(mFragmentTitle)
                     .commit();
+        }
+    }
+
+    public void popUpBack() {
+        Fragment myFragment = (Fragment) getSupportFragmentManager().findFragmentByTag(mFragmentTitle);
+        if (myFragment != null && myFragment.isVisible()) {
+            if (myFragment.getChildFragmentManager().getBackStackEntryCount() != 1) {
+                myFragment.getChildFragmentManager().popBackStack();
+            }
         }
     }
 }

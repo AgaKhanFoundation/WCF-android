@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.wcf.R;
+import com.android.wcf.activity.MainTabActivity;
 
 import butterknife.ButterKnife;
 
@@ -26,6 +27,8 @@ public class SettingsFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         mContext = getActivity();
         ButterKnife.bind(this, mView);
+        ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.VISIBLE);
+        ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.GONE);
         return mView;
     }
 }
