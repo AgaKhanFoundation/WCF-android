@@ -58,6 +58,13 @@ public class MainTabActivity extends AppCompatActivity {
     private FragmentManager mFragmentManager;
     private String mFragmentTitle = "";
     private static Context mContext;
+    @BindView(R.id.textLeaderBoard)
+    public TextView textLeaderBoard;
+    @BindView(R.id.textMyTeam)
+    public TextView textMyTeam;
+    @BindView(R.id.textMyProfile)
+    public TextView textMyProfile;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -100,6 +107,9 @@ public class MainTabActivity extends AppCompatActivity {
             case 0:
                 mFragment = new ParentFragment();
                 mFragmentTitle = AppUtil.LEADERBOARD_FRAGMENT;
+                textLeaderBoard.setTextColor(getResources().getColor(R.color.green));
+                textMyTeam.setTextColor(getResources().getColor(R.color.grey));
+                textMyProfile.setTextColor(getResources().getColor(R.color.grey));
 //                imageLeaderBoard.setBackgroundResource(R.drawable.hub_active_icon);
 //                imageMyTeam.setBackgroundResource(R.drawable.news_icon);
 //                imageMyProfile.setBackgroundResource(R.drawable.directory_icon);
@@ -108,6 +118,9 @@ public class MainTabActivity extends AppCompatActivity {
             case 1:
                 mFragment = new ParentFragment();
                 mFragmentTitle = AppUtil.MYTEAM_FRAGMENT;
+                textLeaderBoard.setTextColor(getResources().getColor(R.color.grey));
+                textMyTeam.setTextColor(getResources().getColor(R.color.green));
+                textMyProfile.setTextColor(getResources().getColor(R.color.grey));
 //                imageLeaderBoard.setBackgroundResource(R.drawable.hub_icon);
 //                imageMyTeam.setBackgroundResource(R.drawable.news_active_icon);
 //                imageMyProfile.setBackgroundResource(R.drawable.directory_icon);
@@ -116,6 +129,9 @@ public class MainTabActivity extends AppCompatActivity {
             case 2:
                 mFragment = new ParentFragment();
                 mFragmentTitle = AppUtil.MYPROFILE_FRAGMENT;
+                textLeaderBoard.setTextColor(getResources().getColor(R.color.grey));
+                textMyTeam.setTextColor(getResources().getColor(R.color.grey));
+                textMyProfile.setTextColor(getResources().getColor(R.color.green));
 //                imageLeaderBoard.setBackgroundResource(R.drawable.hub_icon);
 //                imageMyTeam.setBackgroundResource(R.drawable.news_icon);
 //                imageMyProfile.setBackgroundResource(R.drawable.directory_active);

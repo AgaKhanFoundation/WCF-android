@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">WCF</string>
     <string name="tabLeaderboard">LeaderBoard</string>
-    <string name="tabMyProfile">My Team</string>
-    <string name="tabMyTeam">My Profile</string>
+    <string name="tabMyProfile">My Profile</string>
+    <string name="tabMyTeam">My Team</string>
     <string name="back">Back</string>
     <string name="alert">Alert</string>
     <string name="exitMessage">Are you sure you want to exit?</string>
