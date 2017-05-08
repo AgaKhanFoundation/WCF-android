@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
+import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.CircleImageView;
 
 import butterknife.BindView;
@@ -23,7 +25,7 @@ import butterknife.ButterKnife;
  * Created by Malik Khoja on 4/27/2017.
  */
 
-public class MyProfileFragment extends Fragment {
+public class MyProfileFragment extends Fragment implements View.OnClickListener {
 
     private View mView;
     private Context mContext;
@@ -77,6 +79,22 @@ public class MyProfileFragment extends Fragment {
         ButterKnife.bind(this, mView);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.GONE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.VISIBLE);
+        ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.myprofileheadertext));
+        textCurrentSupporterSeeMore.setOnClickListener(this);
         return mView;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.textCurrentSupporterSeeMore:
+                FragmentTransaction ft = getParentFragment()
+                        .getChildFragmentManager().beginTransaction();
+                SupportersSponsersFragment supportersSponsersFragment = new SupportersSponsersFragment();
+                ft.replace(R.id.frame_container_child, supportersSponsersFragment, AppUtil.SPONSERERS_FRAGMENT);
+                ft.addToBackStack(AppUtil.MYPROFILE_FRAGMENT);
+                ft.commit();
+                break;
+        }
     }
 }

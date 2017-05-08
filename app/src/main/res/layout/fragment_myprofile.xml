@@ -52,7 +52,6 @@
                     android:textSize="18sp" />
             </RelativeLayout>
 
-
             <Spinner
                 android:id="@+id/spinnerSorting"
                 style="@style/spinner_style"
@@ -64,7 +63,6 @@
                 android:drawSelectorOnTop="true"
                 android:entries="@array/sorting"
                 android:spinnerMode="dropdown" />
-
 
             <LinearLayout
                 android:id="@+id/linearMoneyMilesMilestone"
@@ -365,28 +363,29 @@
                 android:layout_below="@+id/textPastEventsCount">
 
                 <RelativeLayout
+                    android:id="@+id/relativeFirstPastEvent"
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
                     android:layout_marginBottom="5dp"
                     android:layout_marginStart="5dp">
 
                     <ImageView
-                        android:id="@+id/imageEventName"
+                        android:id="@+id/imageFirstEventName"
                         android:layout_width="110dp"
                         android:layout_height="130dp"
                         android:layout_alignParentStart="true"
                         android:background="@mipmap/ic_launcher" />
 
                     <RelativeLayout
-                        android:id="@+id/relativeEventandDate"
+                        android:id="@+id/relativeFirstEventandDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_alignParentTop="true"
                         android:layout_marginStart="10dp"
-                        android:layout_toRightOf="@+id/imageEventName">
+                        android:layout_toRightOf="@+id/imageFirstEventName">
 
                         <TextView
-                            android:id="@+id/textEventName"
+                            android:id="@+id/textFirstEventName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentTop="true"
@@ -395,10 +394,10 @@
                             android:textSize="18sp" />
 
                         <TextView
-                            android:id="@+id/textEventMonthYear"
+                            android:id="@+id/textFirstEventMonthYear"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_below="@+id/textEventName"
+                            android:layout_below="@+id/textFirstEventName"
                             android:text="November 2016"
                             android:textColor="@color/grey"
                             android:textSize="15sp" />
@@ -410,16 +409,16 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentBottom="true"
                         android:layout_marginStart="10dp"
-                        android:layout_toRightOf="@+id/imageEventName">
+                        android:layout_toRightOf="@+id/imageFirstEventName">
 
                         <RelativeLayout
-                            android:id="@+id/relativeTeamName"
+                            android:id="@+id/relativeFirstTeamName"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_above="@+id/relativeMoneyMiles">
+                            android:layout_above="@+id/relativeFirstMoneyMiles">
 
                             <TextView
-                                android:id="@+id/textTeamNameHeading"
+                                android:id="@+id/textFirstTeamNameHeading"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Team: "
@@ -427,24 +426,24 @@
                                 android:textSize="15sp" />
 
                             <TextView
-                                android:id="@+id/textPastEventTeamName"
+                                android:id="@+id/textFirstPastEventTeamName"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/textTeamNameHeading"
+                                android:layout_toRightOf="@+id/textFirstTeamNameHeading"
                                 android:text="AKF Ambassadors"
                                 android:textColor="@android:color/black"
                                 android:textSize="15sp" />
                         </RelativeLayout>
 
                         <RelativeLayout
-                            android:id="@+id/relativeMoneyMiles"
+                            android:id="@+id/relativeFirstMoneyMiles"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_alignParentBottom="true"
                             android:layout_marginTop="5dp">
 
                             <TextView
-                                android:id="@+id/textMoney"
+                                android:id="@+id/textFirstMoney"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="$500"
@@ -452,21 +451,21 @@
                                 android:textSize="15sp" />
 
                             <View
-                                android:id="@+id/viewMoneyMiles"
+                                android:id="@+id/viewFirstMoneyMiles"
                                 android:layout_width="1dp"
                                 android:layout_height="wrap_content"
-                                android:layout_alignBottom="@+id/textMoney"
-                                android:layout_alignTop="@+id/textMoney"
+                                android:layout_alignBottom="@+id/textFirstMoney"
+                                android:layout_alignTop="@+id/textFirstMoney"
                                 android:layout_marginEnd="25dp"
                                 android:layout_marginStart="25dp"
-                                android:layout_toRightOf="@+id/textMoney"
+                                android:layout_toRightOf="@+id/textFirstMoney"
                                 android:background="@android:color/black" />
 
                             <TextView
-                                android:id="@+id/textMiles"
+                                android:id="@+id/textFirstMiles"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:layout_toRightOf="@+id/viewMoneyMiles"
+                                android:layout_toRightOf="@+id/viewFirstMoneyMiles"
                                 android:text="300 miles"
                                 android:textColor="@android:color/black"
                                 android:textSize="15sp" />
@@ -474,6 +473,134 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/relativeSecondPastEvent"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_below="@+id/relativeFirstPastEvent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="15dp">
+
+                    <ImageView
+                        android:id="@+id/imageSecondEventName"
+                        android:layout_width="110dp"
+                        android:layout_height="130dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@mipmap/ic_launcher" />
+
+                    <RelativeLayout
+                        android:id="@+id/relativeSecondEventandDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/imageSecondEventName">
+
+                        <TextView
+                            android:id="@+id/textSecondEventName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:text="Silicon Valley Walk/Run"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textSecondEventMonthYear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textSecondEventName"
+                            android:text="October 2016"
+                            android:textColor="@color/grey"
+                            android:textSize="15sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/imageSecondEventName">
+
+                        <RelativeLayout
+                            android:id="@+id/relativeSecondTeamName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/relativeSecondMoneyMiles">
+
+                            <TextView
+                                android:id="@+id/textSecondTeamNameHeading"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Team: "
+                                android:textColor="@android:color/black"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/textSecondPastEventTeamName"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/textSecondTeamNameHeading"
+                                android:text="AKF Ambassadors"
+                                android:textColor="@android:color/black"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:id="@+id/relativeSecondMoneyMiles"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="5dp">
+
+                            <TextView
+                                android:id="@+id/textSecondMoney"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="$500"
+                                android:textColor="@android:color/black"
+                                android:textSize="15sp" />
+
+                            <View
+                                android:id="@+id/viewSecondMoneyMiles"
+                                android:layout_width="1dp"
+                                android:layout_height="wrap_content"
+                                android:layout_alignBottom="@+id/textSecondMoney"
+                                android:layout_alignTop="@+id/textSecondMoney"
+                                android:layout_marginEnd="25dp"
+                                android:layout_marginStart="25dp"
+                                android:layout_toRightOf="@+id/textSecondMoney"
+                                android:background="@android:color/black" />
+
+                            <TextView
+                                android:id="@+id/textSecondMiles"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_toRightOf="@+id/viewSecondMoneyMiles"
+                                android:text="300 miles"
+                                android:textColor="@android:color/black"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/textPastEventsSeeMore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_below="@+id/relativeSecondPastEvent"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="15dp"
+                    android:drawableEnd="@drawable/right_arrow"
+                    android:drawableTint="@color/green"
+                    android:paddingBottom="10dp"
+                    android:paddingTop="10dp"
+                    android:text="See More"
+                    android:textColor="@color/green"
+                    android:textSize="18sp" />
 
             </RelativeLayout>
 

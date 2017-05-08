@@ -63,6 +63,7 @@ public class MyTeamFragment extends Fragment {
         listLeaderBoard.setExpanded(true);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.GONE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.VISIBLE);
+        ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.tabMyTeam));
         populateData();
         return mView;
     }

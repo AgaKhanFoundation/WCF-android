@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginEnd="15dp"
+    android:layout_marginStart="15dp"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:scrollbars="none">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/textGreatJob"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="15dp"
+                android:gravity="center"
+                android:text="Great job! You have raised $22.50 from corporate sponsors and $401.00 from your 11 supporters!"
+                android:textColor="@color/grey"
+                android:textSize="18sp" />
+
+
+            <RelativeLayout
+                android:id="@+id/relativeCorpSponsors"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textGreatJob"
+                android:layout_marginTop="25dp">
+
+                <TextView
+                    android:id="@+id/textCorpSponsors"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/corporatesponsors"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/ImageCorpSponsorsHelp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@drawable/help_icon"
+                    android:tint="@color/grey" />
+
+                <TextView
+                    android:id="@+id/textCorpSponsorsCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_toRightOf="@+id/textCorpSponsors"
+                    android:text="(11)"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/textThankstoSponsors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/relativeCorpSponsors"
+                android:layout_marginBottom="15dp"
+                android:text="@string/thankscorporatesponsors"
+                android:textColor="@color/grey"
+                android:textSize="16sp" />
+
+
+            <RelativeLayout
+                android:id="@+id/relativeCorporateSponsorsRow"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/textThankstoSponsors">
+
+                <RelativeLayout
+                    android:id="@+id/relativeFirstCorpSponsors"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageFirstCorpSponsors"
+                        android:layout_width="110dp"
+                        android:layout_height="130dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@mipmap/ic_launcher" />
+
+                    <RelativeLayout
+                        android:id="@+id/relativeFirstEventandDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/imageFirstCorpSponsors">
+
+                        <TextView
+                            android:id="@+id/textFirstCorpSponsorsName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:text="Name of the Corporate Sponsor"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textFirstEventMonthYear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textFirstCorpSponsorsName"
+                            android:text="Sponsor's Tagline Goes Here"
+                            android:textColor="@color/grey"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/imageFirstCorpSponsors">
+
+                        <TextView
+                            android:id="@+id/textFirstDollars"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/textPledgedMile"
+                            android:text="$18.75"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textPledgedMile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="5dp"
+                            android:text="Pledged $0.01/mile"
+                            android:textColor="@color/grey"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/relativeSecondCorpSponsors"
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:layout_below="@+id/relativeFirstCorpSponsors"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginTop="20dp">
+
+                    <ImageView
+                        android:id="@+id/imageSecondCorpSponsors"
+                        android:layout_width="110dp"
+                        android:layout_height="130dp"
+                        android:layout_alignParentStart="true"
+                        android:background="@mipmap/ic_launcher" />
+
+                    <RelativeLayout
+                        android:id="@+id/relativeSecondEventandDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentTop="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/imageSecondCorpSponsors">
+
+                        <TextView
+                            android:id="@+id/textSecondCorpSponsorsName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentTop="true"
+                            android:text="Name of the Corporate Sponsor"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textSecondEventMonthYear"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_below="@+id/textSecondCorpSponsorsName"
+                            android:text="Sponsor's Tagline Goes Here"
+                            android:textColor="@color/grey"
+                            android:textSize="15sp"
+                            android:textStyle="italic" />
+                    </RelativeLayout>
+
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginStart="10dp"
+                        android:layout_toRightOf="@+id/imageSecondCorpSponsors">
+
+                        <TextView
+                            android:id="@+id/textSecondDollars"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@+id/textSecondPledgedMile"
+                            android:text="$3.75"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+
+                        <TextView
+                            android:id="@+id/textSecondPledgedMile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_marginTop="5dp"
+                            android:text="Pledged $0.01/mile"
+                            android:textColor="@color/grey"
+                            android:textSize="14sp" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/relativeCurrentSupportersList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeSecondCorpSponsors"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="25dp">
+
+                    <TextView
+                        android:id="@+id/textCurrentSupporters"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_centerVertical="true"
+                        android:text="@string/currentsupporters"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:id="@+id/textCurrentSupportersCount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="5dp"
+                        android:layout_toRightOf="@+id/textCurrentSupporters"
+                        android:text="(11)"
+                        android:textSize="16sp" />
+
+                    <ImageView
+                        android:id="@+id/ImageCurrentSuppHelp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_centerVertical="true"
+                        android:background="@drawable/help_icon"
+                        android:tint="@color/grey" />
+                </RelativeLayout>
+
+
+                <com.android.wcf.utils.ExpandedListView
+                    android:id="@+id/listCurrentSupporters"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/relativeCurrentSupportersList"
+                    android:layout_marginBottom="10dp"
+                    android:clickable="false"
+                    android:divider="@android:color/transparent"
+                    android:dividerHeight="0dp"
+                    android:focusable="false"
+                    android:focusableInTouchMode="false" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

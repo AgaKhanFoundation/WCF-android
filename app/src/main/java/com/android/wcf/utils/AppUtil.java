@@ -15,6 +15,7 @@ public class AppUtil {
     public static final String MYTEAM_FRAGMENT = "myTeamFragment";
     public static final String MYPROFILE_FRAGMENT = "myProfileFragment";
     public static final String SETTINGS_FRAGMENT = "settingsFragment";
+    public static final String SPONSERERS_FRAGMENT = "sponserersFragment";
 
     public static void hideKeyboard(Context mContext, View mview) {
         InputMethodManager im = (InputMethodManager) mContext

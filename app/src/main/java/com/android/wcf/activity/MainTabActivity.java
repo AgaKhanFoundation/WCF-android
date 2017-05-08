@@ -64,6 +64,8 @@ public class MainTabActivity extends AppCompatActivity {
     public TextView textMyTeam;
     @BindView(R.id.textMyProfile)
     public TextView textMyProfile;
+    @BindView(R.id.textAppName)
+    public TextView textAppName;
 
 
     @Override
