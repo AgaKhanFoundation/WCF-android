@@ -2,20 +2,20 @@ package com.android.wcf.adapter;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
+ * this list of conditions and the following disclaimer.
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * <p>
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
- *
+ * derived from this software without specific prior written permission.
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -27,15 +27,17 @@ package com.android.wcf.adapter;
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.model.CurrentSupportersModel;
+import com.android.wcf.model.PastEventModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,14 +45,13 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-
-public class CurrentSupportersAdapter extends BaseAdapter {
+public class PastEventAdapter extends BaseAdapter {
 
     private Context mContext;
-    private CurrentSupportersAdapter.ViewHolder viewHolder;
-    private List<CurrentSupportersModel> arrLeaderBoard = new ArrayList<>();
+    private PastEventAdapter.ViewHolder viewHolder;
+    private List<PastEventModel> arrLeaderBoard = new ArrayList<>();
 
-    public CurrentSupportersAdapter(Context mContext, List<CurrentSupportersModel> arr_model) {
+    public PastEventAdapter(Context mContext, List<PastEventModel> arr_model) {
         this.mContext = mContext;
         this.arrLeaderBoard = arr_model;
     }
@@ -76,26 +77,32 @@ public class CurrentSupportersAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             // inflate the layout to set the data
-            convertView = inflater.inflate(R.layout.row_current_supporters, parent, false);
-            viewHolder = new CurrentSupportersAdapter.ViewHolder(convertView);
+            convertView = inflater.inflate(R.layout.row_past_events, parent, false);
+            viewHolder = new PastEventAdapter.ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (CurrentSupportersAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (PastEventAdapter.ViewHolder) convertView.getTag();
         }
-
-
         return convertView;
 
     }
 
     public class ViewHolder {
         // Separate class to initialize the widgets of the view.
-        @BindView(R.id.textNameUser)
-        TextView textNameUser;
-        @BindView(R.id.textCurrentMoneyUser)
-        TextView textCurrentMoneyUser;
-        @BindView(R.id.textPledgedUser)
-        TextView textPledgedUser;
+        @BindView(R.id.imageEventName)
+        ImageView imageEventName;
+        @BindView(R.id.textEventName)
+        TextView textEventName;
+        @BindView(R.id.textEventMonthYear)
+        TextView textEventMonthYear;
+        @BindView(R.id.textTeamNameHeading)
+        TextView textTeamNameHeading;
+        @BindView(R.id.textPastEventTeamName)
+        TextView textPastEventTeamName;
+        @BindView(R.id.textMoney)
+        TextView textMoney;
+        @BindView(R.id.textMiles)
+        TextView textMiles;
 
         public ViewHolder(final View v) {
             ButterKnife.bind(this, v);
