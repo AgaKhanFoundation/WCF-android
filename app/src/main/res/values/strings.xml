@@ -15,6 +15,7 @@
     <string name="supporters">Supporters and Sponsers</string>
     <string name="corporatesponsors">Corporate Sponsors</string>
     <string name="thankscorporatesponsors">Thanks to the following corporate sponsors, you\'ve raised an additional $22.50!</string>
+    <string name="settings">Settings</string>
     <string-array name="sorting">
         <item>This Week</item>
         <item>This Month</item>

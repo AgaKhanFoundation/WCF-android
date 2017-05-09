@@ -29,6 +29,7 @@ public class SettingsFragment extends Fragment {
         ButterKnife.bind(this, mView);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.VISIBLE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.GONE);
+        ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.settings));
         return mView;
     }
 }
