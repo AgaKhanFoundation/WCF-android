@@ -45,6 +45,9 @@ import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.CircleImageView;
+import com.android.wcf.utils.Preferences;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -109,6 +112,11 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
         ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.myprofileheadertext));
         textCurrentSupporterSeeMore.setOnClickListener(this);
         textPastEventsSeeMore.setOnClickListener(this);
+        textMyName.setText(Preferences.getPreferencesString("userName", mContext));
+        String profilePicUrl = Preferences.getPreferencesString("userProfileUrl", mContext);
+        Glide.with(this).load(profilePicUrl)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .into(imageMyProfile);
         return mView;
     }
 

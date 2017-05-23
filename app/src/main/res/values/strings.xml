@@ -21,6 +21,7 @@
         <item>This Month</item>
         <item>This Event</item>
         <item>Overall</item>
-
     </string-array>
+    <string name="fb_login_protocol_scheme">fb[1963876463835347]</string>
+    <string name="facebook_app_id">1963876463835347</string>
 </resources>
