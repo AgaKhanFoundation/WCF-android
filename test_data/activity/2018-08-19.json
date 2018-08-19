@@ -10,8 +10,8 @@
   "summary": {
     "activeScore": -1,
     "activityCalories": 0,
-    "caloriesBMR": 801,
-    "caloriesOut": 801,
+    "caloriesBMR": 812,
+    "caloriesOut": 812,
     "distances": [
       {
         "activity": "total",
@@ -47,7 +47,7 @@
     "floors": 0,
     "lightlyActiveMinutes": 0,
     "marginalCalories": 0,
-    "sedentaryMinutes": 714,
+    "sedentaryMinutes": 724,
     "steps": 0,
     "veryActiveMinutes": 0
   }
