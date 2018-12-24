@@ -1,0 +1,47 @@
+{
+  "best": {
+    "total": {
+      "distance": {
+        "date": "2018-08-14",
+        "value": 5.16896
+      },
+      "floors": {
+        "date": "2018-08-08",
+        "value": 10.0000000152
+      },
+      "steps": {
+        "date": "2018-08-14",
+        "value": 7209
+      }
+    },
+    "tracker": {
+      "distance": {
+        "date": "2018-08-14",
+        "value": 5.16896
+      },
+      "floors": {
+        "date": "2018-08-08",
+        "value": 10.0000000152
+      },
+      "steps": {
+        "date": "2018-08-14",
+        "value": 7209
+      }
+    }
+  },
+  "lifetime": {
+    "total": {
+      "activeScore": -1,
+      "caloriesOut": -1,
+      "distance": 129.81,
+      "floors": 258,
+      "steps": 180626
+    },
+    "tracker": {
+      "activeScore": -1,
+      "caloriesOut": -1,
+      "distance": 129.81,
+      "floors": 258,
+      "steps": 180626
+    }
+  }

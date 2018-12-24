@@ -1,0 +1,492 @@
+{
+  "activities-steps": [
+    {
+      "dateTime": "2018-06-01",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-02",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-03",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-04",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-05",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-06",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-07",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-08",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-09",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-10",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-11",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-12",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-13",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-14",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-15",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-16",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-17",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-18",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-19",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-20",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-21",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-22",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-23",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-24",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-25",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-26",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-27",
+      "value": "18"
+    },
+    {
+      "dateTime": "2018-06-28",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-29",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-06-30",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-01",
+      "value": "774"
+    },
+    {
+      "dateTime": "2018-07-02",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-03",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-04",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-05",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-06",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-07",
+      "value": "6373"
+    },
+    {
+      "dateTime": "2018-07-08",
+      "value": "4579"
+    },
+    {
+      "dateTime": "2018-07-09",
+      "value": "2517"
+    },
+    {
+      "dateTime": "2018-07-10",
+      "value": "4245"
+    },
+    {
+      "dateTime": "2018-07-11",
+      "value": "3604"
+    },
+    {
+      "dateTime": "2018-07-12",
+      "value": "4310"
+    },
+    {
+      "dateTime": "2018-07-13",
+      "value": "9617"
+    },
+    {
+      "dateTime": "2018-07-14",
+      "value": "8070"
+    },
+    {
+      "dateTime": "2018-07-15",
+      "value": "2952"
+    },
+    {
+      "dateTime": "2018-07-16",
+      "value": "3022"
+    },
+    {
+      "dateTime": "2018-07-17",
+      "value": "9627"
+    },
+    {
+      "dateTime": "2018-07-18",
+      "value": "6649"
+    },
+    {
+      "dateTime": "2018-07-19",
+      "value": "7758"
+    },
+    {
+      "dateTime": "2018-07-20",
+      "value": "8102"
+    },
+    {
+      "dateTime": "2018-07-21",
+      "value": "4724"
+    },
+    {
+      "dateTime": "2018-07-22",
+      "value": "2368"
+    },
+    {
+      "dateTime": "2018-07-23",
+      "value": "7575"
+    },
+    {
+      "dateTime": "2018-07-24",
+      "value": "7807"
+    },
+    {
+      "dateTime": "2018-07-25",
+      "value": "204"
+    },
+    {
+      "dateTime": "2018-07-26",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-27",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-28",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-29",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-30",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-07-31",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-01",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-02",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-03",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-04",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-05",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-06",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-07",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-08",
+      "value": "6768"
+    },
+    {
+      "dateTime": "2018-08-09",
+      "value": "6973"
+    },
+    {
+      "dateTime": "2018-08-10",
+      "value": "8900"
+    },
+    {
+      "dateTime": "2018-08-11",
+      "value": "5521"
+    },
+    {
+      "dateTime": "2018-08-12",
+      "value": "1541"
+    },
+    {
+      "dateTime": "2018-08-13",
+      "value": "7802"
+    },
+    {
+      "dateTime": "2018-08-14",
+      "value": "7209"
+    },
+    {
+      "dateTime": "2018-08-15",
+      "value": "7128"
+    },
+    {
+      "dateTime": "2018-08-16",
+      "value": "7270"
+    },
+    {
+      "dateTime": "2018-08-17",
+      "value": "8988"
+    },
+    {
+      "dateTime": "2018-08-18",
+      "value": "6606"
+    },
+    {
+      "dateTime": "2018-08-19",
+      "value": "1025"
+    },
+    {
+      "dateTime": "2018-08-20",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-21",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-22",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-23",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-24",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-25",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-26",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-27",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-28",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-29",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-30",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-08-31",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-01",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-02",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-03",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-04",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-05",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-06",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-07",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-08",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-09",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-10",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-11",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-12",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-13",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-14",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-15",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-16",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-17",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-18",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-19",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-20",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-21",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-22",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-23",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-24",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-25",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-26",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-27",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-28",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-29",
+      "value": "0"
+    },
+    {
+      "dateTime": "2018-09-30",
+      "value": "0"
+    }
+  ]
+}
