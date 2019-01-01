@@ -1,43 +1,150 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
+
     defaultConfig {
-        applicationId "com.android.wcf"
-        minSdkVersion 19
-        targetSdkVersion 27
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
+        applicationId "com.android.wcf.debug"
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
+        multiDexEnabled true
     }
+
+//    signingConfigs {
+//        debugConfig {
+//            storeFile file("debug.keystore")
+//            keyAlias "debug"
+//            storePassword "android"
+//            keyPassword "android"
+//        }
+//        releaseConfig {
+//            storeFile file("akf_wcf.keystore")
+//            keyAlias "android_akf_wcf"
+//            keyPassword 'credentials.properties'
+//            storePassword 'credentials.properties'
+//        }
+//    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+        //    signingConfig signingConfigs.releaseConfig
+        }
+        debug {
+          //  applicationIdSuffix '.debug'
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable true
+        //    signingConfig signingConfigs.debugConfig
         }
     }
+
+//    androidExtensions {
+//        experimental = true
+//    }
+
+    configurations.all {
+        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+        resolutionStrategy.force supportAnnotations
+    }
+
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"
+    }
+    testOptions { unitTests.all { jvmArgs '-noverify' } }
 }
+
 repositories {
-    mavenCentral()
+    google()
+    jcenter()
 }
+
 dependencies {
+    // jars
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    testImplementation 'junit:junit:4.12'
-
-    implementation ("com.facebook.android:facebook-android-sdk:${facebookSdkVersion}") {
-        exclude group: 'com.android.support'
-    }
-    implementation "com.github.bumptech.glide:glide:${glideLibVersion}"
-    annotationProcessor "com.github.bumptech.glide:compiler:${glideLibVersion}"
-
-    implementation "com.jakewharton:butterknife:${butterknifeLibVersion}"
-    annotationProcessor "com.jakewharton:butterknife-compiler:${butterknifeLibVersion}"
-
+    //Support Libs
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support:cardview-v7:${supportLibVersion}"
-    implementation "com.android.support.constraint:constraint-layout:${constraintLayoutLibVersion}"
+    implementation "com.android.support:support-annotations:${supportLibVersion}"
+    implementation "com.android.support.constraint:constraint-layout:${constraintLayoutVersion}"
+
+    implementation "com.android.support:multidex:1.0.3"
+
+    //Install Referrer
+    implementation 'com.android.installreferrer:installreferrer:1.0'
+
+    //Google Play Services
+    implementation "com.google.android.gms:play-services-gcm:${gcmVersion}"
+
+    //Facebook
+    implementation ("com.facebook.android:facebook-android-sdk:${facebookSdkVersion}") {
+        exclude group: 'com.android.support'
+    }
+
+    //ExoPlayer Google
+    implementation "com.google.android.exoplayer:exoplayer-core:${exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:exoplayer-dash:${exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:exoplayer-ui:${exoPlayerVersion}"
+    implementation "com.google.android.exoplayer:exoplayer-hls:${exoPlayerVersion}"
+
+    // dagger
+    implementation "com.google.dagger:dagger-android:${dagger2Version}"
+    implementation "com.google.dagger:dagger-android-support:${dagger2Version}"
+    kapt "com.google.dagger:dagger-android-processor:${dagger2Version}"
+    kapt "com.google.dagger:dagger-compiler:${daggerKaptCompilerVersion}"
+    kaptTest "com.google.dagger:dagger-compiler:${daggerKaptCompilerVersion}"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:converter-gson:${retrofitVersion}"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:${retrofitVersion}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${retrofitLoggingInterceptorVersion}"
+
+    //RxJava
+    implementation "io.reactivex.rxjava2:rxjava:${rxJavaVersion}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxAndroidVersion}"
+
+    //Gson
+    implementation "com.google.code.gson:gson:${gsonVersion}"
+
+    //Glide Image Loading
+    implementation "com.github.bumptech.glide:glide:${glideVersion}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
+
+//    ButterKnife
+//    implementation butterKnife
+//    annotationProcessor butterKnifeAnnotationProcessor
+
+    // Kotlin
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+    //Testing
+    testImplementation "junit:junit:${jUnitVersion}"
+    testImplementation "org.mockito:mockito-core:${mockitoVersion}"
+    //testImplementation 'org.json:json:20140107'
+    testImplementation "org.robolectric:robolectric:${robolectricVersion}"
+
+    androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v${testUiAutoVersion}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-core:${espressoVersion}"
+    androidTestImplementation "com.android.support.test.espresso:espresso-intents:${espressoVersion}"
+    androidTestImplementation "com.android.support.test:runner:${testRunnerVersion}"
+
+//    espressoExclude = [findBugsGroup : 'com.google.code.findbugs',
+//                       findBugsModule: 'jsr305',
+//                       supportGroup  : 'com.android.support',
+//                       supportModule : 'support-annotations']
+
 
 }

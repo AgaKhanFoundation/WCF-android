@@ -48,56 +48,32 @@ import com.android.wcf.utils.CircleImageView;
 import com.android.wcf.utils.Preferences;
 import com.bumptech.glide.Glide;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class MyProfileFragment extends Fragment implements View.OnClickListener {
 
     private View mView;
     private Context mContext;
-    @BindView(R.id.imageMyProfile)
     CircleImageView imageMyProfile;
-    @BindView(R.id.textMyName)
     TextView textMyName;
-    @BindView(R.id.textTeamName)
     TextView textTeamName;
-    @BindView(R.id.spinnerSorting)
     Spinner spinnerSorting;
-    @BindView(R.id.textTeamMoneyCurrency)
     TextView textTeamMoneyCurrency;
-    @BindView(R.id.textTeamMoney)
     TextView textTeamMoney;
-    @BindView(R.id.progressBarMyTeamMiles)
     ProgressBar progressBarMyTeamMiles;
-    @BindView(R.id.textCurrentMiles)
     TextView textCurrentMiles;
-    @BindView(R.id.textOutofMiles)
     TextView textOutofMiles;
-    @BindView(R.id.imageDaysCount)
     ImageView imageDaysCount;
-    @BindView(R.id.textDays)
     TextView textDays;
-    @BindView(R.id.textMilestone)
     TextView textMilestone;
-    @BindView(R.id.textCurrentSupportersCount)
     TextView textCurrentSupportersCount;
-    @BindView(R.id.textNameFirstUser)
     TextView textNameFirstUser;
-    @BindView(R.id.textCurrentMoneyFirstUser)
     TextView textCurrentMoneyFirstUser;
-    @BindView(R.id.textPledgedFirstUser)
     TextView textPledgedFirstUser;
-    @BindView(R.id.textNameSecondUser)
     TextView textNameSecondUser;
-    @BindView(R.id.textCurrentMoneySecondUser)
     TextView textCurrentMoneySecondUser;
-    @BindView(R.id.textPledgedSecondUser)
     TextView textPledgedSecondUser;
-    @BindView(R.id.textCurrentSupporterSeeMore)
     TextView textCurrentSupporterSeeMore;
-    @BindView(R.id.textPastEventsCount)
     TextView textPastEventsCount;
-    @BindView(R.id.textPastEventsSeeMore)
     TextView textPastEventsSeeMore;
 
 
@@ -105,7 +81,7 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_myprofile, container, false);
         mContext = getActivity();
-        ButterKnife.bind(this, mView);
+        setupView(mView);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.GONE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.VISIBLE);
         ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.myprofileheadertext));
@@ -140,5 +116,31 @@ public class MyProfileFragment extends Fragment implements View.OnClickListener 
 
 
         }
+    }
+
+    protected void setupView(View v) {
+        imageMyProfile = v.findViewById(R.id.imageMyProfile);
+        textMyName = v.findViewById(R.id.textMyName);
+        textTeamName = v.findViewById(R.id.textTeamName);
+        spinnerSorting = v.findViewById(R.id.spinnerSorting);
+        textTeamMoneyCurrency = v.findViewById(R.id.textTeamMoneyCurrency);
+        textTeamMoney = v.findViewById(R.id.textTeamMoney);
+        progressBarMyTeamMiles = v.findViewById(R.id.progressBarMyTeamMiles);
+        textCurrentMiles = v.findViewById(R.id.textCurrentMiles);
+        textOutofMiles = v.findViewById(R.id.textOutofMiles);
+        imageDaysCount = v.findViewById(R.id.imageDaysCount);
+        textDays = v.findViewById(R.id.textDays);
+        textMilestone = v.findViewById(R.id.textMilestone);
+        textCurrentSupportersCount = v.findViewById(R.id.textCurrentSupportersCount);
+        textNameFirstUser = v.findViewById(R.id.textNameFirstUser);
+        textCurrentMoneyFirstUser = v.findViewById(R.id.textCurrentMoneyFirstUser);
+        textPledgedFirstUser = v.findViewById(R.id.textPledgedFirstUser);
+        textNameSecondUser = v.findViewById(R.id.textNameSecondUser);
+        textCurrentMoneySecondUser = v.findViewById(R.id.textCurrentMoneySecondUser);
+        textPledgedSecondUser = v.findViewById(R.id.textPledgedSecondUser);
+        textCurrentSupporterSeeMore = v.findViewById(R.id.textCurrentSupporterSeeMore);
+        textPastEventsCount = v.findViewById(R.id.textPastEventsCount);
+        textPastEventsSeeMore = v.findViewById(R.id.textPastEventsSeeMore);
+
     }
 }

@@ -51,53 +51,35 @@ import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Build;
 import com.android.wcf.utils.Debug;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
-
 public class MainTabActivity extends AppCompatActivity {
 
     private static String TAG = MainTabActivity.class.getSimpleName();
     private static boolean DEBUG = Build.DEBUG;
-    @BindView(R.id.relativeLeaderBoard)
+    private static Context mContext;
+
     RelativeLayout relativeLeaderBoard;
-    @BindView(R.id.relativeMyTeam)
     RelativeLayout relativeMyTeam;
-    @BindView(R.id.relativeMyProfile)
     RelativeLayout relativeMyProfile;
-    @BindView(R.id.imageLeaderBoard)
     ImageView imageLeaderBoard;
-    @BindView(R.id.imageMyTeam)
     ImageView imageMyTeam;
-    @BindView(R.id.imageMyProfile)
     ImageView imageMyProfile;
-    @BindView(R.id.toolbar)
     public Toolbar mToolbar;
-    @BindView(R.id.textBack)
     public TextView mTextBack;
-    @BindView(R.id.imageSettings)
     public ImageView mImageSettings;
     private Fragment mFragment = null;
     private FragmentManager mFragmentManager;
     private String mFragmentTitle = "";
-    private static Context mContext;
-    @BindView(R.id.textLeaderBoard)
     public TextView textLeaderBoard;
-    @BindView(R.id.textMyTeam)
     public TextView textMyTeam;
-    @BindView(R.id.textMyProfile)
     public TextView textMyProfile;
-    @BindView(R.id.textAppName)
     public TextView textAppName;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_maintab);
-        ButterKnife.bind(this);
+        setupView();
         mContext = this;
         mTextBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,23 +90,45 @@ public class MainTabActivity extends AppCompatActivity {
         displayView(0);
     }
 
-    @Nullable
-    @OnClick({R.id.relativeLeaderBoard, R.id.relativeMyTeam, R.id.relativeMyProfile, R.id.imageSettings})
-    void onClickTabs(View v) {
-        switch (v.getId()) {
-            case R.id.relativeLeaderBoard:
-                displayView(0);
-                break;
-            case R.id.relativeMyTeam:
-                displayView(1);
-                break;
-            case R.id.relativeMyProfile:
-                displayView(2);
-                break;
-            case R.id.imageSettings:
-                displaySettingsFrgment();
-                break;
+    View.OnClickListener onClickTabsListener =  new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.relativeLeaderBoard:
+                    displayView(0);
+                    break;
+                case R.id.relativeMyTeam:
+                    displayView(1);
+                    break;
+                case R.id.relativeMyProfile:
+                    displayView(2);
+                    break;
+                case R.id.imageSettings:
+                    displaySettingsFrgment();
+                    break;
+            }
         }
+    };
+
+    private void setupView() {
+        relativeLeaderBoard = findViewById(R.id.relativeLeaderBoard);
+        relativeMyTeam = findViewById(R.id.relativeMyTeam);
+        relativeMyProfile = findViewById(R.id.relativeMyProfile);
+        imageLeaderBoard = findViewById(R.id.imageLeaderBoard);
+        imageMyTeam = findViewById(R.id.imageMyTeam);
+        imageMyProfile = findViewById(R.id.imageMyProfile);
+        mToolbar = findViewById(R.id.toolbar);
+        mTextBack = findViewById(R.id.textBack);
+        mImageSettings = findViewById(R.id.imageSettings);
+        textLeaderBoard = findViewById(R.id.textLeaderBoard);
+        textMyTeam = findViewById(R.id.textMyTeam);
+        textMyProfile = findViewById(R.id.textMyProfile);
+        textAppName = findViewById(R.id.textAppName);
+
+        relativeLeaderBoard.setOnClickListener(onClickTabsListener);
+        relativeMyTeam.setOnClickListener(onClickTabsListener);
+        relativeMyProfile.setOnClickListener(onClickTabsListener);
+        mImageSettings.setOnClickListener(onClickTabsListener);
     }
 
     private void displayView(int position) {
