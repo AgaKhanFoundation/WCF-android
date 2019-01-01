@@ -51,16 +51,10 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
-
 public class LoginActivity extends AppCompatActivity {
 
-    @BindView(R.id.buttonFacebookLogin)
     Button btnFacebookLogin;
     private Context mContext;
-    @BindView(R.id.login_button)
     LoginButton loginButton;
     CallbackManager callbackManager;
 
@@ -69,7 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         mContext = this;
-        ButterKnife.bind(this);
+        setupView();
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions("public_profile", "email");
@@ -110,6 +104,11 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void setupView() {
+        btnFacebookLogin = findViewById(R.id.buttonFacebookLogin);
+        loginButton = findViewById(R.id.login_button);
     }
 
     private FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {

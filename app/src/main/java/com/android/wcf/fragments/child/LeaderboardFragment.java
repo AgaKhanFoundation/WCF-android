@@ -39,7 +39,6 @@ import android.view.ViewGroup;
 import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
 
-import butterknife.ButterKnife;
 
 public class LeaderboardFragment extends Fragment {
 
@@ -50,8 +49,6 @@ public class LeaderboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         mContext = getActivity();
-        ButterKnife.bind(this, mView);
-
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.GONE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.VISIBLE);
         ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.leaderboard));

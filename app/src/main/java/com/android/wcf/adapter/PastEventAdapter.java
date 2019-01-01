@@ -42,8 +42,6 @@ import com.android.wcf.model.PastEventModel;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class PastEventAdapter extends BaseAdapter {
 
@@ -89,23 +87,23 @@ public class PastEventAdapter extends BaseAdapter {
 
     public class ViewHolder {
         // Separate class to initialize the widgets of the view.
-        @BindView(R.id.imageEventName)
         ImageView imageEventName;
-        @BindView(R.id.textEventName)
         TextView textEventName;
-        @BindView(R.id.textEventMonthYear)
         TextView textEventMonthYear;
-        @BindView(R.id.textTeamNameHeading)
         TextView textTeamNameHeading;
-        @BindView(R.id.textPastEventTeamName)
         TextView textPastEventTeamName;
-        @BindView(R.id.textMoney)
         TextView textMoney;
-        @BindView(R.id.textMiles)
         TextView textMiles;
 
         public ViewHolder(final View v) {
-            ButterKnife.bind(this, v);
+            imageEventName = v.findViewById(R.id.imageEventName);
+            textEventName = v.findViewById(R.id.textEventName);
+            textEventMonthYear = v.findViewById(R.id.textEventMonthYear);
+            textTeamNameHeading = v.findViewById(R.id.textTeamNameHeading);
+            textPastEventTeamName = v.findViewById(R.id.textPastEventTeamName);
+            textMoney = v.findViewById(R.id.textMoney);
+
+            textMiles = v.findViewById(R.id.textMiles);
         }
     }
 }
