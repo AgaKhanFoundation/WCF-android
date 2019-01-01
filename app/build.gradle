@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion compileSdkVer
@@ -53,7 +53,7 @@ android {
 //    }
 
     configurations.all {
-        resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
+        //resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
         resolutionStrategy.force supportAnnotations
     }
 
@@ -128,7 +128,7 @@ dependencies {
 //    annotationProcessor butterKnifeAnnotationProcessor
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
 
     //Testing
     testImplementation "junit:junit:${jUnitVersion}"
