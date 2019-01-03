@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.4'
+        classpath 'com.android.tools.build:gradle:3.2.1'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
@@ -29,37 +29,36 @@ task clean(type: Delete) {
 
 ext {
     // Build info
-    compileSdkVer = 27
-    minSdkVer = 21
-    targetSdkVer = 27
-    buildToolsVer = '27.0.3'
+    compileSdkVer = 28
+    minSdkVer = 19
+    targetSdkVer = 28
+    buildToolsVer = '28.0.3'
 
     //Support Libs
-    supportLibVersion = '27.1.1'
-    supportAnnotations = "com.android.support:support-annotations:${supportLibVersion}"
+    supportLibVersion = '28.0.0'
 
     //Google Play Services
     gcmVersion = '15.0.1'
 
     //Facebook
-    facebookSdkVersion = '4.35.0'
+    facebookSdkVersion = '4.39.0'
 
     //ButterKnife
-    butterknifeLibVersion = '8.8.1'
+    butterknifeVersion = '8.8.1'
 
     //ExoPlayer Google
-    exoPlayerVersion = '2.6.1'
+    exoPlayerVersion = '2.8.4'
 
     //Retrofit
-    retrofitVersion = '2.3.0'
-    retrofitLoggingInterceptorVersion = '3.10.0'
+    retrofitVersion = '2.5.0'
+    retrofitLoggingInterceptorVersion = '3.12.1'
 
     //RxJava
-    rxJavaVersion = '2.1.9'
-    rxAndroidVersion = '2.0.2'
+    rxJavaVersion = '2.2.5'
+    rxAndroidVersion = '2.1.0'
 
     //Gson
-    gsonVersion = '2.8.2'
+    gsonVersion = '2.8.5'
 
     //Dagger
     dagger2Version = '2.15'
@@ -81,3 +80,6 @@ ext {
     espressoVersion = '3.0.2'
     testRunnerVersion = '1.0.2'
 }
+
+
+
