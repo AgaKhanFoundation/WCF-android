@@ -37,7 +37,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.model.PastEventModel;
+import com.android.wcf.modelOld.PastEventModel;
 
 import java.util.ArrayList;
 import java.util.List;

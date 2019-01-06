@@ -39,7 +39,7 @@ import android.view.ViewGroup;
 import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.adapter.PastEventAdapter;
-import com.android.wcf.model.PastEventModel;
+import com.android.wcf.modelOld.PastEventModel;
 import com.android.wcf.utils.ExpandedListView;
 
 import java.util.ArrayList;
