@@ -1,4 +1,4 @@
-package com.android.wcf.model;
+package com.android.wcf.modelOld;
 
 /**
  * Copyright © 2017 Aga Khan Foundation
@@ -28,11 +28,12 @@ package com.android.wcf.model;
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
-public class CurrentSupportersModel {
+public class LeaderBoardModel {
 
     String name = "";
-    String currentMoney = "";
-    String pledged = "";
+    String profileLink = "";
+    String totalMiles = "";
+    String totalMoneyRaised = "";
 
     public String getName() {
         return name;
@@ -42,19 +43,27 @@ public class CurrentSupportersModel {
         this.name = name;
     }
 
-    public String getCurrentMoney() {
-        return currentMoney;
+    public String getProfileLink() {
+        return profileLink;
     }
 
-    public void setCurrentMoney(String currentMoney) {
-        this.currentMoney = currentMoney;
+    public void setProfileLink(String profileLink) {
+        this.profileLink = profileLink;
     }
 
-    public String getPledged() {
-        return pledged;
+    public String getTotalMiles() {
+        return totalMiles;
     }
 
-    public void setPledged(String pledged) {
-        this.pledged = pledged;
+    public void setTotalMiles(String totalMiles) {
+        this.totalMiles = totalMiles;
+    }
+
+    public String getTotalMoneyRaised() {
+        return totalMoneyRaised;
+    }
+
+    public void setTotalMoneyRaised(String totalMoneyRaised) {
+        this.totalMoneyRaised = totalMoneyRaised;
     }
 }

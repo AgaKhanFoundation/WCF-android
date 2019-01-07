@@ -1,4 +1,4 @@
-package com.android.wcf.model;
+package com.android.wcf.modelOld;
 
 /**
  * Created by Malik Khoja on 5/9/2017.

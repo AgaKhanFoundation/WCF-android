@@ -35,7 +35,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.model.CurrentSupportersModel;
+import com.android.wcf.modelOld.CurrentSupportersModel;
 
 import java.util.ArrayList;
 import java.util.List;
