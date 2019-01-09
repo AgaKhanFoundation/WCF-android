@@ -25,7 +25,7 @@
                 android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:text="Great job! You have raised $22.50 from corporate sponsors and $401.00 from your 11 supporters!"
-                android:textColor="@color/grey"
+                android:textColor="@color/color_grey"
                 android:textSize="18sp" />
 
 
@@ -55,7 +55,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/help_icon"
-                    android:tint="@color/grey" />
+                    android:tint="@color/color_grey" />
 
                 <TextView
                     android:id="@+id/textCorpSponsorsCount"
@@ -78,7 +78,7 @@
                 android:layout_below="@+id/relativeCorpSponsors"
                 android:layout_marginBottom="15dp"
                 android:text="@string/thankscorporatesponsors"
-                android:textColor="@color/grey"
+                android:textColor="@color/color_grey"
                 android:textSize="16sp" />
 
 
@@ -126,7 +126,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/textFirstCorpSponsorsName"
                             android:text="Sponsor's Tagline Goes Here"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/color_grey"
                             android:textSize="15sp"
                             android:textStyle="italic" />
                     </RelativeLayout>
@@ -155,7 +155,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_marginTop="5dp"
                             android:text="Pledged $0.01/mile"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/color_grey"
                             android:textSize="14sp" />
                     </RelativeLayout>
                 </RelativeLayout>
@@ -200,7 +200,7 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@+id/textSecondCorpSponsorsName"
                             android:text="Sponsor's Tagline Goes Here"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/color_grey"
                             android:textSize="15sp"
                             android:textStyle="italic" />
                     </RelativeLayout>
@@ -229,7 +229,7 @@
                             android:layout_alignParentBottom="true"
                             android:layout_marginTop="5dp"
                             android:text="Pledged $0.01/mile"
-                            android:textColor="@color/grey"
+                            android:textColor="@color/color_grey"
                             android:textSize="14sp" />
                     </RelativeLayout>
                 </RelativeLayout>
@@ -268,7 +268,7 @@
                         android:layout_alignParentEnd="true"
                         android:layout_centerVertical="true"
                         android:background="@drawable/help_icon"
-                        android:tint="@color/grey" />
+                        android:tint="@color/color_grey" />
                 </RelativeLayout>
 
 
