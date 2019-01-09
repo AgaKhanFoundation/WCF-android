@@ -22,14 +22,17 @@ public class MainActivity extends BaseActivity implements HomeMvp.HomeView {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
-                case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
+                case R.id.nav_dashboard:
+                    mTextMessage.setText(R.string.nav_dashboard);
                     return true;
-                case R.id.navigation_campaign:
-                    mTextMessage.setText(R.string.title_campaign);
+                case R.id.nav_campaign:
+                    mTextMessage.setText(R.string.nav_campaign);
                     return true;
-                case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
+                case R.id.nav_leaderboard:
+                    mTextMessage.setText(R.string.nav_leaderboard);
+                    return true;
+                case R.id.nav_notifications:
+                    mTextMessage.setText(R.string.nav_notifications);
                     return true;
             }
             return false;
