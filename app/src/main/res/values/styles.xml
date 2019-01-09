@@ -8,8 +8,8 @@
         <item name="colorAccent">@color/color_accent</item>
     </style>
 
-    <!--&lt;!&ndash; Base application theme. &ndash;&gt;-->
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
+    <!-- Base application theme. -->
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
         <!--<item name="windowActionBar">false</item>-->
         <!--<item name="windowNoTitle">true</item>-->
         <!--<item name="android:windowContentOverlay">@null</item>-->
@@ -19,6 +19,12 @@
         <!--<item name="colorPrimaryDark">@color/color_primary_dark</item>-->
         <!--<item name="colorAccent">@color/color_accent</item>-->
     <!--</style>-->
+
+
+    <style name="BottomNavigation">
+        <item name="android:background">@color/color_white_1</item>
+    </style>
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
