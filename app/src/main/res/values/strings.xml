@@ -25,7 +25,7 @@
     <string name="fb_login_protocol_scheme">fb[1963876463835347]</string>
     <string name="facebook_app_id">1963876463835347</string>
 
-    <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_home">Home</string>
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_campaign">Campaign</string>
     <string name="nav_leaderboard">Leaderboard</string>

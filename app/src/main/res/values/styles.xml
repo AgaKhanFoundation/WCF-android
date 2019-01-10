@@ -16,10 +16,9 @@
         <item name="android:textStyle">bold</item>
     </style>
 
-
     <style name="BottomNavigation" parent="Widget.Design.BottomNavigationView">
+        <item name="android:background">@color/color_white_1</item>
     </style>
-
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 

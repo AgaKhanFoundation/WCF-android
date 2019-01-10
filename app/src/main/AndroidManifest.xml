@@ -47,7 +47,9 @@
 
         <activity
             android:name=".home.HomeActivity"
-            android:label="@string/title_activity_main">
+            android:label="@string/title_activity_home"
+            android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
