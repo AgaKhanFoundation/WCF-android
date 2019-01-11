@@ -45,21 +45,18 @@ import com.android.wcf.utils.Preferences;
 import com.facebook.AccessToken;
 import com.facebook.login.LoginManager;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class SettingsFragment extends Fragment {
 
     private View mView;
     private Context mContext;
-    @BindView(R.id.btnLogout)
     Button btnLogout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_settings, container, false);
         mContext = getActivity();
-        ButterKnife.bind(this, mView);
+        setupView(mView);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.VISIBLE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.GONE);
         ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.settings));
@@ -76,5 +73,9 @@ public class SettingsFragment extends Fragment {
             }
         });
         return mView;
+    }
+
+    protected void setupView(View v) {
+        btnLogout = v.findViewById(R.id.btnLogout);
     }
 }

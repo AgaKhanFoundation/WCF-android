@@ -35,14 +35,10 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.model.CurrentSupportersModel;
+import com.android.wcf.modelOld.CurrentSupportersModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 
 public class CurrentSupportersAdapter extends BaseAdapter {
 
@@ -90,15 +86,14 @@ public class CurrentSupportersAdapter extends BaseAdapter {
 
     public class ViewHolder {
         // Separate class to initialize the widgets of the view.
-        @BindView(R.id.textNameUser)
         TextView textNameUser;
-        @BindView(R.id.textCurrentMoneyUser)
         TextView textCurrentMoneyUser;
-        @BindView(R.id.textPledgedUser)
         TextView textPledgedUser;
 
         public ViewHolder(final View v) {
-            ButterKnife.bind(this, v);
+            textNameUser = v.findViewById(R.id.textNameUser);
+            textCurrentMoneyUser = v.findViewById(R.id.textCurrentMoneyUser);
+            textPledgedUser = v.findViewById(R.id.textPledgedUser);
         }
     }
 }

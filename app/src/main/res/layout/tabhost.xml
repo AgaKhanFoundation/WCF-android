@@ -38,7 +38,7 @@
             android:focusableInTouchMode="false"
             android:gravity="center"
             android:text="@string/tabLeaderboard"
-            android:textColor="@color/grey"
+            android:textColor="@color/color_grey"
             android:textSize="12sp" />
 
     </RelativeLayout>
@@ -73,7 +73,7 @@
             android:focusableInTouchMode="false"
             android:gravity="center"
             android:text="@string/tabMyTeam"
-            android:textColor="@color/grey"
+            android:textColor="@color/color_grey"
             android:textSize="12sp" />
 
     </RelativeLayout>
@@ -108,7 +108,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:text="@string/tabMyProfile"
-            android:textColor="@color/grey"
+            android:textColor="@color/color_grey"
             android:textSize="12sp" />
 
     </RelativeLayout>

@@ -41,48 +41,34 @@ import android.widget.TextView;
 import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.adapter.LeaderBoardMyTeamAdapter;
-import com.android.wcf.model.LeaderBoardModel;
+import com.android.wcf.modelOld.LeaderBoardModel;
 import com.android.wcf.utils.CircleImageView;
 import com.android.wcf.utils.ExpandedListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class MyTeamFragment extends Fragment {
 
     private View mView;
     private Context mContext;
-    @BindView(R.id.imageTeamProfile)
     CircleImageView teamProfileImage;
-    @BindView(R.id.textTeamName)
     TextView textTeamName;
-    @BindView(R.id.textNumberofMembers)
     TextView textNumberofMembers;
-    @BindView(R.id.textTeamMoneyCurrency)
     TextView textTeamMoneyCurrency;
-    @BindView(R.id.textTeamMoney)
     TextView textTeamMoney;
-    @BindView(R.id.progressBarMyTeamMiles)
     ProgressBar progressBarMyTeamMiles;
-    @BindView(R.id.textCurrentMiles)
     TextView textCurrentMiles;
-    @BindView(R.id.textOutofMiles)
     TextView textOutofMiles;
-    @BindView(R.id.textMilestoneCount)
     TextView textMilestoneCount;
-    @BindView(R.id.spinnerSorting)
     Spinner spinnerSorting;
-    @BindView(R.id.listLeaderBoard)
     ExpandedListView listLeaderBoard;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_myteam, container, false);
         mContext = getActivity();
-        ButterKnife.bind(this, mView);
+        setupView(mView);
         listLeaderBoard.setExpanded(true);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.GONE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.VISIBLE);
@@ -102,6 +88,20 @@ public class MyTeamFragment extends Fragment {
             arrLeaderBoard.add(leaderBoardModel);
         }
         listLeaderBoard.setAdapter(new LeaderBoardMyTeamAdapter(mContext, arrLeaderBoard));
+    }
+
+    protected void setupView(View v) {
+        teamProfileImage = v.findViewById(R.id.imageTeamProfile);
+        textTeamName = v.findViewById(R.id.textTeamName);
+        textNumberofMembers = v.findViewById(R.id.textNumberofMembers);
+        textTeamMoneyCurrency = v.findViewById(R.id.textTeamMoneyCurrency);
+        textTeamMoney = v.findViewById(R.id.textTeamMoney);
+        progressBarMyTeamMiles = v.findViewById(R.id.progressBarMyTeamMiles);
+        textCurrentMiles = v.findViewById(R.id.textCurrentMiles);
+        textOutofMiles = v.findViewById(R.id.textOutofMiles);
+        textMilestoneCount = v.findViewById(R.id.textMilestoneCount);
+        spinnerSorting = v.findViewById(R.id.spinnerSorting);
+        listLeaderBoard = v.findViewById(R.id.listLeaderBoard);
     }
 
 }

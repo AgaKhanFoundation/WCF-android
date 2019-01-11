@@ -38,27 +38,23 @@ import android.view.ViewGroup;
 import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.adapter.CurrentSupportersAdapter;
-import com.android.wcf.model.CurrentSupportersModel;
+import com.android.wcf.modelOld.CurrentSupportersModel;
 import com.android.wcf.utils.ExpandedListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class SupportersSponsersFragment extends Fragment {
 
     private View mView;
     private Context mContext;
-    @BindView(R.id.listCurrentSupporters)
     ExpandedListView listCurrentSupporters;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_supporterssponserer, container, false);
         mContext = getActivity();
-        ButterKnife.bind(this, mView);
+       setupView(mView);
         listCurrentSupporters.setExpanded(true);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.VISIBLE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.GONE);
@@ -80,4 +76,7 @@ public class SupportersSponsersFragment extends Fragment {
         listCurrentSupporters.setAdapter(new CurrentSupportersAdapter(mContext, arrCurrentSupporters));
     }
 
+    protected void setupView(View v) {
+        listCurrentSupporters = v.findViewById(R.id.listCurrentSupporters);
+    }
 }

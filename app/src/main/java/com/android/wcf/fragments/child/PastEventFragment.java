@@ -39,33 +39,33 @@ import android.view.ViewGroup;
 import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.adapter.PastEventAdapter;
-import com.android.wcf.model.PastEventModel;
+import com.android.wcf.modelOld.PastEventModel;
 import com.android.wcf.utils.ExpandedListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 public class PastEventFragment extends Fragment {
 
     private View mView;
     private Context mContext;
-    @BindView(R.id.listPastEvents)
     ExpandedListView listPastEvents;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_pastevent, container, false);
         mContext = getActivity();
-        ButterKnife.bind(this, mView);
+        setupView(mView);
         listPastEvents.setExpanded(true);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.VISIBLE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.GONE);
         ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.pastevents));
         populateData();
         return mView;
+    }
+
+    private void setupView(View view) {
+        listPastEvents = view.findViewById(R.id.listPastEvents);
     }
 
     private void populateData() {
