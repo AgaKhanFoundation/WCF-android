@@ -2,7 +2,4 @@
 <resources>
     <dimen name="circleprog_myteam_miles_radius">40dp</dimen>
     <dimen name="circleprog_myteam_miles_thickness">5dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">16dp</dimen>
-    <dimen name="activity_vertical_margin">16dp</dimen>
 </resources>

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/color_overlay_color">
+    android:background="@color/overlay_color">
 
     <RelativeLayout
         android:layout_width="wrap_content"
@@ -27,14 +27,14 @@
                 android:layout_centerVertical="true"
                 android:gravity="center"
                 android:text="@string/alert"
-                android:textColor="@color/color_grey"
+                android:textColor="@color/grey"
                 android:textSize="20sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/color_grey" />
+                android:background="@color/grey" />
         </RelativeLayout>
 
         <TextView
@@ -47,7 +47,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/exitMessage"
-            android:textColor="@color/color_grey"
+            android:textColor="@color/grey"
             android:textSize="20sp" />
 
         <LinearLayout
@@ -55,7 +55,7 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_alignParentBottom="true"
-            android:background="@color/color_dark_green"
+            android:background="@color/dark_green"
             android:clickable="true"
             android:orientation="horizontal">
 
@@ -77,7 +77,7 @@
                     android:focusable="false"
                     android:focusableInTouchMode="false"
                     android:text="@string/no"
-                    android:textColor="@color/color_dark_green"
+                    android:textColor="@color/dark_green"
                     android:textSize="14sp" />
 
             </RelativeLayout>
@@ -88,7 +88,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="0.5dp"
                 android:layout_weight="1"
-                android:background="@color/color_dark_green"
+                android:background="@color/dark_green"
                 android:clickable="true">
 
                 <TextView

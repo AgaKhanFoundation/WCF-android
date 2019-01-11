@@ -31,7 +31,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/color_dark_green">
+                android:background="@color/dark_green">
 
                 <TextView
                     android:id="@+id/textBack"
@@ -103,7 +103,7 @@
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:layout_above="@+id/include_tabhost"
-            android:background="@color/color_grey" />
+            android:background="@color/grey" />
 
         <include
             android:id="@+id/include_tabhost"

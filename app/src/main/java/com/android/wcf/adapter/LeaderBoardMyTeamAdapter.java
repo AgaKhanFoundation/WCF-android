@@ -35,11 +35,14 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.modelOld.LeaderBoardModel;
+import com.android.wcf.model.LeaderBoardModel;
 import com.android.wcf.utils.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class LeaderBoardMyTeamAdapter extends BaseAdapter {
 
@@ -88,18 +91,19 @@ public class LeaderBoardMyTeamAdapter extends BaseAdapter {
 
     public class ViewHolder {
         // Separate class to initialize the widgets of the view.
+        @BindView(R.id.textSerialNumber)
         TextView textSerialNumber;
+        @BindView(R.id.imageView_profile)
         CircleImageView imageViewProfile;
+        @BindView(R.id.textName)
         TextView textName;
+        @BindView(R.id.textMiles)
         TextView textMiles;
+        @BindView(R.id.textMoney)
         TextView textMoney;
 
         public ViewHolder(final View v) {
-            textSerialNumber = v.findViewById(R.id.textSerialNumber);
-            imageViewProfile = v.findViewById(R.id.imageView_profile);
-            textName = v.findViewById(R.id.textName);
-            textMiles = v.findViewById(R.id.textMiles);
-            textMoney = v.findViewById(R.id.textMoney);
+            ButterKnife.bind(this, v);
         }
     }
 }

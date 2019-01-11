@@ -7,8 +7,8 @@
             android:shape="ring"
             android:thickness="@dimen/circleprog_myteam_miles_thickness">
             <gradient
-                android:endColor="@color/color_grey"
-                android:startColor="@color/color_grey"
+                android:endColor="@color/grey"
+                android:startColor="@color/grey"
                 android:type="sweep" />
         </shape>
     </item>

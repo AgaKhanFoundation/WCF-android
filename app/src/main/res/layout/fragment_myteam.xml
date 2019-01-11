@@ -49,7 +49,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/textTeamName"
                         android:text="7 Members"
-                        android:textColor="@color/color_grey"
+                        android:textColor="@color/grey"
                         android:textSize="18sp" />
 
                     <ImageView
@@ -59,7 +59,7 @@
                         android:layout_below="@+id/textTeamName"
                         android:layout_toRightOf="@+id/textNumberofMembers"
                         android:src="@drawable/right_arrow"
-                        android:tint="@color/color_grey" />
+                        android:tint="@color/grey" />
 
                 </RelativeLayout>
 
@@ -86,7 +86,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="$"
-                        android:textColor="@color/color_green"
+                        android:textColor="@color/green"
                         android:textSize="45sp" />
 
                     <TextView
@@ -147,7 +147,7 @@
                         android:layout_centerHorizontal="true"
                         android:gravity="center"
                         android:text="out of\n1200 miles"
-                        android:textColor="@color/color_grey"
+                        android:textColor="@color/grey"
                         android:textSize="12sp" />
                 </RelativeLayout>
 
@@ -165,7 +165,7 @@
                         android:layout_height="50dp"
                         android:layout_alignBottom="@+id/textMilestone"
                         android:layout_alignParentStart="true"
-                        android:background="@color/color_grey" />
+                        android:background="@color/grey" />
 
                     <TextView
                         android:id="@+id/textMilestoneCount"
@@ -189,7 +189,7 @@
                         android:layout_toRightOf="@+id/viewMilestones"
                         android:gravity="center"
                         android:text="milestones"
-                        android:textColor="@color/color_grey"
+                        android:textColor="@color/grey"
                         android:textSize="12sp" />
                 </RelativeLayout>
 

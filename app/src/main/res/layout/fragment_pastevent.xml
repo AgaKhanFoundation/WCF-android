@@ -25,7 +25,7 @@
                 android:layout_marginTop="15dp"
                 android:gravity="center"
                 android:text="Through your participation in 4 events, you raised $1500 and walked 100miles!"
-                android:textColor="@color/color_grey"
+                android:textColor="@color/grey"
                 android:textSize="18sp" />
 
             <com.android.wcf.utils.ExpandedListView

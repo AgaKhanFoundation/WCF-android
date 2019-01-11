@@ -1,36 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Project level resources -->
 
-    <color name="color_primary">@color/color_green</color>
-    <color name="color_primary_dark">@color/color_dark_green</color>
-    <color name="color_accent">@color/color_gold</color>
-    <color name="click_overlay">@color/color_light_green</color>
-    <color name="default_hint">@color/color_light_grey_3</color>
-    <color name="primary_text_color">@color/color_black</color>
-
-    <color name="color_green">#02A95D</color>
-    <color name="color_gold">#F7AB1E</color>
-    <color name="color_yellow">#ffc845</color>
-    <color name="color_light_green">#95c11f</color>
-    <color name="color_dark_green">#045a38</color>
-    <color name="color_overlay_color">@color/color_light_grey_5</color>
-    <color name="color_red">#D0021B</color>
-
-    <color name="color_black">#000000</color>
-    <color name="color_grey">#58585b</color>
-    <color name="color_light_grey_1">#58585b</color>
-    <color name="color_light_grey_2">#9B9B9B</color>
-    <color name="color_light_grey_3">#C6C6CB</color>
-    <color name="color_light_grey_4">#DBDBDB</color>
-    <color name="color_light_grey_5">#A6dcdcdc</color>
-
-    <color name="color_white">#FFFFFF</color>
-    <color name="color_white_1">#F9F9F9</color>
-
-    <color name="color_blue">#077BF8</color>
-    <color name="color_light_blue_1">#4A90E2</color>
-
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="green">#00b140</color>
+    <color name="grey">#58585b</color>
+    <color name="gold">#bb9e2f</color>
+    <color name="yellow">#ffc845</color>
+    <color name="light_green">#95c11f</color>
+    <color name="dark_green">#045a38</color>
+    <color name="overlay_color">#A6dcdcdc</color>
 
 </resources>

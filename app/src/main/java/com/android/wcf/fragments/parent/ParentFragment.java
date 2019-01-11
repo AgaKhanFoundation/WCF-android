@@ -37,9 +37,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.wcf.R;
+import com.android.wcf.fragments.child.LeaderboardFragment;
 import com.android.wcf.fragments.child.MyProfileFragment;
 import com.android.wcf.fragments.child.MyTeamFragment;
-import com.android.wcf.home.Leaderboard.LeaderboardFragment;
 import com.android.wcf.utils.AppUtil;
 
 public class ParentFragment extends Fragment {

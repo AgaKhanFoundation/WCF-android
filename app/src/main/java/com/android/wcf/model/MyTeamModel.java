@@ -1,4 +1,4 @@
-package com.android.wcf.modelOld;
+package com.android.wcf.model;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -27,7 +27,6 @@ package com.android.wcf.modelOld;
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
-
 import java.util.ArrayList;
 import java.util.List;
 

@@ -1,22 +1,22 @@
 <resources>
 
-    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">-->
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="windowNoTitle">true</item>-->
-        <!--<item name="android:windowDrawsSystemBarBackgrounds">true</item>-->
-        <!--<item name="android:statusBarColor">@color/color_dark_green</item>-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
-        <!--<item name="android:windowIsTranslucent">true</item>-->
-    <!--</style>-->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:statusBarColor">@color/dark_green</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 
-    <!--<style name="CustomTheme" parent="android:Theme.Light">-->
-        <!--<item name="android:windowBackground">@color/color_overlay_color</item>-->
-        <!--<item name="android:colorBackground">@color/color_overlay_color</item>-->
-        <!--<item name="windowActionBar">false</item>-->
-        <!--<item name="windowNoTitle">true</item>-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
-        <!--<item name="android:windowIsTranslucent">true</item>-->
+    <style name="CustomTheme" parent="android:Theme.Light">
+        <item name="android:windowBackground">@color/overlay_color</item>
+        <item name="android:colorBackground">@color/overlay_color</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
 
-    <!--</style>-->
+    </style>
 
 </resources>

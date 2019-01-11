@@ -41,7 +41,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/textEventName"
                 android:text="November 2016"
-                android:textColor="@color/color_grey"
+                android:textColor="@color/grey"
                 android:textSize="15sp" />
 
         </RelativeLayout>
