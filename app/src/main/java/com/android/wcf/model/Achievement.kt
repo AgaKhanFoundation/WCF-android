@@ -5,6 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class Achievement(
         @SerializedName("id") var id: Int = 0,
         @SerializedName("name") var name: String? = null,
-        @SerializedName("distance") var distance: Int = 0) {
-
+        @SerializedName("distance") var distance: Int = 0,
+        @SerializedName("amountRaised") var amountRaised: Float = 0.0f) {
 }
