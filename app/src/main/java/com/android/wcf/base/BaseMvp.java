@@ -3,26 +3,30 @@ package com.android.wcf.base;
 import android.view.View;
 
 public interface BaseMvp {
-    public interface BaseView {
-        public void showError(Throwable error);
+    interface BaseView {
+        void showError(Throwable error);
 
-        public void showError(String message);
+        void showError(String message);
 
-        public void showError(String title, String message);
+        void showError(String title, String message);
 
-        public void showError(String title, int messageId);
+        void showError(String title, int messageId);
 
-        public void showError(int titleId, String message);
+        void showError(int titleId, String message);
 
-        public void showError(int titleId, int messageId);
+        void showError(int titleId, int messageId);
 
-        public void showLoadingDialogFragment();
+        void showLoadingDialogFragment();
 
-        public void hideLoadingDialogFragment();
+        void hideLoadingDialogFragment();
 
-        public View showLoadingView();
+        View showLoadingView();
 
-        public void hideLoadingView();
+        void hideLoadingView();
 
+    }
+
+    interface Presenter {
+        String getTag();
     }
 }

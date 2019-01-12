@@ -76,6 +76,7 @@ dependencies {
 
     //Support Libs
     implementation "com.android.support:appcompat-v7:${supportLibVersion}"
+    implementation "com.android.support:support-v4:${supportLibVersion}"
     implementation "com.android.support:design:${supportLibVersion}"
     implementation "com.android.support:cardview-v7:${supportLibVersion}"
     implementation "com.android.support:support-annotations:${supportLibVersion}"

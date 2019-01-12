@@ -67,7 +67,7 @@
                         android:drawableRight="@drawable/right_arrow"
                         android:paddingLeft="10dp"
                         android:text="Device details here (possibly product number/ID)"
-                        android:textColor="@color/grey"
+                        android:textColor="@color/color_grey"
                         android:textSize="15sp" />
 
                 </RelativeLayout>
@@ -292,7 +292,7 @@
                 android:layout_below="@+id/relativeHelpandSupport"
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="30dp"
-                android:background="@color/grey"
+                android:background="@color/color_grey"
                 android:text="Log Out"
                 android:textColor="@android:color/white" />
         </RelativeLayout>

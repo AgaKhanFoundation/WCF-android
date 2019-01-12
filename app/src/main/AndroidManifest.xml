@@ -46,15 +46,16 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".home.MainActivity"
-            android:label="@string/title_activity_main">
+            android:name=".home.HomeActivity"
+            android:label="@string/title_activity_home"
+            android:launchMode="singleTop"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".base.BaseActivity"></activity>
     </application>
 
 </manifest>
