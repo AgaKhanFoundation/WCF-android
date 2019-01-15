@@ -3,6 +3,7 @@ package com.android.wcf.home;
 import android.util.Log;
 
 import com.android.wcf.R;
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -19,6 +20,39 @@ public abstract class BasePresenter {
 
     private static final String TAG = BasePresenter.class.getSimpleName();
     private WCFClient wcfClient = WCFClient.getInstance();
+
+    /******* EVENT API ***********/
+    public void getEvent(int eventId) {
+        wcfClient.getEvent(eventId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Event>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onSuccess(Event event) {
+                        onGetEventSuccess(event);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onGetEventError(error);
+
+                    }
+                });
+
+    }
+
+    protected void onGetEventSuccess(Event event) {
+        Log.d(TAG, "onGetEventSuccess");
+    }
+
+    protected void onGetEventError(Throwable error) {
+        Log.e(TAG, "onGetEventError: " + error.getMessage());
+    }
 
     /******* PARTICIPANT API   ******/
 
@@ -51,7 +85,6 @@ public abstract class BasePresenter {
     protected void onCreateParticipantError(Throwable error) {
         Log.e(TAG, "onCreateParticipantError: " + error.getMessage());
     }
-
 
     public void getParticipant(String fbid) {
         wcfClient.getParticipant(fbid)

@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.android.wcf.R;
@@ -15,6 +16,7 @@ import com.android.wcf.home.Campaign.CampaignFragment;
 import com.android.wcf.home.Dashboard.DashboardFragment;
 import com.android.wcf.home.Leaderboard.LeaderboardFragment;
 import com.android.wcf.home.Notifications.NotificationsFragment;
+import com.android.wcf.utils.SharedPreferencesUtil;
 
 public class HomeActivity extends BaseActivity
         implements HomeMvp.HomeView
@@ -26,23 +28,26 @@ public class HomeActivity extends BaseActivity
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
+
     private HomePresenter homePresenter;
     private DashboardFragment dashboardFragment;
     private CampaignFragment campaignFragment;
     private LeaderboardFragment leaderboardFragment;
     private NotificationsFragment notificationsFragment;
 
-    private int currentNaviationId = 0;
-    private int myTeamId = 0;
-    private String myFbId = "skfbid1";
-    private int myParticipantId = 0;
+    private String myFacebookId;
+    private int myParticipantId;
+    private int myActiveEventId;
+    private int myTeamId;
+
+    private int currentNavigationId;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            if (currentNaviationId == item.getItemId()) {
+            if (currentNavigationId == item.getItemId()) {
                 return false;
             }
 
@@ -71,15 +76,19 @@ public class HomeActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        //TODO: we will initialized these from sharedPreference
-        myTeamId = 0;
-        myFbId = "skfbid1";
-        myParticipantId = 0;
+        myFacebookId = SharedPreferencesUtil.getMyFacebookId();
+        myParticipantId = SharedPreferencesUtil.getMyParticipantId();
+        myActiveEventId = SharedPreferencesUtil.getMyActiveEventId();
+        myTeamId = SharedPreferencesUtil.getMyTeamId();
 
         homePresenter = new HomePresenter(this);
 
+        if (myFacebookId == null || TextUtils.isEmpty(myFacebookId)) {
+            //TODO: navigate to login activity
+        }
+
         dashboardFragment = DashboardFragment.newInstance(null, null);
-        campaignFragment = CampaignFragment.newInstance(null, null);
+        campaignFragment = CampaignFragment.newInstance(myFacebookId, myActiveEventId, myTeamId);
         leaderboardFragment = LeaderboardFragment.newInstance(myTeamId);
         notificationsFragment = NotificationsFragment.newInstance(null, null);
 
@@ -100,7 +109,7 @@ public class HomeActivity extends BaseActivity
                 .commit();
 
         setTitle(title);
-        currentNaviationId = navItemId;
+        currentNavigationId = navItemId;
     }
 
     private void setTitle(String title) {
@@ -108,16 +117,20 @@ public class HomeActivity extends BaseActivity
         actionBar.setTitle(title);
     }
 
-    public void setMyTeamId(int myTeamId) {
-        this.myTeamId = myTeamId;
-    }
-
-    public void setMyFbId(String myFbId) {
-        this.myFbId = myFbId;
+    public void setMyFacebookId(String fbid) {
+        this.myFacebookId = fbid;
     }
 
     public void setMyParticipantId(int myParticipantId) {
         this.myParticipantId = myParticipantId;
+    }
+
+    public void setMyTeamId(int myTeamId) {
+        this.myTeamId = myTeamId;
+    }
+
+    public void setMyActiveEventId(int myActiveEventId) {
+        this.myActiveEventId = myActiveEventId;
     }
 
     @Override

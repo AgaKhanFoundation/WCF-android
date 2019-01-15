@@ -8,9 +8,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.model.Event;
+import com.android.wcf.model.Team;
+import com.android.wcf.utils.SharedPreferencesUtil;
+
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -24,14 +30,14 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
 
     private static final String TAG = CampaignFragment.class.getSimpleName();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    // the fragment initialization parameters
+    private static final String ARG_MY_FACEBOOK_ID = "my_fbid";
+    private static final String ARG_MY_ACTIVE_EVENT_ID = "my_active_event_id";
+    private static final String ARG_MY_TEAM_ID = "my_team_id";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private String facebookId;
+    private int activeEventId;
+    private int teamId;
 
     private OnFragmentInteractionListener mListener;
 
@@ -44,16 +50,16 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     * @param fbid facebookId.
+     * @param teamId teamId.
      * @return A new instance of fragment CampaignFragment.
      */
-    // TODO: Rename and change types and number of parameters
-    public static CampaignFragment newInstance(String param1, String param2) {
+    public static CampaignFragment newInstance(String fbid, int eventId, int teamId) {
         CampaignFragment fragment = new CampaignFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_MY_FACEBOOK_ID, fbid);
+        args.putInt(ARG_MY_ACTIVE_EVENT_ID, eventId);
+        args.putInt(ARG_MY_TEAM_ID, teamId);
         fragment.setArguments(args);
         return fragment;
     }
@@ -62,8 +68,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            facebookId = getArguments().getString(ARG_MY_FACEBOOK_ID);
+            activeEventId = getArguments().getInt(ARG_MY_ACTIVE_EVENT_ID);
+            teamId = getArguments().getInt(ARG_MY_TEAM_ID);
         }
     }
 
@@ -78,11 +85,13 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
+        campaignPresenter.getEvent(activeEventId);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        campaignPresenter.getTeams(); //TODO: next version, we will have to associate teams to event
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,6 +116,79 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+
+    @Override
+    public void onFacebookIdMissing() {
+        Toast.makeText(getContext(), "FacebookId needed. Please login", Toast.LENGTH_SHORT).show();
+        //TODO: navigate to login activity and finish Home activity
+    }
+
+    @Override
+    public void showJourney(Event event) {
+
+    }
+
+    @Override
+    public void enableCreateTeam() {
+
+    }
+
+    @Override
+    public void enableJoinExistingTeam(boolean showFlag) {
+
+    }
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.create_team:
+                    campaignPresenter.onCreateTeamClick();
+                    break;
+                case R.id.show_teams:
+                    campaignPresenter.onShowTeamsClick();
+                    break;
+                case R.id.join_team:
+                    teamSelectedToJoin();
+                    break;
+                case R.id.cancel_join_team:
+                    closeTeamSelection();
+                    break;
+
+            }
+        }
+    };
+
+    @Override
+    public void showCreateNewTeamView() {
+        //TODO: show panel/modeal to create team
+    }
+
+    @Override
+    public void showTeamList(List<Team> teams) {
+        //TODO: Show panel of teams and enable selecting a team if it has capacity for additional members
+    }
+
+    private void teamSelectedToJoin() {
+        int teamId = 1; // get the teamId from selected row
+        campaignPresenter.assignParticipantToTeam(facebookId, teamId);
+    }
+
+    private void closeTeamSelection() {
+        //TODO: disable and hide team list panel
+    }
+
+
+    @Override
+    public void onParticipantAssignedToTeam(String fbid, int teamId) {
+        SharedPreferencesUtil.saveMyTeamId(teamId);
+        // refresh the objects
+        //TODO: see if these refresh is needed, perhaps it is sufficient for presenter to update its data using the response
+        campaignPresenter.getParticipant(fbid);
+        campaignPresenter.getTeam(teamId);
+        campaignPresenter.getTeams();
     }
 
     /**

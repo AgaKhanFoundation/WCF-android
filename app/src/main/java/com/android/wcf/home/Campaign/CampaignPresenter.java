@@ -2,6 +2,7 @@ package com.android.wcf.home.Campaign;
 
 import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -13,15 +14,20 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     private static final String TAG = CampaignPresenter.class.getSimpleName();
     private CampaignMvp.CampaignView campaignView;
 
-    Participant mParticipant = null;
-    Stats mParticipantStats = null;
+    Event event;
+    Participant participant = null;
+    Stats participantStats = null;
 
-    List<Team> mTeams = null;
-    Team mTeam = null;
-    Stats mTeamStats = null;
+    List<Team> teams = null;
+    Team team = null;
+    Stats teamStats = null;
 
     public CampaignPresenter(CampaignMvp.CampaignView view) {
         this.campaignView = view;
+    }
+
+    public List<Team> getTeamsList() {
+        return teams;
     }
 
     @Override
@@ -30,9 +36,20 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     }
 
     @Override
+    protected void onGetEventSuccess(Event event) {
+        super.onGetEventSuccess(event);
+        campaignView.showJourney(event);
+    }
+
+    @Override
+    protected void onGetEventError(Throwable error) {
+        super.onGetEventError(error);
+    }
+
+    @Override
     protected void onCreateParticipantSuccess(Participant participant) {
         super.onCreateParticipantSuccess(participant);
-        mParticipant = participant;
+        this.participant = participant;
 
     }
 
@@ -45,7 +62,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetParticipantSuccess(Participant participant) {
         super.onGetParticipantSuccess(participant);
-        mParticipant = participant;
+        this.participant = participant;
     }
 
     @Override
@@ -57,7 +74,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetParticipantStatsSuccess(Stats stats) {
         super.onGetParticipantStatsSuccess(stats);
-        mParticipantStats = stats;
+        participantStats = stats;
     }
 
     @Override
@@ -93,7 +110,13 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
-        mTeams = teams;
+        this.teams = teams;
+        campaignView.enableCreateTeam();
+        if (teams == null || teams.size() == 0) {
+            campaignView.enableJoinExistingTeam(false);
+        } else {
+            campaignView.enableJoinExistingTeam(true);
+        }
     }
 
     @Override
@@ -105,7 +128,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetTeamSuccess(Team team) {
         super.onGetTeamSuccess(team);
-        mTeam = team;
+        this.team = team;
     }
 
     @Override
@@ -117,7 +140,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetTeamStatsSuccess(Stats stats) {
         super.onGetTeamStatsSuccess(stats);
-        mTeamStats = stats;
+        this.teamStats = stats;
     }
 
     @Override
@@ -139,10 +162,24 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     }
 
     @Override
+    public void onCreateTeamClick() {
+        campaignView.showCreateNewTeamView();
+    }
+
+    @Override
+    public void onShowTeamsClick() {
+        campaignView.showTeamList(teams);
+    }
+
+    @Override
     protected void onAssignParticipantToTeamSuccess(List<Integer> results, String fbid, final int teamId) {
         super.onAssignParticipantToTeamSuccess(results, fbid, teamId);
-        getParticipant(fbid);
-        getTeam(teamId);
+        if (results != null && results.size() == 1) {
+            campaignView.onParticipantAssignedToTeam(fbid, teamId);
+        }
+        else {
+            campaignView.showError("Unable to assign to team. Please try again");
+        }
     }
 
     @Override
