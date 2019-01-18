@@ -10,7 +10,8 @@
     <color name="default_hint">@color/color_light_grey_3</color>
     <color name="primary_text_color">@color/color_black</color>
 
-    <color name="color_green">#02A95D</color>
+    <color name="color_green">#00a85d</color>
+    <color name="color_green_1">#02A95D</color>
     <color name="color_gold">#F7AB1E</color>
     <color name="color_yellow">#ffc845</color>
     <color name="color_light_green">#95c11f</color>
@@ -27,7 +28,9 @@
     <color name="color_light_grey_5">#A6dcdcdc</color>
 
     <color name="color_white">#FFFFFF</color>
-    <color name="color_white_1">#F9F9F9</color>
+    <color name="color_white_1">#F4F6F9</color>
+    <color name="color_white_2">#F9F9F9</color>
+    <color name="color_white_3">#F7F7F7</color>
 
     <color name="color_blue">#077BF8</color>
     <color name="color_light_blue_1">#4A90E2</color>

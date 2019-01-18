@@ -144,18 +144,18 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.create_team:
+                case R.id.create_team_button:
                     campaignPresenter.onCreateTeamClick();
                     break;
-                case R.id.show_teams:
-                    campaignPresenter.onShowTeamsClick();
-                    break;
-                case R.id.join_team:
+//                case R.id.show_teams:
+//                    campaignPresenter.onShowTeamsClick();
+//                    break;
+                case R.id.join_team_button:
                     teamSelectedToJoin();
                     break;
-                case R.id.cancel_join_team:
-                    closeTeamSelection();
-                    break;
+//                case R.id.cancel_join_team:
+//                    closeTeamSelection();
+//                    break;
 
             }
         }
