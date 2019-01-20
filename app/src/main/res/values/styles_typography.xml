@@ -40,6 +40,7 @@
         <item name="fontFamily">@font/font_sfprodisplay_medium</item>
         <item name="android:fontFamily">@font/font_sfprodisplay_medium</item>
         <item name="android:textSize">20.76sp</item>
+        <item name="android:textColor">@color/color_light_grey_1</item>
         <item name="android:letterSpacing">0.0025</item>
     </style>
 
@@ -47,6 +48,7 @@
         <item name="fontFamily">@font/font_sfprodisplay_medium</item>
         <item name="android:fontFamily">@font/font_sfprodisplay_medium</item>
         <item name="android:textSize">16.71sp</item>
+        <item name="android:textColor">@color/color_light_grey_2</item>
         <item name="android:letterSpacing">0.005</item>
     </style>
 
