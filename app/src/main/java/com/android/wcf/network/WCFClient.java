@@ -3,6 +3,7 @@ package com.android.wcf.network;
 import android.util.ArrayMap;
 
 import com.android.wcf.BuildConfig;
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.ParticipantKt;
 import com.android.wcf.model.Stats;
@@ -87,6 +88,10 @@ public class WCFClient {
                 .build();
 
         wcfApi = retrofit.create(WCFApiEndpoints.class);
+    }
+
+    public Single<Event> getEvent(int eventId) {
+        return wcfApi.getEvent(eventId);
     }
 
     public Single<Team> createTeam(String teamName) {

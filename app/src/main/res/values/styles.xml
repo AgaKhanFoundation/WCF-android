@@ -1,10 +1,33 @@
 <resources>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+    <!--Theme.MaterialComponents.Light.Bridge">-->
+    <!--<style name="AppTheme" parent="Theme.MaterialComponents.Light.Bridge">-->
+
+    <!-- ... -->
+    <!--<style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">-->
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary_dark</item>
         <item name="colorAccent">@color/color_accent</item>
+
+        <!-- Type styles -->
+        <item name="textAppearanceHeadline1">@style/TextAppearance.WCF.Headline1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.WCF.Headline2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.WCF.Headline3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.WCF.Headline4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.WCF.Headline5</item>
+        <item name="textAppearanceHeadline6">@style/TextAppearance.WCF.Headline6</item>
+        <item name="textAppearanceSubtitle1">@style/TextAppearance.WCF.Subtitle1</item>
+        <item name="textAppearanceSubtitle2">@style/TextAppearance.WCF.Subtitle2</item>
+        <item name="textAppearanceBody1">@style/TextAppearance.WCF.Body1</item>
+        <item name="textAppearanceBody2">@style/TextAppearance.WCF.Body2</item>
+        <item name="textAppearanceCaption">@style/TextAppearance.WCF.Caption</item>
+        <item name="textAppearanceButton">@style/TextAppearance.WCF.Button</item>
+        <item name="textAppearanceOverline">@style/TextAppearance.WCF.Overline</item>
+
+
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -21,6 +44,37 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="primaryButton" parent="@style/Widget.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:paddingBottom">18dp</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingLeft">24dp</item>
+        <item name="android:paddingRight">24dp</item>
+        <item name="android:textColor">@color/selector_button_primary_text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:background">@drawable/selector_button_primary</item>
+    </style>
+
+    <!--<style name="secondaryButton" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">-->
+    <style name="secondaryButton" parent="@style/Widget.AppCompat.Button">
+        <item name="android:textSize">14sp</item>
+        <item name="android:drawablePadding">6dp</item>
+        <item name="android:paddingBottom">18dp</item>
+        <item name="android:paddingTop">18dp</item>
+        <item name="android:paddingLeft">12dp</item>
+        <item name="android:paddingRight">12dp</item>
+        <item name="android:minWidth">0dp</item>
+        <item name="android:textColor">@color/selector_button_secondary_text</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:background">@drawable/selector_button_secondary</item>
+    </style>
+
+    <!--legacy code-->
+
 
     <style name="CustomTheme" parent="android:Theme.Light">
         <item name="android:windowBackground">@color/color_overlay_color</item>

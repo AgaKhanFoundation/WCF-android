@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white_1"
+    tools:context="com.android.wcf.home.Campaign.CampaignFragment">
+
+    <android.support.design.card.MaterialCardView
+        android:id="@+id/create_team_card"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardBackgroundColor="@color/color_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="24dp">
+
+            <EditText
+                android:id="@+id/team_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:hint="Team name"
+                android:imeOptions="actionNext"
+                android:inputType="textPersonName|textCapWords"
+                android:nextFocusUp="@null"
+                android:nextFocusDown="@+id/team_lead_name"
+                android:textAppearance="@style/TextAppearance.WCF.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/team_lead_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:hint="Team Leader"
+                android:imeOptions="actionDone"
+                android:inputType="textPersonName|textCapWords"
+                android:nextFocusUp="@+id/team_name"
+                android:nextFocusDown="@null"
+                android:textAppearance="@style/TextAppearance.WCF.Body1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/team_name" />
+
+            <Button
+                android:id="@+id/create_team_button"
+                style="@style/primaryButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1"
+                android:text="@string/team_card_activity_create_team_button_text"
+                android:textAppearance="@style/TextAppearance.WCF.Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/team_lead_name" />
+
+            <Button
+                android:id="@+id/cancel_create_team_button"
+                style="@style/secondaryButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:lineSpacingMultiplier="1"
+                android:text="Cancel"
+                android:textAppearance="@style/TextAppearance.WCF.Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_team_button" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.design.card.MaterialCardView>
+
+
+</android.support.constraint.ConstraintLayout>

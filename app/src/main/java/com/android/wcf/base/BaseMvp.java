@@ -4,6 +4,9 @@ import android.view.View;
 
 public interface BaseMvp {
     interface BaseView {
+
+        void showMessage(String message);
+
         void showError(Throwable error);
 
         void showError(String message);
@@ -23,6 +26,8 @@ public interface BaseMvp {
         View showLoadingView();
 
         void hideLoadingView();
+
+        void closeKeyboard();
 
     }
 

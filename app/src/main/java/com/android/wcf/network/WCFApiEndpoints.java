@@ -1,6 +1,7 @@
 package com.android.wcf.network;
 
 
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -18,6 +19,10 @@ import retrofit2.http.Path;
 
 public interface WCFApiEndpoints {
     String WCF_SERVER_URL = "http://40.121.10.181:80/";
+
+    /*********** EVENT ***********/
+    @GET("events/{id}")
+    Single<Event> getEvent(@Path("id") int eventId);
 
     /*********** PARTICIPANT ***********/
 

@@ -2,20 +2,20 @@ package com.android.wcf.application;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
+ * this list of conditions and the following disclaimer.
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * <p>
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
- *
+ * derived from this software without specific prior written permission.
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -27,22 +27,20 @@ package com.android.wcf.application;
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
+
 import android.app.Application;
 
 public class WCFApplication extends Application {
 
-    private WCFApplication mWcfApplication;
+    public static WCFApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        mWcfApplication = this;
+        instance = this;
     }
 
-    private WCFApplication getWcfApplication() {
-        if (mWcfApplication == null) {
-            mWcfApplication = this;
-        }
-        return mWcfApplication;
+    public Application getInstance() {
+        return instance;
     }
 }
