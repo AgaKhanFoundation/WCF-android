@@ -3,12 +3,19 @@ package com.android.wcf.base;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 public abstract class BaseActivity extends AppCompatActivity implements BaseMvp.BaseView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT);
     }
 
     @Override
@@ -61,4 +68,12 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseMvp.
 
     }
 
+    @Override
+    public void closeKeyboard() {
+        View view = view = findViewById(android.R.id.content);
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
+        }
+    }
 }

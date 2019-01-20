@@ -1,5 +1,7 @@
 package com.android.wcf.home.Campaign;
 
+import android.util.Log;
+
 import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Event;
@@ -98,7 +100,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onCreateTeamSuccess(Team team) {
         super.onCreateTeamSuccess(team);
-        getTeams();
+        campaignView.teamCreated(team);
     }
 
     @Override
@@ -111,7 +113,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
         this.teams = teams;
-        campaignView.enableCreateTeam();
+        campaignView.enableShowCreateTeam(true);
         if (teams == null || teams.size() == 0) {
             campaignView.enableJoinExistingTeam(false);
         } else {
@@ -122,6 +124,10 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetTeamListError(Throwable error) {
         super.onGetTeamListError(error);
+
+        campaignView.enableShowCreateTeam(true);
+        campaignView.enableJoinExistingTeam(false);
+
         campaignView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
@@ -162,12 +168,24 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     }
 
     @Override
-    public void onCreateTeamClick() {
+    public void showCreateTeamClick() {
         campaignView.showCreateNewTeamView();
     }
 
     @Override
-    public void onShowTeamsClick() {
+    public void createTeamClick(String teamName) {
+        Log.d(TAG, "createTeamClick");
+        super.createTeam(teamName);
+
+    }
+
+    @Override
+    public void cancelCreateTeamClick() {
+        campaignView.hideCreateNewTeamView();
+    }
+
+    @Override
+    public void showTeamsToJoinClick() {
         campaignView.showTeamList(teams);
     }
 
@@ -175,7 +193,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     protected void onAssignParticipantToTeamSuccess(List<Integer> results, String fbid, final int teamId) {
         super.onAssignParticipantToTeamSuccess(results, fbid, teamId);
         if (results != null && results.size() == 1) {
-            campaignView.onParticipantAssignedToTeam(fbid, teamId);
+            campaignView.participantJoinedTeam(fbid, teamId);
         }
         else {
             campaignView.showError("Unable to assign to team. Please try again");

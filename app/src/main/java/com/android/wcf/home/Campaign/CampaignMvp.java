@@ -13,15 +13,19 @@ public interface CampaignMvp {
 
         void showJourney(Event event);
 
-        void enableCreateTeam();
+        void enableShowCreateTeam(boolean enabledFlag);
 
-        void enableJoinExistingTeam(boolean showFlag);
+        void enableJoinExistingTeam(boolean enabledFlag);
 
         void showCreateNewTeamView();
 
         void showTeamList(List<Team> teams);
 
-        void onParticipantAssignedToTeam(String fbid, int teamId);
+        void participantJoinedTeam(String fbid, int teamId);
+
+        void hideCreateNewTeamView();
+
+        void teamCreated(Team team);
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -47,8 +51,12 @@ public interface CampaignMvp {
 
         void deleteParticipant(String fbid);
 
-        void onCreateTeamClick();
+        void showCreateTeamClick();
 
-        void onShowTeamsClick();
+        void showTeamsToJoinClick();
+
+        void createTeamClick(String teamName);
+
+        void cancelCreateTeamClick();
     }
 }

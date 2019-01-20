@@ -35,5 +35,7 @@
     <color name="color_blue">#077BF8</color>
     <color name="color_light_blue_1">#4A90E2</color>
 
+    <color name="color_primary_alpha_mask_1">#3300a85d</color>
+    <color name="color_secondary_alpha_mask_1">#66000000</color>
 
 </resources>

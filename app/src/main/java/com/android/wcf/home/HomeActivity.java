@@ -94,7 +94,7 @@ public class HomeActivity extends BaseActivity
 
         BottomNavigationView navigation = findViewById(R.id.home_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.nav_dashboard);
+        navigation.setSelectedItemId(R.id.nav_campaign);
     }
 
     private void loadFragment(Fragment fragment, String title, int navItemId) {
@@ -116,6 +116,7 @@ public class HomeActivity extends BaseActivity
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
     }
+
 
     public void setMyFacebookId(String fbid) {
         this.myFacebookId = fbid;

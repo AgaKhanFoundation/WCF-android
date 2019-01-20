@@ -1,189 +1,216 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white_1"
+    android:fillViewport="true"
     tools:context="com.android.wcf.home.Campaign.CampaignFragment">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="24dp"
-        android:layout_marginRight="24dp">
+        android:layout_marginStart="24dp"
+        android:layout_marginEnd="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp">
 
-        <android.support.design.card.MaterialCardView
-            android:id="@+id/journey_view"
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            app:cardBackgroundColor="@color/color_white"
+            android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/journey_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp">
+                app:cardBackgroundColor="@color/color_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/icon_journey"
-                    android:layout_width="wrap_content"
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="18dp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_journey" />
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp">
 
-                <TextView
-                    android:id="@+id/journey_label"
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/icon_journey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_journey" />
+
+                    <TextView
+                        android:id="@+id/journey_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="Journey"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/icon_journey" />
+
+                    <TextView
+                        android:id="@+id/journey_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:contentDescription="@null"
+                        android:text="Your Journey begins in 17 days on Feburary 16, 2019"
+                        android:textAppearance="@style/TextAppearance.WCF.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/journey_label"
+                        tools:text="Your Journey begins in 17 days on Feburary 16, 2019" />
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.design.card.MaterialCardView>
+
+            <android.support.design.card.MaterialCardView
+                android:id="@+id/create_team_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@color/color_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/journey_view">
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:text="Journey"
-                    android:textAppearance="@style/TextAppearance.WCF.Headline6"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon_journey" />
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp">
 
-                <TextView
-                    android:id="@+id/journey_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:contentDescription="@null"
-                    android:text="Your Journey begins in 17 days on Feburary 16, 2019"
-                    android:textAppearance="@style/TextAppearance.WCF.Body1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/journey_label"
-                    tools:text="Your Journey begins in 17 days on Feburary 16, 2019" />
+                    <ImageView
+                        android:id="@+id/icon_my_team"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="18dp"
+                        android:src="@drawable/icon_team"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </android.support.constraint.ConstraintLayout>
+                    <!--android:fontFamily="@font/font_sfprodisplay_bold"-->
+                    <!--android:textColor="@color/team_card_activity_my_team_label_text_view_text_color"-->
+                    <!--android:textSize="@dimen/team_card_activity_my_team_label_text_view_text_size"-->
 
-        </android.support.design.card.MaterialCardView>
+                    <TextView
+                        android:id="@+id/my_team_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:gravity="left"
+                        android:lineSpacingMultiplier="1.33"
+                        android:text="My team"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/icon_my_team" />
 
-        <android.support.design.card.MaterialCardView
-            android:id="@+id/create_team_view"
+                    <!--android:layout_width="@dimen/team_card_activity_join_team_mesage_text_view_width"-->
+                    <!--android:fontFamily="@font/font_sfprotext_regular"-->
+                    <!--android:textColor="@color/team_card_activity_join_team_mesage_text_view_text_color"-->
+                    <!--android:textSize="@dimen/team_card_activity_join_team_mesage_text_view_text_size"-->
+
+                    <TextView
+                        android:id="@+id/my_team_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:gravity="left"
+                        android:lineSpacingMultiplier="1.24"
+                        android:text="Participating in a challenge is always more fun with friends"
+                        android:textAppearance="@style/TextAppearance.WCF.Body1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/my_team_label"
+                        tools:text="Participating in a challenge is always more fun with friends" />
+
+
+                    <!--android:layout_marginLeft="@dimen/team_card_activity_join_team_button_margin_start"-->
+                    <!--android:layout_marginRight="@dimen/team_card_activity_join_team_button_margin_end"-->
+                    <!--android:layout_marginBottom="@dimen/team_card_activity_join_team_button_margin_bottom"-->
+                    <!--android:background="@drawable/team_card_activity_join_team_button_selector"-->
+                    <!--android:fontFamily="@font/font_sfprodisplay_medium"-->
+
+                    <!--android:textColor="@color/team_card_activity_join_team_button_text_color"-->
+                    <!--android:textSize="@dimen/team_card_activity_join_team_button_text_size"-->
+
+                    <Button
+                        android:id="@+id/show_create_team_button"
+                        style="@style/primaryButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:elevation="2dp"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1"
+                        android:text="@string/team_card_activity_create_team_button_text"
+                        android:textAppearance="@style/TextAppearance.WCF.Button"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/my_team_text" />
+
+                    <!--style="@style/secondaryButton"-->
+                    <!--style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+
+                    <!--Widget.MaterialComponents.Button-->
+                    <Button
+                        android:id="@+id/show_join_teams_button"
+                        style="@style/secondaryButton"
+                        android:enabled="false"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:layout_marginBottom="18dp"
+                        android:elevation="2dp"
+                        android:gravity="center"
+                        android:lineSpacingMultiplier="1"
+                        android:text="@string/team_card_activity_join_team_button_text"
+                        android:textAppearance="@style/TextAppearance.WCF.Button"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/show_create_team_button" />
+
+                    <!--android:fontFamily="@font/font_sfprodisplay_medium"-->
+                    <!--android:textColor="@color/team_card_activity_create_team_button_text_color"-->
+                    <!--android:textSize="@dimen/team_card_activity_create_team_button_text_size"-->
+                    <!--android:background="?attr/selectableItemBackground"-->
+
+
+                </android.support.constraint.ConstraintLayout>
+            </android.support.design.card.MaterialCardView>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/new_team_content"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            app:cardBackgroundColor="@color/color_white"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/journey_view">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <android.support.constraint.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp">
+            <include layout="@layout/view_campaign_create_team"/>
 
-                <ImageView
-                    android:id="@+id/icon_my_team"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="18dp"
-                    android:src="@drawable/icon_team"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <!--android:fontFamily="@font/font_sfprodisplay_bold"-->
-                <!--android:textColor="@color/team_card_activity_my_team_label_text_view_text_color"-->
-                <!--android:textSize="@dimen/team_card_activity_my_team_label_text_view_text_size"-->
-
-                <TextView
-                    android:id="@+id/my_team_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:gravity="left"
-                    android:lineSpacingMultiplier="1.33"
-                    android:text="My team"
-                    android:textAppearance="@style/TextAppearance.WCF.Headline6"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/icon_my_team" />
-
-                <!--android:layout_width="@dimen/team_card_activity_join_team_mesage_text_view_width"-->
-                <!--android:fontFamily="@font/font_sfprotext_regular"-->
-                <!--android:textColor="@color/team_card_activity_join_team_mesage_text_view_text_color"-->
-                <!--android:textSize="@dimen/team_card_activity_join_team_mesage_text_view_text_size"-->
-
-                <TextView
-                    android:id="@+id/my_team_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:gravity="left"
-                    android:lineSpacingMultiplier="1.24"
-                    android:text="Participating in a challenge is always more fun with friends"
-                    android:textAppearance="@style/TextAppearance.WCF.Body1"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/my_team_label"
-                    tools:text="Participating in a challenge is always more fun with friends" />
-
-
-                <!--android:layout_marginLeft="@dimen/team_card_activity_join_team_button_margin_start"-->
-                <!--android:layout_marginRight="@dimen/team_card_activity_join_team_button_margin_end"-->
-                <!--android:layout_marginBottom="@dimen/team_card_activity_join_team_button_margin_bottom"-->
-                <!--android:background="@drawable/team_card_activity_join_team_button_selector"-->
-                <!--android:fontFamily="@font/font_sfprodisplay_medium"-->
-
-                <!--android:textColor="@color/team_card_activity_join_team_button_text_color"-->
-                <!--android:textSize="@dimen/team_card_activity_join_team_button_text_size"-->
-
-                <Button
-                    android:id="@+id/create_team_button"
-                    style="@style/primaryButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:elevation="2dp"
-                    android:gravity="center"
-                    android:lineSpacingMultiplier="1"
-                    android:text="@string/team_card_activity_create_team_button_text"
-                    android:textAppearance="@style/TextAppearance.WCF.Button"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/my_team_text" />
-
-                <!--style="@style/secondaryButton"-->
-                <!--style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
-
-                <!--Widget.MaterialComponents.Button-->
-                <Button
-                    android:id="@+id/join_team_button"
-                    style="@style/secondaryButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginBottom="18dp"
-                    android:elevation="2dp"
-                    android:gravity="center"
-                    android:lineSpacingMultiplier="1"
-                    android:text="@string/team_card_activity_join_team_button_text"
-                    android:textAppearance="@style/TextAppearance.WCF.Button"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/create_team_button" />
-
-                <!--android:fontFamily="@font/font_sfprodisplay_medium"-->
-                <!--android:textColor="@color/team_card_activity_create_team_button_text_color"-->
-                <!--android:textSize="@dimen/team_card_activity_create_team_button_text_size"-->
-                <!--android:background="?attr/selectableItemBackground"-->
-
-
-            </android.support.constraint.ConstraintLayout>
-        </android.support.design.card.MaterialCardView>
-
+        </android.support.constraint.ConstraintLayout>
 
     </android.support.constraint.ConstraintLayout>
 
-</ScrollView>
+</android.support.v4.widget.NestedScrollView>
