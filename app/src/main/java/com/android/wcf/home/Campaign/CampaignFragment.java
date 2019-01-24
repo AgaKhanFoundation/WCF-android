@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -16,6 +19,8 @@ import android.widget.Toast;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.home.Adapters.TeamsAdapter;
+import com.android.wcf.home.Adapters.TeamsAdapterMvp;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 import com.android.wcf.utils.SharedPreferencesUtil;
@@ -30,7 +35,7 @@ import java.util.List;
  * Use the {@link CampaignFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CampaignFragment extends BaseFragment implements CampaignMvp.CampaignView {
+public class CampaignFragment extends BaseFragment implements CampaignMvp.CampaignView, TeamsAdapterMvp.Host {
 
     private static final String TAG = CampaignFragment.class.getSimpleName();
 
@@ -44,18 +49,27 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public static final int MIN_TEAM_LEAD_NAME_SIZE = 0;
 
     /* UI elements */
+    private View mainContentView = null;
+    private View newTeamView = null;
+    private View joinTeamView = null;
+
     private Button showCreateTeamButton = null;
+    private Button showJoinTeamsButton = null;
+
     private Button createTeamButton = null;
     private Button cancelCreateTeamButton = null;
-    private Button showJoinTeamsButton = null;
     private EditText teamNameEditText = null;
     private EditText teamLeadNameEditText = null;
+
+    private Button joinTeamButton = null;
+    private Button cancelJoinTeamButton = null;
+    private RecyclerView teamsListRecyclerView = null;
+    private TeamsAdapter teamsAdapter = null;
 
     /* non-ui class properties */
     private String facebookId;
     private int activeEventId;
     private int teamId;
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -211,23 +225,40 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
                 case R.id.show_join_teams_button:
                     campaignPresenter.showTeamsToJoinClick();
                     break;
-//                case R.id.join_team_button:
-//                    teamSelectedToJoin();
-//                    break;
-//                case R.id.cancel_join_team:
-//                    closeTeamSelection();
-//                    break;
+                case R.id.join_team_button:
+                    teamSelectedToJoin();
+                    break;
+                case R.id.cancel_join_team_button:
+                    closeTeamSelection();
+                    break;
 
             }
         }
     };
 
     void setupView(View view) {
+
+        mainContentView = view.findViewById(R.id.main_content);
+        newTeamView = view.findViewById(R.id.new_team_content);
+        joinTeamView = view.findViewById(R.id.join_team_content);
+
+        setupViewForMainContent(mainContentView);
+        setupViewForNewTeam(newTeamView);
+    }
+
+    private void setupViewForMainContent(View view) {
         showCreateTeamButton = view.findViewById(R.id.show_create_team_button);
         if (showCreateTeamButton != null) {
             showCreateTeamButton.setOnClickListener(onClickListener);
         }
 
+        showJoinTeamsButton = view.findViewById(R.id.show_join_teams_button);
+        if (showJoinTeamsButton != null) {
+            showJoinTeamsButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    private void setupViewForNewTeam(View view) {
         createTeamButton = view.findViewById(R.id.create_team_button);
         if (createTeamButton != null) {
             createTeamButton.setOnClickListener(onClickListener);
@@ -236,11 +267,6 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         cancelCreateTeamButton = view.findViewById(R.id.cancel_create_team_button);
         if (cancelCreateTeamButton != null) {
             cancelCreateTeamButton.setOnClickListener(onClickListener);
-        }
-
-        showJoinTeamsButton = view.findViewById(R.id.show_join_teams_button);
-        if (showJoinTeamsButton != null) {
-            showJoinTeamsButton.setOnClickListener(onClickListener);
         }
 
         teamNameEditText = view.findViewById(R.id.team_name);
@@ -254,26 +280,56 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         }
     }
 
+    private void setupViewForJoinTeam(View view) {
+        if (teamsAdapter == null) {
+            teamsAdapter = new TeamsAdapter(this);
+        }
+
+        teamsListRecyclerView = view.findViewById(R.id.teams_list);
+        teamsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        teamsListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+        teamsListRecyclerView.setAdapter(teamsAdapter);
+
+        joinTeamButton = view.findViewById(R.id.join_team_button);
+
+        if (joinTeamButton != null) {
+            joinTeamButton.setOnClickListener(onClickListener);
+            joinTeamButton.setEnabled(false); // will be enabled when a team is selected
+        }
+
+        cancelJoinTeamButton = view.findViewById(R.id.cancel_join_team_button);
+        if (cancelJoinTeamButton != null) {
+            cancelJoinTeamButton.setOnClickListener(onClickListener);
+        }
+    }
+
+    @Override
+    public void teamRowSelected(int pos) {
+        //TODO: enable selecting a team if it has capacity for additional members or show message
+        joinTeamButton.setEnabled(pos >= 0);
+    }
+
     @Override
     public void showCreateNewTeamView() {
-        View mainView = getView().findViewById(R.id.main_content);
-        View view = getView().findViewById(R.id.new_team_content);
-        if (view != null) {
-            view.setVisibility(View.VISIBLE);
-            enableCreateTeamButton();
-            mainView.setVisibility(View.GONE);
+        if (newTeamView == null) {
+            return;
+        }
+        newTeamView.setVisibility(View.VISIBLE);
+        enableCreateTeamButton();
+
+        if (mainContentView != null) {
+            mainContentView.setVisibility(View.GONE);
         }
     }
 
     @Override
     public void hideCreateNewTeamView() {
-        View mainView = getView().findViewById(R.id.main_content);
-        View view = getView().findViewById(R.id.new_team_content);
-        if (view != null) {
+        if (newTeamView != null) {
             closeKeyboard();
-            mainView.setVisibility(View.VISIBLE);
-            view.setVisibility(View.GONE);
+            newTeamView.setVisibility(View.GONE);
         }
+        mainContentView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -288,24 +344,42 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
 
     @Override
     public void showTeamList(List<Team> teams) {
-        //TODO: Show panel of teams and enable selecting a team if it has capacity for additional members
-        showMessage("Joining team comming soon");
+
+        setupViewForJoinTeam(joinTeamView);
+
+        if (joinTeamView == null) {
+            showMessage("Joining team coming soon");
+            return;
+        }
+        teamsAdapter.getTeamsAdapterPresenter().clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
+        teamsListRecyclerView.scrollToPosition(0);
+        teamsAdapter.getTeamsAdapterPresenter().updateTeamsData(teams);
+
+        joinTeamView.setVisibility(View.VISIBLE);
+        mainContentView.setVisibility(View.GONE);
     }
 
     private void teamSelectedToJoin() {
-        int teamId = 1; // get the teamId from selected row
-        campaignPresenter.assignParticipantToTeam(facebookId, teamId);
+        Team selectedTeam = teamsAdapter.getTeamsAdapterPresenter().getSelectedTeam();
+        if (selectedTeam == null) {
+            showMessage("Please select a team to join");
+            return;
+        }
+        //TODO ensure capacity, if not show message
+
+        campaignPresenter.assignParticipantToTeam(facebookId, selectedTeam.getId());
     }
 
     private void closeTeamSelection() {
-        //TODO: disable and hide team list panel
+        mainContentView.setVisibility(View.VISIBLE);
+        joinTeamView.setVisibility(View.GONE);
     }
-
 
     @Override
     public void participantJoinedTeam(String fbid, int teamId) {
         SharedPreferencesUtil.saveMyTeamId(teamId);
         // refresh the objects
+        closeTeamSelection();
         //TODO: see if these refresh is needed, perhaps it is sufficient for presenter to update its data using the response
         campaignPresenter.getParticipant(fbid);
         campaignPresenter.getTeam(teamId);

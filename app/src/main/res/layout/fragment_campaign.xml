@@ -9,17 +9,16 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="24dp">
+        android:layout_height="wrap_content">
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -160,7 +159,7 @@
                         android:elevation="2dp"
                         android:gravity="center"
                         android:lineSpacingMultiplier="1"
-                        android:text="@string/team_card_activity_create_team_button_text"
+                        android:text="@string/team_card_create_team_button_text"
                         android:textAppearance="@style/TextAppearance.WCF.Button"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -181,7 +180,7 @@
                         android:elevation="2dp"
                         android:gravity="center"
                         android:lineSpacingMultiplier="1"
-                        android:text="@string/team_card_activity_join_team_button_text"
+                        android:text="@string/team_card_show_teams_to_join_button_text"
                         android:textAppearance="@style/TextAppearance.WCF.Button"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -203,12 +202,28 @@
             android:id="@+id/new_team_content"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:visibility="invisible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <include layout="@layout/view_campaign_create_team"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/join_team_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="invisible"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <include layout="@layout/view_campaign_join_team"/>
 
         </android.support.constraint.ConstraintLayout>
 
