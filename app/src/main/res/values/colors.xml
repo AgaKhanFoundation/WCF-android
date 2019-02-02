@@ -25,7 +25,7 @@
     <color name="color_light_grey_2">#9B9B9B</color>
     <color name="color_light_grey_3">#C6C6CB</color>
     <color name="color_light_grey_4">#DBDBDB</color>
-    <color name="color_light_grey_5">#A6dcdcdc</color>
+    <color name="color_light_grey_5">#dcdcdc</color>
 
     <color name="color_white">#FFFFFF</color>
     <color name="color_white_1">#F4F6F9</color>
@@ -36,6 +36,7 @@
     <color name="color_light_blue_1">#4A90E2</color>
 
     <color name="color_primary_alpha_mask_1">#3300a85d</color>
-    <color name="color_secondary_alpha_mask_1">#66000000</color>
+    <color name="color_secondary_alpha_mask_1">#33000000</color>
+    <color name="color_secondary_alpha_mask_2">#10000000</color>
 
 </resources>

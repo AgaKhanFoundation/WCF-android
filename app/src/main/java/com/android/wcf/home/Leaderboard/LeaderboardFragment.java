@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link LeaderboardFragment.OnFragmentInteractionListener} interface
+ * {@link FragmentHost} interface
  * to handle interaction events.
  * Use the {@link LeaderboardFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -32,7 +32,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     private int myTeamId;
 
-    private OnFragmentInteractionListener mListener;
+    private FragmentHost mFragmentHost;
     private LeaderboardMvp.Presenter leaderboardPresenter;
 
     public LeaderboardFragment() {
@@ -88,18 +88,18 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof FragmentHost) {
+            mFragmentHost = (FragmentHost) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement FragmentHost");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mFragmentHost = null;
     }
 
     private void getLeaderboard(){
@@ -122,8 +122,8 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onLeaderboardFragmentInteraction(uri);
+        if (mFragmentHost != null) {
+            mFragmentHost.onLeaderboardFragmentInteraction(uri);
         }
     }
 
@@ -137,8 +137,10 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+     public interface FragmentHost {
         void onLeaderboardFragmentInteraction(Uri uri);
+        void showToolbarUpAffordance(boolean showFlag);
+        void setViewTitle(String title);
+
     }
 }
