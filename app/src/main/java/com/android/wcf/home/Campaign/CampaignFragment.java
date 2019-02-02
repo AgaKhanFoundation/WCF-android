@@ -71,7 +71,6 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     private EditText teamLeadNameEditText = null;
 
     private Button joinTeamButton = null;
-    private ImageButton cancelJoinTeamButton = null;
     private RecyclerView teamsListRecyclerView = null;
     private TeamsAdapter teamsAdapter = null;
 
@@ -328,11 +327,6 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         if (joinTeamButton != null) {
             joinTeamButton.setOnClickListener(onClickListener);
             joinTeamButton.setEnabled(false); // will be enabled when a team is selected
-        }
-
-        cancelJoinTeamButton = view.findViewById(R.id.cancel_join_team_button);
-        if (cancelJoinTeamButton != null) {
-            cancelJoinTeamButton.setOnClickListener(onClickListener);
         }
 
        mHostingParent.showToolbarUpAffordance(true);
