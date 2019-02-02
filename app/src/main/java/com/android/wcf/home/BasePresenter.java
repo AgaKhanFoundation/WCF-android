@@ -2,7 +2,6 @@ package com.android.wcf.home;
 
 import android.util.Log;
 
-import com.android.wcf.R;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
@@ -11,9 +10,8 @@ import com.android.wcf.network.WCFClient;
 
 import java.util.List;
 
-import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 public abstract class BasePresenter {
@@ -26,25 +24,19 @@ public abstract class BasePresenter {
         wcfClient.getEvent(eventId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Event>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
+                .subscribe(new DisposableSingleObserver<Event>() {
                     @Override
                     public void onSuccess(Event event) {
                         onGetEventSuccess(event);
                     }
-
                     @Override
                     public void onError(Throwable error) {
                         onGetEventError(error);
-
                     }
                 });
 
     }
+
 
     protected void onGetEventSuccess(Event event) {
         Log.d(TAG, "onGetEventSuccess");
@@ -60,11 +52,7 @@ public abstract class BasePresenter {
         wcfClient.createParticipant(fbid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Participant>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<Participant>() {
                     @Override
                     public void onSuccess(Participant participant) {
                         onCreateParticipantSuccess(participant);
@@ -90,11 +78,7 @@ public abstract class BasePresenter {
         wcfClient.getParticipant(fbid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Participant>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<Participant>() {
                     @Override
                     public void onSuccess(Participant participant) {
                         onGetParticipantSuccess(participant);
@@ -120,11 +104,7 @@ public abstract class BasePresenter {
         wcfClient.getParticipantStat(fbid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Stats>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<Stats>() {
                     @Override
                     public void onSuccess(Stats stats) {
                         onGetParticipantStatsSuccess(stats);
@@ -150,12 +130,7 @@ public abstract class BasePresenter {
         wcfClient.deleteParticipant(fbid)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Integer>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
+                .subscribe(new DisposableSingleObserver<Integer>() {
                     @Override
                     public void onSuccess(Integer count) {
                         onDeleteParticipantSuccess(count);
@@ -183,11 +158,7 @@ public abstract class BasePresenter {
         wcfClient.createTeam(teamName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Team>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<Team>() {
                     @Override
                     public void onSuccess(Team team) {
                         onCreateTeamSuccess(team);
@@ -212,11 +183,7 @@ public abstract class BasePresenter {
         wcfClient.getTeams()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<Team>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<List<Team>>() {
                     @Override
                     public void onSuccess(List<Team> teams) {
                         onGetTeamListSuccess(teams);
@@ -242,11 +209,7 @@ public abstract class BasePresenter {
         wcfClient.getTeam(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Team>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<Team>() {
                     @Override
                     public void onSuccess(Team team) {
                         onGetTeamSuccess(team);
@@ -272,11 +235,7 @@ public abstract class BasePresenter {
         wcfClient.getTeamStats(teamId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Stats>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<Stats>() {
                     @Override
                     public void onSuccess(Stats stats) {
                         onGetTeamStatsSuccess(stats);
@@ -302,11 +261,7 @@ public abstract class BasePresenter {
         wcfClient.deleteTeam(teamId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Integer>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<Integer>() {
                     @Override
                     public void onSuccess(Integer count) {
                         onDeleteTeamSuccess(count);
@@ -334,11 +289,7 @@ public abstract class BasePresenter {
         wcfClient.updateParticipant(fbid, null, teamId, 0, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<Integer>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                    }
-
+                .subscribe(new DisposableSingleObserver<List<Integer>>() {
                     @Override
                     public void onSuccess(List<Integer> results) {
                         onAssignParticipantToTeamSuccess(results, fbid, teamId);
