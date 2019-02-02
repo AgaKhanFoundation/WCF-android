@@ -1,6 +1,7 @@
 package com.android.wcf.home.Campaign;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,16 +10,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.view.EndOffsetItemDecoration;
+import com.android.wcf.helper.view.StartOffsetItemDecoration;
 import com.android.wcf.home.Adapters.TeamsAdapter;
 import com.android.wcf.home.Adapters.TeamsAdapterMvp;
 import com.android.wcf.model.Event;
@@ -30,7 +36,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link CampaignFragment.OnFragmentInteractionListener} interface
+ * {@link FragmentHost} interface
  * to handle interaction events.
  * Use the {@link CampaignFragment#newInstance} factory method to
  * create an instance of this fragment.
@@ -48,6 +54,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public static final int MIN_TEAM_NAME_SIZE = 3;
     public static final int MIN_TEAM_LEAD_NAME_SIZE = 0;
 
+    // host for this fragment
+    FragmentHost mHostingParent;
+    
     /* UI elements */
     private View mainContentView = null;
     private View newTeamView = null;
@@ -62,7 +71,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     private EditText teamLeadNameEditText = null;
 
     private Button joinTeamButton = null;
-    private Button cancelJoinTeamButton = null;
+    private ImageButton cancelJoinTeamButton = null;
     private RecyclerView teamsListRecyclerView = null;
     private TeamsAdapter teamsAdapter = null;
 
@@ -70,9 +79,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     private String facebookId;
     private int activeEventId;
     private int teamId;
-
-    private OnFragmentInteractionListener mListener;
-
+    
     private CampaignMvp.Presenter campaignPresenter = new CampaignPresenter(this);
 
     public CampaignFragment() {
@@ -130,28 +137,44 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         campaignPresenter.getTeams(); //TODO: next version, we will have to associate teams to event
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean handled = super.onOptionsItemSelected(item);
+        if (!handled) {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    closeTeamSelection();
+                    handled = true;
+                    break;
+                default:
+                    break;
+            }
+        }
+        return handled;
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onCampaignFragmentInteraction(uri);
+        if (mHostingParent != null) {
+            mHostingParent.onCampaignFragmentInteraction(uri);
         }
     }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof FragmentHost) {
+            mHostingParent = (FragmentHost) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement FragmentHost");
         }
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+        mHostingParent = null;
     }
 
 
@@ -228,10 +251,6 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
                 case R.id.join_team_button:
                     teamSelectedToJoin();
                     break;
-                case R.id.cancel_join_team_button:
-                    closeTeamSelection();
-                    break;
-
             }
         }
     };
@@ -241,6 +260,8 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         mainContentView = view.findViewById(R.id.main_content);
         newTeamView = view.findViewById(R.id.new_team_content);
         joinTeamView = view.findViewById(R.id.join_team_content);
+
+        setHasOptionsMenu(true);
 
         setupViewForMainContent(mainContentView);
         setupViewForNewTeam(newTeamView);
@@ -289,6 +310,17 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         teamsListRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         teamsListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
+
+        int dp = 1;
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.density);
+
+        int offsetPx = Math.round(px);
+
+        teamsListRecyclerView.addItemDecoration(new StartOffsetItemDecoration(offsetPx));
+        teamsListRecyclerView.addItemDecoration(new EndOffsetItemDecoration(offsetPx));
+
+
         teamsListRecyclerView.setAdapter(teamsAdapter);
 
         joinTeamButton = view.findViewById(R.id.join_team_button);
@@ -302,6 +334,8 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         if (cancelJoinTeamButton != null) {
             cancelJoinTeamButton.setOnClickListener(onClickListener);
         }
+
+       mHostingParent.showToolbarUpAffordance(true);
     }
 
     @Override
@@ -373,6 +407,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     private void closeTeamSelection() {
         mainContentView.setVisibility(View.VISIBLE);
         joinTeamView.setVisibility(View.GONE);
+        mHostingParent.showToolbarUpAffordance(false);
     }
 
     @Override
@@ -396,8 +431,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+    public interface FragmentHost {
         void onCampaignFragmentInteraction(Uri uri);
+        void showToolbarUpAffordance(boolean showFlag);
+        void setViewTitle(String title);
     }
 }

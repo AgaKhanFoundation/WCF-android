@@ -21,7 +21,8 @@
             app:layout_constraintBottom_toTopOf="@+id/join_team_button"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            />
 
         <Button
             android:id="@+id/join_team_button"
@@ -36,28 +37,12 @@
             android:lineSpacingMultiplier="1"
             android:text="@string/team_card_join_team_button_text"
             android:textAppearance="@style/TextAppearance.WCF.Button"
-            app:layout_constraintBottom_toTopOf="@+id/cancel_join_team_button"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/teams_list" />
 
-        <Button
-            android:id="@+id/cancel_join_team_button"
-            style="@style/secondaryButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginBottom="18dp"
-            android:elevation="2dp"
-            android:gravity="center"
-            android:lineSpacingMultiplier="1"
-            android:text="@string/team_card_cancel_button_text"
-            android:textAppearance="@style/TextAppearance.WCF.Button"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/create_team_button" />
+
 
 
     </android.support.constraint.ConstraintLayout>
