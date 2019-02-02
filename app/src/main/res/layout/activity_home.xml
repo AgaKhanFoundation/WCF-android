@@ -8,8 +8,8 @@
     android:fitsSystemWindows="true"
     tools:context="com.android.wcf.home.HomeActivity">
 
-    <!--<include layout="@layout/view_toolbar"/>-->
-    <!--app:layout_constraintTop_toBottomOf="@id/toolbar"-->
+    <include layout="@layout/view_toolbar"
+        android:id="@+id/toolbar"/>
 
     <FrameLayout
         android:id="@+id/fragment_container"
@@ -17,7 +17,7 @@
         android:layout_height="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/home_navigation"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 

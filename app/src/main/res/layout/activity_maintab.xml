@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:theme="@style/ToolbarOverlay">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

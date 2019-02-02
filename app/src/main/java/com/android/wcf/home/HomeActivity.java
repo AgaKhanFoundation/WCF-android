@@ -7,6 +7,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -20,10 +21,10 @@ import com.android.wcf.utils.SharedPreferencesUtil;
 
 public class HomeActivity extends BaseActivity
         implements HomeMvp.HomeView
-        , DashboardFragment.OnFragmentInteractionListener
-        , CampaignFragment.OnFragmentInteractionListener
-        , LeaderboardFragment.OnFragmentInteractionListener
-        , NotificationsFragment.OnFragmentInteractionListener {
+        , DashboardFragment.FragmentHost
+        , CampaignFragment.FragmentHost
+        , LeaderboardFragment.FragmentHost
+        , NotificationsFragment.FragmentHost {
 
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
@@ -39,6 +40,7 @@ public class HomeActivity extends BaseActivity
     private int myParticipantId;
     private int myActiveEventId;
     private int myTeamId;
+    private Toolbar toolbar;
 
     private int currentNavigationId;
 
@@ -92,6 +94,14 @@ public class HomeActivity extends BaseActivity
         leaderboardFragment = LeaderboardFragment.newInstance(myTeamId);
         notificationsFragment = NotificationsFragment.newInstance(null, null);
 
+        setupView();
+    }
+
+    private void setupView() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setHomeButtonEnabled(true);
+
         BottomNavigationView navigation = findViewById(R.id.home_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.nav_campaign);
@@ -108,15 +118,27 @@ public class HomeActivity extends BaseActivity
                 .addToBackStack(BACK_STACK_ROOT_TAG)
                 .commit();
 
-        setTitle(title);
+        setViewTitle(title);
         currentNavigationId = navItemId;
     }
 
-    private void setTitle(String title) {
+    @Override
+    public void setViewTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(title);
+        if (title != null) {
+            actionBar.setTitle(title);
+            actionBar.setDisplayShowTitleEnabled(true);
+        } else {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
     }
 
+    @Override
+    public void showToolbarUpAffordance(boolean show) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(show);
+        actionBar.setDisplayShowHomeEnabled(show);
+    }
 
     public void setMyFacebookId(String fbid) {
         this.myFacebookId = fbid;
