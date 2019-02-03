@@ -53,12 +53,15 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     View emptyLeaderboardView;
     Button refreshLeaderboardButton;
+
+    View myTeamLeaderboardContainer;
+    View myTeamLeaderboardItem;
     TextView myTeamRankTextView;
     TextView myTeamNameTextView;
     TextView myTeamDistanceCompleted;
     TextView myTeamAmountRaised;
+    
     Spinner leaderboardSortSelector;
-
     private RecyclerView leaderboardRecyclerView = null;
     private LeaderboardAdapter leaderboardAdapter = null;
 
@@ -172,16 +175,20 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         emptyLeaderboardView.setVisibility(View.GONE);
 
         LeaderboardTeam myLeaderboardTeam = getMyTeamData(leaderboard);
-
-        myTeamRankTextView.setText(myLeaderboardTeam.getRank() + "");
-        myTeamNameTextView.setText(myLeaderboardTeam.getName());
-        myTeamDistanceCompleted.setText(String.format("%,6d", (int) myLeaderboardTeam.getDistanceCompleted()));
-        myTeamAmountRaised.setText(String.format("$%,.02f", myLeaderboardTeam.getAmountAccrued()));
+        if (myLeaderboardTeam == null) {
+            myTeamLeaderboardContainer.setVisibility(View.GONE);
+        }
+        else {
+            myTeamLeaderboardContainer.setVisibility(View.VISIBLE);
+            myTeamRankTextView.setText(myLeaderboardTeam.getRank() + "");
+            myTeamNameTextView.setText(myLeaderboardTeam.getName());
+            myTeamDistanceCompleted.setText(String.format("%,6d", (int) myLeaderboardTeam.getDistanceCompleted()));
+            myTeamAmountRaised.setText(String.format("$%,.02f", myLeaderboardTeam.getAmountAccrued()));
+        }
 
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
         leaderboardAdapter.getPresenter().updateLeaderboardData(leaderboard);
         leaderboardRecyclerView.scrollToPosition(0);
-
     }
 
     private void setupView(View view) {
@@ -196,11 +203,12 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         });
         emptyLeaderboardView.setVisibility(View.GONE);
 
-        View myTeamLeaderboadItem = view.findViewById(R.id.my_team_leaderboard_item);
-        myTeamRankTextView = myTeamLeaderboadItem.findViewById(R.id.team_rank);
-        myTeamNameTextView = myTeamLeaderboadItem.findViewById(R.id.team_name);
-        myTeamDistanceCompleted = myTeamLeaderboadItem.findViewById(R.id.team_distance_completed);
-        myTeamAmountRaised = myTeamLeaderboadItem.findViewById(R.id.team_amount_raised);
+        myTeamLeaderboardContainer = view.findViewById(R.id.my_team_leaderboard_container);
+        myTeamLeaderboardItem = myTeamLeaderboardContainer.findViewById(R.id.my_team_leaderboard_item);
+        myTeamRankTextView = myTeamLeaderboardItem.findViewById(R.id.team_rank);
+        myTeamNameTextView = myTeamLeaderboardItem.findViewById(R.id.team_name);
+        myTeamDistanceCompleted = myTeamLeaderboardItem.findViewById(R.id.team_distance_completed);
+        myTeamAmountRaised = myTeamLeaderboardItem.findViewById(R.id.team_amount_raised);
 
         leaderboardSortSelector = view.findViewById(R.id.leaderboard_sort_selector_spinner);
         leaderboardRecyclerView = view.findViewById(R.id.leaderboard_team_list);
@@ -256,14 +264,12 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     }
 
     private LeaderboardTeam getMyTeamData(List<LeaderboardTeam> leaderboard) {
-        //TODO find my teamId's data
         for (LeaderboardTeam team : leaderboard) {
             if (team.getId() == myTeamId) {
                 return team;
             }
         }
-        //TODO remove this and return null
-        return leaderboard.get(2);
+        return null;
     }
 
     @Override

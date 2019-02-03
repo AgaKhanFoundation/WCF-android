@@ -7,47 +7,59 @@
     android:background="@color/color_white"
     tools:context="com.android.wcf.home.Leaderboard.LeaderboardFragment">
 
-    <View
-        android:id="@+id/my_team_separator_top"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/color_light_grey_5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/my_team_label"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:gravity="left"
-        android:text="My Team Rank"
-        android:textAppearance="@style/TextAppearance.WCF.Headline6"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/my_team_separator_top" />
-
-    <include
-        android:id="@+id/my_team_leaderboard_item"
-        layout="@layout/view_leaderboard_team_item"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/my_team_leaderboard_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/my_team_label" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <View
-        android:id="@+id/my_team_separator_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/color_light_grey_5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/my_team_leaderboard_item" />
+        <View
+            android:id="@+id/my_team_separator_top"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_light_grey_5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/my_team_leaderboard_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:gravity="left"
+            android:text="My Team Rank"
+            android:textAppearance="@style/TextAppearance.WCF.Headline6"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_team_separator_top" />
+
+        <include
+            android:id="@+id/my_team_leaderboard_item"
+            layout="@layout/view_leaderboard_team_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_team_leaderboard_label" />
+
+
+        <View
+            android:id="@+id/my_team_separator_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/color_light_grey_5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_team_leaderboard_item" />
+
+    </android.support.constraint.ConstraintLayout>
+
 
     <TextView
         android:id="@+id/leaderboard_label"
@@ -61,7 +73,7 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/leaderboard_sort_selector_spinner"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/my_team_separator_bottom" />
+        app:layout_constraintTop_toBottomOf="@id/my_team_leaderboard_container" />
 
     <Spinner
         android:id="@+id/leaderboard_sort_selector_spinner"
