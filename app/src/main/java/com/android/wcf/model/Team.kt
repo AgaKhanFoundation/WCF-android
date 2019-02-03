@@ -3,7 +3,6 @@ package com.android.wcf.model
 import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 
-const val TEAM_ATTRIBUTE_NAME = "name"
 
 data class Team(
         @SerializedName("id") var id: Int = 0,
@@ -13,4 +12,7 @@ data class Team(
         @SerializedName("participants") var participants: List<Participant> = ArrayList(),
         @SerializedName("achievements") var achievements: List<Achievement> = ArrayList()) {
 
+    companion object {
+       const val TEAM_ATTRIBUTE_NAME = "name"
+    }
 }

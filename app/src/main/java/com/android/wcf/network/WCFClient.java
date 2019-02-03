@@ -8,8 +8,6 @@ import com.android.wcf.model.Participant;
 import com.android.wcf.model.ParticipantKt;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
-import com.android.wcf.model.TeamKt;
-import com.google.zxing.common.StringUtils;
 
 import org.json.JSONObject;
 
@@ -18,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.Completable;
 import io.reactivex.Single;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -96,7 +93,7 @@ public class WCFClient {
 
     public Single<Team> createTeam(String teamName) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        jsonParams.put(TeamKt.TEAM_ATTRIBUTE_NAME, teamName);
+        jsonParams.put(Team.TEAM_ATTRIBUTE_NAME, teamName);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());

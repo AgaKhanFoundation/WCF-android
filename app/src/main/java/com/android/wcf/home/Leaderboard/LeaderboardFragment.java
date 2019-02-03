@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -22,7 +23,8 @@ import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.view.EndOffsetItemDecoration;
 import com.android.wcf.helper.view.StartOffsetItemDecoration;
-import com.android.wcf.model.Team;
+import com.android.wcf.model.Constants;
+import com.android.wcf.model.LeaderboardTeam;
 
 import java.util.List;
 
@@ -47,6 +49,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     private LeaderboardMvp.Presenter leaderboardPresenter;
 
     View emptyLeaderboardView;
+    Button refreshLeaderboardButton;
     TextView myTeamRankTextView;
     TextView myTeamNameTextView;
     TextView myTeamDistanceCompleted;
@@ -125,7 +128,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     }
 
     private void getLeaderboard(){
-        leaderboardPresenter.getTeams();
+        leaderboardPresenter.getLeaderboard();
     }
 
     public void setMyTeamId(int teamId) {
@@ -133,22 +136,21 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     }
 
     @Override
-    public void showLeaderboard(List<Team> teams) {
+    public void showLeaderboard(List<LeaderboardTeam> leaderboard) {
         if (leaderboardAdapter == null) {
             leaderboardAdapter = new LeaderboardAdapter(this);
         }
         emptyLeaderboardView.setVisibility(View.GONE);
 
-        Team myTeam = getMyTeamData(teams);
+        LeaderboardTeam myLeaderboardTeam = getMyTeamData(leaderboard);
 
-        //TODO: get the proper model for dashboard
-        myTeamRankTextView.setText("9");
-        myTeamNameTextView.setText(myTeam.getName());
-        myTeamDistanceCompleted.setText("116");
-        myTeamAmountRaised.setText("65.20");
+        myTeamRankTextView.setText(myLeaderboardTeam.getRank() + "");
+        myTeamNameTextView.setText(myLeaderboardTeam.getName());
+        myTeamDistanceCompleted.setText(String.format("%,6d", (int) myLeaderboardTeam.getDistanceCompleted()));
+        myTeamAmountRaised.setText(String.format("$%,.02f",myLeaderboardTeam.getAmountAccrued()));
 
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
-        leaderboardAdapter.getPresenter().updateLeaderboardData(teams);
+        leaderboardAdapter.getPresenter().updateLeaderboardData(leaderboard);
         leaderboardRecyclerView.scrollToPosition(0);
 
     }
@@ -156,6 +158,13 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     private void setupView(View view) {
 
         emptyLeaderboardView = view.findViewById(R.id.empty_view_container);
+        refreshLeaderboardButton = emptyLeaderboardView.findViewById(R.id.refresh_leaderboard);
+        refreshLeaderboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                leaderboardPresenter.getLeaderboard();
+            }
+        });
         emptyLeaderboardView.setVisibility(View.GONE);
 
         View myTeamLeaderboadItem = view.findViewById(R.id.my_team_leaderboard_item);
@@ -194,19 +203,18 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         leaderboardSortSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                String sortColumn = "miles";
                 switch (position) {
                     case 0:
-                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_MILES, LeaderboardPresenter.SORT_MODE_DESCENDING);
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_DISTANCE_COMPLETED, Constants.SORT_MODE_DESCENDING);
                     break;
                     case 1:
-                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_AMOUNT, LeaderboardPresenter.SORT_MODE_DESCENDING);
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_AMOUNT_ACCRUED, Constants.SORT_MODE_DESCENDING);
                         break;
                     case 2:
-                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_AMOUNT, LeaderboardPresenter.SORT_MODE_ASCENDING);
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_NAME, Constants.SORT_MODE_ASCENDING);
                         break;
                     case 3:
-                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_AMOUNT, LeaderboardPresenter.SORT_MODE_DESCENDING);
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_NAME, Constants.SORT_MODE_DESCENDING);
                         break;
                 }
             }
@@ -218,9 +226,15 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         });
     }
 
-    private Team getMyTeamData(List<Team> teams) {
+    private LeaderboardTeam getMyTeamData(List<LeaderboardTeam> leaderboard) {
         //TODO find my teamId's data
-        return teams.get(2);
+        for (LeaderboardTeam team : leaderboard) {
+            if (team.getId() == myTeamId) {
+                return team;
+            }
+        }
+        //TODO remove this and return null
+        return leaderboard.get(2);
     }
 
     @Override
@@ -240,10 +254,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
      public interface FragmentHost {
         void onLeaderboardFragmentInteraction(Uri uri);

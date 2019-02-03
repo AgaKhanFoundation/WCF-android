@@ -1,6 +1,6 @@
 package com.android.wcf.home.Leaderboard;
 
-import com.android.wcf.model.Team;
+import com.android.wcf.model.LeaderboardTeam;
 
 import java.util.List;
 
@@ -10,10 +10,13 @@ public interface LeaderboardAdapterMvp {
     }
 
     public interface Presenter {
-        void updateLeaderboardData(List<Team> teams);
+        void updateLeaderboardData(List<LeaderboardTeam> leaderboard);
+
         int getTeamsCount();
-        Team getTeam(int pos);
-        int getViewType (int pos);
+
+        LeaderboardTeam getTeam(int pos);
+
+        int getViewType(int pos);
     }
 
     public interface Host {

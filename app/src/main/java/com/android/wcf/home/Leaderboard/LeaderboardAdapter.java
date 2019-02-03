@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.model.Team;
+import com.android.wcf.model.LeaderboardTeam;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.TeamViewHolder>
         implements LeaderboardAdapterMvp.View {
@@ -46,13 +46,12 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull LeaderboardAdapter.TeamViewHolder teamViewHolder, int pos) {
-        Team team = mPresenter.getTeam(pos);
+        LeaderboardTeam team = mPresenter.getTeam(pos);
 
-        int rank = (int) (Math.random() * 15 );
-        teamViewHolder.teamRank.setText(rank + "");
+        teamViewHolder.teamRank.setText(team.getRank() + "");
         teamViewHolder.teamName.setText(team.getName());
-        teamViewHolder.amountRaised.setText(String.format("$%,.02f", rank * 12.5));
-        teamViewHolder.distanceCompleted.setText(String.format("%,10d", rank * 1000));
+        teamViewHolder.distanceCompleted.setText(String.format("%,6d", team.getDistanceCompleted()));
+        teamViewHolder.amountRaised.setText(String.format("$%,.02f", team.getAmountAccrued()));
     }
 
     static class TeamViewHolder extends RecyclerView.ViewHolder {
