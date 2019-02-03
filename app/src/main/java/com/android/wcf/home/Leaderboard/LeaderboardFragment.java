@@ -11,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -84,6 +87,13 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (getArguments() != null) {
             myTeamId = getArguments().getInt(ARG_MY_TEAM_ID);
         }
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_leaderboard, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -102,12 +112,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (leaderboardPresenter == null) {
             leaderboardPresenter = new LeaderboardPresenter(this);
         }
-        if (myTeamId > 0) {
-            getLeaderboard();
-        }
-        else {
-            showLeaderboardIsEmpty();
-        }
+        leaderboardPresenter.getLeaderboard();
     }
 
     @Override
@@ -127,8 +132,32 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         mFragmentHost = null;
     }
 
-    private void getLeaderboard(){
-        leaderboardPresenter.getLeaderboard();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean handled = super.onOptionsItemSelected(item);
+        if (!handled) {
+            switch (item.getItemId()) {
+                case R.id.menu_item_refresh:
+                    handled = true;
+                    leaderboardPresenter.getLeaderboard();
+            }
+        }
+        return handled;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu();
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        super.onOptionsMenuClosed(menu);
     }
 
     public void setMyTeamId(int teamId) {
@@ -147,7 +176,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         myTeamRankTextView.setText(myLeaderboardTeam.getRank() + "");
         myTeamNameTextView.setText(myLeaderboardTeam.getName());
         myTeamDistanceCompleted.setText(String.format("%,6d", (int) myLeaderboardTeam.getDistanceCompleted()));
-        myTeamAmountRaised.setText(String.format("$%,.02f",myLeaderboardTeam.getAmountAccrued()));
+        myTeamAmountRaised.setText(String.format("$%,.02f", myLeaderboardTeam.getAmountAccrued()));
 
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
         leaderboardAdapter.getPresenter().updateLeaderboardData(leaderboard);
@@ -206,7 +235,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
                 switch (position) {
                     case 0:
                         leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_DISTANCE_COMPLETED, Constants.SORT_MODE_DESCENDING);
-                    break;
+                        break;
                     case 1:
                         leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_AMOUNT_ACCRUED, Constants.SORT_MODE_DESCENDING);
                         break;
@@ -255,9 +284,11 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
      * to the activity and potentially other fragments contained in that
      * activity.
      */
-     public interface FragmentHost {
+    public interface FragmentHost {
         void onLeaderboardFragmentInteraction(Uri uri);
+
         void showToolbarUpAffordance(boolean showFlag);
+
         void setViewTitle(String title);
 
     }
