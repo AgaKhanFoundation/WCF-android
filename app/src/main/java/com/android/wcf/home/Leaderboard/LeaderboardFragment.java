@@ -46,6 +46,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     private FragmentHost mFragmentHost;
     private LeaderboardMvp.Presenter leaderboardPresenter;
 
+    View emptyLeaderboardView;
     TextView myTeamRankTextView;
     TextView myTeamNameTextView;
     TextView myTeamDistanceCompleted;
@@ -136,6 +137,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (leaderboardAdapter == null) {
             leaderboardAdapter = new LeaderboardAdapter(this);
         }
+        emptyLeaderboardView.setVisibility(View.GONE);
 
         Team myTeam = getMyTeamData(teams);
 
@@ -148,9 +150,14 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         leaderboardRecyclerView.setAdapter(leaderboardAdapter);
         leaderboardAdapter.getPresenter().updateLeaderboardData(teams);
         leaderboardRecyclerView.scrollToPosition(0);
+
     }
 
     private void setupView(View view) {
+
+        emptyLeaderboardView = view.findViewById(R.id.empty_view_container);
+        emptyLeaderboardView.setVisibility(View.GONE);
+
         View myTeamLeaderboadItem = view.findViewById(R.id.my_team_leaderboard_item);
         myTeamRankTextView = myTeamLeaderboadItem.findViewById(R.id.team_rank);
         myTeamNameTextView = myTeamLeaderboadItem.findViewById(R.id.team_name);
@@ -218,7 +225,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     @Override
     public void showLeaderboardIsEmpty() {
-
+        emptyLeaderboardView.setVisibility(View.VISIBLE);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
