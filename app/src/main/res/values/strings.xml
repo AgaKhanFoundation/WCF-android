@@ -40,4 +40,11 @@
     <string name="team_card_join_team_button_text">Join Team</string>
     <string name="team_card_cancel_button_text">Cancel</string>
 
+    <string-array name="leaderboard_sort_types">
+        <item>Miles</item>
+        <item>Money Raised</item>
+        <item>Alphabetic(A-Z)</item>
+        <item>Alphabetic(Z-A)</item>
+    </string-array>
+
 </resources>

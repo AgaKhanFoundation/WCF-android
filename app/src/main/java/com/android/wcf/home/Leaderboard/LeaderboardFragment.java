@@ -13,6 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.wcf.R;
@@ -47,6 +50,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     TextView myTeamNameTextView;
     TextView myTeamDistanceCompleted;
     TextView myTeamAmountRaised;
+    Spinner leaderboardSortSelector;
 
     private RecyclerView leaderboardRecyclerView = null;
     private LeaderboardAdapter leaderboardAdapter = null;
@@ -153,6 +157,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         myTeamDistanceCompleted = myTeamLeaderboadItem.findViewById(R.id.team_distance_completed);
         myTeamAmountRaised = myTeamLeaderboadItem.findViewById(R.id.team_amount_raised);
 
+        leaderboardSortSelector = view.findViewById(R.id.leaderboard_sort_selector_spinner);
         leaderboardRecyclerView = view.findViewById(R.id.leaderboard_team_list);
         leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
         leaderboardRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
@@ -170,6 +175,40 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (leaderboardAdapter == null) {
             leaderboardAdapter = new LeaderboardAdapter(this);
         }
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.leaderboard_sort_types,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        leaderboardSortSelector.setAdapter(adapter);
+
+
+        leaderboardSortSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                String sortColumn = "miles";
+                switch (position) {
+                    case 0:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_MILES, LeaderboardPresenter.SORT_MODE_DESCENDING);
+                    break;
+                    case 1:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_AMOUNT, LeaderboardPresenter.SORT_MODE_DESCENDING);
+                        break;
+                    case 2:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_AMOUNT, LeaderboardPresenter.SORT_MODE_ASCENDING);
+                        break;
+                    case 3:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardPresenter.SORT_COLUMN_AMOUNT, LeaderboardPresenter.SORT_MODE_DESCENDING);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
     }
 
     private Team getMyTeamData(List<Team> teams) {

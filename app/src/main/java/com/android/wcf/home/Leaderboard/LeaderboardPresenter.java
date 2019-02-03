@@ -15,8 +15,11 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     public static final String SORT_COLUMN_AMOUNT = "amount";
     public static final String SORT_COLUMN_MILES = "miles";
 
+    public static final int SORT_MODE_ASCENDING = 0;
+    public static final int SORT_MODE_DESCENDING = 1;
+
     private String currentSortColumn = SORT_COLUMN_AMOUNT;
-    private boolean currentSortOrderDescending = false;
+    private int currentSortMode = SORT_MODE_ASCENDING;
 
 
     public LeaderboardPresenter(LeaderboardMvp.LeaderboardView view) {
@@ -43,7 +46,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
 
     @Override
     public void toggleSortMode() {
-        currentSortOrderDescending = !currentSortOrderDescending;
+        currentSortMode = (currentSortMode == SORT_MODE_ASCENDING ? SORT_MODE_DESCENDING : SORT_MODE_ASCENDING);
         sortTeamsBy(currentSortColumn);
 
     }
@@ -59,5 +62,11 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
         //TODO implement sorting of teams based on the column
 
         leaderboardView.showLeaderboard(teams);
+    }
+
+    @Override
+    public void sortTeamsBy(String sortColumn, int sortOrder) {
+        currentSortMode = (sortOrder == SORT_MODE_ASCENDING ? SORT_MODE_ASCENDING : SORT_MODE_DESCENDING);
+        sortTeamsBy(sortColumn);
     }
 }

@@ -14,6 +14,7 @@ public interface LeaderboardMvp {
     interface Presenter extends BaseMvp.Presenter {
        void getTeams();
        void toggleSortMode();
-       void sortTeamsBy(String sortColumn);
+        void sortTeamsBy(String sortColumn);
+        void sortTeamsBy(String sortColumn, int sortMode);
     }
 }

@@ -14,7 +14,7 @@
         android:layout_width="20dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:gravity="right"
+        android:gravity="left"
         android:textAppearance="@style/TextAppearance.WCF.Body1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,7 +32,6 @@
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="start"
         tools:text="Team name"/>
-
 
     <TextView
         android:id="@+id/team_distance_completed"
