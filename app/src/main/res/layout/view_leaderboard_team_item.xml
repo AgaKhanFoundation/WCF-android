@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/color_white"
+    android:paddingStart="24dp"
+    android:paddingBottom="4dp"
+    android:paddingEnd="24dp">
+
+    <TextView
+        android:id="@+id/team_rank"
+        android:layout_width="20dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="right"
+        android:textAppearance="@style/TextAppearance.WCF.Body1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="1"/>
+
+    <TextView
+        android:id="@+id/team_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:textAppearance="@style/TextAppearance.WCF.Body1"
+        app:layout_constraintBaseline_toBaselineOf="@id/team_rank"
+        app:layout_constraintStart_toEndOf="@id/team_rank"
+        app:layout_constraintEnd_toStartOf="@+id/team_distance_completed"
+        app:layout_constraintTop_toTopOf="parent"
+        android:gravity="start"
+        tools:text="Team name"/>
+
+
+    <TextView
+        android:id="@+id/team_distance_completed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/TextAppearance.WCF.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/team_lead_name"
+        app:layout_constraintBaseline_toBaselineOf="@id/team_rank"
+        android:gravity="right"
+        tools:text="103"/>
+
+    <TextView
+        android:id="@+id/team_amount_raised"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.WCF.Body1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/team_distance_completed"
+        android:gravity="right"
+        tools:text="$56.20"/>
+
+
+</android.support.constraint.ConstraintLayout>

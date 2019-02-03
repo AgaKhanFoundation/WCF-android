@@ -1,16 +1,24 @@
 package com.android.wcf.home.Leaderboard;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.view.EndOffsetItemDecoration;
+import com.android.wcf.helper.view.StartOffsetItemDecoration;
 import com.android.wcf.model.Team;
 
 import java.util.List;
@@ -23,7 +31,7 @@ import java.util.List;
  * Use the {@link LeaderboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.LeaderboardView {
+public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.LeaderboardView, LeaderboardAdapterMvp.Host {
     private static final String TAG = LeaderboardFragment.class.getSimpleName();
 
     // TODO: Rename parameter arguments, choose names that match
@@ -34,6 +42,14 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     private FragmentHost mFragmentHost;
     private LeaderboardMvp.Presenter leaderboardPresenter;
+
+    TextView myTeamRankTextView;
+    TextView myTeamNameTextView;
+    TextView myTeamDistanceCompleted;
+    TextView myTeamAmountRaised;
+
+    private RecyclerView leaderboardRecyclerView = null;
+    private LeaderboardAdapter leaderboardAdapter = null;
 
     public LeaderboardFragment() {
     }
@@ -66,7 +82,9 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        setupView(view);
+        return view;
     }
 
     @Override
@@ -82,7 +100,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         else {
             showLeaderboardIsEmpty();
         }
-
     }
 
     @Override
@@ -112,7 +129,52 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     @Override
     public void showLeaderboard(List<Team> teams) {
+        if (leaderboardAdapter == null) {
+            leaderboardAdapter = new LeaderboardAdapter(this);
+        }
 
+        Team myTeam = getMyTeamData(teams);
+
+        //TODO: get the proper model for dashboard
+        myTeamRankTextView.setText("9");
+        myTeamNameTextView.setText(myTeam.getName());
+        myTeamDistanceCompleted.setText("116");
+        myTeamAmountRaised.setText("65.20");
+
+        leaderboardRecyclerView.setAdapter(leaderboardAdapter);
+        leaderboardAdapter.getPresenter().updateLeaderboardData(teams);
+        leaderboardRecyclerView.scrollToPosition(0);
+    }
+
+    private void setupView(View view) {
+        View myTeamLeaderboadItem = view.findViewById(R.id.my_team_leaderboard_item);
+        myTeamRankTextView = myTeamLeaderboadItem.findViewById(R.id.team_rank);
+        myTeamNameTextView = myTeamLeaderboadItem.findViewById(R.id.team_name);
+        myTeamDistanceCompleted = myTeamLeaderboadItem.findViewById(R.id.team_distance_completed);
+        myTeamAmountRaised = myTeamLeaderboadItem.findViewById(R.id.team_amount_raised);
+
+        leaderboardRecyclerView = view.findViewById(R.id.leaderboard_team_list);
+        leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        leaderboardRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+
+        int dp = 1;
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.density);
+
+        int offsetPx = Math.round(px);
+
+        leaderboardRecyclerView.addItemDecoration(new StartOffsetItemDecoration(offsetPx));
+        leaderboardRecyclerView.addItemDecoration(new EndOffsetItemDecoration(offsetPx));
+
+        if (leaderboardAdapter == null) {
+            leaderboardAdapter = new LeaderboardAdapter(this);
+        }
+    }
+
+    private Team getMyTeamData(List<Team> teams) {
+        //TODO find my teamId's data
+        return teams.get(2);
     }
 
     @Override
