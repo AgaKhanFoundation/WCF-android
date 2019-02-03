@@ -39,7 +39,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.android.wcf.R;
-import com.android.wcf.activity.LoginActivity;
+import com.android.wcf.login.LoginActivity;
 import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.utils.Preferences;
 import com.facebook.AccessToken;
