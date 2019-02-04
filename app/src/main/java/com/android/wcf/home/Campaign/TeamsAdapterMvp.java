@@ -1,4 +1,4 @@
-package com.android.wcf.home.Adapters;
+package com.android.wcf.home.Campaign;
 
 import com.android.wcf.model.Team;
 

@@ -24,11 +24,9 @@ import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.view.EndOffsetItemDecoration;
 import com.android.wcf.helper.view.StartOffsetItemDecoration;
-import com.android.wcf.home.Adapters.TeamsAdapter;
-import com.android.wcf.home.Adapters.TeamsAdapterMvp;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
-import com.android.wcf.utils.SharedPreferencesUtil;
+import com.android.wcf.helper.SharedPreferencesUtil;
 
 import java.util.List;
 

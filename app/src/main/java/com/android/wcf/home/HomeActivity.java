@@ -17,7 +17,7 @@ import com.android.wcf.home.Campaign.CampaignFragment;
 import com.android.wcf.home.Dashboard.DashboardFragment;
 import com.android.wcf.home.Leaderboard.LeaderboardFragment;
 import com.android.wcf.home.Notifications.NotificationsFragment;
-import com.android.wcf.utils.SharedPreferencesUtil;
+import com.android.wcf.helper.SharedPreferencesUtil;
 
 public class HomeActivity extends BaseActivity
         implements HomeMvp.HomeView
