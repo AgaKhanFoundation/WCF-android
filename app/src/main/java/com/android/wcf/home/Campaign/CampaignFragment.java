@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.view.EndOffsetItemDecoration;
+import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.helper.view.StartOffsetItemDecoration;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
@@ -307,15 +308,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         teamsListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
 
-        int dp = 1;
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        float px = dp * (metrics.density);
-
-        int offsetPx = Math.round(px);
-
-        teamsListRecyclerView.addItemDecoration(new StartOffsetItemDecoration(offsetPx));
-        teamsListRecyclerView.addItemDecoration(new EndOffsetItemDecoration(offsetPx));
-
+        teamsListRecyclerView.addItemDecoration(new ListPaddingDecoration(getContext()));
 
         teamsListRecyclerView.setAdapter(teamsAdapter);
 
