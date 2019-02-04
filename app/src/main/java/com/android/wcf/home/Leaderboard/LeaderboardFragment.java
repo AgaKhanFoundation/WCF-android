@@ -1,17 +1,33 @@
 package com.android.wcf.home.Leaderboard;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.model.Team;
+import com.android.wcf.helper.view.EndOffsetItemDecoration;
+import com.android.wcf.helper.view.StartOffsetItemDecoration;
+import com.android.wcf.model.Constants;
+import com.android.wcf.model.LeaderboardTeam;
 
 import java.util.List;
 
@@ -23,7 +39,7 @@ import java.util.List;
  * Use the {@link LeaderboardFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.LeaderboardView {
+public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.LeaderboardView, LeaderboardAdapterMvp.Host {
     private static final String TAG = LeaderboardFragment.class.getSimpleName();
 
     // TODO: Rename parameter arguments, choose names that match
@@ -34,6 +50,20 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     private FragmentHost mFragmentHost;
     private LeaderboardMvp.Presenter leaderboardPresenter;
+
+    View emptyLeaderboardView;
+    Button refreshLeaderboardButton;
+
+    View myTeamLeaderboardContainer;
+    View myTeamLeaderboardItem;
+    TextView myTeamRankTextView;
+    TextView myTeamNameTextView;
+    TextView myTeamDistanceCompleted;
+    TextView myTeamAmountRaised;
+    
+    Spinner leaderboardSortSelector;
+    private RecyclerView leaderboardRecyclerView = null;
+    private LeaderboardAdapter leaderboardAdapter = null;
 
     public LeaderboardFragment() {
     }
@@ -60,13 +90,22 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (getArguments() != null) {
             myTeamId = getArguments().getInt(ARG_MY_TEAM_ID);
         }
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_leaderboard, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
+        setupView(view);
+        return view;
     }
 
     @Override
@@ -76,13 +115,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (leaderboardPresenter == null) {
             leaderboardPresenter = new LeaderboardPresenter(this);
         }
-        if (myTeamId > 0) {
-            getLeaderboard();
-        }
-        else {
-            showLeaderboardIsEmpty();
-        }
-
+        leaderboardPresenter.getLeaderboard();
     }
 
     @Override
@@ -102,8 +135,32 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         mFragmentHost = null;
     }
 
-    private void getLeaderboard(){
-        leaderboardPresenter.getTeams();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        boolean handled = super.onOptionsItemSelected(item);
+        if (!handled) {
+            switch (item.getItemId()) {
+                case R.id.menu_item_refresh:
+                    handled = true;
+                    leaderboardPresenter.getLeaderboard();
+            }
+        }
+        return handled;
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+    }
+
+    @Override
+    public void onDestroyOptionsMenu() {
+        super.onDestroyOptionsMenu();
+    }
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        super.onOptionsMenuClosed(menu);
     }
 
     public void setMyTeamId(int teamId) {
@@ -111,13 +168,113 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     }
 
     @Override
-    public void showLeaderboard(List<Team> teams) {
+    public void showLeaderboard(List<LeaderboardTeam> leaderboard) {
+        if (leaderboardAdapter == null) {
+            leaderboardAdapter = new LeaderboardAdapter(this);
+        }
+        emptyLeaderboardView.setVisibility(View.GONE);
 
+        LeaderboardTeam myLeaderboardTeam = getMyTeamData(leaderboard);
+        if (myLeaderboardTeam == null) {
+            myTeamLeaderboardContainer.setVisibility(View.GONE);
+        }
+        else {
+            myTeamLeaderboardContainer.setVisibility(View.VISIBLE);
+            myTeamRankTextView.setText(myLeaderboardTeam.getRank() + "");
+            myTeamNameTextView.setText(myLeaderboardTeam.getName());
+            myTeamDistanceCompleted.setText(String.format("%,6d", (int) myLeaderboardTeam.getDistanceCompleted()));
+            myTeamAmountRaised.setText(String.format("$%,.02f", myLeaderboardTeam.getAmountAccrued()));
+        }
+
+        leaderboardRecyclerView.setAdapter(leaderboardAdapter);
+        leaderboardAdapter.getPresenter().updateLeaderboardData(leaderboard);
+        leaderboardRecyclerView.scrollToPosition(0);
+    }
+
+    private void setupView(View view) {
+
+        emptyLeaderboardView = view.findViewById(R.id.empty_view_container);
+        refreshLeaderboardButton = emptyLeaderboardView.findViewById(R.id.refresh_leaderboard);
+        refreshLeaderboardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                leaderboardPresenter.getLeaderboard();
+            }
+        });
+        emptyLeaderboardView.setVisibility(View.GONE);
+
+        myTeamLeaderboardContainer = view.findViewById(R.id.my_team_leaderboard_container);
+        myTeamLeaderboardItem = myTeamLeaderboardContainer.findViewById(R.id.my_team_leaderboard_item);
+        myTeamRankTextView = myTeamLeaderboardItem.findViewById(R.id.team_rank);
+        myTeamNameTextView = myTeamLeaderboardItem.findViewById(R.id.team_name);
+        myTeamDistanceCompleted = myTeamLeaderboardItem.findViewById(R.id.team_distance_completed);
+        myTeamAmountRaised = myTeamLeaderboardItem.findViewById(R.id.team_amount_raised);
+
+        leaderboardSortSelector = view.findViewById(R.id.leaderboard_sort_selector_spinner);
+        leaderboardRecyclerView = view.findViewById(R.id.leaderboard_team_list);
+        leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        leaderboardRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+
+        int dp = 1;
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float px = dp * (metrics.density);
+
+        int offsetPx = Math.round(px);
+
+        leaderboardRecyclerView.addItemDecoration(new StartOffsetItemDecoration(offsetPx));
+        leaderboardRecyclerView.addItemDecoration(new EndOffsetItemDecoration(offsetPx));
+
+        if (leaderboardAdapter == null) {
+            leaderboardAdapter = new LeaderboardAdapter(this);
+        }
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
+                getContext(),
+                R.array.leaderboard_sort_types,
+                android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        leaderboardSortSelector.setAdapter(adapter);
+
+
+        leaderboardSortSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                switch (position) {
+                    case 0:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_DISTANCE_COMPLETED, Constants.SORT_MODE_DESCENDING);
+                        break;
+                    case 1:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_AMOUNT_ACCRUED, Constants.SORT_MODE_DESCENDING);
+                        break;
+                    case 2:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_NAME, Constants.SORT_MODE_ASCENDING);
+                        break;
+                    case 3:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_NAME, Constants.SORT_MODE_DESCENDING);
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+    }
+
+    private LeaderboardTeam getMyTeamData(List<LeaderboardTeam> leaderboard) {
+        for (LeaderboardTeam team : leaderboard) {
+            if (team.getId() == myTeamId) {
+                return team;
+            }
+        }
+        return null;
     }
 
     @Override
     public void showLeaderboardIsEmpty() {
-
+        emptyLeaderboardView.setVisibility(View.VISIBLE);
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -132,14 +289,12 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
      * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
      */
-     public interface FragmentHost {
+    public interface FragmentHost {
         void onLeaderboardFragmentInteraction(Uri uri);
+
         void showToolbarUpAffordance(boolean showFlag);
+
         void setViewTitle(String title);
 
     }

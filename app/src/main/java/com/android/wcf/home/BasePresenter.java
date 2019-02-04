@@ -2,17 +2,22 @@ package com.android.wcf.home;
 
 import android.util.Log;
 
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
+import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.network.WCFClient;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+
 
 public abstract class BasePresenter {
 
@@ -204,7 +209,6 @@ public abstract class BasePresenter {
         Log.e(TAG, "onGetTeamListError: " + error.getMessage());
     }
 
-
     public void getTeam(int id) {
         wcfClient.getTeam(id)
                 .subscribeOn(Schedulers.io())
@@ -229,6 +233,104 @@ public abstract class BasePresenter {
 
     protected void onGetTeamError(Throwable error) {
         Log.e(TAG, "onGetTeamError: " + error.getMessage());
+    }
+
+
+    public void getLeaderboard() {
+        wcfClient.getTeams()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Team>>() {
+                    @Override
+                    public void onSuccess(List<Team> teams) {
+                        List<LeaderboardTeam> leaderboard = extractTeamStats(teams);
+                        onGetLeaderboardSuccess(leaderboard);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onGetLeaderboardError(error);
+                    }
+                });
+    }
+
+    protected void onGetLeaderboardSuccess(List<LeaderboardTeam> teamsStats) {
+        Log.d(TAG, "onGetLeaderboardSuccess");
+    }
+
+    protected void onGetLeaderboardError(Throwable error) {
+        Log.e(TAG, "onGetLeaderboardError: " + error.getMessage());
+    }
+
+    protected List<LeaderboardTeam> extractTeamStats(List<Team> teams) {
+        List<LeaderboardTeam> leaderboardTeamList = new ArrayList<>();
+        for (Team team : teams){
+            LeaderboardTeam leaderboardTeam = extractTeamStats(team);
+            if (leaderboardTeam != null) {
+                leaderboardTeamList.add(leaderboardTeam);
+            }
+        }
+        rankLeaderboard(leaderboardTeamList);
+
+        return leaderboardTeamList;
+    }
+
+    public void rankLeaderboard(List<LeaderboardTeam> leaderboard) {
+        Collections.sort( leaderboard, LeaderboardTeam.SORT_BY_STEPS_COMPLETED);
+        for (int index = 0; index < leaderboard.size(); index++ ){
+            leaderboard.get(index).setRank(index+1);
+        }
+    }
+
+    protected LeaderboardTeam extractTeamStats(Team team) {
+        if (team == null || team.getParticipants() == null) {
+            return null;
+        }
+
+        int participantsCount = 0
+                , rank = 0
+                , spotsAvailable = 0
+                , stepsPledged = 0
+                , stepsCompleted = 0
+                , distancePledged = 0
+                , distanceCompleted = 0;
+
+
+        float  amountPledged, amountAccrued;
+
+        float avgPledgePer10kSteps;
+
+        participantsCount = team.getParticipants().size();
+        spotsAvailable = participantsCount < Constants.TEAM_MAX_SIZE ? Constants.TEAM_MAX_SIZE - participantsCount : 0;
+        for (Participant participant : team.getParticipants()) {
+            //TODO: compute appropriate steps to amount based on highest pledged support
+        }
+        stepsPledged = (int) (Math.random() * (100000 - 10000)) + 10000;
+        stepsCompleted = (int) (stepsPledged * Math.random());
+        distancePledged = Math.round( stepsPledged / Constants.STEPS_IN_A_MILE);
+        distanceCompleted = Math.round( stepsCompleted / Constants.STEPS_IN_A_MILE);
+        avgPledgePer10kSteps = ((int) (Math.random() * (1000 - 100)) + 100) / 100;
+        amountPledged = (stepsPledged / Constants.STEPS_PER_UNIT_OF_DONATION) * avgPledgePer10kSteps;
+        amountAccrued = (stepsCompleted / Constants.STEPS_PER_UNIT_OF_DONATION) * avgPledgePer10kSteps;
+
+        rank = (int) (Math.random() * 15 );
+
+        LeaderboardTeam leaderboardTeam = new LeaderboardTeam(
+                rank
+                , team.getId()
+                , team.getName()
+                , team.getImage()
+                , team.getLeaderName()
+                , participantsCount
+                , spotsAvailable
+                , stepsPledged
+                , stepsCompleted
+                , distancePledged
+                , distanceCompleted
+                , amountPledged
+                , amountAccrued
+        );
+        return leaderboardTeam;
     }
 
     public void getTeamStats(int teamId) {
