@@ -25,6 +25,7 @@ import android.widget.TextView;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.view.EndOffsetItemDecoration;
+import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.helper.view.StartOffsetItemDecoration;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.LeaderboardTeam;
@@ -216,14 +217,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         leaderboardRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
                 DividerItemDecoration.VERTICAL));
 
-        int dp = 1;
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        float px = dp * (metrics.density);
-
-        int offsetPx = Math.round(px);
-
-        leaderboardRecyclerView.addItemDecoration(new StartOffsetItemDecoration(offsetPx));
-        leaderboardRecyclerView.addItemDecoration(new EndOffsetItemDecoration(offsetPx));
+        leaderboardRecyclerView.addItemDecoration(new ListPaddingDecoration(getContext()));
 
         if (leaderboardAdapter == null) {
             leaderboardAdapter = new LeaderboardAdapter(this);
