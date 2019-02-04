@@ -1,4 +1,4 @@
-package com.android.wcf.utils;
+package com.android.wcf.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;

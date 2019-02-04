@@ -1,4 +1,4 @@
-package com.android.wcf.fragments.child;
+package com.android.wcf.obsolete.fragments.child;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -36,9 +36,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.wcf.R;
-import com.android.wcf.activity.MainTabActivity;
-import com.android.wcf.adapter.CurrentSupportersAdapter;
-import com.android.wcf.modelOld.CurrentSupportersModel;
+import com.android.wcf.obsolete.activity.MainTabActivity;
+import com.android.wcf.obsolete.adapter.CurrentSupportersAdapter;
+import com.android.wcf.obsolete.modelOld.CurrentSupportersModel;
 import com.android.wcf.utils.ExpandedListView;
 
 import java.util.ArrayList;

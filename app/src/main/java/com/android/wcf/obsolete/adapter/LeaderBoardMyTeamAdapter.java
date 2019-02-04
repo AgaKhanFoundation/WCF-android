@@ -1,4 +1,4 @@
-package com.android.wcf.adapter;
+package com.android.wcf.obsolete.adapter;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -35,18 +35,19 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.modelOld.CurrentSupportersModel;
+import com.android.wcf.obsolete.modelOld.LeaderBoardModel;
+import com.android.wcf.utils.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class CurrentSupportersAdapter extends BaseAdapter {
+public class LeaderBoardMyTeamAdapter extends BaseAdapter {
 
     private Context mContext;
-    private CurrentSupportersAdapter.ViewHolder viewHolder;
-    private List<CurrentSupportersModel> arrLeaderBoard = new ArrayList<>();
+    private ViewHolder viewHolder;
+    private List<LeaderBoardModel> arrLeaderBoard = new ArrayList<>();
 
-    public CurrentSupportersAdapter(Context mContext, List<CurrentSupportersModel> arr_model) {
+    public LeaderBoardMyTeamAdapter(Context mContext, List<LeaderBoardModel> arr_model) {
         this.mContext = mContext;
         this.arrLeaderBoard = arr_model;
     }
@@ -72,12 +73,13 @@ public class CurrentSupportersAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             // inflate the layout to set the data
-            convertView = inflater.inflate(R.layout.row_current_supporters, parent, false);
-            viewHolder = new CurrentSupportersAdapter.ViewHolder(convertView);
+            convertView = inflater.inflate(R.layout.row_leaderboard_myteam, parent, false);
+            viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (CurrentSupportersAdapter.ViewHolder) convertView.getTag();
+            viewHolder = (ViewHolder) convertView.getTag();
         }
+        viewHolder.textSerialNumber.setText(position + 1 + ".");
 
 
         return convertView;
@@ -86,15 +88,18 @@ public class CurrentSupportersAdapter extends BaseAdapter {
 
     public class ViewHolder {
         // Separate class to initialize the widgets of the view.
-        TextView textNameUser;
-        TextView textCurrentMoneyUser;
-        TextView textPledgedUser;
+        TextView textSerialNumber;
+        CircleImageView imageViewProfile;
+        TextView textName;
+        TextView textMiles;
+        TextView textMoney;
 
         public ViewHolder(final View v) {
-            textNameUser = v.findViewById(R.id.textNameUser);
-            textCurrentMoneyUser = v.findViewById(R.id.textCurrentMoneyUser);
-            textPledgedUser = v.findViewById(R.id.textPledgedUser);
+            textSerialNumber = v.findViewById(R.id.textSerialNumber);
+            imageViewProfile = v.findViewById(R.id.imageView_profile);
+            textName = v.findViewById(R.id.textName);
+            textMiles = v.findViewById(R.id.textMiles);
+            textMoney = v.findViewById(R.id.textMoney);
         }
     }
 }
-

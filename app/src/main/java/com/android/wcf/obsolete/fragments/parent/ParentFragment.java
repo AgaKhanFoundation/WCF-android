@@ -1,4 +1,4 @@
-package com.android.wcf.fragments.parent;
+package com.android.wcf.obsolete.fragments.parent;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -37,8 +37,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.wcf.R;
-import com.android.wcf.fragments.child.MyProfileFragment;
-import com.android.wcf.fragments.child.MyTeamFragment;
+import com.android.wcf.obsolete.fragments.child.MyProfileFragment;
+import com.android.wcf.obsolete.fragments.child.MyTeamFragment;
 import com.android.wcf.home.Leaderboard.LeaderboardFragment;
 import com.android.wcf.utils.AppUtil;
 

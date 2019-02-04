@@ -1,4 +1,4 @@
-package com.android.wcf.activity;
+package com.android.wcf.obsolete.activity;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -44,8 +44,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.fragments.child.SettingsFragment;
-import com.android.wcf.fragments.parent.ParentFragment;
+import com.android.wcf.obsolete.fragments.child.SettingsFragment;
+import com.android.wcf.obsolete.fragments.parent.ParentFragment;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Build;
 import com.android.wcf.utils.Debug;

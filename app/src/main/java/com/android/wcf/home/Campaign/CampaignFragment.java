@@ -18,18 +18,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.view.EndOffsetItemDecoration;
 import com.android.wcf.helper.view.StartOffsetItemDecoration;
-import com.android.wcf.home.Adapters.TeamsAdapter;
-import com.android.wcf.home.Adapters.TeamsAdapterMvp;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
-import com.android.wcf.utils.SharedPreferencesUtil;
+import com.android.wcf.helper.SharedPreferencesUtil;
 
 import java.util.List;
 
@@ -56,7 +53,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
 
     // host for this fragment
     FragmentHost mHostingParent;
-    
+
     /* UI elements */
     private View mainContentView = null;
     private View newTeamView = null;
@@ -78,7 +75,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     private String facebookId;
     private int activeEventId;
     private int teamId;
-    
+
     private CampaignMvp.Presenter campaignPresenter = new CampaignPresenter(this);
 
     public CampaignFragment() {
@@ -329,7 +326,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
             joinTeamButton.setEnabled(false); // will be enabled when a team is selected
         }
 
-       mHostingParent.showToolbarUpAffordance(true);
+        mHostingParent.showToolbarUpAffordance(true);
     }
 
     @Override
@@ -427,7 +424,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
      */
     public interface FragmentHost {
         void onCampaignFragmentInteraction(Uri uri);
+
         void showToolbarUpAffordance(boolean showFlag);
+
         void setViewTitle(String title);
     }
 }

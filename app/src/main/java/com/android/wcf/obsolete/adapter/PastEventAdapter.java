@@ -1,21 +1,21 @@
-package com.android.wcf.adapter;
+package com.android.wcf.obsolete.adapter;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
- *
+ * <p>
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions are met:
- *
+ * <p>
  * 1. Redistributions of source code must retain the above copyright notice,
- *    this list of conditions and the following disclaimer.
- *
+ * this list of conditions and the following disclaimer.
+ * <p>
  * 2. Redistributions in binary form must reproduce the above copyright notice,
- *    this list of conditions and the following disclaimer in the documentation
- *    and/or other materials provided with the distribution.
- *
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
+ * <p>
  * 3. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
- *
+ * derived from this software without specific prior written permission.
+ * <p>
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR "AS IS" AND ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO
@@ -27,27 +27,29 @@ package com.android.wcf.adapter;
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.modelOld.LeaderBoardModel;
-import com.android.wcf.utils.CircleImageView;
+import com.android.wcf.obsolete.modelOld.PastEventModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class LeaderBoardMyTeamAdapter extends BaseAdapter {
+
+public class PastEventAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ViewHolder viewHolder;
-    private List<LeaderBoardModel> arrLeaderBoard = new ArrayList<>();
+    private PastEventAdapter.ViewHolder viewHolder;
+    private List<PastEventModel> arrLeaderBoard = new ArrayList<>();
 
-    public LeaderBoardMyTeamAdapter(Context mContext, List<LeaderBoardModel> arr_model) {
+    public PastEventAdapter(Context mContext, List<PastEventModel> arr_model) {
         this.mContext = mContext;
         this.arrLeaderBoard = arr_model;
     }
@@ -73,33 +75,36 @@ public class LeaderBoardMyTeamAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         if (convertView == null) {
             // inflate the layout to set the data
-            convertView = inflater.inflate(R.layout.row_leaderboard_myteam, parent, false);
-            viewHolder = new ViewHolder(convertView);
+            convertView = inflater.inflate(R.layout.row_past_events, parent, false);
+            viewHolder = new PastEventAdapter.ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (PastEventAdapter.ViewHolder) convertView.getTag();
         }
-        viewHolder.textSerialNumber.setText(position + 1 + ".");
-
-
         return convertView;
 
     }
 
     public class ViewHolder {
         // Separate class to initialize the widgets of the view.
-        TextView textSerialNumber;
-        CircleImageView imageViewProfile;
-        TextView textName;
-        TextView textMiles;
+        ImageView imageEventName;
+        TextView textEventName;
+        TextView textEventMonthYear;
+        TextView textTeamNameHeading;
+        TextView textPastEventTeamName;
         TextView textMoney;
+        TextView textMiles;
 
         public ViewHolder(final View v) {
-            textSerialNumber = v.findViewById(R.id.textSerialNumber);
-            imageViewProfile = v.findViewById(R.id.imageView_profile);
-            textName = v.findViewById(R.id.textName);
-            textMiles = v.findViewById(R.id.textMiles);
+            imageEventName = v.findViewById(R.id.imageEventName);
+            textEventName = v.findViewById(R.id.textEventName);
+            textEventMonthYear = v.findViewById(R.id.textEventMonthYear);
+            textTeamNameHeading = v.findViewById(R.id.textTeamNameHeading);
+            textPastEventTeamName = v.findViewById(R.id.textPastEventTeamName);
             textMoney = v.findViewById(R.id.textMoney);
+
+            textMiles = v.findViewById(R.id.textMiles);
         }
     }
 }
+
