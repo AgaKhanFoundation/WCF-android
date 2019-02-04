@@ -1,4 +1,4 @@
-package com.android.wcf.activity;
+package com.android.wcf.obsolete.activity;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.

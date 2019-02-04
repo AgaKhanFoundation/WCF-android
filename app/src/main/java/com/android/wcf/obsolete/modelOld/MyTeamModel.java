@@ -1,4 +1,4 @@
-package com.android.wcf.modelOld;
+package com.android.wcf.obsolete.modelOld;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.

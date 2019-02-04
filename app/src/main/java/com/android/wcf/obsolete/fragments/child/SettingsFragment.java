@@ -1,4 +1,4 @@
-package com.android.wcf.fragments.child;
+package com.android.wcf.obsolete.fragments.child;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -29,59 +29,53 @@ package com.android.wcf.fragments.child;
  **/
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.android.wcf.R;
-import com.android.wcf.activity.MainTabActivity;
-import com.android.wcf.adapter.PastEventAdapter;
-import com.android.wcf.modelOld.PastEventModel;
-import com.android.wcf.utils.ExpandedListView;
+import com.android.wcf.obsolete.activity.LoginActivity;
+import com.android.wcf.obsolete.activity.MainTabActivity;
+import com.android.wcf.utils.Preferences;
+import com.facebook.AccessToken;
+import com.facebook.login.LoginManager;
 
-import java.util.ArrayList;
-import java.util.List;
 
-public class PastEventFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     private View mView;
     private Context mContext;
-    ExpandedListView listPastEvents;
+    Button btnLogout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_pastevent, container, false);
+        mView = inflater.inflate(R.layout.fragment_settings, container, false);
         mContext = getActivity();
         setupView(mView);
-        listPastEvents.setExpanded(true);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.VISIBLE);
         ((MainTabActivity) getActivity()).mImageSettings.setVisibility(View.GONE);
-        ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.pastevents));
-        populateData();
+        ((MainTabActivity) getActivity()).textAppName.setText(getResources().getString(R.string.settings));
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (AccessToken.getCurrentAccessToken() != null) {
+                    LoginManager.getInstance().logOut();
+                }
+                Preferences.clearAll(mContext);
+                Intent mainTabActivity = new Intent(mContext, LoginActivity.class);
+                startActivity(mainTabActivity);
+                MainTabActivity.finishMe();
+            }
+        });
         return mView;
     }
 
-    private void setupView(View view) {
-        listPastEvents = view.findViewById(R.id.listPastEvents);
-    }
-
-    private void populateData() {
-        List<PastEventModel> eventModelArrayList = new ArrayList<>();
-        PastEventModel pastEventModel;
-        for (int i = 0; i < 7; i++) {
-            pastEventModel = new PastEventModel();
-            pastEventModel.setEventImageLink("");
-            pastEventModel.setEventName("");
-            pastEventModel.setEventMonthYear("");
-            pastEventModel.setEventTeamName("");
-            pastEventModel.setEventMoney("");
-            pastEventModel.setEventMiles("");
-            eventModelArrayList.add(pastEventModel);
-        }
-        listPastEvents.setAdapter(new PastEventAdapter(mContext, eventModelArrayList));
+    protected void setupView(View v) {
+        btnLogout = v.findViewById(R.id.btnLogout);
     }
 }
-

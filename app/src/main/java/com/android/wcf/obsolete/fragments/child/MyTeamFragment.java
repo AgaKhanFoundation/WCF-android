@@ -1,4 +1,4 @@
-package com.android.wcf.fragments.child;
+package com.android.wcf.obsolete.fragments.child;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -39,9 +39,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.activity.MainTabActivity;
-import com.android.wcf.adapter.LeaderBoardMyTeamAdapter;
-import com.android.wcf.modelOld.LeaderBoardModel;
+import com.android.wcf.obsolete.activity.MainTabActivity;
+import com.android.wcf.obsolete.adapter.LeaderBoardMyTeamAdapter;
+import com.android.wcf.obsolete.modelOld.LeaderBoardModel;
 import com.android.wcf.utils.CircleImageView;
 import com.android.wcf.utils.ExpandedListView;
 
