@@ -28,34 +28,41 @@ package com.android.wcf.login;
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-
+import android.util.Log;
 import com.android.wcf.R;
 import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.base.BaseActivity;
 import com.android.wcf.utils.Preferences;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import java.util.List;
+import org.json.JSONObject;
 
 public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
-  private static final int SIGNED_IN = 0;
-  private static final int STATE_SIGNING_IN = 1;
-  private static final int STATE_IN_PROGRESS = 2;
-  private static final int RC_SIGN_IN = 0;
-
+  private static final String TAG = LoginActivity.class.getSimpleName();
   private Context mContext;
-  LoginButton loginButton;
   private LoginPresenter presenter;
+  private CallbackManager callbackManager;
+
+  LoginButton loginButton;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
     mContext = this;
+    callbackManager = CallbackManager.Factory.create();
     presenter = new LoginPresenter(this);
     setupView();
   }
@@ -63,44 +70,79 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
   @Override
   protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-    presenter.onActivityResult(requestCode, resultCode, data);
+    callbackManager.onActivityResult(requestCode, resultCode, data);
   }
 
   private void setupView() {
     loginButton = findViewById(R.id.login_button);
     loginButton.setReadPermissions("public_profile", "email");
-    loginButton.setOnClickListener(new View.OnClickListener() {
+    loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
       @Override
-      public void onClick(View view) {
-        presenter.onFbLoginPressed();
+      public void onSuccess(LoginResult loginResult) {
+        Log.d("LoginPresenter", "onSuccess called");
+        GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
+            new GraphRequest.GraphJSONObjectCallback() {
+              @Override
+              public void onCompleted(JSONObject object, GraphResponse response) {
+                String userName = "", userId = "", userEmail = "", userGender = "", userProfileUrl = "";
+                Log.e("response: ", response + "");
+                try {
+                  AccessToken token = AccessToken.getCurrentAccessToken();
+                  Log.d("access only Token is", String.valueOf(token.getToken()));
+                  userId = object.getString("id");
+                  userEmail = object.getString("email");
+                  userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
 
+                  Preferences.setPreferencesBoolean("isUserLoggedIn", true, mContext);
+                  Preferences.setPreferencesString("userName", userName, mContext);
+                  Preferences.setPreferencesString("userId", userId, mContext);
+                  Preferences.setPreferencesString("userEmail", userEmail, mContext);
+                  Preferences.setPreferencesString("userProfileUrl", userProfileUrl, mContext);
+                  presenter.onLoginSuccess();
+                } catch (Exception e) {
+                  e.printStackTrace();
+                }
+              }
+            });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id,name,email,birthday,cover,picture.type(large)");
+        request.setParameters(parameters);
+        request.executeAsync();
+      }
+
+      @Override
+      public void onCancel() {
+        Log.d(TAG, "onCancel called");
+      }
+
+      @Override
+      public void onError(FacebookException error) {
+        Log.d(TAG, "onError");
+        presenter.onLoginError();
       }
     });
   }
 
   @Override
   public void showMessage(String message) {
-
+    AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
+    alertDialog.setTitle("Alert");
+    alertDialog.setMessage(message);
+    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+        new DialogInterface.OnClickListener() {
+          public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+          }
+        });
+    alertDialog.show();
   }
 
   @Override
-  public void showMainTabActivity(List<String> userInfo) {
-    Preferences.setPreferencesBoolean("isUserLoggedIn", true, this);
-    Preferences.setPreferencesString("userName", userInfo.get(0), mContext);
-    Preferences.setPreferencesString("userId", userInfo.get(1), mContext);
-    Preferences.setPreferencesString("userEmail", userInfo.get(2), mContext);
-    Preferences.setPreferencesString("userGender", userInfo.get(3), mContext);
-    Preferences.setPreferencesString("userProfileUrl", userInfo.get(4), mContext);
+  public void showMainTabActivity() {
     Intent intent = new Intent(LoginActivity.this, MainTabActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     this.startActivity(intent);
-  }
-
-  @Override
-  public void showGoogleSignInPrompt() {
-    //TODO : set view for google sign in
-//    Intent signInIntent = googleSignInClient.getSignInIntent();
-//    startActivityForResult(signInIntent, RC_SIGN_IN);
   }
 
   @Override
