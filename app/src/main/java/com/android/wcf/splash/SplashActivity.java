@@ -38,8 +38,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.wcf.R;
+import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
-import com.android.wcf.obsolete.activity.MainTabActivity;
 import com.android.wcf.permissions.ApplicationPermission;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Debug;
@@ -98,7 +98,7 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (Preferences.getPreferencesBoolean("isUserLoggedIn", mContext)) {
-                    startApp(MainTabActivity.class);
+                    startApp(HomeActivity.class);
                 } else {
                     startApp(LoginActivity.class);
                 }
