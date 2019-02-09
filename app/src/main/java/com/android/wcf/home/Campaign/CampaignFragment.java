@@ -1,16 +1,14 @@
 package com.android.wcf.home.Campaign;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -22,9 +20,7 @@ import android.widget.Toast;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.helper.view.EndOffsetItemDecoration;
 import com.android.wcf.helper.view.ListPaddingDecoration;
-import com.android.wcf.helper.view.StartOffsetItemDecoration;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 import com.android.wcf.helper.SharedPreferencesUtil;
