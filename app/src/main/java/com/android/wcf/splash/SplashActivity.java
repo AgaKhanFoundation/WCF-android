@@ -1,4 +1,4 @@
-package com.android.wcf.obsolete.activity;
+package com.android.wcf.splash;
 /**
  * Copyright © 2017 Aga Khan Foundation
  * All rights reserved.
@@ -39,6 +39,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.android.wcf.R;
 import com.android.wcf.login.LoginActivity;
+import com.android.wcf.obsolete.activity.MainTabActivity;
 import com.android.wcf.permissions.ApplicationPermission;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Debug;
