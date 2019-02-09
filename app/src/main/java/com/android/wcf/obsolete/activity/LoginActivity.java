@@ -107,8 +107,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupView() {
-        btnFacebookLogin = findViewById(R.id.buttonFacebookLogin);
-        loginButton = findViewById(R.id.login_button);
+//        btnFacebookLogin = findViewById(R.id.buttonFacebookLogin);
+//        loginButton = findViewById(R.id.login_button);
     }
 
     private FacebookCallback<LoginResult> mCallBack = new FacebookCallback<LoginResult>() {

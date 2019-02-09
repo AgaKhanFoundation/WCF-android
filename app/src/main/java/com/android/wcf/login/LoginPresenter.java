@@ -12,11 +12,12 @@ public class LoginPresenter extends WCFActivityPresenter<LoginMvp.LoginView> {
   }
 
   public void onLoginSuccess() {
-    Log.i(TAG, "Login Success: Showing Main Tab");
-    view.showMainTabActivity();
+    Log.d(TAG, "Login Success: Showing Home Activity");
+    view.showHomeActivity();
   }
 
   public void onLoginError() {
+    //TODO: Messsage text
     view.showMessage("Something went wrong. Please try again!");
   }
 }

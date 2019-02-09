@@ -35,8 +35,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import com.android.wcf.R;
-import com.android.wcf.activity.MainTabActivity;
 import com.android.wcf.base.BaseActivity;
+import com.android.wcf.home.HomeActivity;
 import com.android.wcf.utils.Preferences;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -139,8 +139,8 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
   }
 
   @Override
-  public void showMainTabActivity() {
-    Intent intent = new Intent(LoginActivity.this, MainTabActivity.class);
+  public void showHomeActivity() {
+    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     this.startActivity(intent);
   }

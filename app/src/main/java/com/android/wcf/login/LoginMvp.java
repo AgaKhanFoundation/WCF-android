@@ -5,7 +5,7 @@ import com.android.wcf.base.BaseMvp;
 public interface LoginMvp {
     interface LoginView extends BaseMvp.BaseView {
 
-         void showMainTabActivity();
+         void showHomeActivity();
 
     }
 }
