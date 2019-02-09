@@ -38,6 +38,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.android.wcf.R;
+import com.android.wcf.login.LoginActivity;
 import com.android.wcf.permissions.ApplicationPermission;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Debug;

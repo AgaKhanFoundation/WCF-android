@@ -22,8 +22,8 @@
         <item>This Event</item>
         <item>Overall</item>
     </string-array>
-    <string name="fb_login_protocol_scheme">fb[1963876463835347]</string>
-    <string name="facebook_app_id">1963876463835347</string>
+    <string name="fb_login_protocol_scheme">fb517692571972108</string>
+    <string name="facebook_app_id">517692571972108</string>
 
     <string name="title_activity_home">Home</string>
     <string name="nav_dashboard">Dashboard</string>
