@@ -5,7 +5,6 @@ import android.util.ArrayMap;
 import com.android.wcf.BuildConfig;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
-import com.android.wcf.model.ParticipantKt;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
 
@@ -119,7 +118,7 @@ public class WCFClient {
 
     public Single<Participant> createParticipant(String fbid) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        jsonParams.put(ParticipantKt.PARTICIPANT_ATTRIBUTE_FBID, fbid);
+        jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, fbid);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
@@ -137,10 +136,10 @@ public class WCFClient {
 
     public Single<List<Integer>> updateParticipant(String currentFbid, String newFbid, int teamId, int causeId, int eventId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        if (newFbid != null && !newFbid.isEmpty()) jsonParams.put(ParticipantKt.PARTICIPANT_ATTRIBUTE_FBID, newFbid);
-        if (teamId > 0) jsonParams.put(ParticipantKt.PARTICIPANT_ATTRIBUTE_TEAM_ID, teamId);
-        if (causeId > 0) jsonParams.put(ParticipantKt.PARTICIPANT_ATTRIBUTE_CAUSE_ID, causeId);
-        if (eventId > 0) jsonParams.put(ParticipantKt.PARTICIPANT_ATTRIBUTE_EVENT_ID, eventId);
+        if (newFbid != null && !newFbid.isEmpty()) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newFbid);
+        if (teamId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_TEAM_ID, teamId);
+        if (causeId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_CAUSE_ID, causeId);
+        if (eventId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_EVENT_ID, eventId);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
@@ -150,7 +149,7 @@ public class WCFClient {
 
     public Single<List<Integer>> updateParticipantTrackingSource(String fbid , int sourceId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        if (sourceId > 0) jsonParams.put(ParticipantKt.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);
+        if (sourceId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 (new JSONObject(jsonParams)).toString());
