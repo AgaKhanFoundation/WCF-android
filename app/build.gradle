@@ -73,6 +73,7 @@ repositories {
 dependencies {
     // jars
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(':pageindicatorview')
 
     //Support Libs
     implementation "androidx.appcompat:appcompat:${supportLibVersion}"
