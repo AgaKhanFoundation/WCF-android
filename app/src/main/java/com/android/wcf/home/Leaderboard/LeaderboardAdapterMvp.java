@@ -1,6 +1,6 @@
 package com.android.wcf.home.Leaderboard;
 
-import com.android.wcf.model.LeaderboardTeam;
+import com.android.wcf.model.dto.LeaderboardTeam;
 
 import java.util.List;
 

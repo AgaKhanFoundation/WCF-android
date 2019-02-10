@@ -3,7 +3,7 @@ package com.android.wcf.home.Leaderboard;
 import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Constants;
-import com.android.wcf.model.LeaderboardTeam;
+import com.android.wcf.model.dto.LeaderboardTeam;
 
 import java.util.Collections;
 import java.util.List;
