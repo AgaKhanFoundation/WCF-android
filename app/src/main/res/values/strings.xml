@@ -39,6 +39,11 @@
     <string name="team_card_create_team_button_text">Create a New Team</string>
     <string name="team_card_join_team_button_text">Join Team</string>
     <string name="team_card_cancel_button_text">Cancel</string>
+    <string name="onboard_welcome_headline">Welcome to Steps for Change!</string>
+    <string name="onboard_welcome_byline">Thanks for registering!</string>
+    <string name="onboard_welcome_start">Tap continue for a quick tour of the app.</string>
+    <string name="button_continue_label">Continue</string>
+    <string name="onboard_welcome_skip">Skip</string>
 
     <string-array name="leaderboard_sort_types">
         <item>Miles</item>

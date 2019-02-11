@@ -8,6 +8,10 @@
         <item name="android:letterSpacing">-0.15</item>
     </style>
 
+    <style name="TextAppearance.WCF.Headline1.primary">
+        <item name="android:textColor">@color/color_primary</item>
+    </style>
+
     <style name="TextAppearance.WCF.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
         <item name="fontFamily">"@font/font_sfprodisplay_bold"</item>
         <item name="android:fontFamily">@font/font_sfprodisplay_bold</item>
@@ -29,11 +33,19 @@
         <item name="android:letterSpacing">0.0025</item>
     </style>
 
+    <style name="TextAppearance.WCF.Headline4.primary">
+        <item name="android:textColor">@color/color_primary</item>
+    </style>
+
     <style name="TextAppearance.WCF.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
         <item name="fontFamily">@font/font_sfprodisplay_bold</item>
         <item name="android:fontFamily">@font/font_sfprodisplay_bold</item>
         <item name="android:textSize">25.06sp</item>
         <item name="android:letterSpacing">0</item>
+    </style>
+
+    <style name="TextAppearance.WCF.Headline5.primary">
+        <item name="android:textColor">@color/color_primary</item>
     </style>
 
     <style name="TextAppearance.WCF.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
@@ -64,6 +76,10 @@
         <item name="android:fontFamily">@font/font_sfprodisplay_medium</item>
         <item name="android:textSize">16.71sp</item>
         <item name="android:letterSpacing">0.0015</item>
+    </style>
+
+    <style name="TextAppearance.WCF.Subtitle1.primary">
+        <item name="android:textColor">@color/color_primary</item>
     </style>
 
     <style name="TextAppearance.WCF.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
