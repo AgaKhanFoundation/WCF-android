@@ -1,4 +1,4 @@
-package com.android.wcf.model.dto
+package com.android.wcf.home.Leaderboard
 
 import java.util.Comparator
 

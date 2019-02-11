@@ -7,7 +7,7 @@ import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
-import com.android.wcf.model.dto.LeaderboardTeam;
+import com.android.wcf.home.Leaderboard.LeaderboardTeam;
 import com.android.wcf.network.WCFClient;
 
 import java.util.ArrayList;

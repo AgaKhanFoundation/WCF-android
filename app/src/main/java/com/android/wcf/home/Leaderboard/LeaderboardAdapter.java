@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.wcf.R;
-import com.android.wcf.model.dto.LeaderboardTeam;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.TeamViewHolder>
         implements LeaderboardAdapterMvp.View {

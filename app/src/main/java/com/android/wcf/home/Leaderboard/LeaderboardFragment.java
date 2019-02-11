@@ -25,7 +25,6 @@ import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
-import com.android.wcf.model.dto.LeaderboardTeam;
 
 import java.util.List;
 
