@@ -10,97 +10,7 @@
     android:orientation="horizontal"
     tools:context=".onboard.OnboardActivity">
 
-    <!--<androidx.appcompat.widget.Toolbar-->
-    <!--android:id="@+id/toolbar"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content" />-->
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/welcome_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:padding="32dp">
-
-      <TextView
-          android:id="@+id/headline"
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"
-          app:layout_constraintTop_toTopOf="parent"
-          android:gravity="center"
-          android:textAppearance="@style/TextAppearance.WCF.Headline4.primary"
-          android:text="@string/onboard_welcome_headline" />
-
-        <ImageView
-            android:id="@+id/page_image"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginBottom="50dp"
-            android:scaleType="fitCenter"
-            android:src="@drawable/onboard_welcome"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/headline"
-            app:layout_constraintBottom_toTopOf="@+id/byline" />
-
-        <TextView
-            android:id="@+id/byline"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/start_message"
-            android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.WCF.Subtitle1.primary"
-            android:text="@string/onboard_welcome_byline" />
-
-        <TextView
-            android:id="@+id/start_message"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/start_tutorial_button"
-            android:layout_marginBottom="50dp"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.WCF.Subtitle1.primary"
-            android:text="@string/onboard_welcome_start" />
-
-        <!--Click continue for a quick tour of the app.-->
-        <Button
-            android:id="@+id/start_tutorial_button"
-            style="@style/primaryButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="18dp"
-            android:elevation="2dp"
-            android:gravity="center"
-            android:lineSpacingMultiplier="1"
-            android:text="@string/button_continue_label"
-            android:textAppearance="@style/TextAppearance.WCF.Button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/skip_tutorial_link" />
-
-        <TextView
-            android:id="@+id/skip_tutorial_link"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginBottom="30dp"
-            android:gravity="center"
-            android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
-            tools:text="@string/onboard_welcome_skip" />
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <include layout="@layout/view_onboarding_step"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tutorial_container"
@@ -113,8 +23,8 @@
 
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -123,12 +33,16 @@
             android:id="@+id/pageIndicatorView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="170dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/viewPager"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:piv_viewPager="@id/viewPager"
-            attrs:piv_padding="12dp"
-            attrs:piv_radius="8dp" />
+            attrs:piv_padding="8dp"
+            attrs:piv_radius="6dp"
+            attrs:piv_selectedColor="@color/color_primary"
+            attrs:piv_unselectedColor="@color/color_light_grey_5"
+            />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

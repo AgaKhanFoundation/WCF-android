@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WCF</string>
+    <string name="app_name">Step4Change</string>
     <string name="tabLeaderboard">LeaderBoard</string>
     <string name="tabMyProfile">My Profile</string>
     <string name="tabMyTeam">My Team</string>
@@ -50,6 +50,18 @@
         <item>Money Raised</item>
         <item>Alphabetic(A-Z)</item>
         <item>Alphabetic(Z-A)</item>
+    </string-array>
+
+    <string-array name="onboard_tutorial_step_title">
+        <item>Create a team or join an existing team</item>
+        <item>Complete a challenge while reaching milestones</item>
+        <item>Track your progres using the dashboard </item>
+    </string-array>
+
+    <string-array name="onboard_tutorial_step_button_title">
+        <item>Continue</item>
+        <item>Continue</item>
+        <item>Lets Begin!</item>
     </string-array>
 
 </resources>
