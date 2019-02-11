@@ -9,12 +9,19 @@ public class SharedPreferencesUtil {
 
     /* group different preferences under types */
     private static String PREF_TYPE_NAME_APP = "WCF_APP";
+    private static String PREF_TYPE_NAME_FB = "WCF_FACEBOOK";
 
     /* property names for individual preferences */
-    private static String PREF_NAME_MY_FACEBOOK_ID = "MY_FBID";
+    private static String PREF_NAME_MY_FACEBOOK_ID = "MY_FB_ID";
     private static String PREF_NAME_MY_PARTICIPANT_ID = "MY_PARTICIPANT_ID";
     private static String PREF_NAME_MY_TEAM_ID = "MY_TEAM_ID";
     private static String PREF_NAME_MY_ACTIVE_EVENT_ID = "MY_ACTIVE_EVENT_ID";
+    private static String PREF_NAME_SHOW_ONBOARD_TUTORIAL = "SHOW_ONBOARD_TUTORIAL";
+
+    private static String PREF_NAME_USER_LOGGED_IN = "isUserLoggedIn" ;
+    private static String PREF_NAME_USER_FULL_NAME = "userFullName";
+    private static String PREF_NAME_USER_EMAIL = "userEmail";
+    private static String PREF_NAME_FB_USER_PROFILE_URL = "FB_UuserProfileUrl";
 
     public static final String DEFAULT_FB_ID = "skfbid1";   //TODO: this will be null for not logged-in person
     public static final int DEFAULT_TEAM_ID = 1;            //TODO: this will be -1 for represent unassigned teamId
@@ -81,4 +88,59 @@ public class SharedPreferencesUtil {
         return preferences.getInt(PREF_NAME_MY_ACTIVE_EVENT_ID, DEFAULT_ACTIVE_EVENT_ID);
     }
 
+    public static void saveShowOnboardingTutorial(boolean show) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putBoolean(PREF_NAME_SHOW_ONBOARD_TUTORIAL, show);
+        editor.commit();
+    }
+
+    public static boolean getShowOnboardingTutorial() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getBoolean(PREF_NAME_SHOW_ONBOARD_TUTORIAL, true);
+    }
+
+    public static void saveUserLoggedIn(boolean loggedIn) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putBoolean(PREF_NAME_USER_LOGGED_IN, loggedIn);
+        editor.commit();
+    }
+
+    public static boolean isUserLoggedIn( ) {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getBoolean(PREF_NAME_USER_LOGGED_IN, false);
+    }
+
+
+    public static void saveUserFullName(String userFullname) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putString(PREF_NAME_USER_FULL_NAME, userFullname);
+        editor.commit();
+    }
+
+    public static String getUserFullName( ) {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getString(PREF_NAME_USER_FULL_NAME,  null);
+    }
+
+    public static void saveUserEmail(String userEmail) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putString(PREF_NAME_USER_EMAIL, userEmail);
+        editor.commit();
+    }
+
+    public static String getPrefNameUserEmail( ) {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getString(PREF_NAME_USER_EMAIL,  null);
+    }
+
+    public static void saveUserFbProfileUrl(String profileUrl) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putString(PREF_NAME_FB_USER_PROFILE_URL, profileUrl);
+        editor.commit();
+    }
+
+    public static String getUserFbProfileUrl( ) {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getString(PREF_NAME_FB_USER_PROFILE_URL,  null);
+    }
 }

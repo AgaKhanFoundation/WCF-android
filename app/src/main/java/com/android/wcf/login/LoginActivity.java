@@ -36,7 +36,9 @@ import android.os.Bundle;
 import android.util.Log;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseActivity;
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
+import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.utils.Preferences;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -89,15 +91,17 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                 try {
                   AccessToken token = AccessToken.getCurrentAccessToken();
                   Log.d("access only Token is", String.valueOf(token.getToken()));
+
                   userId = object.getString("id");
                   userEmail = object.getString("email");
                   userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
 
-                  Preferences.setPreferencesBoolean("isUserLoggedIn", true, mContext);
-                  Preferences.setPreferencesString("userName", userName, mContext);
-                  Preferences.setPreferencesString("userId", userId, mContext);
-                  Preferences.setPreferencesString("userEmail", userEmail, mContext);
-                  Preferences.setPreferencesString("userProfileUrl", userProfileUrl, mContext);
+                  SharedPreferencesUtil.saveMyFacebookId(userId);
+                  SharedPreferencesUtil.saveUserLoggedIn(true);
+                  SharedPreferencesUtil.saveUserFullName(userName);
+                  SharedPreferencesUtil.saveUserEmail(userEmail);
+                  SharedPreferencesUtil.saveUserFbProfileUrl(userProfileUrl);
+
                   presenter.onLoginSuccess();
                 } catch (Exception e) {
                   e.printStackTrace();
@@ -139,9 +143,19 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
   }
 
   @Override
+  public boolean isOnboardingComplete() {
+    return !SharedPreferencesUtil.getShowOnboardingTutorial();
+  }
+
+  @Override
   public void showHomeActivity() {
-    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    Intent intent = HomeActivity.createIntent(this);
+    this.startActivity(intent);
+  }
+
+  @Override
+  public void showOnboarding() {
+    Intent intent = OnboardActivity.createIntent(this);
     this.startActivity(intent);
   }
 

@@ -38,8 +38,10 @@ import androidx.core.app.ActivityCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.wcf.R;
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
+import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.permissions.ApplicationPermission;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Debug;
@@ -97,19 +99,22 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (Preferences.getPreferencesBoolean("isUserLoggedIn", mContext)) {
-                    startApp(HomeActivity.class);
-                } else {
+                if (!SharedPreferencesUtil.isUserLoggedIn()) {
                     startApp(LoginActivity.class);
+                }
+                else if (SharedPreferencesUtil.getShowOnboardingTutorial()) {
+                    startApp(OnboardActivity.class);
+                }
+                else {
+                    startApp(HomeActivity.class);
                 }
                 finish();
             }
         }, SPLASH_TIMER);
     }
 
-    private void startApp(Class<?> cl) {
-        Intent intent = new Intent(SplashActivity.this, cl);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    private void startApp(Class<?> activityClass) {
+        Intent intent = new Intent(SplashActivity.this, activityClass);
         SplashActivity.this.startActivity(intent);
         SplashActivity.this.finish();
     }

@@ -1,8 +1,11 @@
 package com.android.wcf.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,7 +32,6 @@ public class HomeActivity extends BaseActivity
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
-
     private HomePresenter homePresenter;
     private DashboardFragment dashboardFragment;
     private CampaignFragment campaignFragment;
@@ -43,6 +45,12 @@ public class HomeActivity extends BaseActivity
     private Toolbar toolbar;
 
     private int currentNavigationId;
+
+    public static Intent createIntent(Context context) {
+        Intent intent =  new Intent(context, HomeActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        return intent;
+    }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {

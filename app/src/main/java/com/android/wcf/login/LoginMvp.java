@@ -7,5 +7,9 @@ public interface LoginMvp {
 
          void showHomeActivity();
 
+         void showOnboarding();
+
+         boolean isOnboardingComplete();
+
     }
 }
