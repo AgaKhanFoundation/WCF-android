@@ -2,6 +2,8 @@ package com.android.wcf.home.Campaign;
 
 import com.android.wcf.model.Team;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,11 +11,13 @@ public class TeamsAdapterPresenter implements TeamsAdapterMvp.Presenter {
 
     TeamsAdapterMvp.View view;
     List<Team> teams = new ArrayList<>();
+    TeamsAdapterMvp.Host host;
 
     int selectedTeamPosition = -1;
 
-    public TeamsAdapterPresenter(TeamsAdapterMvp.View view) {
+    public TeamsAdapterPresenter(@NotNull TeamsAdapterMvp.View view, @NotNull TeamsAdapterMvp.Host host) {
         this.view = view;
+        this.host = host;
     }
 
     @Override
@@ -65,5 +69,11 @@ public class TeamsAdapterPresenter implements TeamsAdapterMvp.Presenter {
     @Override
     public void setSelectedTeamPosition(int pos) {
         selectedTeamPosition = pos;
+    }
+
+    @Override
+    public void teamRowSelected(int pos) {
+        host.teamRowSelected(pos);
+
     }
 }

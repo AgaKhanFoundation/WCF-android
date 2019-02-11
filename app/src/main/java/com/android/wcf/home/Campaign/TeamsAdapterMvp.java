@@ -8,6 +8,12 @@ public interface TeamsAdapterMvp {
     public interface View {
         void teamsDataUpdated();
         void teamRowSelected(int pos);
+
+        void clearTeamSelectionPosition();
+
+        void updateTeamsData(List<Team> teams);
+
+        Team getSelectedTeam();
     }
 
     public interface Presenter {
@@ -20,6 +26,8 @@ public interface TeamsAdapterMvp {
         void clearTeamSelectionPosition();
         void setSelectedTeamPosition(int pos);
         Team getSelectedTeam();
+
+        void teamRowSelected(int pos);
     }
 
     public interface Host {

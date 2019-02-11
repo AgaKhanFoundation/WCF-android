@@ -10,19 +10,30 @@ import android.widget.TextView;
 import com.android.wcf.R;
 import com.android.wcf.model.Team;
 
+import java.util.List;
+
 public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamViewHolder> implements TeamsAdapterMvp.View {
 
-    TeamsAdapterMvp.Host host;
     TeamsAdapterMvp.Presenter teamsAdapterPresenter;
 
     public TeamsAdapter(TeamsAdapterMvp.Host host) {
         super();
-        this.host = host;
-        teamsAdapterPresenter = new TeamsAdapterPresenter(this);
+        teamsAdapterPresenter = new TeamsAdapterPresenter(this, host);
     }
 
-    public TeamsAdapterMvp.Presenter getTeamsAdapterPresenter() {
-        return teamsAdapterPresenter;
+    @Override
+    public void clearTeamSelectionPosition() {
+        teamsAdapterPresenter.clearTeamSelectionPosition();
+    }
+
+    @Override
+    public void updateTeamsData(List<Team> teams) {
+        teamsAdapterPresenter.updateTeamsData(teams);
+    }
+
+    @Override
+    public Team getSelectedTeam() {
+      return teamsAdapterPresenter.getSelectedTeam();
     }
 
     @Override
@@ -72,7 +83,7 @@ public class TeamsAdapter extends RecyclerView.Adapter<TeamsAdapter.TeamViewHold
     @Override
     public void teamRowSelected(int pos) {
         notifyDataSetChanged(); //TODO: optimize to repaint only the visible rows?
-        host.teamRowSelected(pos);
+        teamsAdapterPresenter.teamRowSelected(pos);
     }
 
     static class TeamViewHolder extends RecyclerView.ViewHolder {

@@ -365,16 +365,16 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
             showMessage("Joining team coming soon");
             return;
         }
-        teamsAdapter.getTeamsAdapterPresenter().clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
+        teamsAdapter.clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
         teamsListRecyclerView.scrollToPosition(0);
-        teamsAdapter.getTeamsAdapterPresenter().updateTeamsData(teams);
+        teamsAdapter.updateTeamsData(teams);
 
         joinTeamView.setVisibility(View.VISIBLE);
         mainContentView.setVisibility(View.GONE);
     }
 
     private void teamSelectedToJoin() {
-        Team selectedTeam = teamsAdapter.getTeamsAdapterPresenter().getSelectedTeam();
+        Team selectedTeam = teamsAdapter.getSelectedTeam();
         if (selectedTeam == null) {
             showMessage("Please select a team to join");
             return;
