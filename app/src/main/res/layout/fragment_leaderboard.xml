@@ -32,8 +32,7 @@
             android:layout_marginTop="16dp"
             android:gravity="left"
             android:text="My Team Rank"
-            android:textAppearance="@style/TextAppearance.WCF.Headline6"
-            android:textStyle="bold"
+            android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/my_team_separator_top" />
@@ -69,8 +68,7 @@
         android:layout_marginTop="16dp"
         android:gravity="left"
         android:text="Leaderboard"
-        android:textAppearance="@style/TextAppearance.WCF.Headline6"
-        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
         app:layout_constraintEnd_toStartOf="@+id/leaderboard_sort_selector_spinner"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/my_team_leaderboard_container" />
