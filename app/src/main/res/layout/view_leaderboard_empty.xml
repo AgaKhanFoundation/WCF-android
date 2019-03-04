@@ -25,12 +25,10 @@
 
     <Button
         android:id="@+id/refresh_leaderboard"
-        style="@style/primaryButton"
+        style="@style/Widget.WCF.Button.Primary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:elevation="2dp"
         android:gravity="center"
-        android:lineSpacingMultiplier="1"
         android:text="Refresh"
         android:textAppearance="@style/TextAppearance.WCF.Button"
         app:layout_constraintBottom_toBottomOf="parent"
