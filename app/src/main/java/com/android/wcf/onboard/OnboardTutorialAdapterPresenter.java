@@ -1,9 +1,9 @@
 package com.android.wcf.onboard;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class OnboardTutorialAdapterPresenter implements OnboardTutorialAdapterMvp.Presenter {
 
@@ -11,7 +11,7 @@ public class OnboardTutorialAdapterPresenter implements OnboardTutorialAdapterMv
     OnboardTutorialAdapterMvp.Host host;
     List<OnboardTutorialItem> tutorialItems = new ArrayList<>();
 
-    public OnboardTutorialAdapterPresenter(@NotNull OnboardTutorialAdapterMvp.View view, @NotNull OnboardTutorialAdapterMvp.Host host) {
+    public OnboardTutorialAdapterPresenter(@NonNull OnboardTutorialAdapterMvp.View view, @NonNull OnboardTutorialAdapterMvp.Host host) {
         this.view = view;
         this.host = host;
 

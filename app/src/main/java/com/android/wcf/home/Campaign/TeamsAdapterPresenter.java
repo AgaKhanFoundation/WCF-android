@@ -2,10 +2,10 @@ package com.android.wcf.home.Campaign;
 
 import com.android.wcf.model.Team;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 public class TeamsAdapterPresenter implements TeamsAdapterMvp.Presenter {
 
@@ -15,7 +15,7 @@ public class TeamsAdapterPresenter implements TeamsAdapterMvp.Presenter {
 
     int selectedTeamPosition = -1;
 
-    public TeamsAdapterPresenter(@NotNull TeamsAdapterMvp.View view, @NotNull TeamsAdapterMvp.Host host) {
+    public TeamsAdapterPresenter(@NonNull TeamsAdapterMvp.View view, @NonNull TeamsAdapterMvp.Host host) {
         this.view = view;
         this.host = host;
     }
