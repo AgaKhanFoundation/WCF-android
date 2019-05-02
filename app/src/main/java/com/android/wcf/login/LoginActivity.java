@@ -60,6 +60,12 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
 
     LoginButton loginButton;
 
+    public static Intent createIntent(Context context) {
+        Intent intent =  new Intent(context, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

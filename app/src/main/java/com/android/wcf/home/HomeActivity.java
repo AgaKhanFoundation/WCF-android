@@ -4,13 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
+import com.android.wcf.login.LoginActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -32,6 +38,8 @@ public class HomeActivity extends BaseActivity
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
+    private final int SPLASH_TIMER = 3000;
+
     private HomePresenter homePresenter;
     private DashboardFragment dashboardFragment;
     private CampaignFragment campaignFragment;
@@ -39,7 +47,6 @@ public class HomeActivity extends BaseActivity
     private NotificationsFragment notificationsFragment;
 
     private String myFacebookId;
-    private int myParticipantId;
     private int myActiveEventId;
     private int myTeamId;
     private Toolbar toolbar;
@@ -47,7 +54,7 @@ public class HomeActivity extends BaseActivity
     private int currentNavigationId;
 
     public static Intent createIntent(Context context) {
-        Intent intent =  new Intent(context, HomeActivity.class);
+        Intent intent = new Intent(context, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
@@ -87,15 +94,10 @@ public class HomeActivity extends BaseActivity
         setContentView(R.layout.activity_home);
 
         myFacebookId = SharedPreferencesUtil.getMyFacebookId();
-        myParticipantId = SharedPreferencesUtil.getMyParticipantId();
         myActiveEventId = SharedPreferencesUtil.getMyActiveEventId();
         myTeamId = SharedPreferencesUtil.getMyTeamId();
 
         homePresenter = new HomePresenter(this);
-
-        if (myFacebookId == null || TextUtils.isEmpty(myFacebookId)) {
-            //TODO: navigate to login activity
-        }
 
         dashboardFragment = DashboardFragment.newInstance(null, null);
         campaignFragment = CampaignFragment.newInstance(myFacebookId, myActiveEventId, myTeamId);
@@ -103,6 +105,21 @@ public class HomeActivity extends BaseActivity
         notificationsFragment = NotificationsFragment.newInstance(null, null);
 
         setupView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (myActiveEventId < 1 ) {
+            showErrorAndCloseApp(R.string.events_not_selected_error);
+            return;
+        }
+        if (myFacebookId == null || TextUtils.isEmpty(myFacebookId)) {
+            showLoginActivity();
+            finish();
+            return;
+        }
     }
 
     private void setupView() {
@@ -148,12 +165,13 @@ public class HomeActivity extends BaseActivity
         actionBar.setDisplayShowHomeEnabled(show);
     }
 
-    public void setMyFacebookId(String fbid) {
-        this.myFacebookId = fbid;
+    public void showLoginActivity() {
+        Intent intent = LoginActivity.createIntent(this);
+        this.startActivity(intent);
     }
 
-    public void setMyParticipantId(int myParticipantId) {
-        this.myParticipantId = myParticipantId;
+    public void setMyFacebookId(String fbid) {
+        this.myFacebookId = fbid;
     }
 
     public void setMyTeamId(int myTeamId) {
@@ -183,4 +201,16 @@ public class HomeActivity extends BaseActivity
     public void onNotificationFragmentInteraction(Uri uri) {
 
     }
+
+    @Override
+    public void showErrorAndCloseApp(@StringRes int messageId) {
+        showError(messageId);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, SPLASH_TIMER);
+    }
+
 }
