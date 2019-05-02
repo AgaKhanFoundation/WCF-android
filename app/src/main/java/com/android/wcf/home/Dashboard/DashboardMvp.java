@@ -8,8 +8,12 @@ public interface DashboardMvp {
     }
 
     interface Presenter extends BaseMvp.Presenter {
-        void getParticipant(String fbid);
+        void getParticipantDashboard(int participantId);
 
-        void getParticipantStats(String fbid);
+        void getParticipantSponsors(int participantId);
+
+        void getParticipantDonors(int participantId);
+
+        void getParticipantStats(int participantId);
     }
 }

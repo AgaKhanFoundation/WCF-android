@@ -43,4 +43,23 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
         dashboardView.showError(R.string.participants_manager_error, error.getMessage());
     }
 
+    @Override
+    public void getParticipantDashboard(int participantId) {
+
+    }
+
+    @Override
+    public void getParticipantSponsors(int participantId) {
+
+    }
+
+    @Override
+    public void getParticipantDonors(int participantId) {
+
+    }
+
+    @Override
+    public void getParticipantStats(int participantId) {
+
+    }
 }
