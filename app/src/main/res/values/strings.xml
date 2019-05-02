@@ -30,8 +30,6 @@
     <string name="nav_campaign">Campaign</string>
     <string name="nav_leaderboard">Leaderboard</string>
     <string name="nav_notifications">Notifications</string>
-    <string name="teams_manager_error">Teams Manager Error</string>
-    <string name="participants_manager_error">Participants Manager Error</string>
 
     <string name="team_card_my_team_label_text_view_text">My Team</string>
     <string name="team_card_join_team_mesage_text_view_text">Participating in a challenge is always more fun with friends! </string>
@@ -63,5 +61,15 @@
         <item>Continue</item>
         <item>Lets Begin!</item>
     </string-array>
+
+
+    <!--Error messaging -->
+    <string name="data_error">Data retrieval error</string>
+    <string name="events_list_retrieval_error">Could not retrieve events data. Please check network and try again later</string>
+    <string name="events_list_not_setup_error">Server data has not been setup yet. Please try again later</string>
+
+    <string name="teams_manager_error">Teams Manager Error</string>
+    <string name="participants_manager_error">Participants Manager Error</string>
+    <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
 
 </resources>

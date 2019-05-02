@@ -32,37 +32,42 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+
+import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.wcf.R;
+import com.android.wcf.base.BaseActivity;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
+import com.android.wcf.model.Event;
 import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.permissions.ApplicationPermission;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Debug;
-import com.android.wcf.utils.Preferences;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends BaseActivity implements SplashMvp.SplashView {
 
     private static boolean DEBUG = com.android.wcf.utils.Build.DEBUG;
     private ApplicationPermission mApplicationPermission;
     private List<String> mPermissionList;
     private final int SPLASH_TIMER = 3000;
     private Context mContext;
+    private SplashPresenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         mContext = this;
+        presenter = new SplashPresenter(this);
         addPermission();
         if (mApplicationPermission.checkAllPermission()) {
             setSplashDelay();
@@ -80,8 +85,10 @@ public class SplashActivity extends AppCompatActivity {
                     for (int i = 0; i < permissions.length; i++) {
                         if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
                             Debug.info(DEBUG, "Application Permission", permissions[i] + " Permission not granted.");
-                            if (shouldShowRequestPermissionRationale(permissions[i]))
-                                reqPermissionList.add(permissions[i]);
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                if (shouldShowRequestPermissionRationale(permissions[i]))
+                                    reqPermissionList.add(permissions[i]);
+                            }
                         }
                     }
                     if (reqPermissionList.size() == 0) {
@@ -95,20 +102,42 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void navigateToHomeView(Event event) {
+
+        //For V1 of the app, we will assign the users to the first event
+        //later we will provide UI to allow users to select from a list
+
+        int currentEventId = SharedPreferencesUtil.getMyActiveEventId();
+        if (currentEventId == SharedPreferencesUtil.DEFAULT_ACTIVE_EVENT_ID) {
+            SharedPreferencesUtil.saveMyActiveEvent(event.getId());
+        }
+
+        if (!SharedPreferencesUtil.isUserLoggedIn()) {
+            startApp(LoginActivity.class);
+        } else if (SharedPreferencesUtil.getShowOnboardingTutorial()) {
+            startApp(OnboardActivity.class);
+        } else {
+            startApp(HomeActivity.class);
+        }
+    }
+
+    @Override
+    public void showErrorAndCloseApp(@StringRes int messageId) {
+        showError(messageId);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, SPLASH_TIMER);
+    }
+
     private void setSplashDelay() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                if (!SharedPreferencesUtil.isUserLoggedIn()) {
-                    startApp(LoginActivity.class);
-                }
-                else if (SharedPreferencesUtil.getShowOnboardingTutorial()) {
-                    startApp(OnboardActivity.class);
-                }
-                else {
-                    startApp(HomeActivity.class);
-                }
-                finish();
+                presenter.getEventsList();
             }
         }, SPLASH_TIMER);
     }

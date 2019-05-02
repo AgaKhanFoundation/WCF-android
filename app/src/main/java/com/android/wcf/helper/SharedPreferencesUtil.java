@@ -24,9 +24,9 @@ public class SharedPreferencesUtil {
     private static String PREF_NAME_FB_USER_PROFILE_URL = "FB_UuserProfileUrl";
 
     public static final String DEFAULT_FB_ID = "skfbid1";   //TODO: this will be null for not logged-in person
-    public static final int DEFAULT_TEAM_ID = 1;            //TODO: this will be -1 for represent unassigned teamId
-    public static final int DEFAULT_PARTICIPANT_ID = 1;     //TODO: this will be -1 for not logged-in person
-    public static final int DEFAULT_ACTIVE_EVENT_ID = 1;     //TODO: this will be -1 for participants who have not selected event when list is API driven
+    public static final int DEFAULT_TEAM_ID = -1;            //TODO: this will be -1 for represent unassigned teamId
+    public static final int DEFAULT_PARTICIPANT_ID = -1;     //TODO: this will be -1 for not logged-in person
+    public static final int DEFAULT_ACTIVE_EVENT_ID = -1;     //TODO: this will be -1 for participants who have not selected event when list is API driven
 
     public static final int UNKNOWN_ACTIVE_EVENT_ID = -1;
     public static final int UNKNOWN_TEAM_ID = -1;
