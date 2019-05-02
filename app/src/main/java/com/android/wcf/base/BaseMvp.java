@@ -9,6 +9,8 @@ public interface BaseMvp {
 
         void showError(Throwable error);
 
+        void showError(int messageId);
+
         void showError(String message);
 
         void showError(String title, String message);

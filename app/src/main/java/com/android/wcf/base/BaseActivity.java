@@ -13,39 +13,47 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseMvp.
         super.onCreate(savedInstanceState);
     }
 
+    //TODO: implement the proper dialogFragment for showing error messages
+
+    @Override
+    public void showError(int messageId) {
+        Toast.makeText(this, getString(messageId) , Toast.LENGTH_SHORT).show();
+    }
+
+
     @Override
     public void showMessage(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showError(Throwable error) {
-
+        showMessage(error.getMessage());
     }
 
     @Override
     public void showError(String message) {
-
+        showMessage(message);
     }
 
     @Override
     public void showError(String title, String message) {
-
+        showMessage(message);
     }
 
     @Override
     public void showError(String title, int messageId) {
-
+        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showError(int titleId, String message) {
-
+        showMessage(message);
     }
 
     @Override
     public void showError(int titleId, int messageId) {
-
+        Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -67,6 +75,7 @@ public abstract class BaseActivity extends AppCompatActivity implements BaseMvp.
     public void hideLoadingView() {
 
     }
+
 
     @Override
     public void closeKeyboard() {
