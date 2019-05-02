@@ -90,8 +90,8 @@ dependencies {
     implementation 'com.android.installreferrer:installreferrer:1.0'
 
     //Google Play Services
-    implementation "com.google.android.gms:play-services-gcm:${gcmVersion}"
-    implementation "com.google.android.gms:play-services-auth:15.0.1"
+    implementation "com.google.android.gms:play-services-gcm:${playServicesVersion}"
+    implementation "com.google.android.gms:play-services-auth:${playServicesVersion}"
 
     //Facebook
     implementation("com.facebook.android:facebook-android-sdk:${facebookSdkVersion}") {
