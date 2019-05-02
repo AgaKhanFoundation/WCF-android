@@ -18,11 +18,13 @@ import retrofit2.http.POST;
 import retrofit2.http.Path;
 
 public interface WCFApiEndpoints {
-    String WCF_SERVER_URL = "http://40.121.10.181:80/";
 
     /*********** EVENT ***********/
     @GET("events/{id}")
     Single<Event> getEvent(@Path("id") int eventId);
+
+    @GET("events/")
+    Single<List<Event>> getEvents();
 
     /*********** PARTICIPANT ***********/
 

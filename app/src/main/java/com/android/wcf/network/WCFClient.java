@@ -3,14 +3,19 @@ package com.android.wcf.network;
 import android.util.ArrayMap;
 
 import com.android.wcf.BuildConfig;
+import com.android.wcf.helper.typeadapters.DateStringLongConverter;
+import com.android.wcf.helper.typeadapters.DateStringTypeConverter;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
@@ -29,7 +34,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 public class WCFClient {
 
-//    private final static String AKF_WCF_BACKEND_URL = "http://40.121.10.181:80/";
+    //    private final static String AKF_WCF_BACKEND_URL = "http://40.121.10.181:80/";
     private final static String AKF_WCF_BACKEND_URL = "https://sultan.step4change.org/";
 
 
@@ -77,11 +82,15 @@ public class WCFClient {
         httpClientBuilder.connectTimeout(60, TimeUnit.SECONDS);
         final OkHttpClient httpClient = httpClientBuilder.build();
 
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Date.class, new DateStringTypeConverter())
+                .registerTypeAdapter(Long.class, new DateStringLongConverter())
+                .create();
 
         final Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(AKF_WCF_BACKEND_URL)
                 .client(httpClient)
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
 
@@ -90,6 +99,10 @@ public class WCFClient {
 
     public Single<Event> getEvent(int eventId) {
         return wcfApi.getEvent(eventId);
+    }
+
+    public Single<List<Event>> getEvents() {
+        return wcfApi.getEvents();
     }
 
     public Single<Team> createTeam(String teamName) {
@@ -138,7 +151,8 @@ public class WCFClient {
 
     public Single<List<Integer>> updateParticipant(String currentFbid, String newFbid, int teamId, int causeId, int eventId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        if (newFbid != null && !newFbid.isEmpty()) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newFbid);
+        if (newFbid != null && !newFbid.isEmpty())
+            jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newFbid);
         if (teamId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_TEAM_ID, teamId);
         if (causeId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_CAUSE_ID, causeId);
         if (eventId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_EVENT_ID, eventId);
@@ -149,7 +163,7 @@ public class WCFClient {
         return wcfApi.updateParticipant(currentFbid, requestBody);
     }
 
-    public Single<List<Integer>> updateParticipantTrackingSource(String fbid , int sourceId) {
+    public Single<List<Integer>> updateParticipantTrackingSource(String fbid, int sourceId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (sourceId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);
 
