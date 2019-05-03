@@ -24,7 +24,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/journey_view"
+                android:id="@+id/journey_before_start_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/color_white"
@@ -67,7 +67,7 @@
                         android:layout_marginTop="18dp"
                         android:contentDescription="@null"
                         android:gravity="start"
-                        android:text="Your Journey begins in 17 days on Feburary 16, 2019"
+                        android:text=""
                         android:textAppearance="@style/TextAppearance.WCF.Body1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/journey_label"
@@ -78,7 +78,61 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/create_team_view"
+                android:id="@+id/journey_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/color_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp">
+
+                    <ImageView
+                        android:id="@+id/journey_card_icon_journey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_journey"
+                        android:contentDescription="TODO" />
+
+                    <TextView
+                        android:id="@+id/journey_card_journey_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:text="Journey"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/journey_card_icon_journey" />
+
+                    <TextView
+                        android:id="@+id/journey_card_journey_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:contentDescription="@null"
+                        android:gravity="start"
+                        android:text="Your journey started..."
+                        android:textAppearance="@style/TextAppearance.WCF.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/journey_card_journey_label"
+                        tools:text="Your Journey has started" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/create_or_join_team_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
@@ -86,7 +140,7 @@
                 app:cardBackgroundColor="@color/color_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/journey_view">
+                app:layout_constraintTop_toBottomOf="@id/journey_before_start_card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -160,6 +214,50 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/show_create_team_button" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/my_team_card"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                android:layout_marginTop="18dp"
+                app:cardBackgroundColor="@color/color_white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/journey_before_start_card">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="18dp"
+                    android:layout_marginRight="18dp">
+
+                    <ImageView
+                        android:id="@+id/team_view_team_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="18dp"
+                        android:src="@drawable/icon_team"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:contentDescription="TODO" />
+
+                    <TextView
+                        android:id="@+id/team_view_team_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="18dp"
+                        android:gravity="start"
+                        android:lineSpacingMultiplier="1.33"
+                        android:text="My team"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/team_view_team_icon" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

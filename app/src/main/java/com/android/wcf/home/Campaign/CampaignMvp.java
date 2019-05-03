@@ -9,23 +9,35 @@ import java.util.List;
 public interface CampaignMvp {
     interface CampaignView extends BaseMvp.BaseView {
 
+        void hideJourneyBeforeStartCard();
+        void showJourneyBeforeStartCard(Event event);
+
+        void hideJourneyDetails();
+        void showJourneyDetails(Event event);
+
+        void hideCreateOrJoinTeamCard();
+        void showCreateOrJoinTeamCard();
+
         void onFacebookIdMissing();
 
-        void showJourney(Event event);
+        void showCreateNewTeamView();
+
+
+        void showMyTeamCard(Team team);
+        void hideTeamCard();
+
+        void hideCreateNewTeamView();
+
+        void teamCreated(Team team);
+
+        void showTeamList(List<Team> teams);
 
         void enableShowCreateTeam(boolean enabledFlag);
 
         void enableJoinExistingTeam(boolean enabledFlag);
 
-        void showCreateNewTeamView();
-
-        void showTeamList(List<Team> teams);
-
         void participantJoinedTeam(String fbid, int teamId);
 
-        void hideCreateNewTeamView();
-
-        void teamCreated(Team team);
     }
 
     interface Presenter extends BaseMvp.Presenter {

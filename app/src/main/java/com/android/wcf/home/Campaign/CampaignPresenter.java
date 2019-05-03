@@ -19,10 +19,12 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     Event event;
     Participant participant = null;
     Stats participantStats = null;
-
     List<Team> teams = null;
     Team team = null;
     Stats teamStats = null;
+
+    boolean teamRetrieved = false;
+    boolean eventRetrieved = false;
 
     public CampaignPresenter(CampaignMvp.CampaignView view) {
         this.campaignView = view;
@@ -38,9 +40,61 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     }
 
     @Override
+    public void getEvent(int eventId) {
+        if (eventId > 0) {
+            super.getEvent(eventId);
+        } else {
+            eventRetrieved = true;
+            checkAndShowJourneySection();
+            checkAndShowTeamSection();
+        }
+    }
+
+    @Override
     protected void onGetEventSuccess(Event event) {
         super.onGetEventSuccess(event);
-        campaignView.showJourney(event);
+        eventRetrieved = true;
+        this.event = event;
+        checkAndShowJourneySection();
+        checkAndShowTeamSection();
+    }
+
+    private void checkAndShowTeamSection() {
+        if (teamRetrieved) {
+            if (team == null) {
+                campaignView.hideTeamCard();
+                if (eventRetrieved && event != null) {
+                    if (event.daysToStartEvent() > 0 &&  !event.hasTeamBuildingEnded()) {
+                        campaignView.showCreateOrJoinTeamCard();
+                    } else {
+                        campaignView.hideCreateOrJoinTeamCard();
+                    }
+                }
+            } else {
+                campaignView.hideCreateOrJoinTeamCard();
+                campaignView.showMyTeamCard(team);
+            }
+        }
+    }
+
+    private void checkAndShowJourneySection() {
+        if (eventRetrieved) {
+            if (event != null) {
+                if (event.daysToStartEvent() > 0) {
+                    campaignView.hideJourneyDetails();
+
+                    if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {
+                        campaignView.hideJourneyBeforeStartCard();
+                    } else {
+                        campaignView.showJourneyBeforeStartCard(event);
+                    }
+                } else {
+                    campaignView.showJourneyDetails(event);
+                }
+            } else {
+                campaignView.hideJourneyDetails();
+            }
+        }
     }
 
     @Override
@@ -49,52 +103,30 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     }
 
     @Override
-    protected void onCreateParticipantSuccess(Participant participant) {
-        super.onCreateParticipantSuccess(participant);
-        this.participant = participant;
-
+    public void getTeam(int id) {
+        if (id > 0) {
+            super.getTeam(id);
+        } else {
+            teamRetrieved = true;
+            checkAndShowJourneySection();
+            checkAndShowTeamSection();
+        }
     }
 
     @Override
-    protected void onCreateParticipantError(Throwable error) {
-        super.onCreateParticipantError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+    protected void onGetTeamSuccess(Team team) {
+        super.onGetTeamSuccess(team);
+        this.team = team;
+        teamRetrieved = true;
+
+        checkAndShowJourneySection();
+        checkAndShowTeamSection();
     }
 
     @Override
-    protected void onGetParticipantSuccess(Participant participant) {
-        super.onGetParticipantSuccess(participant);
-        this.participant = participant;
-    }
-
-    @Override
-    protected void onGetParticipantError(Throwable error) {
-        super.onGetParticipantError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
-    }
-
-    @Override
-    protected void onGetParticipantStatsSuccess(Stats stats) {
-        super.onGetParticipantStatsSuccess(stats);
-        participantStats = stats;
-    }
-
-    @Override
-    protected void onGetParticipantStatsError(Throwable error) {
-        super.onGetParticipantStatsError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
-    }
-
-
-    @Override
-    protected void onDeleteParticipantSuccess(Integer count) {
-        super.onDeleteParticipantSuccess(count);
-    }
-
-    @Override
-    protected void onDeleteParticipantError(Throwable error) {
-        super.onDeleteParticipantError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+    protected void onGetTeamError(Throwable error) {
+        super.onGetTeamError(error);
+        campaignView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
     @Override
@@ -128,18 +160,6 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
         campaignView.enableShowCreateTeam(true);
         campaignView.enableJoinExistingTeam(false);
 
-        campaignView.showError(R.string.teams_manager_error, error.getMessage());
-    }
-
-    @Override
-    protected void onGetTeamSuccess(Team team) {
-        super.onGetTeamSuccess(team);
-        this.team = team;
-    }
-
-    @Override
-    protected void onGetTeamError(Throwable error) {
-        super.onGetTeamError(error);
         campaignView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
@@ -194,8 +214,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
         super.onAssignParticipantToTeamSuccess(results, fbid, teamId);
         if (results != null && results.size() == 1) {
             campaignView.participantJoinedTeam(fbid, teamId);
-        }
-        else {
+        } else {
             campaignView.showError("Unable to assign to team. Please try again");
         }
     }
@@ -205,4 +224,53 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
         super.onAssignParticipantToTeamError(error, fbid, teamId);
         campaignView.showError(R.string.participants_manager_error, error.getMessage());
     }
+
+
+    @Override
+    protected void onCreateParticipantSuccess(Participant participant) {
+        super.onCreateParticipantSuccess(participant);
+        this.participant = participant;
+    }
+
+    @Override
+    protected void onCreateParticipantError(Throwable error) {
+        super.onCreateParticipantError(error);
+        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+    }
+
+    @Override
+    protected void onGetParticipantSuccess(Participant participant) {
+        super.onGetParticipantSuccess(participant);
+        this.participant = participant;
+    }
+
+    @Override
+    protected void onGetParticipantError(Throwable error) {
+        super.onGetParticipantError(error);
+        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+    }
+
+    @Override
+    protected void onGetParticipantStatsSuccess(Stats stats) {
+        super.onGetParticipantStatsSuccess(stats);
+        participantStats = stats;
+    }
+
+    @Override
+    protected void onGetParticipantStatsError(Throwable error) {
+        super.onGetParticipantStatsError(error);
+        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+    }
+
+    @Override
+    protected void onDeleteParticipantSuccess(Integer count) {
+        super.onDeleteParticipantSuccess(count);
+    }
+
+    @Override
+    protected void onDeleteParticipantError(Throwable error) {
+        super.onDeleteParticipantError(error);
+        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+    }
+
 }

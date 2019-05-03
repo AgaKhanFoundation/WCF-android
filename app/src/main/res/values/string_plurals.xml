@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="days_to_event_start">
+        <item quantity="zero">Your journey starts today</item>
+        <item quantity="one">Your journey starts tommorrow</item>
+        <item quantity="other">Your journey starts in %1$d days on %2$s</item>
+    </plurals>
+</resources>
