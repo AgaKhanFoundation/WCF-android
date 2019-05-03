@@ -408,7 +408,7 @@ public abstract class BasePresenter {
 
     /***** PARTICPANT TO TEAM API ******/
     public void assignParticipantToTeam(final String fbid, final int teamId) {
-        wcfClient.updateParticipant(fbid, null, teamId, 0, 0)
+            wcfClient.updateParticipant(fbid, null, teamId, 0, 0, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<Integer>>() {
@@ -433,6 +433,33 @@ public abstract class BasePresenter {
         Log.e(TAG, "assignParticipantToTeam(fbid, teamId) Error: " + error.getMessage());
     }
 
+
+    /***** PARTICPANT TO Event API ******/
+    public void assignParticipantToEvent(final String fbid, final int eventId, final int causeId, final int localityId ) {
+        wcfClient.updateParticipant(fbid, null, 0, 0, 0, eventId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onAssignParticipantToEventSuccess(results, fbid, eventId, causeId, localityId);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onAssignParticipantToEventError(error, fbid, eventId, causeId, localityId);
+                    }
+                });
+    }
+
+    protected void onAssignParticipantToEventSuccess(List<Integer> results, String fbid, final int eventId, final int causeId, final int localityId) {
+        Log.d(TAG, "onAssignParticipantToEventSuccess success: " + results.get(0));
+
+    }
+
+    protected void onAssignParticipantToEventError(Throwable error, String fbid, final int eventId, final int causeId, final int localityId) {
+        Log.e(TAG, "onAssignParticipantToEventError(fbid, eventId, causeId, localityId) Error: " + error.getMessage());
+    }
 }
 
 

@@ -149,12 +149,13 @@ public class WCFClient {
         return wcfApi.getParticipantStats(fbid);
     }
 
-    public Single<List<Integer>> updateParticipant(String currentFbid, String newFbid, int teamId, int causeId, int eventId) {
+    public Single<List<Integer>> updateParticipant(String currentFbid, String newFbid, int teamId, int causeId, int localityId, int eventId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (newFbid != null && !newFbid.isEmpty())
             jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newFbid);
         if (teamId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_TEAM_ID, teamId);
         if (causeId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_CAUSE_ID, causeId);
+        if (localityId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_LOCALITY_ID, localityId);
         if (eventId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_EVENT_ID, eventId);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
