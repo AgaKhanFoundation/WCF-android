@@ -409,6 +409,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
 
         teamLeadNameEditText = view.findViewById(R.id.team_lead_name);
         if (teamLeadNameEditText != null) {
+            teamLeadNameEditText.setText(SharedPreferencesUtil.getUserFullName());
             teamLeadNameEditText.addTextChangedListener(creatTeamEditWatcher);
         }
     }

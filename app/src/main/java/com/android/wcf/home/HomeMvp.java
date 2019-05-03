@@ -14,6 +14,8 @@ public interface HomeMvp {
         void onGetParticipantNotFound();
 
         void onParticipantCreated(Participant participant);
+
+        void onAssignedParticipantToEvent(String fbId, int eventId);
     }
 
     interface HomePresenter {

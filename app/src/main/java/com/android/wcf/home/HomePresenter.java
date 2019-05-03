@@ -66,6 +66,7 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     @Override
     public void updateParticipantEvent(String fbId, int eventId) {
         super.assignParticipantToEvent(fbId, eventId, 0, 0);
+        homeView.onAssignedParticipantToEvent(fbId, eventId);
 
     }
 }

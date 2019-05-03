@@ -75,17 +75,25 @@ public class HomeActivity extends BaseActivity
 
             switch (item.getItemId()) {
                 case R.id.nav_dashboard:
-                    loadFragment(dashboardFragment, getString(R.string.nav_dashboard), R.id.nav_dashboard);
+                    if (dashboardFragment != null) {
+                        loadFragment(dashboardFragment, getString(R.string.nav_dashboard), R.id.nav_dashboard);
+                    }
                     return true;
                 case R.id.nav_campaign:
-                    loadFragment(campaignFragment, getString(R.string.nav_campaign), R.id.nav_campaign);
+                    if (campaignFragment != null) {
+                        loadFragment(campaignFragment, getString(R.string.nav_campaign), R.id.nav_campaign);
+                    }
                     return true;
                 case R.id.nav_leaderboard:
-                    loadFragment(leaderboardFragment, getString(R.string.nav_leaderboard), R.id.nav_leaderboard);
-                    leaderboardFragment.setMyTeamId(myTeamId);
+                    if (leaderboardFragment != null) {
+                        loadFragment(leaderboardFragment, getString(R.string.nav_leaderboard), R.id.nav_leaderboard);
+                        leaderboardFragment.setMyTeamId(myTeamId);
+                    }
                     return true;
                 case R.id.nav_notifications:
-                    loadFragment(notificationsFragment, getString(R.string.nav_notifications), R.id.nav_notifications);
+                    if (notificationsFragment != null) {
+                        loadFragment(notificationsFragment, getString(R.string.nav_notifications), R.id.nav_notifications);
+                    }
                     return true;
             }
 
@@ -103,11 +111,6 @@ public class HomeActivity extends BaseActivity
         myTeamId = SharedPreferencesUtil.getMyTeamId();
 
         homePresenter = new HomePresenter(this);
-
-        dashboardFragment = DashboardFragment.newInstance(null, null);
-        campaignFragment = CampaignFragment.newInstance(myFacebookId, myActiveEventId, myTeamId);
-        leaderboardFragment = LeaderboardFragment.newInstance(myTeamId);
-        notificationsFragment = NotificationsFragment.newInstance(null, null);
 
         setupView();
     }
@@ -135,7 +138,6 @@ public class HomeActivity extends BaseActivity
 
         BottomNavigationView navigation = findViewById(R.id.home_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.nav_campaign);
     }
 
     private void loadFragment(Fragment fragment, String title, int navItemId) {
@@ -224,8 +226,20 @@ public class HomeActivity extends BaseActivity
         if (participant == null) {
             return;
         }
+        Integer participantTeamId = participant.getTeamId();
+        if (participantTeamId == null && myTeamId > 0) {
+            myTeamId = 0;
+            homePresenter.participantLeaveFromTeam(myFacebookId);
+        }
+        else if (participantTeamId != null) {
+            myTeamId = participantTeamId; // team must have been assigned remotely
+        }
+
         if (participant.getEventId() == null || participant.getEventId() != myActiveEventId ) {
             homePresenter.updateParticipantEvent(myFacebookId, myActiveEventId);
+        }
+        else {
+            addNavigationFragments();
         }
     }
 
@@ -237,5 +251,30 @@ public class HomeActivity extends BaseActivity
     @Override
     public void onParticipantCreated(Participant participant) {
         homePresenter.updateParticipantEvent(myFacebookId, myActiveEventId);
+    }
+
+    @Override
+    public void onAssignedParticipantToEvent(String fbId, int eventId) {
+        addNavigationFragments();
+    }
+
+    protected void addNavigationFragments() {
+        if (dashboardFragment == null) {
+            dashboardFragment = DashboardFragment.newInstance(null, null);
+        }
+        if (notificationsFragment == null) {
+            notificationsFragment = NotificationsFragment.newInstance(null, null);
+        }
+
+        if (campaignFragment == null) {
+            campaignFragment = CampaignFragment.newInstance(myFacebookId, myActiveEventId, myTeamId);
+        }
+        if (leaderboardFragment == null) {
+            leaderboardFragment = LeaderboardFragment.newInstance(myTeamId);
+        }
+
+        BottomNavigationView navigation = findViewById(R.id.home_navigation);
+        navigation.setSelectedItemId(R.id.nav_campaign);
+
     }
 }

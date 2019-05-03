@@ -433,6 +433,32 @@ public abstract class BasePresenter {
         Log.e(TAG, "assignParticipantToTeam(fbid, teamId) Error: " + error.getMessage());
     }
 
+    public void participantLeaveFromTeam(final String fbid) {
+        wcfClient.updateParticipantLeaveTeam(fbid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onParticipantLeaveFromTeamSuccess(results, fbid);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onParticipantLeaveFromTeamError(error, fbid);
+                    }
+                });
+    }
+
+    protected void onParticipantLeaveFromTeamSuccess(List<Integer> results, String fbid) {
+        Log.d(TAG, "onParticipantLeaveFromTeamSuccess success: " + results.get(0));
+
+    }
+
+    protected void onParticipantLeaveFromTeamError(Throwable error, String fbid) {
+        Log.e(TAG, "onParticipantLeaveFromTeamError(fbid) Error: " + error.getMessage());
+    }
+
 
     /***** PARTICPANT TO Event API ******/
     public void assignParticipantToEvent(final String fbid, final int eventId, final int causeId, final int localityId ) {
