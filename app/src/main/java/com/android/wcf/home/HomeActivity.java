@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 
 import com.android.wcf.login.LoginActivity;
+import com.android.wcf.model.Participant;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.StringRes;
@@ -47,6 +48,10 @@ public class HomeActivity extends BaseActivity
     private NotificationsFragment notificationsFragment;
 
     private String myFacebookId;
+    private String myFbEmail;
+    private String myFacebookName;
+    private String myFacebookProfileUrl;
+
     private int myActiveEventId;
     private int myTeamId;
     private Toolbar toolbar;
@@ -120,6 +125,7 @@ public class HomeActivity extends BaseActivity
             finish();
             return;
         }
+        homePresenter.getParticipant(myFacebookId);
     }
 
     private void setupView() {
@@ -213,4 +219,23 @@ public class HomeActivity extends BaseActivity
         }, SPLASH_TIMER);
     }
 
+    @Override
+    public void onGetParticipant(Participant participant) {
+        if (participant == null) {
+            return;
+        }
+        if (participant.getEventId() == null || participant.getEventId() != myActiveEventId ) {
+            homePresenter.updateParticipantEvent(myFacebookId, myActiveEventId);
+        }
+    }
+
+    @Override
+    public void onGetParticipantNotFound() {
+        homePresenter.createParticipant(myFacebookId);
+    }
+
+    @Override
+    public void onParticipantCreated(Participant participant) {
+        homePresenter.updateParticipantEvent(myFacebookId, myActiveEventId);
+    }
 }
