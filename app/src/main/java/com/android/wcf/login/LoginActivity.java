@@ -100,6 +100,7 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                                     Log.d("access only Token is", String.valueOf(token.getToken()));
 
                                     userId = object.getString("id");
+                                    userName = object.getString("name");
                                     userEmail = object.getString("email");
                                     userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
 
