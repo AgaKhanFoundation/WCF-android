@@ -2,12 +2,12 @@ package com.android.wcf.home;
 
 import android.util.Log;
 
+import com.android.wcf.home.Leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
-import com.android.wcf.home.Leaderboard.LeaderboardTeam;
 import com.android.wcf.network.WCFClient;
 
 import java.util.ArrayList;
@@ -25,6 +25,32 @@ public abstract class BasePresenter {
     private WCFClient wcfClient = WCFClient.getInstance();
 
     /******* EVENT API ***********/
+
+    public void getEventsList() {
+        wcfClient.getEvents()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Event>>() {
+                    @Override
+                    public void onSuccess(List<Event> events) {
+                        onGetEventsListSuccess(events);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onGetEventsListError(error);
+                    }
+                });
+    }
+
+    protected void onGetEventsListSuccess(List<Event> events) {
+        Log.d(TAG, "onGetEventsListSuccess");
+    }
+
+    protected void onGetEventsListError(Throwable error) {
+        Log.e(TAG, "onGetEventsListError: " + error.getMessage());
+    }
+
     public void getEvent(int eventId) {
         wcfClient.getEvent(eventId)
                 .subscribeOn(Schedulers.io())
@@ -34,14 +60,13 @@ public abstract class BasePresenter {
                     public void onSuccess(Event event) {
                         onGetEventSuccess(event);
                     }
+
                     @Override
                     public void onError(Throwable error) {
                         onGetEventError(error);
                     }
                 });
-
     }
-
 
     protected void onGetEventSuccess(Event event) {
         Log.d(TAG, "onGetEventSuccess");
@@ -158,6 +183,7 @@ public abstract class BasePresenter {
         Log.e(TAG, "onDeleteParticipantError Error: " + error.getMessage());
 
     }
+
     /******* TEAM API   ******/
     public void createTeam(String teamName) {
         wcfClient.createTeam(teamName)
@@ -264,7 +290,7 @@ public abstract class BasePresenter {
 
     protected List<LeaderboardTeam> extractTeamStats(List<Team> teams) {
         List<LeaderboardTeam> leaderboardTeamList = new ArrayList<>();
-        for (Team team : teams){
+        for (Team team : teams) {
             LeaderboardTeam leaderboardTeam = extractTeamStats(team);
             if (leaderboardTeam != null) {
                 leaderboardTeamList.add(leaderboardTeam);
@@ -276,9 +302,9 @@ public abstract class BasePresenter {
     }
 
     public void rankLeaderboard(List<LeaderboardTeam> leaderboard) {
-        Collections.sort( leaderboard, LeaderboardTeam.SORT_BY_STEPS_COMPLETED);
-        for (int index = 0; index < leaderboard.size(); index++ ){
-            leaderboard.get(index).setRank(index+1);
+        Collections.sort(leaderboard, LeaderboardTeam.SORT_BY_STEPS_COMPLETED);
+        for (int index = 0; index < leaderboard.size(); index++) {
+            leaderboard.get(index).setRank(index + 1);
         }
     }
 
@@ -287,16 +313,10 @@ public abstract class BasePresenter {
             return null;
         }
 
-        int participantsCount = 0
-                , rank = 0
-                , spotsAvailable = 0
-                , stepsPledged = 0
-                , stepsCompleted = 0
-                , distancePledged = 0
-                , distanceCompleted = 0;
+        int participantsCount = 0, rank = 0, spotsAvailable = 0, stepsPledged = 0, stepsCompleted = 0, distancePledged = 0, distanceCompleted = 0;
 
 
-        float  amountPledged, amountAccrued;
+        float amountPledged, amountAccrued;
 
         float avgPledgePer10kSteps;
 
@@ -307,13 +327,13 @@ public abstract class BasePresenter {
         }
         stepsPledged = (int) (Math.random() * (100000 - 10000)) + 10000;
         stepsCompleted = (int) (stepsPledged * Math.random());
-        distancePledged = Math.round( stepsPledged / Constants.STEPS_IN_A_MILE);
-        distanceCompleted = Math.round( stepsCompleted / Constants.STEPS_IN_A_MILE);
+        distancePledged = Math.round(stepsPledged / Constants.STEPS_IN_A_MILE);
+        distanceCompleted = Math.round(stepsCompleted / Constants.STEPS_IN_A_MILE);
         avgPledgePer10kSteps = ((int) (Math.random() * (1000 - 100)) + 100) / 100;
         amountPledged = (stepsPledged / Constants.STEPS_PER_UNIT_OF_DONATION) * avgPledgePer10kSteps;
         amountAccrued = (stepsCompleted / Constants.STEPS_PER_UNIT_OF_DONATION) * avgPledgePer10kSteps;
 
-        rank = (int) (Math.random() * 15 );
+        rank = (int) (Math.random() * 15);
 
         LeaderboardTeam leaderboardTeam = new LeaderboardTeam(
                 rank
@@ -388,7 +408,7 @@ public abstract class BasePresenter {
 
     /***** PARTICPANT TO TEAM API ******/
     public void assignParticipantToTeam(final String fbid, final int teamId) {
-        wcfClient.updateParticipant(fbid, null, teamId, 0, 0)
+            wcfClient.updateParticipant(fbid, null, teamId, 0, 0, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<Integer>>() {
@@ -413,6 +433,59 @@ public abstract class BasePresenter {
         Log.e(TAG, "assignParticipantToTeam(fbid, teamId) Error: " + error.getMessage());
     }
 
+    public void participantLeaveFromTeam(final String fbid) {
+        wcfClient.updateParticipantLeaveTeam(fbid)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onParticipantLeaveFromTeamSuccess(results, fbid);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onParticipantLeaveFromTeamError(error, fbid);
+                    }
+                });
+    }
+
+    protected void onParticipantLeaveFromTeamSuccess(List<Integer> results, String fbid) {
+        Log.d(TAG, "onParticipantLeaveFromTeamSuccess success: " + results.get(0));
+
+    }
+
+    protected void onParticipantLeaveFromTeamError(Throwable error, String fbid) {
+        Log.e(TAG, "onParticipantLeaveFromTeamError(fbid) Error: " + error.getMessage());
+    }
+
+
+    /***** PARTICPANT TO Event API ******/
+    public void assignParticipantToEvent(final String fbid, final int eventId, final int causeId, final int localityId ) {
+        wcfClient.updateParticipant(fbid, null, 0, 0, 0, eventId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onAssignParticipantToEventSuccess(results, fbid, eventId, causeId, localityId);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onAssignParticipantToEventError(error, fbid, eventId, causeId, localityId);
+                    }
+                });
+    }
+
+    protected void onAssignParticipantToEventSuccess(List<Integer> results, String fbid, final int eventId, final int causeId, final int localityId) {
+        Log.d(TAG, "onAssignParticipantToEventSuccess success: " + results.get(0));
+
+    }
+
+    protected void onAssignParticipantToEventError(Throwable error, String fbid, final int eventId, final int causeId, final int localityId) {
+        Log.e(TAG, "onAssignParticipantToEventError(fbid, eventId, causeId, localityId) Error: " + error.getMessage());
+    }
 }
 
 

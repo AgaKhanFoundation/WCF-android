@@ -7,7 +7,7 @@ buildscript {
         google()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.0'
+        classpath 'com.android.tools.build:gradle:3.3.2'
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
@@ -40,7 +40,7 @@ ext {
     constraintLayoutVersion = '2.0.0-alpha3'
 
     //Google Play Services
-    gcmVersion = '15.0.1'
+    playServicesVersion = '15.0.1'
 
     //Facebook
     facebookSdkVersion = '4.39.0'

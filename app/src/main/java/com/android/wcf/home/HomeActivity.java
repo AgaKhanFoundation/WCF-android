@@ -4,13 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.annotation.NonNull;
 
+import com.android.wcf.login.LoginActivity;
+import com.android.wcf.model.Participant;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
+
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -32,6 +39,8 @@ public class HomeActivity extends BaseActivity
     private static final String TAG = HomeActivity.class.getSimpleName();
     private static final String BACK_STACK_ROOT_TAG = "root_fragment";
 
+    private final int SPLASH_TIMER = 3000;
+
     private HomePresenter homePresenter;
     private DashboardFragment dashboardFragment;
     private CampaignFragment campaignFragment;
@@ -39,7 +48,10 @@ public class HomeActivity extends BaseActivity
     private NotificationsFragment notificationsFragment;
 
     private String myFacebookId;
-    private int myParticipantId;
+    private String myFbEmail;
+    private String myFacebookName;
+    private String myFacebookProfileUrl;
+
     private int myActiveEventId;
     private int myTeamId;
     private Toolbar toolbar;
@@ -47,7 +59,7 @@ public class HomeActivity extends BaseActivity
     private int currentNavigationId;
 
     public static Intent createIntent(Context context) {
-        Intent intent =  new Intent(context, HomeActivity.class);
+        Intent intent = new Intent(context, HomeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
@@ -63,17 +75,25 @@ public class HomeActivity extends BaseActivity
 
             switch (item.getItemId()) {
                 case R.id.nav_dashboard:
-                    loadFragment(dashboardFragment, getString(R.string.nav_dashboard), R.id.nav_dashboard);
+                    if (dashboardFragment != null) {
+                        loadFragment(dashboardFragment, getString(R.string.nav_dashboard), R.id.nav_dashboard);
+                    }
                     return true;
                 case R.id.nav_campaign:
-                    loadFragment(campaignFragment, getString(R.string.nav_campaign), R.id.nav_campaign);
+                    if (campaignFragment != null) {
+                        loadFragment(campaignFragment, getString(R.string.nav_campaign), R.id.nav_campaign);
+                    }
                     return true;
                 case R.id.nav_leaderboard:
-                    loadFragment(leaderboardFragment, getString(R.string.nav_leaderboard), R.id.nav_leaderboard);
-                    leaderboardFragment.setMyTeamId(myTeamId);
+                    if (leaderboardFragment != null) {
+                        loadFragment(leaderboardFragment, getString(R.string.nav_leaderboard), R.id.nav_leaderboard);
+                        leaderboardFragment.setMyTeamId(myTeamId);
+                    }
                     return true;
                 case R.id.nav_notifications:
-                    loadFragment(notificationsFragment, getString(R.string.nav_notifications), R.id.nav_notifications);
+                    if (notificationsFragment != null) {
+                        loadFragment(notificationsFragment, getString(R.string.nav_notifications), R.id.nav_notifications);
+                    }
                     return true;
             }
 
@@ -87,22 +107,28 @@ public class HomeActivity extends BaseActivity
         setContentView(R.layout.activity_home);
 
         myFacebookId = SharedPreferencesUtil.getMyFacebookId();
-        myParticipantId = SharedPreferencesUtil.getMyParticipantId();
         myActiveEventId = SharedPreferencesUtil.getMyActiveEventId();
         myTeamId = SharedPreferencesUtil.getMyTeamId();
 
         homePresenter = new HomePresenter(this);
 
-        if (myFacebookId == null || TextUtils.isEmpty(myFacebookId)) {
-            //TODO: navigate to login activity
-        }
-
-        dashboardFragment = DashboardFragment.newInstance(null, null);
-        campaignFragment = CampaignFragment.newInstance(myFacebookId, myActiveEventId, myTeamId);
-        leaderboardFragment = LeaderboardFragment.newInstance(myTeamId);
-        notificationsFragment = NotificationsFragment.newInstance(null, null);
-
         setupView();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (myActiveEventId < 1 ) {
+            showErrorAndCloseApp(R.string.events_not_selected_error);
+            return;
+        }
+        if (myFacebookId == null || TextUtils.isEmpty(myFacebookId)) {
+            showLoginActivity();
+            finish();
+            return;
+        }
+        homePresenter.getParticipant(myFacebookId);
     }
 
     private void setupView() {
@@ -112,7 +138,6 @@ public class HomeActivity extends BaseActivity
 
         BottomNavigationView navigation = findViewById(R.id.home_navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.nav_campaign);
     }
 
     private void loadFragment(Fragment fragment, String title, int navItemId) {
@@ -148,12 +173,13 @@ public class HomeActivity extends BaseActivity
         actionBar.setDisplayShowHomeEnabled(show);
     }
 
-    public void setMyFacebookId(String fbid) {
-        this.myFacebookId = fbid;
+    public void showLoginActivity() {
+        Intent intent = LoginActivity.createIntent(this);
+        this.startActivity(intent);
     }
 
-    public void setMyParticipantId(int myParticipantId) {
-        this.myParticipantId = myParticipantId;
+    public void setMyFacebookId(String fbid) {
+        this.myFacebookId = fbid;
     }
 
     public void setMyTeamId(int myTeamId) {
@@ -181,6 +207,74 @@ public class HomeActivity extends BaseActivity
 
     @Override
     public void onNotificationFragmentInteraction(Uri uri) {
+
+    }
+
+    @Override
+    public void showErrorAndCloseApp(@StringRes int messageId) {
+        showError(messageId);
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, SPLASH_TIMER);
+    }
+
+    @Override
+    public void onGetParticipant(Participant participant) {
+        if (participant == null) {
+            return;
+        }
+        Integer participantTeamId = participant.getTeamId();
+        if (participantTeamId == null && myTeamId > 0) {
+            myTeamId = 0;
+            homePresenter.participantLeaveFromTeam(myFacebookId);
+        }
+        else if (participantTeamId != null) {
+            myTeamId = participantTeamId; // team must have been assigned remotely
+        }
+
+        if (participant.getEventId() == null || participant.getEventId() != myActiveEventId ) {
+            homePresenter.updateParticipantEvent(myFacebookId, myActiveEventId);
+        }
+        else {
+            addNavigationFragments();
+        }
+    }
+
+    @Override
+    public void onGetParticipantNotFound() {
+        homePresenter.createParticipant(myFacebookId);
+    }
+
+    @Override
+    public void onParticipantCreated(Participant participant) {
+        homePresenter.updateParticipantEvent(myFacebookId, myActiveEventId);
+    }
+
+    @Override
+    public void onAssignedParticipantToEvent(String fbId, int eventId) {
+        addNavigationFragments();
+    }
+
+    protected void addNavigationFragments() {
+        if (dashboardFragment == null) {
+            dashboardFragment = DashboardFragment.newInstance(null, null);
+        }
+        if (notificationsFragment == null) {
+            notificationsFragment = NotificationsFragment.newInstance(null, null);
+        }
+
+        if (campaignFragment == null) {
+            campaignFragment = CampaignFragment.newInstance(myFacebookId, myActiveEventId, myTeamId);
+        }
+        if (leaderboardFragment == null) {
+            leaderboardFragment = LeaderboardFragment.newInstance(myTeamId);
+        }
+
+        BottomNavigationView navigation = findViewById(R.id.home_navigation);
+        navigation.setSelectedItemId(R.id.nav_campaign);
 
     }
 }

@@ -16,6 +16,14 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     public BaseFragment() {
     }
 
+    //TODO: implement the proper dialogFragment for showing error messages
+
+    @Override
+    public void showError(int messageId) {
+        Toast.makeText(getContext(), getString(messageId) , Toast.LENGTH_SHORT).show();
+    }
+
+
     @Override
     public void showMessage(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
@@ -38,6 +46,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
 
     @Override
     public void showError(String title, int messageId) {
+        Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -47,7 +56,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
 
     @Override
     public void showError(int titleId, int messageId) {
-
+        Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     @Override

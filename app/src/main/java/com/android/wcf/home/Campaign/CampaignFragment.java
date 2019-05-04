@@ -3,12 +3,15 @@ package com.android.wcf.home.Campaign;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -16,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.wcf.R;
@@ -52,8 +56,16 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     FragmentHost mHostingParent;
 
     /* UI elements */
+
     private View mainContentView = null;
+    private View journeyBeforeStartCard = null;
+    private View journeyCard = null;
+
+    private View createOrJoinTeamCard = null;
+    private View myTeamCard = null;
+
     private View newTeamView = null;
+
     private View joinTeamView = null;
 
     private Button showCreateTeamButton = null;
@@ -122,6 +134,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         super.onStart();
         Log.d(TAG, "onStart");
         campaignPresenter.getEvent(activeEventId);
+        campaignPresenter.getTeam(teamId);
     }
 
     @Override
@@ -170,7 +183,6 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         mHostingParent = null;
     }
 
-
     @Override
     public void onFacebookIdMissing() {
         Toast.makeText(getContext(), "FacebookId needed. Please login", Toast.LENGTH_SHORT).show();
@@ -178,20 +190,131 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     }
 
     @Override
-    public void showJourney(Event event) {
+    public void hideJourneyBeforeStartCard() {
+        journeyBeforeStartCard = mainContentView.findViewById(R.id.journey_before_start_card);
+        if (journeyBeforeStartCard != null && journeyBeforeStartCard.getVisibility() != View.GONE) {
+            journeyBeforeStartCard.setVisibility(View.GONE);
+        }
+    }
 
+    @Override
+    public void showJourneyBeforeStartCard(Event event) {
+        journeyBeforeStartCard = mainContentView.findViewById(R.id.journey_before_start_card);
+        if (journeyBeforeStartCard != null) {
+
+            if (event != null) {
+                //update view data
+                TextView journeyText = journeyBeforeStartCard.findViewById(R.id.journey_text);
+                int daysToStart = event.daysToStartEvent();
+                int flags = DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR;
+                String formattedStartDate = DateUtils.formatDateTime(getContext(), event.getStartDate().getTime(), flags);
+                String msg = getResources().getQuantityString(R.plurals.days_to_event_start, daysToStart, daysToStart, formattedStartDate);
+                journeyText.setText(msg);
+            }
+
+            if (journeyBeforeStartCard.getVisibility() != View.VISIBLE) {
+                journeyBeforeStartCard.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+    @Override
+    public void hideJourneyDetails() {
+        journeyCard = mainContentView.findViewById(R.id.journey_card);
+        if (journeyCard != null && journeyCard.getVisibility() != View.GONE) {
+            journeyCard.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showJourneyDetails(Event event) {
+        journeyCard = mainContentView.findViewById(R.id.journey_card);
+        if (journeyCard != null) {
+
+            if (event != null) {
+                //update view data
+            }
+
+            if (journeyCard.getVisibility() != View.VISIBLE) {
+                journeyCard.setVisibility(View.VISIBLE);
+            }
+        }
+    }
+
+
+    @Override
+    public void hideCreateOrJoinTeamCard() {
+        createOrJoinTeamCard = mainContentView.findViewById(R.id.create_or_join_team_card);
+
+        if (createOrJoinTeamCard != null) {
+            showCreateTeamButton = createOrJoinTeamCard.findViewById(R.id.show_create_team_button);
+            if (showCreateTeamButton != null) {
+                showCreateTeamButton.setOnClickListener(null);
+            }
+            showJoinTeamsButton = createOrJoinTeamCard.findViewById(R.id.show_join_teams_button);
+            if (showJoinTeamsButton != null) {
+                showJoinTeamsButton.setOnClickListener(null);
+            }
+        }
+        if (createOrJoinTeamCard.getVisibility() != View.GONE) {
+            createOrJoinTeamCard.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showCreateOrJoinTeamCard() {
+        createOrJoinTeamCard = mainContentView.findViewById(R.id.create_or_join_team_card);
+
+        if (createOrJoinTeamCard != null) {
+            showCreateTeamButton = createOrJoinTeamCard.findViewById(R.id.show_create_team_button);
+            if (showCreateTeamButton != null) {
+                showCreateTeamButton.setOnClickListener(onClickListener);
+            }
+            showJoinTeamsButton = createOrJoinTeamCard.findViewById(R.id.show_join_teams_button);
+            if (showJoinTeamsButton != null) {
+                showJoinTeamsButton.setOnClickListener(onClickListener);
+            }
+        }
+
+        if (createOrJoinTeamCard.getVisibility() != View.VISIBLE) {
+            createOrJoinTeamCard.setVisibility(View.VISIBLE);
+        }
+    }
+
+    public void hideTeamCard() {
+        myTeamCard = mainContentView.findViewById(R.id.my_team_card);
+        if (myTeamCard != null && myTeamCard.getVisibility() != View.GONE) {
+            myTeamCard.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showMyTeamCard(Team team) {
+        myTeamCard = mainContentView.findViewById(R.id.my_team_card);
+        if (myTeamCard != null) {
+
+            if (team != null) {
+                //update team view data
+            }
+
+            if (myTeamCard.getVisibility() != View.VISIBLE) {
+                myTeamCard.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override
     public void enableJoinExistingTeam(boolean enabledFlag) {
-        showJoinTeamsButton.setEnabled(enabledFlag);
-
+        if (showJoinTeamsButton != null) {
+            showJoinTeamsButton.setEnabled(enabledFlag);
+        }
     }
 
     @Override
     public void enableShowCreateTeam(boolean enabledFlag) {
-        showCreateTeamButton.setEnabled(enabledFlag);
-
+        if (showCreateTeamButton != null) {
+            showCreateTeamButton.setEnabled(enabledFlag);
+        }
     }
 
     private TextWatcher creatTeamEditWatcher = new TextWatcher() {
@@ -251,6 +374,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     void setupView(View view) {
 
         mainContentView = view.findViewById(R.id.main_content);
+
         newTeamView = view.findViewById(R.id.new_team_content);
         joinTeamView = view.findViewById(R.id.join_team_content);
 
@@ -261,15 +385,10 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     }
 
     private void setupViewForMainContent(View view) {
-        showCreateTeamButton = view.findViewById(R.id.show_create_team_button);
-        if (showCreateTeamButton != null) {
-            showCreateTeamButton.setOnClickListener(onClickListener);
-        }
 
-        showJoinTeamsButton = view.findViewById(R.id.show_join_teams_button);
-        if (showJoinTeamsButton != null) {
-            showJoinTeamsButton.setOnClickListener(onClickListener);
-        }
+        journeyBeforeStartCard = view.findViewById(R.id.journey_before_start_card);
+        myTeamCard = view.findViewById(R.id.my_team_card);
+
     }
 
     private void setupViewForNewTeam(View view) {
@@ -290,6 +409,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
 
         teamLeadNameEditText = view.findViewById(R.id.team_lead_name);
         if (teamLeadNameEditText != null) {
+            teamLeadNameEditText.setText(SharedPreferencesUtil.getUserFullName());
             teamLeadNameEditText.addTextChangedListener(creatTeamEditWatcher);
         }
     }
