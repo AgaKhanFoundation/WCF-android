@@ -10,7 +10,7 @@ android {
     defaultConfig {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
-        applicationId "com.android.wcf.debug"
+        applicationId "org.akf.step4change"
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -43,6 +43,8 @@ android {
         }
         debug {
             minifyEnabled false
+            applicationIdSuffix ".debug"
+            versionNameSuffix = "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
             signingConfig signingConfigs.debugConfig
@@ -107,6 +109,7 @@ dependencies {
     // dagger
     implementation "com.google.dagger:dagger-android:${dagger2Version}"
     implementation "com.google.dagger:dagger-android-support:${dagger2Version}"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0-beta01'
     kapt "com.google.dagger:dagger-android-processor:${dagger2Version}"
     kapt "com.google.dagger:dagger-compiler:${daggerKaptCompilerVersion}"
     kaptTest "com.google.dagger:dagger-compiler:${daggerKaptCompilerVersion}"
