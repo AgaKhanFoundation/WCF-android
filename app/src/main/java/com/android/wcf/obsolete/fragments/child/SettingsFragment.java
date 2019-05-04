@@ -54,7 +54,7 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_settings, container, false);
+        mView = inflater.inflate(R.layout.obsolete_fragment_settings, container, false);
         mContext = getActivity();
         setupView(mView);
         ((MainTabActivity) getActivity()).mTextBack.setVisibility(View.VISIBLE);
