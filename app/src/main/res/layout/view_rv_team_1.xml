@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/group_two_cl"
+    app:layout_constraintLeft_toLeftOf="parent"
+    app:layout_constraintRight_toRightOf="parent"
+    app:layout_constraintTop_toBottomOf="parent"
+    android:layout_width="0dp"
+    android:layout_height="90dp"
+    android:layout_marginTop="8dp"
+    android:background="#ff0000"
+    android:layout_marginRight="8dp">
+
+    <View
+        android:id="@+id/line_two_cl"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="30dp"
+        android:background="#aaaaaa" />
+
+    <TextView
+        android:id="@+id/asma_atv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/font_sfprotext_regular"
+        android:gravity="start"
+        android:lineSpacingMultiplier="1.2"
+        android:text="Sulatan"
+        android:textColor="#ffffffr"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/text_view_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/font_sfprotext_regular"
+        android:gravity="end"
+        android:lineSpacingMultiplier="1.29"
+        android:text="Golden"
+        android:textColor="#ffffff"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/mi_tv"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:fontFamily="@font/font_sfprotext_regular"
+        android:gravity="end"
+        android:lineSpacingMultiplier="1.41"
+        android:text="sk team"
+        android:textColor="#ffffff"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/text_view_two_tv"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8sp"
+        android:fontFamily="@font/font_sfprotext_regular"
+        android:gravity="start"
+        android:lineSpacingMultiplier="1.2"
+        android:text="sk 2"
+        android:textColor="#ffffff"
+        android:textSize="11sp" />
+
+    <!--<android.support.constraint.ConstraintLayout-->
+        <!--android:id="@+id/avatar32px_photo_copy2_cl"-->
+        <!--app:layout_constraintLeft_toRightOf="@+id/text_view_two_tv"-->
+        <!--app:layout_constraintTop_toTopOf="parent"-->
+        <!--android:layout_width="@dimen/view_team_lead_edit_name_activity_avatar32px_photo_copy2_cl_width"-->
+        <!--android:layout_height="@dimen/view_team_lead_edit_name_activity_avatar32px_photo_copy2_cl_height"-->
+        <!--android:layout_marginLeft="@dimen/view_team_lead_edit_name_activity_avatar32px_photo_copy2_cl_margin_start">-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/border_iv"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--app:layout_constraintTop_toTopOf="parent"-->
+
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="@dimen/view_team_lead_edit_name_activity_border_iv_margin_start"-->
+            <!--android:layout_marginRight="@dimen/view_team_lead_edit_name_activity_border_iv_margin_end"-->
+            <!--android:scaleType="center"-->
+            <!--android:src="@drawable/border" />-->
+
+        <!--<ImageView-->
+            <!--android:id="@+id/state_iv"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintLeft_toLeftOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:scaleType="center"-->
+            <!--android:src="@drawable/state" />-->
+
+        <!--<android.support.constraint.ConstraintLayout-->
+            <!--android:id="@+id/presence_cl"-->
+            <!--app:layout_constraintBottom_toBottomOf="parent"-->
+            <!--app:layout_constraintRight_toRightOf="parent"-->
+            <!--android:layout_width="@dimen/view_team_lead_edit_name_activity_presence_cl_width"-->
+            <!--android:layout_height="@dimen/view_team_lead_edit_name_activity_presence_cl_height">-->
+
+            <!--<ImageView-->
+                <!--android:id="@+id/border_two_iv"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--app:layout_constraintRight_toRightOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="8dp"-->
+                <!--android:layout_marginRight="8dp"-->
+                <!--android:scaleType="center"-->
+                <!--android:src="@drawable/border_2" />-->
+
+            <!--<View-->
+                <!--android:id="@+id/available_cl"-->
+                <!--app:layout_constraintBottom_toBottomOf="parent"-->
+                <!--app:layout_constraintLeft_toLeftOf="parent"-->
+                <!--app:layout_constraintRight_toRightOf="parent"-->
+                <!--app:layout_constraintTop_toTopOf="parent"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="@dimen/view_team_lead_edit_name_activity_available_cl_height"-->
+                <!--android:background="@drawable/view_team_lead_edit_name_activity_available_cl_background" />-->
+        <!--</android.support.constraint.ConstraintLayout>-->
+    <!--</android.support.constraint.ConstraintLayout>-->
+</android.support.constraint.ConstraintLayout>
+

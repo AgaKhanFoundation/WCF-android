@@ -31,15 +31,15 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="18dp"
-                android:layout_marginRight="18dp">
+                android:layout_marginLeft="@dimen/spacing_normal"
+                android:layout_marginRight="@dimen/spacing_normal">
 
                 <ImageView
                     android:id="@+id/icon_my_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="TODO"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -50,7 +50,7 @@
                     android:id="@+id/journey_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:text="Journey"
                     android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -60,7 +60,7 @@
                     android:id="@+id/journey_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="@null"
                     android:gravity="start"
                     android:text="Your Journey begins in 17 days on Feburary 16, 2019"

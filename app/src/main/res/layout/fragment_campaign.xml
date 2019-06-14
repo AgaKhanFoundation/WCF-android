@@ -35,15 +35,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_marginRight="@dimen/spacing_normal">
 
                     <ImageView
                         android:id="@+id/icon_journey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +54,7 @@
                         android:id="@+id/journey_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:text="Journey"
                         android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -64,7 +64,7 @@
                         android:id="@+id/journey_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:contentDescription="@null"
                         android:gravity="start"
                         android:text=""
@@ -89,15 +89,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_marginRight="@dimen/spacing_normal">
 
                     <ImageView
                         android:id="@+id/journey_card_icon_journey"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -108,7 +108,7 @@
                         android:id="@+id/journey_card_journey_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:text="Journey"
                         android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
                         app:layout_constraintStart_toStartOf="parent"
@@ -118,7 +118,7 @@
                         android:id="@+id/journey_card_journey_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:contentDescription="@null"
                         android:gravity="start"
                         android:text="Your journey started..."
@@ -136,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="@dimen/spacing_normal"
                 app:cardBackgroundColor="@color/color_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,15 +145,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_marginRight="@dimen/spacing_normal">
 
                     <ImageView
                         android:id="@+id/icon_my_team"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:src="@drawable/icon_team"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -164,7 +164,7 @@
                         android:id="@+id/my_team_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:gravity="start"
                         android:lineSpacingMultiplier="1.33"
                         android:text="My team"
@@ -176,7 +176,7 @@
                         android:id="@+id/my_team_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:gravity="start"
                         android:lineSpacingMultiplier="1.24"
                         android:text="Participating in a challenge is always more fun with friends"
@@ -191,7 +191,7 @@
                         style="@style/Widget.WCF.Button.Primary"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:gravity="center"
                         android:text="@string/team_card_create_team_button_text"
                         android:textAppearance="@style/TextAppearance.WCF.Button"
@@ -205,8 +205,8 @@
                         android:enabled="false"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
-                        android:layout_marginBottom="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginBottom="@dimen/spacing_normal"
                         android:gravity="center"
                         android:text="@string/team_card_show_teams_to_join_button_text"
                         android:textAppearance="@style/TextAppearance.WCF.Button"
@@ -223,7 +223,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="visible"
-                android:layout_marginTop="18dp"
+                android:layout_marginTop="@dimen/spacing_normal"
                 app:cardBackgroundColor="@color/color_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -232,15 +232,15 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="18dp">
+                    android:layout_marginLeft="@dimen/spacing_normal"
+                    android:layout_marginRight="@dimen/spacing_normal">
 
                     <ImageView
                         android:id="@+id/team_view_team_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:src="@drawable/icon_team"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -251,7 +251,7 @@
                         android:id="@+id/team_view_team_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="18dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
                         android:gravity="start"
                         android:lineSpacingMultiplier="1.33"
                         android:text="My team"

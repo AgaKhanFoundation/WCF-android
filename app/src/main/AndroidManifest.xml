@@ -17,10 +17,10 @@
         android:theme="@style/AppTheme">
         <activity android:name=".splash.SplashActivity"
             android:screenOrientation="portrait">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity
             android:name=".login.LoginActivity"
@@ -47,6 +47,16 @@
             android:name=".onboard.OnboardActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask">
+        </activity>
+
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
     </application>

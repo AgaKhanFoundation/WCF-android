@@ -30,6 +30,10 @@ package com.android.wcf.application;
 
 import android.app.Application;
 
+import com.android.wcf.R;
+
+import androidx.preference.PreferenceManager;
+
 public class WCFApplication extends Application {
 
     public static WCFApplication instance;
@@ -37,6 +41,7 @@ public class WCFApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        PreferenceManager.setDefaultValues(this, R.xml.settings_preferences_root, false);
         instance = this;
     }
 

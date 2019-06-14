@@ -5,10 +5,11 @@
 
     <color name="color_primary">@color/color_green</color>
     <color name="color_primary_dark">@color/color_dark_green</color>
-    <color name="color_accent">@color/color_gold</color>
+    <color name="color_accent">@color/color_primary</color>
     <color name="click_overlay">@color/color_light_green</color>
     <color name="default_hint">@color/color_light_grey_3</color>
     <color name="primary_text_color">@color/color_black</color>
+    <color name="primary_text_color_disabled">@color/color_light_grey_2</color>
 
     <color name="color_green">#00a85d</color>
     <color name="color_green_1">#02A95D</color>
@@ -26,6 +27,8 @@
     <color name="color_light_grey_3">#C6C6CB</color>
     <color name="color_light_grey_4">#DBDBDB</color>
     <color name="color_light_grey_5">#dcdcdc</color>
+    <color name="color_light_grey_6">#F1F1F1</color>
+
 
     <color name="color_white">#FFFFFF</color>
     <color name="color_white_1">#F4F6F9</color>
@@ -39,4 +42,19 @@
     <color name="color_secondary_alpha_mask_1">#33000000</color>
     <color name="color_secondary_alpha_mask_2">#10000000</color>
 
+    <!--
+#F1F1F1
+#FFFFFF
+#333333
+#7F7F7F
+#E4E4E4
+#9B9B9B
+#000000
+#44DB5E
+#00A85D
+#F6F8FA
+#0D74E3
+rgba(0, 0, 0, 0.10000000149011612)
+rgba(0, 0, 0, 0.05000000074505806)
+    -->
 </resources>
