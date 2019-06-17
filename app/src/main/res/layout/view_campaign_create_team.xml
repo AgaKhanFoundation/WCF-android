@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white_1"
-    tools:context="com.android.wcf.home.Campaign.CampaignFragment">
+    tools:context="com.android.wcf.home.campaign.CampaignFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/create_team_card"
@@ -19,8 +19,8 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginRight="18dp">
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginRight="@dimen/spacing_normal">
 
             <EditText
                 android:id="@+id/team_name"

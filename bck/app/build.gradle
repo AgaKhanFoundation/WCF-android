@@ -10,7 +10,7 @@ android {
     defaultConfig {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
-        applicationId "org.akf.step4change"
+        applicationId "com.android.wcf.debug"
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -43,8 +43,6 @@ android {
         }
         debug {
             minifyEnabled false
-            applicationIdSuffix ".debug"
-            versionNameSuffix = "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
             signingConfig signingConfigs.debugConfig
@@ -78,23 +76,31 @@ dependencies {
     implementation project(':pageindicatorview')
 
     //Support Libs
-    implementation "androidx.appcompat:appcompat:${supportLibVersion}"
-    implementation "androidx.cardview:cardview:${supportLibVersion}"
-    implementation "androidx.annotation:annotation:${supportLibVersion}"
-    implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
-    implementation "androidx.vectordrawable:vectordrawable:${supportLibVersion}"
+    implementation deps.support.appcompat
+    implementation deps.support.design
+    implementation deps.support.cardview
+    implementation deps.constraintlayout
+    implementation deps.support.vectordrawable
+    implementation deps.support.multidex
+
     implementation "androidx.multidex:multidex:${multidexLibVersion}"
-    implementation "androidx.preference:preference:${supportLibVersion}"
 
-    implementation "com.google.android.material:material:${supportLibVersion}"
+    implementation deps.support.recyclerview
+    implementation deps.room.runtime
+    implementation deps.lifecycle.runtime
+    implementation deps.lifecycle.extensions
 
-    //    implementation "androidx.legacy:legacy-support-v4:${supportLibVersion}"
+
+    "androidx.vectordrawable:vectordrawable:${supportLibVersion}"
+
+    implementation "androidx.multidex:multidex:${multidexLibVersion}"
+
     //Install Referrer
     implementation 'com.android.installreferrer:installreferrer:1.0'
 
     //Google Play Services
-    implementation "com.google.android.gms:play-services-gcm:${playServicesVersion}"
-    implementation "com.google.android.gms:play-services-auth:${playServicesVersion}"
+    implementation deps.googlePlayServices.gcm
+    implementation deps.googlePlayServices.auth
 
     //Facebook
     implementation("com.facebook.android:facebook-android-sdk:${facebookSdkVersion}") {
@@ -131,9 +137,6 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:${glideVersion}"
     annotationProcessor "com.github.bumptech.glide:compiler:${glideVersion}"
 
-    //circular imageview
-    implementation "de.hdodenhof:circleimageview:${circleimageviewVersion}"
-
     //ButterKnife
 
 //    Removing ButterKnife because Binding is not working when Kotlin is activated in the project
@@ -142,7 +145,7 @@ dependencies {
 //    kapt "com.jakewharton:butterknife-compiler:$[butterknifeVersion}"
 
     // Kotlin
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    implementation deps.kotlin.stdlib
 
     //Testing
     testImplementation "junit:junit:${jUnitVersion}"

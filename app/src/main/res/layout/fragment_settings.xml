@@ -1,301 +1,254 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DCDCDC">
+    android:layout_marginTop="@dimen/spacing_normal_half"
+    android:layout_marginBottom="@dimen/spacing_normal"
+    android:layout_marginStart="@dimen/spacing_normal_half"
+    android:layout_marginEnd="@dimen/spacing_normal_half"
+    android:orientation="vertical">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/participant_profile"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="@dimen/spacing_normal_half"
+        android:paddingBottom="@dimen/spacing_normal_half"
+        tools:context=".settings.SettingsActivity"
+        android:background="@color/color_white">
 
-        <RelativeLayout
-            android:id="@+id/relativeMainSettings"
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/participant_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:contentDescription="@string/content_description_participant_photo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            android:src="@drawable/sultan_linkedin"/>
+
+        <TextView
+            android:id="@+id/participant_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            app:layout_constraintBottom_toTopOf="@+id/team_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/participant_image"
+            android:textAppearance="?textAppearanceHeadline6"
+            android:text="Sultan Keshwani" />
+
+        <TextView
+            android:id="@+id/team_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/participant_image"
+            app:layout_constraintTop_toTopOf="@+id/participant_image"
+            app:layout_constraintBottom_toBottomOf="@+id/participant_image"
+            android:textAppearance="@style/TextAppearance.WCF.Body2.Grey2"
+            android:text="World Walkers" />
+
+        <TextView
+            android:id="@+id/teamlead_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/participant_image"
+            app:layout_constraintTop_toBottomOf="@+id/team_name"
+            android:textAppearance="@style/TextAppearance.WCF.Body2.Grey2"
+            android:text="Team Lead" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/participant_settings_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/participant_profile"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:paddingStart="@dimen/spacing_normal"
+        android:textAppearance="?textAppearanceHeadline6"
+        android:text="@string/settings_section_personal"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/participant_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/participant_settings_header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:paddingTop="@dimen/spacing_normal_half"
+        android:paddingBottom="@dimen/spacing_normal_half"
+        android:paddingStart="@dimen/spacing_normal"
+        android:paddingEnd="@dimen/spacing_normal"
+        tools:context=".settings.SettingsActivity"
+        android:textAppearance="@style/TextAppearance.WCF.Body1.Bold"
+        android:background="@color/color_white">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/participant_miles_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp">
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <RelativeLayout
-                android:id="@+id/relativeDevice"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/participant_miles_label"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical">
+                android:text="@string/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textDevice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="DEVICE" />
-
-                <RelativeLayout
-                    android:id="@+id/layout_device_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textDevice"
-                    android:background="@android:color/white"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/imageFitbit"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_alignParentStart="true"
-                        android:src="@drawable/fitbit" />
-
-                    <TextView
-                        android:id="@+id/textDeviceName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/imageFitbit"
-                        android:paddingLeft="10dp"
-                        android:text="Fitbit Alta HR"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-
-
-                    <TextView
-                        android:id="@+id/text_device_subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textDeviceName"
-                        android:layout_toRightOf="@id/imageFitbit"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:paddingLeft="10dp"
-                        android:text="Device details here (possibly product number/ID)"
-                        android:textColor="@color/color_grey"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativeAccountSettings"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/participant_miles"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeDevice"
-                android:layout_marginTop="15dp">
+                app:layout_constraintStart_toEndOf="@id/participant_miles_label"
+                app:layout_constraintEnd_toStartOf="@+id/participant_miles_units"
+                app:layout_constraintBaseline_toBaselineOf="@+id/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                android:gravity="right"
+                android:foreground="?selectableItemBackground"
+                tools:text="500"/>
 
-                <TextView
-                    android:id="@+id/textAccountSettings"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:text="ACCOUNT SETTINGS" />
-
-                <RelativeLayout
-                    android:id="@+id/layout_editprof"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textAccountSettings"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/white">
-
-                    <TextView
-                        android:id="@+id/text_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Edit Profile"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_edit"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:id="@+id/layout_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_editprof"
-                    android:background="@android:color/white">
-
-                    <TextView
-                        android:id="@+id/text_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Change Email Address"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_email"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layout_notification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_email"
-                    android:background="@android:color/white">
-
-                    <TextView
-                        android:id="@+id/text_notify"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Notification and Reminders"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_notify"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/relativeTeams"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/participant_miles_units"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeAccountSettings">
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/participant_miles"
+                app:layout_constraintBaseline_toBaselineOf="@id/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                android:gravity="right"
+                android:text="@string/participant_miles_units_label"/>
 
-                <TextView
-                    android:id="@+id/textTeams"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="15dp"
-                    android:text="TEAMS" />
-
-                <RelativeLayout
-                    android:id="@+id/layout_switchteam"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textTeams"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/white">
-
-
-                    <TextView
-                        android:id="@+id/text_team"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Switch Team"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_team"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativeHelpandSupport"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/participant_miles_message_label"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeTeams">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/participant_miles_label"
+                app:layout_constraintTop_toBottomOf="@+id/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Caption"
+                android:text="@string/participant_miles_message_label" />
 
-                <TextView
-                    android:id="@+id/textHelpandSupport"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="15dp"
-                    android:text="HELP AND SUPPORT" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                <RelativeLayout
-                    android:id="@+id/layout_faq"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/textHelpandSupport"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/white">
+        <View
+            android:id="@+id/seperator_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/participant_miles_setting"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:background="@color/color_light_grey_3"/>
 
-                    <TextView
-                        android:id="@+id/text_faq"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="FAQs"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/push_notificaiton_enabled_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator_1"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+            android:text="@string/participant_push_enabled_label"/>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_faq"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/push_notifications_enabled"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/push_notificaiton_enabled_label"
+            app:layout_constraintBottom_toBottomOf="@+id/push_notificaiton_enabled_label"
+            app:layout_constraintBaseline_toBaselineOf="@+id/push_notificaiton_enabled_label"
+            android:checked="true"/>
 
-                <RelativeLayout
-                    android:id="@+id/layout_support"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_faq"
-                    android:background="@android:color/white">
+        <View
+            android:id="@+id/seperator_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/push_notificaiton_enabled_label"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:background="@color/color_light_grey_3"/>
 
-                    <TextView
-                        android:id="@+id/text_contact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Contact Us"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+        <TextView
+            android:id="@+id/connect_app_device_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator_2"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+            android:text="@string/participant_connect_app_device_label"/>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_contact"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
+        <ImageView
+            android:id="@+id/navigate_to_connect_app_or_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/connect_app_device_label"
+            app:layout_constraintBottom_toBottomOf="@id/connect_app_device_label"
+            android:textAppearance="@style/TextAppearance.WCF.Headline6"
+            android:gravity="right"
+            android:src="@drawable/ic_chevron_right"/>
 
-            </RelativeLayout>
+        <View
+            android:id="@+id/seperator_3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintTop_toBottomOf="@+id/connect_app_device_label"
+            app:layout_constraintBottom_toTopOf="@+id/signout"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:background="@color/color_light_grey_3"/>
 
-            <Button
-                android:id="@+id/btnLogout"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_below="@+id/relativeHelpandSupport"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/color_grey"
-                android:text="Log Out"
-                android:textColor="@android:color/white" />
-        </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+        <Button
+            android:id="@+id/signout"
+            style="@style/Widget.WCF.Button.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_large"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:gravity="center"
+            android:text="@string/signout"
+            android:textAppearance="@style/TextAppearance.WCF.Button"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seperator_3"
+            app:layout_constraintBottom_toTopOf="@+id/delete_account" />
 
+        <TextView
+            android:id="@+id/delete_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="@dimen/spacing_large"
+            android:textColor="@color/color_blue"
+            android:textSize="19sp"
+            android:text="Delete Account"/>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

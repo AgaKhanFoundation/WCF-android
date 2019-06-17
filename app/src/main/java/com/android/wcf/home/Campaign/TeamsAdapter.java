@@ -1,4 +1,4 @@
-package com.android.wcf.home.Campaign;
+package com.android.wcf.home.campaign;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

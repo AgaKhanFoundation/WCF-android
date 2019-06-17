@@ -54,7 +54,7 @@ public class OnboardTutorialAdapter extends PagerAdapter implements OnboardTutor
         presenter.updateOnboardTutorialData(tutorialItems);
     }
 
-        @Override
+    @Override
     public int getCount() {
         return presenter.getItemCount();
     }

@@ -11,6 +11,12 @@
         <item name="colorPrimary">@color/color_primary</item>
         <item name="colorPrimaryDark">@color/color_primary</item>
         <item name="colorAccent">@color/color_accent</item>
+        <item name="android:windowBackground">@color/color_light_grey_6</item>
+        <item name="colorControlActivated">@color/color_primary</item>
+
+        <!--<item name="android:textColorPrimaryDisableOnly">@color/primary_text_color_disabled </item>-->
+
+        <!--<item name="switchStyle">@style/Widget.MaterialComponents.Switch</item>-->
 
         <!-- Type styles -->
         <item name="textAppearanceHeadline1">@style/TextAppearance.WCF.Headline1</item>
@@ -26,6 +32,7 @@
         <item name="textAppearanceCaption">@style/TextAppearance.WCF.Caption</item>
         <item name="textAppearanceButton">@style/TextAppearance.WCF.Button</item>
         <item name="textAppearanceOverline">@style/TextAppearance.WCF.Overline</item>
+
 
     </style>
 
@@ -54,6 +61,17 @@
         <item name="android:background">@drawable/selector_button_secondary</item>
         <item name="backgroundTint">@null</item>
     </style>
+
+    <style name="Widget.WCF.Compound.Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
+        <item name="android:textColorPrimaryDisableOnly">@color/primary_text_color_disabled</item>
+        <item name="android:colorControlActivated">#1b5e20</item>
+        <item name="android:colorForeground">@color/color_white</item>
+        <item name="android:track">@color/color_primary</item>
+        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
+
+    </style>
+
+    <!--<item name="switchStyle">@style/Widget.MaterialComponents.CompoundButton.Switch</item>-->
 
 
     <!--legacy code-->

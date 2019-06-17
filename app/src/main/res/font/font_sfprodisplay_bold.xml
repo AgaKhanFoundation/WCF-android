@@ -4,7 +4,5 @@
 
 	<font
 		android:font="@font/sf_pro_display_bold"
-		android:fontStyle="normal"
-		app:font="@font/sf_pro_display_bold"
-		app:fontStyle="normal"/>
+		app:font="@font/sf_pro_display_bold"/>
 </font-family>

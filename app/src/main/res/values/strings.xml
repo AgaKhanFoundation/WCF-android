@@ -62,6 +62,20 @@
         <item>Lets Begin!</item>
     </string-array>
 
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <!--Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="participant_miles_label">Personal mile commitment</string>
+    <string name="participant_miles_units_label">miles</string>
+    <string name="participant_miles_message_label">Mile commitment cannot be changed once the challenge has started.</string>
+    <string name="participant_push_enabled_label">Push notifications</string>
+    <string name="participant_connect_app_device_label">Connected app or device</string>
+
+    <!-- image content description -->
+    <string name="content_description_participant_photo">Participant photo</string>
+    <string name="signout">Logout</string>
 
     <!--Error messaging -->
     <string name="data_error">Data retrieval error</string>
@@ -72,5 +86,6 @@
     <string name="teams_manager_error">Teams Manager Error</string>
     <string name="participants_manager_error">Participants Manager Error</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
+    <string name="settings_section_personal">Personal</string>
 
 </resources>

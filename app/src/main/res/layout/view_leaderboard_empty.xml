@@ -5,16 +5,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp"
-    android:paddingBottom="4dp">
+    android:paddingStart="@dimen/spacing_big"
+    android:paddingEnd="@dimen/spacing_big"
+    android:paddingBottom="@dimen/spacing_extra_small">
 
     <TextView
         android:id="@+id/refresh_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginBottom="18dp"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
         android:gravity="center"
         android:text="Leaderboard data not available"
         android:textAppearance="@style/TextAppearance.WCF.Headline6"

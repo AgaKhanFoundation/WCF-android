@@ -1,20 +1,9 @@
 package com.android.wcf.home;
 
-import android.util.Log;
+import androidx.annotation.NonNull;
 
-import com.android.wcf.R;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
-import com.android.wcf.model.Team;
-import com.android.wcf.network.WCFClient;
-
-import java.util.List;
-
-import androidx.annotation.NonNull;
-import io.reactivex.SingleObserver;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
 
 public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresenter {
     private static final String TAG = HomePresenter.class.getSimpleName();
