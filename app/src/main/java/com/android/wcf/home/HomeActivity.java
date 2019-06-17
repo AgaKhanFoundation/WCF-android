@@ -25,7 +25,7 @@ import android.view.MenuItem;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseActivity;
-import com.android.wcf.home.Campaign.CampaignFragment;
+import com.android.wcf.home.campaign.CampaignFragment;
 import com.android.wcf.home.Dashboard.DashboardFragment;
 import com.android.wcf.home.Leaderboard.LeaderboardFragment;
 import com.android.wcf.home.Notifications.NotificationsFragment;

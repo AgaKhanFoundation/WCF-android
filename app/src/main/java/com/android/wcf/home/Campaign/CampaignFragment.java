@@ -1,4 +1,4 @@
-package com.android.wcf.home.Campaign;
+package com.android.wcf.home.campaign;
 
 import android.content.Context;
 import android.net.Uri;
