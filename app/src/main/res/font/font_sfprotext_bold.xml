@@ -3,6 +3,6 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto">
 
 	<font
-		android:font="@font/sf_pro_display_light"
-		app:font="@font/sf_pro_display_light" />
+		android:font="@font/sf_pro_text_bold"
+		app:font="@font/sf_pro_text_bold"/>
 </font-family>
