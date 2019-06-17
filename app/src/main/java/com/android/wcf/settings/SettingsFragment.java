@@ -20,7 +20,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
-                case R.id.participant_settings:
+                case R.id.participant_miles_setting:
                     showMilesEditDialog();
             }
         }
@@ -34,7 +34,8 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         View fragmentView = inflater.inflate(R.layout.fragment_settings, container, false);
 
         particpantMiles = fragmentView.findViewById(R.id.participant_miles);
-        fragmentView.findViewById(R.id.participant_settings).setOnClickListener(onClickListener);
+        fragmentView.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
+
         return fragmentView;
     }
 
