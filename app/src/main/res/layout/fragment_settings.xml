@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -40,8 +41,7 @@
             app:layout_constraintBottom_toTopOf="@+id/team_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/participant_image"
-            android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
-            android:textSize="20sp"
+            android:textAppearance="?textAppearanceHeadline6"
             android:text="Sultan Keshwani" />
 
         <TextView
@@ -56,6 +56,7 @@
             app:layout_constraintStart_toEndOf="@+id/participant_image"
             app:layout_constraintTop_toTopOf="@+id/participant_image"
             app:layout_constraintBottom_toBottomOf="@+id/participant_image"
+            android:textAppearance="@style/TextAppearance.WCF.Body2.Grey2"
             android:text="World Walkers" />
 
         <TextView
@@ -67,6 +68,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/participant_image"
             app:layout_constraintTop_toBottomOf="@+id/team_name"
+            android:textAppearance="@style/TextAppearance.WCF.Body2.Grey2"
             android:text="Team Lead" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -79,7 +81,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/participant_profile"
         android:layout_marginTop="@dimen/spacing_normal_half"
-        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+        android:paddingStart="@dimen/spacing_normal"
+        android:textAppearance="?textAppearanceHeadline6"
         android:text="@string/settings_section_personal"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -95,55 +98,65 @@
         android:paddingStart="@dimen/spacing_normal"
         android:paddingEnd="@dimen/spacing_normal"
         tools:context=".settings.SettingsActivity"
+        android:textAppearance="@style/TextAppearance.WCF.Body1.Bold"
         android:background="@color/color_white">
 
-        <TextView
-            android:id="@+id/participant_miles_label"
-            android:layout_width="wrap_content"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/participant_miles_setting"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold.smaller"
-            android:text="@string/participant_miles_label"/>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/participant_miles"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toEndOf="@id/participant_miles_label"
-            app:layout_constraintEnd_toStartOf="@+id/participant_miles_units"
-            app:layout_constraintBaseline_toBaselineOf="@+id/participant_miles_label"
-            android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold.smaller"
-            android:gravity="right"
-            android:foreground="?selectableItemBackground"
-            tools:text="500"/>
+            <TextView
+                android:id="@+id/participant_miles_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/participant_miles_units"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/participant_miles"
-            app:layout_constraintBaseline_toBaselineOf="@id/participant_miles_label"
-            android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold.smaller"
-            android:gravity="right"
-            android:text="@string/participant_miles_units_label"/>
+            <TextView
+                android:id="@+id/participant_miles"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toEndOf="@id/participant_miles_label"
+                app:layout_constraintEnd_toStartOf="@+id/participant_miles_units"
+                app:layout_constraintBaseline_toBaselineOf="@+id/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                android:gravity="right"
+                android:foreground="?selectableItemBackground"
+                tools:text="500"/>
 
-        <TextView
-            android:id="@+id/participant_miles_message_label"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="@id/participant_miles_label"
-            app:layout_constraintTop_toBottomOf="@+id/participant_miles_label"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:text="@string/participant_miles_message_label" />
+            <TextView
+                android:id="@+id/participant_miles_units"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/participant_miles"
+                app:layout_constraintBaseline_toBaselineOf="@id/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                android:gravity="right"
+                android:text="@string/participant_miles_units_label"/>
+
+            <TextView
+                android:id="@+id/participant_miles_message_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/participant_miles_label"
+                app:layout_constraintTop_toBottomOf="@+id/participant_miles_label"
+                android:textAppearance="@style/TextAppearance.WCF.Caption"
+                android:text="@string/participant_miles_message_label" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/seperator_1"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@+id/participant_miles_message_label"
+            app:layout_constraintTop_toBottomOf="@+id/participant_miles_setting"
             android:layout_marginTop="@dimen/spacing_normal_half"
             android:background="@color/color_light_grey_3"/>
 
@@ -154,7 +167,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seperator_1"
             android:layout_marginTop="@dimen/spacing_normal_half"
-            android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold.smaller"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
             android:text="@string/participant_push_enabled_label"/>
 
         <androidx.appcompat.widget.SwitchCompat
@@ -182,7 +195,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seperator_2"
             android:layout_marginTop="@dimen/spacing_normal_half"
-            android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold.smaller"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
             android:text="@string/participant_connect_app_device_label"/>
 
         <ImageView
