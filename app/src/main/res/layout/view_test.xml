@@ -20,7 +20,7 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             android:adjustViewBounds="true"
@@ -28,6 +28,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/base_theme_attr"
+            android:visibility="gone"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
@@ -35,17 +36,30 @@
             app:layout_constraintTop_toBottomOf="@+id/imageView">
 
             <TextView
+                android:id="@+id/base_theme_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:text="Base Theme with ?"
+                style="?textAppearanceHeadline5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            
+            <TextView
                 android:id="@+id/theme_h5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Headline5"
                 style="?textAppearanceHeadline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/base_theme_title" />
     
             <TextView
                 android:id="@+id/theme_h6"
@@ -54,7 +68,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Headline6"
                 style="?textAppearanceHeadline6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -67,7 +81,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Subtitle1"
                 style="?textAppearanceSubtitle1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -80,7 +94,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Subtitle2"
                 style="?textAppearanceSubtitle2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -93,7 +107,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Body1"
                 style="?textAppearanceBody1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -106,7 +120,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Body2"
                 style="?textAppearanceBody2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -119,7 +133,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Caption"
                 style="?textAppearanceCaption"
                 app:layout_constraintStart_toStartOf="parent"
@@ -132,7 +146,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Overline"
                 style="?textAppearanceOverline"
                 app:layout_constraintStart_toStartOf="parent"
@@ -145,7 +159,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Button"
                 style="?textAppearanceButton"
                 app:layout_constraintStart_toStartOf="parent"
@@ -155,13 +169,27 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/base_material_style"
+            android:visibility="gone"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="10dp"
             app:layout_constraintStart_toEndOf="@+id/base_theme_attr"
             app:layout_constraintTop_toBottomOf="@+id/imageView">
-    
+
+            <TextView
+                android:id="@+id/base_material_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:text="Material Theme"
+                style="?textAppearanceHeadline5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <TextView
                 android:id="@+id/mat_style_h5"
                 android:layout_width="wrap_content"
@@ -169,11 +197,11 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Headline5"
                 style="@style/TextAppearance.MaterialComponents.Headline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/base_material_title" />
     
             <TextView
                 android:id="@+id/mat_style_h6"
@@ -182,7 +210,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="56dp"
                 android:text="Headline6"
                 style="@style/TextAppearance.MaterialComponents.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
@@ -195,7 +223,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Subtitle1"
                 style="@style/TextAppearance.MaterialComponents.Subtitle1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -208,7 +236,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="36dp"
                 android:text="Subtitle2"
                 style="@style/TextAppearance.MaterialComponents.Subtitle2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -221,7 +249,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Body1"
                 style="@style/TextAppearance.MaterialComponents.Body1"
                 app:layout_constraintStart_toStartOf="parent"
@@ -231,10 +259,10 @@
                 android:id="@+id/mat_style_body2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:maxHeight="50dp"
+                android:maxHeight="40dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="50dp"
                 android:text="Body2"
                 style="@style/TextAppearance.MaterialComponents.Body2"
                 app:layout_constraintStart_toStartOf="parent"
@@ -247,7 +275,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="34dp"
                 android:text="Caption"
                 style="@style/TextAppearance.MaterialComponents.Caption"
                 app:layout_constraintStart_toStartOf="parent"
@@ -260,7 +288,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Overline"
                 style="@style/TextAppearance.MaterialComponents.Overline"
                 app:layout_constraintStart_toStartOf="parent"
@@ -273,7 +301,7 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:text="Button"
                 style="@style/TextAppearance.MaterialComponents.Button"
                 app:layout_constraintStart_toStartOf="parent"
@@ -283,11 +311,24 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/wcf_style"
-            android:layout_width="200dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             app:layout_constraintStart_toEndOf="@+id/base_material_style"
             app:layout_constraintTop_toBottomOf="@+id/imageView">
+
+            <TextView
+                android:id="@+id/wcf_style_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:text="WCF Theme"
+                style="?textAppearanceHeadline5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/wcf_style_h5"
@@ -296,11 +337,11 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Headline5"
-                style="@style/TextAppearance.WCF.Headline5"
+                android:layout_marginTop="10dp"
+                android:text="24sp medium --> Headline5"
+                android:textAppearance="@style/TextAppearance.WCF.Headline5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toBottomOf="@id/wcf_style_title" />
 
             <TextView
                 android:id="@+id/wcf_style_h6"
@@ -309,11 +350,11 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Headline6"
-                style="@style/TextAppearance.WCF.Headline6"
+                android:layout_marginTop="10dp"
+                android:text="20sp medium bold --> Headline6"
+                android:textAppearance="@style/TextAppearance.WCF.Headline6"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wcf_style_h5" />
+                app:layout_constraintTop_toBottomOf="@id/wcf_style_h5" />
 
             <TextView
                 android:id="@+id/wcf_style_st1"
@@ -322,35 +363,65 @@
                 android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Subtitle1"
-                style="@style/TextAppearance.WCF.Subtitle1"
+                android:layout_marginTop="10dp"
+                android:text="16sp regular --> Subtitle1"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wcf_style_h6" />
 
             <TextView
-                android:id="@+id/wcf_style_st2"
+                android:id="@+id/wcf_style_st1_medium"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:maxHeight="50dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Subtitle2"
-                style="@style/TextAppearance.WCF.Subtitle2"
+                android:layout_marginTop="10dp"
+                android:text="16sp Medium --> Subtitle1"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle1.Medium"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wcf_style_st1" />
 
             <TextView
-                android:id="@+id/wcf_style_body1"
+                android:id="@+id/wcf_style_st2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" android:maxHeight="50dp"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Body1"
-                style="@style/TextAppearance.WCF.Body1.Bold"
+                android:layout_marginTop="10dp"
+                android:text="14sp medium-bold --> Subtitle2"
+                android:textAppearance="@style/TextAppearance.WCF.Subtitle2"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wcf_style_st1_medium" />
+
+            <TextView
+                android:id="@+id/wcf_style_body1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:text="16sp normal --> Body1"
+                android:textAppearance="@style/TextAppearance.WCF.Body1"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wcf_style_st2" />
+
+
+            <TextView
+                android:id="@+id/wcf_style_body1_bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxHeight="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:text="16sp bold --> Body1.Bold"
+                android:textAppearance="@style/TextAppearance.WCF.Body1.Bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wcf_style_body1" />
+
 
             <TextView
                 android:id="@+id/wcf_style_body2"
@@ -358,11 +429,24 @@
                 android:layout_height="wrap_content" android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Body2"
-                style="@style/TextAppearance.WCF.Body2.Grey2"
+                android:layout_marginTop="10dp"
+                android:text="14sp regular --> Body2"
+                android:textAppearance="@style/TextAppearance.WCF.Body2"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wcf_style_body1" />
+                app:layout_constraintTop_toBottomOf="@+id/wcf_style_body1_bold" />
+
+            
+            <TextView
+                android:id="@+id/wcf_style_body2_dim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:maxHeight="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:text="14sp regular grey --> Body2.Dim"
+                android:textAppearance="@style/TextAppearance.WCF.Body2.Dim"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/wcf_style_body2" />
 
             <TextView
                 android:id="@+id/wcf_style_caption"
@@ -370,11 +454,11 @@
                 android:layout_height="wrap_content" android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Caption"
-                style="@style/TextAppearance.WCF.Caption"
+                android:layout_marginTop="10dp"
+                android:text="12sp normal --> Caption"
+                android:textAppearance="@style/TextAppearance.WCF.Caption"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/wcf_style_body2" />
+                app:layout_constraintTop_toBottomOf="@+id/wcf_style_body2_dim" />
 
             <TextView
                 android:id="@+id/wcf_style_overline"
@@ -382,9 +466,9 @@
                 android:layout_height="wrap_content" android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Overline"
-                style="@style/TextAppearance.WCF.Overline"
+                android:layout_marginTop="10dp"
+                android:text="12sp normal --> Overline"
+                android:textAppearance="@style/TextAppearance.WCF.Overline"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wcf_style_caption" />
 
@@ -394,9 +478,9 @@
                 android:layout_height="wrap_content" android:maxHeight="50dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Button"
-                style="@style/TextAppearance.WCF.Button"
+                android:layout_marginTop="10dp"
+                android:text="14sp  -> Button"
+                android:textAppearance="@style/TextAppearance.WCF.Button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/wcf_style_overline" />
 
