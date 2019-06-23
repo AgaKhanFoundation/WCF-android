@@ -56,7 +56,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:text="Journey"
-                        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/icon_journey" />
 
@@ -79,6 +79,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/journey_card"
+                android:visibility="invisible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/color_white"
@@ -110,7 +111,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:text="Journey"
-                        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/journey_card_icon_journey" />
 
@@ -168,7 +169,7 @@
                         android:gravity="start"
                         android:lineSpacingMultiplier="1.33"
                         android:text="My team"
-                        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/icon_my_team" />
 
@@ -255,7 +256,7 @@
                         android:gravity="start"
                         android:lineSpacingMultiplier="1.33"
                         android:text="My team"
-                        android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/team_view_team_icon" />
 

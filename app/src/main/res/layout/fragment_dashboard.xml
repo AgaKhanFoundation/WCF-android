@@ -35,7 +35,7 @@
                 android:layout_marginRight="@dimen/spacing_normal">
 
                 <ImageView
-                    android:id="@+id/icon_my_image"
+                    android:id="@+id/icon_journey"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:text="Journey"
-                    android:textAppearance="@style/TextAppearance.WCF.Headline6.Bold"
+                    android:textAppearance="@style/TextAppearance.WCF.Headline6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/icon_journey" />
 
