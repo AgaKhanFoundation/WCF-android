@@ -79,7 +79,7 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/journey_card"
-                android:visibility="invisible"
+                android:visibility="visible"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardBackgroundColor="@color/color_white"
