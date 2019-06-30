@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SettingsMvp.Host, DeviceConnectionMvp.Host {
 
     private Toolbar toolbar;
 
@@ -25,19 +25,40 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_settings);
         setupView();
 
+        showSettingsConfiguration();
+    }
+
+    private void showSettingsConfiguration() {
         Fragment fragment = new SettingsFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
+                .commit();
+
+    }
+
+    @Override
+    public void showDeviceConnection() {
+        Fragment fragment = new DeviceConnectionFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
     private void setupView() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+    }
+
+    @Override
+    public void setToolbarTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(getString(R.string.settings_title));
+        actionBar.setTitle(title);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 }

@@ -1,8 +1,12 @@
 package com.android.wcf.settings;
 
 import android.app.AlertDialog;
+import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,14 +18,26 @@ import com.android.wcf.base.BaseFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 
 public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
+
+    SettingsMvp.Host host;
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.participant_miles_setting:
                     showMilesEditDialog();
+                    break;
+                case R.id.team_view_team_icon:
+                    showMilesEditDialog();
+                    break;
+                case R.id.navigate_to_connect_app_or_device:
+                    if (host != null) {
+                        host.showDeviceConnection();
+                    }
             }
         }
     };
@@ -36,12 +52,23 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         particpantMiles = fragmentView.findViewById(R.id.participant_miles);
         fragmentView.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
 
+        setupConnectDeviceClickListeners(fragmentView);
+        setupTeamSettingsClickListeners(fragmentView);
         return fragmentView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if (host != null) {
+            host.setToolbarTitle(getString(R.string.settings));
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
     }
 
     @Nullable
@@ -63,6 +90,24 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     @Override
     public void onStart() {
         super.onStart();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof SettingsMvp.Host) {
+            this.host = (SettingsMvp.Host) context;
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                getActivity().onBackPressed();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void showMilesEditDialog() {
@@ -92,5 +137,38 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
+    }
+
+    void setupTeamSettingsClickListeners(View parentView) {
+
+        View container = parentView.findViewById(R.id.view_team_container);
+        View image = container.findViewById(R.id.team_view_team_icon);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
+    }
+
+
+    void setupConnectDeviceClickListeners(View parentView) {
+
+        View container = parentView.findViewById(R.id.connect_device_container);
+        View image = container.findViewById(R.id.navigate_to_connect_app_or_device);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
+
+    }
+    void expandViewHitArea(final View childView, final View parentView) {
+        parentView.post(new Runnable() {
+            @Override
+            public void run() {
+                Rect parentRect = new Rect();
+                Rect childRect = new Rect();
+                parentView.getHitRect(parentRect);
+                childView.getHitRect(childRect);
+                childRect.left = parentRect.left;
+                childRect.right = parentRect.width();
+
+                parentView.setTouchDelegate(new TouchDelegate(childRect, childView));
+            }
+        });
     }
 }
