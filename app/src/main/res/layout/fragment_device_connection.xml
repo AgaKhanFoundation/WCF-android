@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/connection_fitness_app_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RadioButton
+            android:id="@+id/rb_connect_to_fitness_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:textAppearance="?textAppearanceSubtitle2"
+            android:text="@string/settings_device_label_fitness_app"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_fitness_app_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:text="@string/settings_connect_device_fitness_app_message"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toStartOf="@+id/btn_connect_to_fitness_app"
+            app:layout_constraintStart_toStartOf="@id/rb_connect_to_fitness_app"
+            app:layout_constraintTop_toBottomOf="@+id/rb_connect_to_fitness_app" />
+
+        <Button
+            android:id="@+id/btn_connect_to_fitness_app"
+            style="@style/Widget.WCF.Button.Primary"
+            android:layout_width="@dimen/button_width_medium"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@string/settings_device_fitness_app_button_text"
+            android:textAppearance="?textAppearanceButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rb_connect_to_fitness_app" />
+
+        <View
+            android:id="@+id/seperator_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@color/color_light_grey_3"
+            app:layout_constraintTop_toBottomOf="@id/btn_connect_to_fitness_app" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/connection_fitbit_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@id/connection_fitness_app_container">
+
+        <RadioButton
+            android:id="@+id/rb_connect_to_fitbit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/settings_device_label_fitbit"
+            android:textAppearance="?textAppearanceSubtitle2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_fitbit_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="0dp"
+            android:text="@string/settings_connect_device_fitbit_message"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toStartOf="@+id/btn_connect_to_fitbit"
+            app:layout_constraintStart_toStartOf="@id/rb_connect_to_fitbit"
+            app:layout_constraintTop_toBottomOf="@+id/rb_connect_to_fitbit" />
+
+        <Button
+            android:id="@+id/btn_connect_to_fitbit"
+            style="@style/Widget.WCF.Button.Primary"
+            android:layout_width="@dimen/button_width_medium"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@string/settings_device_fitbit_button_text"
+            android:textAppearance="?textAppearanceButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/rb_connect_to_fitbit" />
+
+        <View
+            android:id="@+id/seperator_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@color/color_light_grey_3"
+            app:layout_constraintTop_toBottomOf="@id/btn_connect_to_fitbit" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/iv_device_message_expand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:src="@drawable/ic_chevron_down"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connection_fitbit_container"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginEnd="@dimen/spacing_normal" />
+
+    <TextView
+        android:id="@+id/other_device_message_short"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        app:layout_constraintTop_toTopOf="@id/iv_device_message_expand"
+        android:text="Can't see your device on the list?"
+        android:lineSpacingMultiplier="1.83"
+        android:textColor="@color/color_light_grey_7"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/other_device_message_long"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@id/other_device_message_short"
+        android:text="Fitness trackers such as Jawbone, Garmin, etc. connect to your phone’s fitness app. Use the Fitness app feature above to track your steps. "
+        android:lineSpacingMultiplier="1.83"
+        android:visibility="gone"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/color_light_grey_7"
+        android:textSize="12sp"/>
+
+    <View
+        android:id="@+id/seperator_3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@id/other_device_message_long"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:background="@color/color_light_grey_3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

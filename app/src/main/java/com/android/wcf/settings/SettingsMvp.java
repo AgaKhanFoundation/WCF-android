@@ -8,4 +8,10 @@ public interface SettingsMvp {
     interface Presenter {
 
     }
+
+    interface Host {
+        void setToolbarTitle(String title);
+
+        void showDeviceConnection();
+    }
 }

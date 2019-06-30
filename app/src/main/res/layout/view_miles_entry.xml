@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="center"
         android:textAppearance="@style/TextAppearance.WCF.Headline6"
-        android:text="@string/participant_miles_label"/>
+        android:text="@string/settings_participant_miles_label"/>
 
     <EditText
         android:id="@+id/participant_miles"
@@ -43,7 +43,7 @@
         app:layout_constraintBaseline_toBaselineOf="@id/participant_miles"
         android:textAppearance="@style/TextAppearance.WCF.Headline6"
         android:gravity="right"
-        android:text="@string/participant_miles_units_label"/>
+        android:text="@string/settings_participant_miles_units_label"/>
 
     <Button
         android:id="@+id/save"

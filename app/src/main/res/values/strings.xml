@@ -67,11 +67,26 @@
 
     <!--Settings -->
     <string name="settings_title">Settings</string>
-    <string name="participant_miles_label">Personal mile commitment</string>
-    <string name="participant_miles_units_label">miles</string>
-    <string name="participant_miles_message_label">Mile commitment cannot be changed once the challenge has started.</string>
-    <string name="participant_push_enabled_label">Push notifications</string>
-    <string name="participant_connect_app_device_label">Connected app or device</string>
+    <string name="settings_participant_miles_label">Personal mile commitment</string>
+    <string name="settings_participant_miles_units_label">miles</string>
+    <string name="settings_participant_miles_message">Mile commitment cannot be changed once the challenge has started.</string>
+    <string name="settings_participant_push_enabled_label">Push notifications</string>
+    <string name="settings_participant_connect_app_device_label">Connected app or device</string>
+    <string name="settings_section_personal">Personal</string>
+    <string name="settings_section_team">Team</string>
+    <string name="settings_team_public_visibility_on_message">Your team is discoverable. Any participant can find and join your team.</string>
+    <string name="settings_team_public_visibility_off_message">Your team is invite-only. Turn on team visibility to allow anyone to find and join your team.</string>
+
+    <!--device connection -->
+    <string name="settings_connect_device_title">Connected Apps &amp; Devices</string>
+
+    <string name="settings_device_label_fitness_app">Fitness App</string>
+    <string name="settings_device_fitness_app_button_text">Connect</string>
+    <string name="settings_connect_device_fitness_app_message">Connect a fitness app to track your daily steps.</string>
+
+    <string name="settings_device_label_fitbit">Fitbit</string>
+    <string name="settings_device_fitbit_button_text">Connect</string>
+    <string name="settings_connect_device_fitbit_message">Connect your Fitbit to sync your daily steps.</string>
 
     <!-- image content description -->
     <string name="content_description_participant_photo">Participant photo</string>
@@ -86,6 +101,5 @@
     <string name="teams_manager_error">Teams Manager Error</string>
     <string name="participants_manager_error">Participants Manager Error</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
-    <string name="settings_section_personal">Personal</string>
 
 </resources>
