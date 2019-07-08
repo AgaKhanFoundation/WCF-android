@@ -46,7 +46,7 @@ public class FitbitLoginActivity extends AppCompatActivity implements Authentica
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_fitbit_login);
 
     }
 
