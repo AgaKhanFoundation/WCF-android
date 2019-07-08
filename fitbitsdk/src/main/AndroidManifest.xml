@@ -1,0 +1,6 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.fitbitsdk">
+    <application>
+        <activity android:name="com.fitbitsdk.authentication.ui.FitbitLoginActivity" />
+    </application>
+</manifest>
