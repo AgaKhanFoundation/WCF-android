@@ -37,6 +37,7 @@ class DeviceConnectionFragment : BaseFragment(), DeviceConnectionMvp.View {
             }
             R.id.btn_connect_to_fitbit -> {
                 Log.d(TAG, "btn_connect_to_fitbit")
+                host?.connectAppToFitbit()
             }
         }
     }
@@ -103,3 +104,17 @@ class DeviceConnectionFragment : BaseFragment(), DeviceConnectionMvp.View {
         return super.onOptionsItemSelected(item)
     }
 }
+
+
+/*
+OAuth 2.0 Client ID
+22CZ2W
+Client Secret
+ffe6f7749d28e4ec79416771d0698749
+Callback URL
+https://www.akdn.org/oauth2_complete
+OAuth 2.0: Authorization URI
+https://www.fitbit.com/oauth2/authorize
+OAuth 2.0: Access/Refresh Token Request URI
+https://api.fitbit.com/oauth2/token
+ */

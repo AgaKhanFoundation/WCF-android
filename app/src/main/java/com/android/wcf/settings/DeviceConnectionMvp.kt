@@ -10,6 +10,7 @@ interface DeviceConnectionMvp {
     }
 
     interface Host {
-        abstract fun setToolbarTitle(title: String)
+        fun setToolbarTitle(title: String)
+        fun connectAppToFitbit()
     }
 }

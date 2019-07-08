@@ -1,7 +1,9 @@
 package com.android.wcf.settings;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -18,7 +20,6 @@ import com.android.wcf.base.BaseFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 
 public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
@@ -110,6 +111,14 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        getActivity();
+        if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            //some code
+        }
+    }
     private void showMilesEditDialog() {
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
         LayoutInflater inflater = this.getLayoutInflater();
@@ -147,7 +156,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         expandViewHitArea(image, container);
     }
 
-
     void setupConnectDeviceClickListeners(View parentView) {
 
         View container = parentView.findViewById(R.id.connect_device_container);
@@ -156,6 +164,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         expandViewHitArea(image, container);
 
     }
+
     void expandViewHitArea(final View childView, final View parentView) {
         parentView.post(new Runnable() {
             @Override

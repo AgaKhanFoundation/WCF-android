@@ -33,9 +33,22 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name" />
 
+        <activity android:name=".fitbit.WCFFitbitLoginActivity">
+        </activity>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
+
+        <meta-data
+            android:name="com.wcf.fitbit.CLIENT_ID"
+            android:value="${fitbit_client_id}"/>
+        <meta-data
+            android:name="com.wcf.fitbit.CLIENT_SECRET"
+            android:value="${fitbit_client_secret}"/>
+        <meta-data
+            android:name="com.wcf.fitbit.REDIRECT_URL"
+            android:value="${fitbit_client_redirect_url}"/>
 
         <activity
             android:name=".home.HomeActivity"

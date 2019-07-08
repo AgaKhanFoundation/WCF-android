@@ -101,5 +101,6 @@
     <string name="teams_manager_error">Teams Manager Error</string>
     <string name="participants_manager_error">Participants Manager Error</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
+    <string name="connecting_to_fitbit">Connecting the app to your Fitbit Account</string>
 
 </resources>
