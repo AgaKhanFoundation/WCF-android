@@ -1,5 +1,7 @@
 package com.fitbitsdk.service.api;
 
+import com.fitbitsdk.service.models.Device;
+
 import retrofit2.Call;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -70,7 +72,7 @@ public interface DevicesApi {
    * @return Call&lt;Void&gt;
    */
   @GET("1/user/-/devices.json")
-  Call<Void> devices();
+  Call<Device[]> devices();
     
 
 }

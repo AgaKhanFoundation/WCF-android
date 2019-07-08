@@ -98,4 +98,9 @@ class FitbitService(sharedPreferences: SharedPreferences, clientCredentials: Cli
     fun getActivityService(): ActivityApi{
         return service.create(ActivityApi::class.java)
     }
+
+    fun getDeviceService(): DevicesApi{
+        return service.create(DevicesApi::class.java)
+    }
+
 }
