@@ -1,6 +1,6 @@
 package com.android.wcf.settings
 
-interface DeviceConnectionMvp {
+interface FitnessTrackerConnectionMvp {
     interface View {
 
     }

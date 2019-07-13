@@ -25,17 +25,17 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class DeviceConnectionFragment : BaseFragment(), DeviceConnectionMvp.View {
+class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectionMvp.View {
 
     internal var sharedPreferences: SharedPreferences? = null
 
     companion object {
-        val TAG = DeviceConnectionFragment::class.java.simpleName
+        val TAG = FitnessTrackerConnectionFragment::class.java.simpleName
         val TAG_DISCONNECT = "1"
         val TAG_CONNECT = "0"
     }
 
-    var host: DeviceConnectionMvp.Host? = null
+    var host: FitnessTrackerConnectionMvp.Host? = null
 
     var onClickListener: View.OnClickListener = View.OnClickListener { view ->
         when (view.id) {
@@ -173,7 +173,7 @@ class DeviceConnectionFragment : BaseFragment(), DeviceConnectionMvp.View {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is DeviceConnectionMvp.Host) {
+        if (context is FitnessTrackerConnectionMvp.Host) {
             this.host = context
         }
     }

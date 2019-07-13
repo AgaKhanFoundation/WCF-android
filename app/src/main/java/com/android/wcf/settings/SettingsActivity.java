@@ -1,6 +1,5 @@
 package com.android.wcf.settings;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,7 +36,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class SettingsActivity extends AppCompatActivity implements SettingsMvp.Host, DeviceConnectionMvp.Host, AuthenticationHandler {
+public class SettingsActivity extends AppCompatActivity implements SettingsMvp.Host, FitnessTrackerConnectionMvp.Host, AuthenticationHandler {
 
     private Toolbar toolbar;
     SharedPreferences sharedPreferences = null;
@@ -110,7 +109,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
 
     @Override
     public void showDeviceConnection() {
-        Fragment fragment = new DeviceConnectionFragment();
+        Fragment fragment = new FitnessTrackerConnectionFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
