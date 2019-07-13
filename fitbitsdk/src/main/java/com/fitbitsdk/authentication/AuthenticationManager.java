@@ -113,6 +113,9 @@ public class AuthenticationManager {
     public static void logout(final Activity contextActivity, @Nullable final LogoutTaskCompletionHandler logoutTaskCompletionHandler) {
         checkPreconditions();
         if (!isLoggedIn()) {
+            if (logoutTaskCompletionHandler != null) {
+                logoutTaskCompletionHandler.logoutSuccess();
+            }
             return;
         }
 

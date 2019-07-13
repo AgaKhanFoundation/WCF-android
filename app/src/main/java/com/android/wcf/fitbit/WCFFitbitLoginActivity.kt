@@ -42,7 +42,7 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
         if (AuthenticationManager.isLoggedIn()) {
             onLoggedIn()
         }else{
-            AuthenticationManager.login(this)
+//            AuthenticationManager.login(this)
         }
     }
 

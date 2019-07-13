@@ -12,5 +12,6 @@ interface DeviceConnectionMvp {
     interface Host {
         fun setToolbarTitle(title: String)
         fun connectAppToFitbit()
+        fun disconnectAppFromFitbit()
     }
 }

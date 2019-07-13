@@ -1,5 +1,6 @@
 package com.android.wcf.settings;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -21,6 +22,7 @@ import com.fitbitsdk.authentication.AuthenticationConfiguration;
 import com.fitbitsdk.authentication.AuthenticationHandler;
 import com.fitbitsdk.authentication.AuthenticationManager;
 import com.fitbitsdk.authentication.AuthenticationResult;
+import com.fitbitsdk.authentication.LogoutTaskCompletionHandler;
 import com.fitbitsdk.authentication.Scope;
 import com.fitbitsdk.service.FitbitService;
 import com.fitbitsdk.service.models.Device;
@@ -38,16 +40,39 @@ import retrofit2.Response;
 public class SettingsActivity extends AppCompatActivity implements SettingsMvp.Host, DeviceConnectionMvp.Host, AuthenticationHandler {
 
     private Toolbar toolbar;
+    SharedPreferences sharedPreferences = null;
 
     private static final String TAG = SettingsActivity.class.getSimpleName();
+
+    private LogoutTaskCompletionHandler logoutTaskCompletionHandler = new LogoutTaskCompletionHandler() {
+        @Override
+        public void logoutSuccess() {
+            sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+        }
+
+        @Override
+        public void logoutError(String message) {
+            sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+        }
+    };
+
     public static Intent createIntent(Context context) {
-        Intent intent =  new Intent(context, SettingsActivity.class);
+        Intent intent = new Intent(context, SettingsActivity.class);
         return intent;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        sharedPreferences = getSharedPreferences(FitbitHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+
+        AuthenticationConfiguration authenticationConfiguration =
+                FitbitHelper.generateAuthenticationConfiguration(this, WCFFitbitLoginActivity.class);
+        AuthenticationManager.configure(this, authenticationConfiguration);
+
+       // FitbitHelper.authenticationConfiguration = authenticationConfiguration;
+
         setupView();
 
         showSettingsConfiguration();
@@ -59,6 +84,19 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
 
         if (!AuthenticationManager.onActivityResult(requestCode, resultCode, data, this)) {
             // Handle other activity results, if needed
+
+/*
+                if(result == AuthenticationResult.Status.dismissed) {
+
+                    displayAuthError(result);
+                }
+                if (requestCode == 1) {
+                    if (resultCode == Activity.RESULT_OK) {
+
+                    }
+                }
+
+ */
         }
     }
 
@@ -68,7 +106,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
-
     }
 
     @Override
@@ -84,7 +121,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
     private void setupView() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
     @Override
@@ -98,10 +134,12 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
 
     @Override
     public void connectAppToFitbit() {
-        AuthenticationConfiguration authenticationConfiguration =
-                FitbitHelper.Companion.generateAuthenticationConfiguration(this, WCFFitbitLoginActivity.class);
-        AuthenticationManager.configure(this, authenticationConfiguration );
         AuthenticationManager.login(SettingsActivity.this);
+    }
+
+    @Override
+    public void disconnectAppFromFitbit() {
+        AuthenticationManager.logout(SettingsActivity.this, logoutTaskCompletionHandler);
     }
 
     @Override
@@ -109,27 +147,31 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
         if (result != null) {
             if (result.isSuccessful()) {
                 onLoggedIn();
+                sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, true).commit();
             } else {
                 displayAuthError(result);
+                sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
             }
         }
     }
 
-    protected void onLoggedIn(){
+    protected void onLoggedIn() {
         getUserProfile();
         getDeviceProfile();
     }
 
+
     private void getUserProfile() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Fitbit", Context.MODE_PRIVATE);
         FitbitService fService = new FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().getClientCredentials());
-        fService.getUserService().profile().enqueue( new Callback<UserProfile>() {
+        fService.getUserService().profile().enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
                 UserProfile userProfile = response.body();
                 User user = userProfile.getUser();
                 Log.d(TAG, "User Response: " +
-                        user.getDisplayName() + " stride: " +  user.getStrideLengthWalking() + " " + user.getDistanceUnit());
+                        user.getDisplayName() + " stride: " + user.getStrideLengthWalking() + " " + user.getDistanceUnit());
+
+                sharedPreferences.edit().putString(FitbitHelper.FITBIT_USER_DISPLAY_NAME, user.getDisplayName()).commit();
             }
 
             @Override
@@ -140,17 +182,37 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
     }
 
     private void getDeviceProfile() {
-        SharedPreferences sharedPreferences = getSharedPreferences("Fitbit", Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences(FitbitHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         FitbitService fService = new FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().getClientCredentials());
-        fService.getDeviceService().devices().enqueue( new Callback<Device[]>() {
+        fService.getDeviceService().devices().enqueue(new Callback<Device[]>() {
             @Override
             public void onResponse(Call<Device[]> call, Response<Device[]> response) {
                 Device[] devices = response.body();
-                Device device = devices[0];
-                Log.d(TAG, "Device Response: " +
-                       "Type: " + device.getType() + "\n" +
-                        "version: " + device.getDeviceVersion() + "\n" +
-                        "last sync at : " + device.getLastSyncTime());
+
+                StringBuilder stringBuilder = new StringBuilder();
+
+                for (Device device : devices) {
+
+                    Log.d(TAG, "Device Response: " +
+                            "Type: " + device.getType() + "\n" +
+                            "version: " + device.getDeviceVersion() + "\n" +
+                            "synched at: " + device.getLastSyncTime());
+
+                    stringBuilder.append("<b>FITBIT ");
+                    stringBuilder.append(device.getDeviceVersion().toUpperCase());
+                    stringBuilder.append("&trade;</b><br>");
+
+                    stringBuilder.append("<b>Last Sync: </b>");
+                    stringBuilder.append(device.getLastSyncTime());
+                    stringBuilder.append("<br><br>");
+                }
+
+                if (stringBuilder.length() > 0) {
+                    stringBuilder.replace(stringBuilder.length() - 8, stringBuilder.length(), "");
+                    Log.d(TAG, "Device info: " + stringBuilder);
+                }
+
+                sharedPreferences.edit().putString(FitbitHelper.FITBIT_DEVICE_INFO, stringBuilder.toString()).commit();
             }
 
             @Override
@@ -159,7 +221,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
             }
         });
     }
-
 
     private void displayAuthError(AuthenticationResult authenticationResult) {
         String message = "";
@@ -175,7 +236,7 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
             String missingScopesText = TextUtils.join(", ", missingScopes);
             message = getString(R.string.missing_scopes_error) + missingScopesText;
         }
-       new AlertDialog.Builder(this)
+        new AlertDialog.Builder(this)
                 .setTitle(R.string.login_title)
                 .setMessage(message)
                 .setCancelable(false)

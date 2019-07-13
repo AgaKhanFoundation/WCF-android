@@ -10,10 +10,11 @@ import com.fitbitsdk.authentication.ClientCredentials
 import com.fitbitsdk.authentication.Scope
 import java.util.concurrent.TimeUnit
 
+
 class FitbitHelper {
 
     companion object {
-        fun generateAuthenticationConfiguration(context: Context, mainActivityClass: Class<out Activity>): AuthenticationConfiguration {
+        @JvmStatic fun generateAuthenticationConfiguration(context: Context, mainActivityClass: Class<out Activity>): AuthenticationConfiguration {
 
             try {
                 val ai = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
@@ -39,5 +40,12 @@ class FitbitHelper {
                 throw RuntimeException(e)
             }
         }
+        const val FITBIT_SHARED_PREF_NAME = "Fitbit"
+        const val FITBIT_DEVICE_SELECTED = "fitbit_device_selected"
+        const val FITBIT_DEVICE_LOGGED_IN = "fitbit_device_logged_in"
+        const val FITBIT_DEVICE_INFO =  "fitbit_device_info"
+        const val FITBIT_USER_DISPLAY_NAME = "fitbit_user_display_name"
+
+       @JvmField var authenticationConfiguration:AuthenticationConfiguration? = null
     }
 }
