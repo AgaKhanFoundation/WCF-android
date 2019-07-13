@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?textAppearanceSubtitle2"
-        android:text="@string/connecting_to_fitbit"
+        android:text="@string/connecting_to_fitness_device"
         android:maxLines="2"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
