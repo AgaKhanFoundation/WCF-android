@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
@@ -26,6 +28,8 @@ import retrofit2.Response;
  */
 public class AuthenticationManager {
 
+    public static final String FITBIT_SHARED_PREFERENCE_NAME = "Fitbit";
+    private static final String TAG = AuthenticationManager.class.getSimpleName();
     private static final int RESULT_CODE = 1;
     private static boolean configured = false;
     private static AuthenticationConfiguration authenticationConfiguration;
@@ -35,7 +39,7 @@ public class AuthenticationManager {
 
     public static void configure(Context context, AuthenticationConfiguration authenticationConfiguration) {
         AuthenticationManager.authenticationConfiguration = authenticationConfiguration;
-        SharedPreferences preferences = context.getSharedPreferences("Fitbit", Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences(FITBIT_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE);
         tokenStorage = new SharedPreferenceTokenStorage(preferences);
         configured = true;
         apiService = new FitbitService(preferences, authenticationConfiguration.getClientCredentials());
@@ -58,6 +62,8 @@ public class AuthenticationManager {
     }
 
     public static void login(Activity activity) {
+        Log.i(TAG, "login");
+
         Set<Scope> scopes = new HashSet<>();
         scopes.addAll(authenticationConfiguration.getRequiredScopes());
         scopes.addAll(authenticationConfiguration.getOptionalScopes());
@@ -71,6 +77,7 @@ public class AuthenticationManager {
     }
 
     public static boolean onActivityResult(int requestCode, int resultCode, Intent data, @NonNull AuthenticationHandler authenticationHandler) {
+        Log.i(TAG, "onActivityResult");
         checkPreconditions();
         switch (requestCode) {
             case (RESULT_CODE): {
@@ -111,6 +118,7 @@ public class AuthenticationManager {
     }
 
     public static void logout(final Activity contextActivity, @Nullable final LogoutTaskCompletionHandler logoutTaskCompletionHandler) {
+        Log.i(TAG, "logout");
         checkPreconditions();
         if (!isLoggedIn()) {
             if (logoutTaskCompletionHandler != null) {
@@ -122,14 +130,16 @@ public class AuthenticationManager {
         final ClientCredentials clientCredentials = getAuthenticationConfiguration().getClientCredentials();
         String tokenString = String.format("%s:%s", clientCredentials.getClientId(), clientCredentials.getClientSecret());
         String currentToken = getCurrentAccessToken().getAccess_token() != null ? getCurrentAccessToken().getAccess_token() : "";
-        apiService.getTokenService().revokeToken(tokenString, currentToken).enqueue(new Callback<Void>() {
+        apiService.getTokenService().revokeToken(currentToken).enqueue(new Callback<Void>() {
             @Override
             public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
+                Log.i(TAG, "revokeToken onResponse");
+
                 if (response.isSuccessful()){
                     Intent beforeLoginActivity = authenticationConfiguration.getBeforeLoginActivity();
-                    if (beforeLoginActivity != null) {
-                        contextActivity.startActivity(beforeLoginActivity);
-                    }
+//                    if (beforeLoginActivity != null) {
+//                        contextActivity.startActivity(beforeLoginActivity);
+//                    }
                     if (logoutTaskCompletionHandler != null) {
                         logoutTaskCompletionHandler.logoutSuccess();
                     }
@@ -141,6 +151,7 @@ public class AuthenticationManager {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
+                Log.i(TAG, "revokeToken onFailure");
                 logoutError("", contextActivity, logoutTaskCompletionHandler);
             }
         });
@@ -148,8 +159,10 @@ public class AuthenticationManager {
     }
 
     private static void logoutError(String message, Activity contextActivity, @Nullable LogoutTaskCompletionHandler logoutTaskCompletionHandler){
+        Log.i(TAG, "revokeToken onFailure");
         Intent beforeLoginActivity = authenticationConfiguration.getBeforeLoginActivity();
         if (beforeLoginActivity != null) {
+            Log.i(TAG, "logoutError startActivity beforeLoginActivity");
             contextActivity.startActivity(beforeLoginActivity);
         }
         if (logoutTaskCompletionHandler != null) {

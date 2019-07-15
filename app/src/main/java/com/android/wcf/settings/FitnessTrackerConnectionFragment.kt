@@ -18,8 +18,10 @@ import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.fitbit.FitbitHelper
 import com.fitbitsdk.authentication.AuthenticationManager
+import com.fitbitsdk.authentication.LogoutTaskCompletionHandler
 import com.fitbitsdk.service.FitbitService
 import com.fitbitsdk.service.models.Device
+import com.fitbitsdk.service.models.UserProfile
 import kotlinx.android.synthetic.main.fragment_device_connection.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -48,15 +50,15 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     iv_device_message_expand.setImageResource(R.drawable.ic_chevron_up)
                 }
             R.id.btn_connect_to_fitness_app -> {
-                Log.d(TAG, "btn_connect_to_fitness_app")
+                Log.i(TAG, "btn_connect_to_fitness_app")
             }
             R.id.btn_connect_to_fitness_device -> {
-                Log.d(TAG, "btn_connect_to_fitness_device")
+                Log.i(TAG, "btn_connect_to_fitness_device")
                 if (view.tag == TAG_DISCONNECT) {
-                    host?.disconnectAppFromFitbit()
+                    disconnectAppFromFitbit()
                 }
                 else {
-                    host?.connectAppToFitbit()
+                    connectAppToFitbit()
                 }
             }
         }
@@ -66,6 +68,15 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
         sharedPreferences = activity?.getSharedPreferences(FitbitHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE)
         val fragmentView = inflater.inflate(R.layout.fragment_device_connection, container, false)
+
+        val expandImage: ImageView = fragmentView.findViewById(R.id.iv_device_message_expand)
+        val fitnessAppButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_app)
+        val fitnessDeviceButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_device)
+
+        expandImage.setOnClickListener(onClickListener)
+        fitnessAppButton.setOnClickListener(onClickListener)
+        fitnessDeviceButton.setOnClickListener(onClickListener)
+
         return fragmentView
     }
 
@@ -81,7 +92,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
     override fun onStart() {
         super.onStart()
-        Log.d(TAG, "onStart")
+        Log.i(TAG, "onStart")
         var deviceLoggedIn = false
         sharedPreferences?.let {
             deviceLoggedIn = it.getBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false)
@@ -90,11 +101,35 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             getDeviceProfile()
         }
         else {
-            onDeviceInfoRetrieved() //fake it to update view
+            updateDeviceInfoView() //fake it to update view
         }
     }
 
-    private fun onDeviceInfoRetrieved() {
+    override fun onAttach(context: Context?) {
+        Log.i(TAG, "onAttach")
+        super.onAttach(context)
+        if (context is FitnessTrackerConnectionMvp.Host) {
+            this.host = context
+        }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId) {
+            android.R.id.home -> {
+                activity!!.onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    protected fun onLoggedIn() {
+        Log.i(TAG, "onLoggedIn")
+        getUserProfile()
+        getDeviceProfile()
+    }
+
+    private fun updateDeviceInfoView() {
         view?.let { fragmentView ->
             val rbFitnessApp: RadioButton = fragmentView.findViewById(R.id.rb_connect_to_fitness_app)
             val btnFitnessApp: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_app)
@@ -159,83 +194,111 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     }
                 }
 
-                val expandImage: ImageView = fragmentView.findViewById(R.id.iv_device_message_expand)
-                val fitnessAppButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_app)
-                val fitnessDeviceButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_device)
-
-                expandImage.setOnClickListener(onClickListener)
-                fitnessAppButton.setOnClickListener(onClickListener)
-                fitnessDeviceButton.setOnClickListener(onClickListener)
-
             }
         }
     }
 
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-        if (context is FitnessTrackerConnectionMvp.Host) {
-            this.host = context
+    fun connectAppToFitbit() {
+        Log.i(TAG, "connectAppToFitbit")
+        AuthenticationManager.login(activity)
+    }
+
+    fun disconnectAppFromFitbit() {
+        Log.i(TAG, "disconnectAppFromFitbit")
+        AuthenticationManager.logout(activity, fitbitLogoutTaskCompletionHandler)
+    }
+
+    private val fitbitLogoutTaskCompletionHandler = object : LogoutTaskCompletionHandler {
+        override fun logoutSuccess() {
+            Log.i(TAG, "fitbitLogoutTaskCompletionHandler: logoutSuccess")
+            onFitbitLogoutSuccess()
+        }
+
+        override fun logoutError(message: String) {
+            Log.i(TAG, "fitbitLogoutTaskCompletionHandler: logoutError")
+            onFitbitLogoutError(message)
+
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
-            android.R.id.home -> {
-                activity!!.onBackPressed()
-                return true
-            }
+    protected fun onFitbitLogoutSuccess() {
+        Log.i(TAG, "onFitbitLogoutSuccess")
+        sharedPreferences?.edit()?.putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
+        onLoggedIn()
+    }
+
+    protected fun onFitbitLogoutError(message: String) {
+        Log.i(TAG, "onFitbitLogoutError")
+        sharedPreferences?.edit()?.putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
+        updateDeviceInfoView()
+    }
+
+    private fun getUserProfile() {
+        Log.i(TAG, "getUserProfile")
+        sharedPreferences?.let { sharedPreferences ->
+            val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
+            fService.getUserService().profile().enqueue(object : Callback<UserProfile> {
+                override fun onResponse(call: Call<UserProfile>, response: Response<UserProfile>) {
+                    val userProfile = response.body()
+                    var displayName: String = ""
+                    userProfile?.let {
+                        val user = it.user
+                        Log.i(TAG, "User Response: " +
+                                user.displayName + " stride: " + user.strideLengthWalking + " " + user.distanceUnit)
+                        displayName = user.displayName
+                    }
+
+                    sharedPreferences.edit().putString(FitbitHelper.FITBIT_USER_DISPLAY_NAME, displayName).commit()
+                }
+
+                override fun onFailure(call: Call<UserProfile>, t: Throwable) {
+                    Log.e(TAG, "Error: " + t.message)
+                }
+            })
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun getDeviceProfile() {
+        Log.i(TAG, "getDeviceProfile")
         sharedPreferences?.let { sharedPreferences ->
-            val deviceLoggedIn:Boolean = sharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false)
+            val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
+            fService.getDeviceService().devices().enqueue(object : Callback<Array<Device>> {
+                override fun onResponse(call: Call<Array<Device>>, response: Response<Array<Device>>) {
+                    val devices = response.body()
 
-            if (deviceLoggedIn) {
-                val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
-                fService.getDeviceService().devices().enqueue(object : Callback<Array<Device>> {
-                    override fun onResponse(call: Call<Array<Device>>, response: Response<Array<Device>>) {
-                        val devices = response.body()
+                    val stringBuilder = StringBuilder()
 
-                        val stringBuilder = StringBuilder()
+                    devices?.let { devices ->
+                        for (device in devices!!) {
 
-                        devices?.let { devices ->
-                            for (device in devices!!) {
+                            Log.i(TAG, "Device Response: " +
+                                    "Type: " + device.type + "\n" +
+                                    "version: " + device.deviceVersion + "\n" +
+                                    "last sync at : " + device.lastSyncTime)
 
-                                Log.d(TAG, "Device Response: " +
-                                        "Type: " + device.type + "\n" +
-                                        "version: " + device.deviceVersion + "\n" +
-                                        "last sync at : " + device.lastSyncTime)
+                            stringBuilder.append("<b>FITBIT ")
+                            stringBuilder.append(device.deviceVersion.toUpperCase())
+                            stringBuilder.append("&trade;</b><br>")
 
-                                stringBuilder.append("<b>FITBIT ")
-                                stringBuilder.append(device.deviceVersion.toUpperCase())
-                                stringBuilder.append("&trade;</b><br>")
-
-                                stringBuilder.append("<b>Last Sync: </b>")
-                                stringBuilder.append(device.lastSyncTime)
-                                stringBuilder.append("<br><br>")
-                            }
-
-                            if (stringBuilder.length > 0) {
-                                stringBuilder.replace(stringBuilder.length - 8, stringBuilder.length, "")
-                                Log.d(TAG, "Device info: $stringBuilder")
-                            }
+                            stringBuilder.append("<b>Last Sync: </b>")
+                            stringBuilder.append(device.lastSyncTime)
+                            stringBuilder.append("<br><br>")
                         }
 
-                        sharedPreferences.edit().putString(FitbitHelper.FITBIT_DEVICE_INFO, stringBuilder.toString()).commit()
-
-                        onDeviceInfoRetrieved()
-
+                        if (stringBuilder.length > 0) {
+                            stringBuilder.replace(stringBuilder.length - 8, stringBuilder.length, "")
+                            Log.i(TAG, "Device info: $stringBuilder")
+                        }
                     }
+                    sharedPreferences.edit().putString(FitbitHelper.FITBIT_DEVICE_INFO, stringBuilder.toString()).commit()
+                    updateDeviceInfoView()
+                }
 
-                    override fun onFailure(call: Call<Array<Device>>, t: Throwable) {
-                        Log.e(TAG, "Device api Error: " + t.message)
-                    }
-                })
-            }
+                override fun onFailure(call: Call<Array<Device>>, t: Throwable) {
+                    Log.e(TAG, "Device api Error: " + t.message)
+                    updateDeviceInfoView()
+                }
+            })
         }
     }
-
-
 }

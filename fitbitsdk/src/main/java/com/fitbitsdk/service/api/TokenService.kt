@@ -8,8 +8,7 @@ interface TokenService{
 
     @Headers("Content-Type: application/json")
     @POST("oauth2/revoke")
-    fun revokeToken(@Header("Authorization") authorization: String,
-                    @Query("token") token: String): Call<Void>
+    fun revokeToken(@Query("token") token: String): Call<Void>
 
 //    @Headers("Content-Type: application/x-www-form-urlencoded")
     @FormUrlEncoded

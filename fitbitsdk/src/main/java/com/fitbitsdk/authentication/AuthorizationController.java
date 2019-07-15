@@ -68,7 +68,7 @@ public class AuthorizationController implements UrlChangeHandler {
 
         final String authorizationCode = uri.getQueryParameter("code");
 
-        FitbitService fitbitService = new FitbitService(webView.getContext().getSharedPreferences("Fitbit", Context.MODE_PRIVATE), clientCredentials);
+        FitbitService fitbitService = new FitbitService(webView.getContext().getSharedPreferences(AuthenticationManager.FITBIT_SHARED_PREFERENCE_NAME, Context.MODE_PRIVATE), clientCredentials);
         fitbitService.getTokenService().authorizeCode(clientCredentials.getClientId(), AUTHORIZATION_CODE_GRANT, clientCredentials.getRedirectUrl(), authorizationCode).enqueue(new Callback<OAuthAccessToken>() {
             @Override
             public void onResponse(@NonNull Call<OAuthAccessToken> call, @NonNull Response<OAuthAccessToken> accessTokenObject) {

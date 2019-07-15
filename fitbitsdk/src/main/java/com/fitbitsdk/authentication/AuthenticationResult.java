@@ -102,6 +102,10 @@ public class AuthenticationResult implements Parcelable {
         return status == Status.successful;
     }
 
+    public boolean isDismissed() {
+        return status == Status.dismissed;
+    }
+
     public String getErrorMessage() {
         return errorMessage;
     }

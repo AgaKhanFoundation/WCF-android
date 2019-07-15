@@ -4,21 +4,18 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import com.fitbitsdk.authentication.AuthenticationConfiguration
-import com.fitbitsdk.authentication.AuthenticationConfigurationBuilder
-import com.fitbitsdk.authentication.ClientCredentials
-import com.fitbitsdk.authentication.Scope
+import com.fitbitsdk.authentication.*
 import java.util.concurrent.TimeUnit
 
 
 class FitbitHelper {
 
     companion object {
-        @JvmStatic fun generateAuthenticationConfiguration(context: Context, mainActivityClass: Class<out Activity>): AuthenticationConfiguration {
+        @JvmStatic fun generateAuthenticationConfiguration(context: Context, mainActivityClass: Class<out Activity>?): AuthenticationConfiguration {
 
             try {
-                val ai = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
-                val bundle = ai.metaData
+                val applicationInfoMetaData = context.packageManager.getApplicationInfo(context.packageName, PackageManager.GET_META_DATA)
+                val bundle = applicationInfoMetaData.metaData
 
                 // Load clientId and redirectUrl from application manifest
                 val clientId = bundle.getString("com.wcf.fitbit.CLIENT_ID")
@@ -27,20 +24,23 @@ class FitbitHelper {
 
                 val clientCredentials = ClientCredentials(clientId, clientSecret, redirectUrl)
 
-                return AuthenticationConfigurationBuilder()
+                val builder = AuthenticationConfigurationBuilder()
                         .setClientCredentials(clientCredentials)
-                        .setBeforeLoginActivity(Intent(context, mainActivityClass))
                         .setTokenExpiresIn(TimeUnit.DAYS.toMillis(1))
                         .addRequiredScopes(Scope.activity)
                         .addOptionalScopes(Scope.settings, Scope.profile)
-                        .setLogoutOnAuthFailure(true)
-                        .build()
+                        .setLogoutOnAuthFailure(false)
+
+                        mainActivityClass?.let {
+                            builder.setBeforeLoginActivity(Intent(context, it))
+                        }
+                        return builder.build()
 
             } catch (e: Exception) {
                 throw RuntimeException(e)
             }
         }
-        const val FITBIT_SHARED_PREF_NAME = "Fitbit"
+        const val FITBIT_SHARED_PREF_NAME = AuthenticationManager.FITBIT_SHARED_PREFERENCE_NAME
         const val FITBIT_DEVICE_SELECTED = "fitbit_device_selected"
         const val FITBIT_DEVICE_LOGGED_IN = "fitbit_device_logged_in"
         const val FITBIT_DEVICE_INFO =  "fitbit_device_info"

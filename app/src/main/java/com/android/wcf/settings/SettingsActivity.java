@@ -3,6 +3,7 @@ package com.android.wcf.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
@@ -23,6 +24,7 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
@@ -33,6 +35,7 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
     }
 
