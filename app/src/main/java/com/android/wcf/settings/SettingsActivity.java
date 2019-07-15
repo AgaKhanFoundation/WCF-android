@@ -3,29 +3,40 @@ package com.android.wcf.settings;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
-import com.android.wcf.R;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
-public class SettingsActivity extends AppCompatActivity implements SettingsMvp.Host, DeviceConnectionMvp.Host {
+import com.android.wcf.R;
+import com.android.wcf.base.BaseActivity;
+
+public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
 
     private Toolbar toolbar;
 
+    protected static final String TAG = SettingsActivity.class.getSimpleName();
+
     public static Intent createIntent(Context context) {
-        Intent intent =  new Intent(context, SettingsActivity.class);
+        Intent intent = new Intent(context, SettingsActivity.class);
         return intent;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+
         setupView();
 
         showSettingsConfiguration();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResult");
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void showSettingsConfiguration() {
@@ -34,12 +45,11 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
                 .commit();
-
     }
 
     @Override
     public void showDeviceConnection() {
-        Fragment fragment = new DeviceConnectionFragment();
+        Fragment fragment = new FitnessTrackerConnectionFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)
@@ -50,15 +60,6 @@ public class SettingsActivity extends AppCompatActivity implements SettingsMvp.H
     private void setupView() {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
     }
 
-    @Override
-    public void setToolbarTitle(String title) {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle(title);
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-    }
 }

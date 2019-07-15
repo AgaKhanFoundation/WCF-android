@@ -1,1 +1,1 @@
-include ':app', ':pageindicatorview'
+include ':app', ':pageindicatorview', ':fitbitsdk'

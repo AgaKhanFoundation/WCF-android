@@ -16,6 +16,12 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+        
+        manifestPlaceholders = [
+                fitbit_client_id: "22CZ2W",
+                fitbit_client_secret: "ffe6f7749d28e4ec79416771d0698749",
+                fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
+        ]
     }
 
     signingConfigs {
@@ -24,6 +30,7 @@ android {
             keyAlias "androiddebugkey"
             storePassword "android"
             keyPassword "android"
+
         }
 //        releaseConfig {
 //            storeFile file("akf_wcf.keystore")
@@ -48,6 +55,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
             signingConfig signingConfigs.debugConfig
+
+            manifestPlaceholders = [
+                    fitbit_client_id: "22CZ2W",
+                    fitbit_client_secret: "ffe6f7749d28e4ec79416771d0698749",
+                    fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
+            ]
         }
     }
 
@@ -76,6 +89,7 @@ dependencies {
     // jars
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':pageindicatorview')
+    implementation project(':fitbitsdk')
 
     //Support Libs
     implementation "androidx.appcompat:appcompat:${supportLibVersion}"
