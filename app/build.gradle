@@ -115,6 +115,9 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
+    implementation ("com.facebook.android:facebook-share:${facebookSdkVersion}") {
+        exclude group: 'com.android.support'
+    }
     //ExoPlayer Google
     implementation "com.google.android.exoplayer:exoplayer-core:${exoPlayerVersion}"
     implementation "com.google.android.exoplayer:exoplayer-dash:${exoPlayerVersion}"
