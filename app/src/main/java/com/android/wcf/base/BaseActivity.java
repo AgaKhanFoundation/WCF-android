@@ -284,13 +284,17 @@ public abstract class BaseActivity extends AppCompatActivity
         Log.i(TAG, "displayAuthError");
         String message = "";
 
-        if (authenticationResult.getStatus() == AuthenticationResult.Status.dismissed)
+        if (authenticationResult.getStatus() == AuthenticationResult.Status.dismissed) {
             return;
-//            message = getString(R.string.login_dismissed);
-
-        else if (authenticationResult.getStatus() == AuthenticationResult.Status.error)
-            message = authenticationResult.getErrorMessage();
-
+        }
+        else if (authenticationResult.getStatus() == AuthenticationResult.Status.error) {
+            if (authenticationResult.getErrorMessage().startsWith("net::ERR_INTERNET_DISCONNECTED")) {
+                message = "Please check internet connection and try again";
+            }
+            else {
+                message = authenticationResult.getErrorMessage();
+            }
+        }
         else if (authenticationResult.getStatus() == AuthenticationResult.Status.missing_required_scopes) {
             Set<Scope> missingScopes = authenticationResult.getMissingScopes();
             String missingScopesText = TextUtils.join(", ", missingScopes);

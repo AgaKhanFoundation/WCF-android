@@ -24,6 +24,7 @@
     </string-array>
     <string name="fb_login_protocol_scheme">fb517692571972108</string>
     <string name="facebook_app_id">517692571972108</string>
+    <string name="facebook_steps4change_group_id">466564417434674</string>
 
     <string name="title_activity_home">Home</string>
     <string name="nav_dashboard">Dashboard</string>

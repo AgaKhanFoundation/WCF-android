@@ -47,6 +47,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -110,7 +111,9 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                                     SharedPreferencesUtil.saveUserEmail(userEmail);
                                     SharedPreferencesUtil.saveUserFbProfileUrl(userProfileUrl);
 
-                                    presenter.onLoginSuccess();
+                                    joinFBGroup(token, userId);
+
+                                   // presenter.onLoginSuccess();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
@@ -136,6 +139,30 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
         });
     }
 
+    void joinFBGroup(AccessToken accessToken, String userId) {
+
+//        new GraphRequest(
+//                AccessToken.getCurrentAccessToken(),
+//                "/group/466564417434674/members",
+//                null,
+//                HttpMethod.POST,
+//                new GraphRequest.Callback() {
+//                    public void onCompleted(GraphResponse response) {
+//                        /* handle the result */
+//                    }
+//                }
+//        ).executeAsync();
+//    }
+//        GraphRequest.newPostRequest(accessToken, "/group/466564417434674/members", new JSONObject("userId)),
+//                new GraphRequest.GraphJSONObjectCallback() {
+//        @Override
+//        public void onCompleted (JSONObject object, GraphResponse response){
+//
+//            SharedPreferencesUtil.getMyFacebookId(userId);
+//
+//
+//        }
+    }
     @Override
     public void showMessage(String message) {
         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
