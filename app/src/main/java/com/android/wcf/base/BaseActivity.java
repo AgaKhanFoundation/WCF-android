@@ -1,5 +1,6 @@
 package com.android.wcf.base;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -17,7 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.wcf.R;
 import com.android.wcf.fitbit.FitbitHelper;
-import com.android.wcf.fitbit.WCFFitbitLoginActivity;
+import com.android.wcf.googlefit.GoogleFitHelper;
 import com.android.wcf.settings.FitnessTrackerConnectionMvp;
 import com.fitbitsdk.authentication.AuthenticationConfiguration;
 import com.fitbitsdk.authentication.AuthenticationHandler;
@@ -29,6 +30,14 @@ import com.fitbitsdk.service.FitbitService;
 import com.fitbitsdk.service.models.Device;
 import com.fitbitsdk.service.models.User;
 import com.fitbitsdk.service.models.UserProfile;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.fitness.ConfigClient;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.DataType;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -71,8 +80,6 @@ public abstract class BaseActivity extends AppCompatActivity
                 FitbitHelper.generateAuthenticationConfiguration(this, null);
         AuthenticationManager.configure(this, fitbitAuthenticationConfiguration);
 
-        // FitbitHelper.authenticationConfiguration = authenticationConfiguration;
-
     }
 
     @Override
@@ -80,21 +87,20 @@ public abstract class BaseActivity extends AppCompatActivity
         Log.i(TAG, "onActivityResult");
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (!AuthenticationManager.onActivityResult(requestCode, resultCode, data, this)) {
-            // Handle other activity results, if needed
-
-/*
-                if(result == AuthenticationResult.Status.dismissed) {
-
-                    displayAuthError(result);
+        switch (requestCode) {
+            case AuthenticationManager.FITBIT_LOGIN_REQUEST_CODE:
+                if (!AuthenticationManager.onActivityResult(requestCode, resultCode, data, this)) {
+                    // Handle other activity results, if needed
                 }
-                if (requestCode == 1) {
-                    if (resultCode == Activity.RESULT_OK) {
+                break;
 
-                    }
-                }
+            case RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE: {
+                //TODO: make a GoogleFitAuthManager similar to Fitbit's
+                onActivityResultForGoogleFit(requestCode, resultCode, data);
 
- */
+            }
+            default:
+                Log.e(TAG, "Unhandled Request Code " + requestCode);
         }
     }
 
@@ -113,7 +119,6 @@ public abstract class BaseActivity extends AppCompatActivity
     public void showError(int messageId) {
         Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     public void showMessage(String message) {
@@ -180,6 +185,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
+    /************* Fitbit related methods   ****************/
 
     @Override
     public void connectAppToFitbit() {
@@ -192,6 +198,7 @@ public abstract class BaseActivity extends AppCompatActivity
         Log.i(TAG, "disconnectAppFromFitbit");
         AuthenticationManager.logout(this, fitbitLogoutTaskCompletionHandler);
     }
+
     @Override
     public void onAuthFinished(AuthenticationResult result) {
         Log.i(TAG, "onAuthFinished");
@@ -199,7 +206,7 @@ public abstract class BaseActivity extends AppCompatActivity
             if (result.isSuccessful()) {
                 onLoggedIn();
                 sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, true).commit();
-            } else if (!result.isDismissed()){
+            } else if (!result.isDismissed()) {
                 displayAuthError(result);
                 sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
             }
@@ -286,19 +293,16 @@ public abstract class BaseActivity extends AppCompatActivity
 
         if (authenticationResult.getStatus() == AuthenticationResult.Status.dismissed) {
             return;
-        }
-        else if (authenticationResult.getStatus() == AuthenticationResult.Status.error) {
+        } else if (authenticationResult.getStatus() == AuthenticationResult.Status.error) {
             if (authenticationResult.getErrorMessage().startsWith("net::ERR_INTERNET_DISCONNECTED")) {
                 message = "Please check internet connection and try again";
-            }
-            else {
+            } else {
                 message = authenticationResult.getErrorMessage();
             }
-        }
-        else if (authenticationResult.getStatus() == AuthenticationResult.Status.missing_required_scopes) {
+        } else if (authenticationResult.getStatus() == AuthenticationResult.Status.missing_required_scopes) {
             Set<Scope> missingScopes = authenticationResult.getMissingScopes();
             String missingScopesText = TextUtils.join(", ", missingScopes);
-            message = missingScopesText + " " + getString(R.string.missing_scopes_error) ;
+            message = missingScopesText + " " + getString(R.string.missing_scopes_error);
         }
         new AlertDialog.Builder(this)
                 .setTitle(R.string.login_title)
@@ -324,4 +328,79 @@ public abstract class BaseActivity extends AppCompatActivity
         Log.i(TAG, "onFitbitLogoutError");
         sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
     }
+
+    /************* end of fitbit related methods ***************/
+
+    /************* Google Fit related methods   ****************/
+    @Override
+    public void connectAppToGoogleFit() {
+        FitnessOptions fitnessOptions = FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .build();
+
+        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
+            GoogleSignIn.requestPermissions(
+                    this, // your activity
+                    RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE,
+                    GoogleSignIn.getLastSignedInAccount(this),
+                    fitnessOptions);
+        } else {
+            onGoogleFitLoggedIn();
+        }
+    }
+
+    protected void onActivityResultForGoogleFit(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResultForGoogleFit");
+        if (resultCode == Activity.RESULT_OK) {
+            sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit();
+            onGoogleFitLoggedIn();
+        } else {
+            sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+        }
+    }
+
+    protected void onGoogleFitLoggedIn() {
+
+    }
+
+
+    public void disconnectAppFromGoogleFit() {
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
+
+        if (googleSignInAccount != null) {
+            ConfigClient configClient = Fitness.getConfigClient(this, googleSignInAccount);
+            if (configClient != null) {
+                configClient.disableFit();
+            }
+        }
+        sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+        onGoogleFitLogoutSuccess();
+
+//        FitnessOptions options =  FitnessOptions.builder()
+//                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+//                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+//                .build();
+//
+//        GoogleSignInOptions signInOptions = null;
+//
+//       GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
+//       client.revokeAccess();
+//
+//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+//        if (account != null) {
+//            Fitness.getConfigClient(this, account).disableFit();
+//            sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+//        }
+//        onGoogleFitLogoutSuccess();
+    }
+
+    protected void onGoogleFitLogoutSuccess() {
+
+    }
+
+    protected void onGoogleFitLogoutError() {
+
+    }
+
 }

@@ -95,7 +95,6 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
                                 String userName = "", userId = "", userEmail = "", userGender = "", userProfileUrl = "";
-                                Log.e("response: ", response + "");
                                 try {
                                     AccessToken token = AccessToken.getCurrentAccessToken();
                                     Log.d("access only Token is", String.valueOf(token.getToken()));
@@ -110,10 +109,9 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                                     SharedPreferencesUtil.saveUserFullName(userName);
                                     SharedPreferencesUtil.saveUserEmail(userEmail);
                                     SharedPreferencesUtil.saveUserFbProfileUrl(userProfileUrl);
-
                                     joinFBGroup(token, userId);
+                                    presenter.onLoginSuccess();
 
-                                   // presenter.onLoginSuccess();
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
