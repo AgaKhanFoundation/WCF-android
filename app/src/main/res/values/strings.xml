@@ -81,15 +81,15 @@
     <!--device connection -->
     <string name="settings_connect_device_title">Connected Apps &amp; Devices</string>
 
-    <string name="settings_device_label_fitness_app">Fitness App</string>
-    <string name="settings_device_fitness_app_connect_text">Connect</string>
-    <string name="settings_device_fitness_app_disconnect_text">Disconnect</string>
-    <string name="settings_connect_device_fitness_app_message">Connect a fitness app to track your daily steps.</string>
+    <string name="settings_connect_label_fitness_app">Fitness App</string>
+    <string name="settings_fitness_app_connect_label">Connect</string>
+    <string name="settings_fitness_app_disconnect_label">Disconnect</string>
+    <string name="settings_fitness_app_connect_message">Connect a fitness app to track your daily steps.</string>
 
-    <string name="settings_device_label_fitness_device">Fitbit</string>
-    <string name="settings_fitness_device_connect_text">Connect</string>
-    <string name="settings_fitness_device_disconnect_text">Disconnect</string>
-    <string name="settings_connect_device_fitness_device_message">Connect your Fitbit to sync your daily steps.</string>
+    <string name="settings_connect_label_fitness_device">Fitbit</string>
+    <string name="settings_fitness_device_connect_label">Connect</string>
+    <string name="settings_fitness_device_disconnect_label">Disconnect</string>
+    <string name="settings_fitness_device_connect_message">Connect your Fitbit to sync your daily steps.</string>
 
     <!-- image content description -->
     <string name="content_description_participant_photo">Participant photo</string>

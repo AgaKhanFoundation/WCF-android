@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -37,11 +38,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.fitness.ConfigClient;
 import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.Bucket;
+import com.google.android.gms.fitness.data.DataPoint;
+import com.google.android.gms.fitness.data.DataSet;
 import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.request.DataReadRequest;
+import com.google.android.gms.fitness.result.DataReadResponse;
+import com.google.android.gms.fitness.result.DataReadResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -84,7 +99,8 @@ public abstract class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "onActivityResult");
+        final int unmaskedRequestCode = requestCode & 0x0000ffff;
+        Log.i(TAG, "onActivityResult for " + unmaskedRequestCode);
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (requestCode) {
@@ -204,7 +220,7 @@ public abstract class BaseActivity extends AppCompatActivity
         Log.i(TAG, "onAuthFinished");
         if (result != null) {
             if (result.isSuccessful()) {
-                onLoggedIn();
+                onFitbitLoggedIn();
                 sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, true).commit();
             } else if (!result.isDismissed()) {
                 displayAuthError(result);
@@ -213,8 +229,8 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    protected void onLoggedIn() {
-        Log.i(TAG, "onLoggedIn");
+    protected void onFitbitLoggedIn() {
+        Log.i(TAG, "onFitbitLoggedIn");
         getUserProfile();
         getDeviceProfile();
     }
@@ -362,6 +378,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected void onGoogleFitLoggedIn() {
 
+        readStepsCountForWeek();
     }
 
 
@@ -374,25 +391,22 @@ public abstract class BaseActivity extends AppCompatActivity
                 configClient.disableFit();
             }
         }
+
+        Fitness.getConfigClient(this, GoogleSignIn.getLastSignedInAccount(this)).disableFit();
+
+        FitnessOptions fitnessOptions =  FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .build();
+
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder().addExtension(fitnessOptions).build();
+
+        GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
+        client.revokeAccess();
+
         sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
         onGoogleFitLogoutSuccess();
 
-//        FitnessOptions options =  FitnessOptions.builder()
-//                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-//                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-//                .build();
-//
-//        GoogleSignInOptions signInOptions = null;
-//
-//       GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
-//       client.revokeAccess();
-//
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        if (account != null) {
-//            Fitness.getConfigClient(this, account).disableFit();
-//            sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
-//        }
-//        onGoogleFitLogoutSuccess();
     }
 
     protected void onGoogleFitLogoutSuccess() {
@@ -401,6 +415,95 @@ public abstract class BaseActivity extends AppCompatActivity
 
     protected void onGoogleFitLogoutError() {
 
+    }
+
+    private void readStepsCountForWeek() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.WEEK_OF_YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+
+        //TODO: try this, looks like it waits for results to come
+//from: /Users/sultan/Documents/projects/samples/sample_android/sensors/Corey/app/src/main/java/at/shockbytes/corey/data/body/GoogleFitBodyRepository.kt
+//        GoogleSignInOptionsExtension fitnessOptions =
+//                FitnessOptions.builder()
+//                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+//                        .build();
+//        GoogleSignInAccount gsa = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
+//
+//        Date now = new Date();
+//        Task<DataReadResponse> response = Fitness.getHistoryClient(this, gsa)
+//                .readData(new DataReadRequest.Builder()
+//                        .read(DataType.TYPE_STEP_COUNT_DELTA)
+//                        .setTimeRange(now.getTime() - 7*24*60*60*1000, now.getTime(), TimeUnit.MILLISECONDS)
+//                        .build());
+//
+//        DataReadResult readDataResult = Tasks.await(response);
+//        DataSet dataSet = readDataResult.getDataSet(DataType.TYPE_STEP_COUNT_DELTA);
+
+
+        DataReadRequest readRequest = new DataReadRequest.Builder()
+                .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
+                .bucketByTime(1, TimeUnit.DAYS)
+                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+                .build();
+
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this)).readData(readRequest)
+                .addOnSuccessListener(new OnSuccessListener<DataReadResponse>() {
+                    @Override
+                    public void onSuccess(DataReadResponse dataReadResponse) {
+                        List<Bucket> buckets = dataReadResponse.getBuckets();
+
+                        int totalSteps = 0;
+
+                        for (Bucket bucket : buckets) {
+
+                            List<DataSet> dataSets = bucket.getDataSets();
+
+                            for (DataSet dataSet : dataSets) {
+//                                if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
+
+
+                                for (DataPoint dp : dataSet.getDataPoints()) {
+                                    for (Field field : dp.getDataType().getFields()) {
+                                        int steps = dp.getValue(field).asInt();
+                                        totalSteps += steps;
+                                    }
+                                }
+                            }
+//                            }
+                        }
+                        Log.i(TAG, "total steps for this week: " + totalSteps);
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        List<Bucket> buckets = ((DataReadResponse) task.getResult()).getBuckets();
+
+                        int totalSteps = 0;
+
+                        for (Bucket bucket : buckets) {
+
+                            List<DataSet> dataSets = bucket.getDataSets();
+
+                            for (DataSet dataSet : dataSets) {
+//                                if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
+
+
+                                for (DataPoint dp : dataSet.getDataPoints()) {
+                                    for (Field field : dp.getDataType().getFields()) {
+                                        int steps = dp.getValue(field).asInt();
+                                        totalSteps += steps;
+                                    }
+                                }
+                            }
+//                            }
+                        }
+                        Log.i(TAG, "total steps for this week: " + totalSteps);
+                    }
+                });
     }
 
 }

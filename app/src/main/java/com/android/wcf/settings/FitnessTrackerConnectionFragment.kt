@@ -31,10 +31,16 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
+import com.google.android.gms.fitness.request.DataReadRequest
+import com.google.android.gms.fitness.result.DataReadResponse
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import kotlinx.android.synthetic.main.fragment_device_connection.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
+import java.util.concurrent.TimeUnit
 
 class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectionMvp.View {
 
@@ -61,9 +67,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             R.id.btn_connect_to_fitness_app -> {
                 Log.i(TAG, "btn_connect_to_fitness_app")
                 if (view.tag == TAG_DISCONNECT) {
-                   disconnectAppFromGoogleFit()
-                }
-                else {
+                    disconnectAppFromGoogleFit()
+                } else {
                     connectAppToGoogleFit()
                 }
             }
@@ -71,8 +76,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                 Log.i(TAG, "btn_connect_to_fitness_device")
                 if (view.tag == TAG_DISCONNECT) {
                     disconnectAppFromFitbit()
-                }
-                else {
+                } else {
                     connectAppToFitbit()
                 }
             }
@@ -117,12 +121,10 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         }
         if (fitnessDeviceLoggedIn) {
             getDeviceProfile()
-        }
-        else if(fitnessAppLoggedIn){
-            updateDeviceInfoView() //fake it to update view
-        }
-        else {
-            updateDeviceInfoView() //fake it to update view
+        } else if (fitnessAppLoggedIn) {
+            updateConnectionInfoView() //fake it to update view
+        } else {
+            updateConnectionInfoView() //fake it to update view
         }
     }
 
@@ -144,7 +146,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         return super.onOptionsItemSelected(item)
     }
 
-     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         Log.i(TAG, "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -165,13 +167,13 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
 
     /*********** Fitbit related methods *************/
-    protected fun onLoggedIn() {
-        Log.i(TAG, "onLoggedIn")
+    protected fun onFitbitLoggedIn() {
+        Log.i(TAG, "onFitbitLoggedIn")
         getUserProfile()
         getDeviceProfile()
     }
 
-    private fun updateDeviceInfoView() {
+    private fun updateConnectionInfoView() {
         view?.let { fragmentView ->
             val rbFitnessApp: RadioButton = fragmentView.findViewById(R.id.rb_connect_to_fitness_app)
             val btnFitnessApp: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_app)
@@ -180,6 +182,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             val btnFitnessDevice: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_device)
             val tvFitnessDeviceInfo: TextView = fragmentView.findViewById(R.id.tv_fitness_device_info)
             val tvFitnessDeviceUser: TextView = fragmentView.findViewById(R.id.tv_fitness_device_user)
+            val tvFitnessAappMessage:TextView = fragmentView.findViewById(R.id.tv_fitness_app_message)
 
             sharedPreferences?.let { sharedPreferences ->
                 val deviceChoice = sharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_SELECTED, false)
@@ -193,16 +196,19 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     rbFitnessDevice.setChecked(deviceChoice)
                     rbFitnessApp.setChecked(!deviceChoice)
                     btnFitnessApp.setEnabled(!deviceChoice)
-                }
-                else if(appChoice) {
+                } else if (appChoice) {
                     rbFitnessApp.setChecked(appChoice)
                     btnFitnessApp.setEnabled(appChoice)
                     btnFitnessDevice.setEnabled(!appChoice)
                     rbFitnessDevice.setChecked(!appChoice)
                 }
+                else {
+                    btnFitnessApp.setEnabled(false)
+                    btnFitnessDevice.setEnabled(false)
+                }
 
                 if (deviceLoggedIn) {
-                    btnFitnessDevice.text = getText(R.string.settings_fitness_device_disconnect_text)
+                    btnFitnessDevice.text = getText(R.string.settings_fitness_device_disconnect_label)
                     btnFitnessDevice.tag = TAG_DISCONNECT
 
                     var htmlAsString = sharedPreferences.getString(FitbitHelper.FITBIT_DEVICE_INFO, "")
@@ -213,21 +219,29 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     tvFitnessDeviceUser.text = sharedPreferences.getString(FitbitHelper.FITBIT_USER_DISPLAY_NAME, "")
                     tvFitnessDeviceUser.visibility = View.VISIBLE
                 } else {
-                    btnFitnessDevice.text = getText(R.string.settings_fitness_device_connect_text)
+                    btnFitnessDevice.text = getText(R.string.settings_fitness_device_connect_label)
                     btnFitnessDevice.tag = TAG_CONNECT
 
-                    tvFitnessDeviceInfo.text = getString(R.string.settings_connect_device_fitness_device_message)
+                    tvFitnessDeviceInfo.text = getString(R.string.settings_fitness_device_connect_message)
                     tvFitnessDeviceUser.text = ""
                     tvFitnessDeviceUser.visibility = View.GONE
                 }
 
                 if (appLoggedIn) {
-                    btnFitnessApp.text = getText(R.string.settings_device_fitness_app_disconnect_text)
+                    btnFitnessApp.text = getText(R.string.settings_fitness_app_disconnect_label)
                     btnFitnessApp.tag = TAG_DISCONNECT
+                    val googleFitUsername = sharedPreferences.getString(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_NAME, null)
+                    val googleFitEmail = sharedPreferences.getString(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL, "")
+                    googleFitUsername?.let{
+                        tvFitnessAappMessage.text = it + " " + googleFitEmail
+                    } ?: run {
+                        tvFitnessAappMessage.visibility = View.GONE
+                    }
 
                 } else {
-                    btnFitnessApp.text = getText(R.string.settings_device_fitness_app_connect_text)
+                    btnFitnessApp.text = getText(R.string.settings_fitness_app_connect_label)
                     btnFitnessApp.tag = TAG_CONNECT
+                    tvFitnessAappMessage.text = getString(R.string.settings_fitness_app_connect_message)
 
                 }
                 rbFitnessApp.setOnCheckedChangeListener { buttonView, isChecked ->
@@ -280,13 +294,13 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     protected fun onFitbitLogoutSuccess() {
         Log.i(TAG, "onFitbitLogoutSuccess")
         sharedPreferences?.edit()?.putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
-        onLoggedIn()
+        updateConnectionInfoView()
     }
 
     protected fun onFitbitLogoutError(message: String) {
         Log.i(TAG, "onFitbitLogoutError")
         sharedPreferences?.edit()?.putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
-        updateDeviceInfoView()
+        updateConnectionInfoView()
     }
 
     private fun getUserProfile() {
@@ -347,12 +361,12 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                         }
                     }
                     sharedPreferences.edit().putString(FitbitHelper.FITBIT_DEVICE_INFO, stringBuilder.toString()).commit()
-                    updateDeviceInfoView()
+                    updateConnectionInfoView()
                 }
 
                 override fun onFailure(call: Call<Array<Device>>, t: Throwable) {
                     Log.e(TAG, "Device api Error: " + t.message)
-                    updateDeviceInfoView()
+                    updateConnectionInfoView()
                 }
             })
         }
@@ -361,41 +375,33 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     /*********** End of Fitbit related methods *************/
 
     /************* Google Fit related methods    */
-     fun connectAppToGoogleFit() {
-        val fitnessOptions = FitnessOptions.builder()
-                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .build()
 
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(activity), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this, // your activity
-                    RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(activity),
-                    fitnessOptions)
+    val googleFitFitnessOptions = FitnessOptions.builder()
+            .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+            .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+            .build()
+
+    val googleFitSignInOptions = GoogleSignInOptions
+            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .addExtension(googleFitFitnessOptions).build()
+
+    fun connectAppToGoogleFit() {
+        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(activity), googleFitFitnessOptions)) {
+
+            context?.let { context ->
+                val client = GoogleSignIn.getClient(context, googleFitSignInOptions) //
+                val intent = client.getSignInIntent()
+                startActivityForResult(intent, RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE);
+            }
         } else {
-            onGoogleFitLoggedIn()
+            onGoogleFitAuthComplete()
         }
-    }
-
-    protected fun disconnectAppFromGoogleFit1() {
-        val lastSignIn = GoogleSignIn.getLastSignedInAccount(activity)
-        lastSignIn?.let {
-            Fitness.getConfigClient(activity as Activity, it).disableFit()
-        }
-        sharedPreferences?.edit()?.putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false)?.commit()
-        onGoogleFitLogoutSuccess()
     }
 
     protected fun disconnectAppFromGoogleFit() {
-        val fitnessOptions = FitnessOptions.builder()
-                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .build()
-
-        val signInOptions = GoogleSignInOptions.Builder().addExtension(fitnessOptions).build()
         context?.let { context ->
-            val client = GoogleSignIn.getClient(context, signInOptions)
+            val client = GoogleSignIn.getClient(context, googleFitSignInOptions)
             client.revokeAccess()
         }
 
@@ -407,7 +413,10 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         }
 
         sharedPreferences?.edit()?.putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false)?.commit()
-        onGoogleFitLogoutSuccess()
+        sharedPreferences?.edit()?.remove(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_NAME)?.commit()
+        sharedPreferences?.edit()?.remove(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL)?.commit()
+
+        onGoogleFitAuthComplete()
     }
 
     protected fun onActivityResultForGoogleFit(requestCode: Int, resultCode: Int, data: Intent) {
@@ -415,29 +424,115 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         sharedPreferences?.let { sharedPreferences ->
             if (resultCode == Activity.RESULT_OK) {
                 sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit()
-                onGoogleFitLoggedIn()
             } else {
                 sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit()
             }
         }
+        onGoogleFitAuthComplete()
     }
 
-    protected fun onGoogleFitLoggedIn() {
-        Log.i(TAG, "onGoogleFitLoggedIn")
+    protected fun onGoogleFitAuthComplete() {
+        Log.i(TAG, "onGoogleFitAuthComplete")
 
-       val signedInAccount = GoogleSignIn.getLastSignedInAccount(activity)
-        val username = signedInAccount?.displayName
+        val signedInAccount = GoogleSignIn.getLastSignedInAccount(activity)
+        val displayName = signedInAccount?.displayName
         val email = signedInAccount?.email
-        onLoggedIn()
+        displayName?.let {
+            sharedPreferences?.edit()?.putString(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_NAME, displayName)?.commit()
+            sharedPreferences?.edit()?.putString(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL, email)?.commit()
+
+            readStepsCountForWeek()
+        } ?: run {
+            sharedPreferences?.edit()?.remove(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_NAME)?.commit()
+            sharedPreferences?.edit()?.remove(GoogleFitHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL)?.commit()
+        }
+        updateConnectionInfoView()
     }
 
+    private fun readStepsCountForWeek() {
+        val cal = Calendar.getInstance()
+        cal.time = Date()
+        val endTime = cal.timeInMillis
+        cal.add(Calendar.WEEK_OF_YEAR, -1)
+        val startTime = cal.timeInMillis
 
-    protected fun onGoogleFitLogoutSuccess() {
-        Log.i(TAG, "onGoogleFitLogoutSuccess")
-        onLoggedIn()
+        //TODO: try this, looks like it waits for results to come
+        //from: /Users/sultan/Documents/projects/samples/sample_android/sensors/Corey/app/src/main/java/at/shockbytes/corey/data/body/GoogleFitBodyRepository.kt
+        //        GoogleSignInOptionsExtension fitnessOptions =
+        //                FitnessOptions.builder()
+        //                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+        //                        .build();
+        //        GoogleSignInAccount gsa = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
+        //
+        //        Date now = new Date();
+        //        Task<DataReadResponse> response = Fitness.getHistoryClient(this, gsa)
+        //                .readData(new DataReadRequest.Builder()
+        //                        .read(DataType.TYPE_STEP_COUNT_DELTA)
+        //                        .setTimeRange(now.getTime() - 7*24*60*60*1000, now.getTime(), TimeUnit.MILLISECONDS)
+        //                        .build());
+        //
+        //        DataReadResult readDataResult = Tasks.await(response);
+        //        DataSet dataSet = readDataResult.getDataSet(DataType.TYPE_STEP_COUNT_DELTA);
+
+
+        val readRequest = DataReadRequest.Builder()
+                .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
+                .bucketByTime(1, TimeUnit.DAYS)
+                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+                .build()
+
+        GoogleSignIn.getLastSignedInAccount(activity)?.let {
+            Fitness.getHistoryClient(activity as Activity, it).readData(readRequest)
+                    .addOnSuccessListener { dataReadResponse ->
+                        val buckets = dataReadResponse.buckets
+
+                        var totalSteps = 0
+
+                        for (bucket in buckets) {
+
+                            val dataSets = bucket.dataSets
+
+                            for (dataSet in dataSets) {
+                                // if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
+
+                                for (dp in dataSet.dataPoints) {
+                                    for (field in dp.dataType.fields) {
+                                        val steps = dp.getValue(field).asInt()
+                                        totalSteps += steps
+                                    }
+                                }
+                            }
+                            // }
+                        }
+                        Log.i(TAG, "total steps for this week: $totalSteps")
+                    }
+                    .addOnCompleteListener(object : OnCompleteListener<DataReadResponse> {
+                        override fun onComplete(task: Task<DataReadResponse>) {
+                            val buckets = (task.result as DataReadResponse).buckets
+
+                            var totalSteps = 0
+
+                            for (bucket in buckets) {
+
+                                val dataSets = bucket.dataSets
+
+                                for (dataSet in dataSets) {
+                                    //                                if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
+
+
+                                    for (dp in dataSet.dataPoints) {
+                                        for (field in dp.dataType.fields) {
+                                            val steps = dp.getValue(field).asInt()
+                                            totalSteps += steps
+                                        }
+                                    }
+                                }
+                                //                            }
+                            }
+                            Log.i(TAG, "total steps for this week: $totalSteps")
+                        }
+                    })
+        }
     }
 
-    protected fun onGoogleFitLogoutError() {
-        Log.i(TAG, "onGoogleFitLogoutError")
-    }
 }
