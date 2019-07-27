@@ -22,8 +22,11 @@ public class LoginPresenter extends WCFActivityPresenter<LoginMvp.LoginView> {
         }
     }
 
-    public void onLoginError() {
-        //TODO: Messsage text
-        view.showMessage("Something went wrong. Please try again!");
+    public void onLoginError(String message) {
+        if (message != null && !message.isEmpty())
+            view.showMessage(message);
+        else
+            view.showMessage("Something went wrong. Please try again!");
     }
 }
+
