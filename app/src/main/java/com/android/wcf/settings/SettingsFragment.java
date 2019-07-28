@@ -39,6 +39,10 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     if (host != null) {
                         host.showDeviceConnection();
                     }
+                case R.id.btn_signout:
+                    if (host != null) {
+                        host.signout();
+                    }
             }
         }
     };
@@ -55,6 +59,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
         setupConnectDeviceClickListeners(fragmentView);
         setupTeamSettingsClickListeners(fragmentView);
+        fragmentView.findViewById(R.id.btn_signout).setOnClickListener(onClickListener);
         return fragmentView;
     }
 

@@ -9,7 +9,10 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.android.wcf.R;
+import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseActivity;
+import com.android.wcf.helper.SharedPreferencesUtil;
+import com.facebook.login.LoginManager;
 
 public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
 
@@ -55,6 +58,13 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void signout() {
+        LoginManager.getInstance().logOut();
+        SharedPreferencesUtil.saveUserLoggedIn(false);
+        WCFApplication.instance.requestLogin();
     }
 
     private void setupView() {
