@@ -32,26 +32,26 @@ android {
             keyPassword "android"
 
         }
-//        releaseConfig {
-//            storeFile file("akf_wcf.keystore")
-//            keyAlias "android_akf_wcf"
-//            keyPassword 'credentials.properties'
-//            storePassword 'credentials.properties'
-//        }
+        releaseConfig {
+            storeFile file("akf_wcf.keystore")
+            keyAlias "wcf_android"
+            keyPassword 'credentials.properties'
+            storePassword 'credentials.properties'
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
+            debuggable true
             signingConfig signingConfigs.debugConfig
             //    signingConfig signingConfigs.releaseConfig
         }
         debug {
             minifyEnabled false
-            applicationIdSuffix ".debug"
-            versionNameSuffix = "-debug"
+//            applicationIdSuffix ".debug"
+//            versionNameSuffix = "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
             signingConfig signingConfigs.debugConfig
@@ -68,9 +68,35 @@ android {
         experimental = true
     }
 
+    android {
+        lintOptions {
+            checkReleaseBuilds true
+            // Or, if you prefer, you can continue to check for errors in release builds,
+            // but continue the build even when errors are found:
+            abortOnError false
+        }
+    }
+
     configurations.all {
         //resolutionStrategy.force 'com.google.code.findbugs:jsr305:3.0.1'
         resolutionStrategy.force "com.android.support:support-annotations:${supportLibVersion}"
+    }
+
+    def Properties prop = new Properties()
+    def propFile = new File('app/credentials.properties')
+
+    if (propFile.exists() && propFile.canRead()) {
+        println 'Attempting to load from credentials.properties'
+        prop.load(new FileInputStream(propFile))
+
+        if (prop != null && prop.containsKey('wcfStorePassword') && prop.containsKey('wcfKeyStorePassword')) {
+            android.signingConfigs.releaseConfig.storePassword = prop['wcfStorePassword']
+            android.signingConfigs.releaseConfig.keyPassword = prop['wcfKeyStorePassword']
+        } else {
+            println '\nYou don\'t have credentials.properties set up. You should have this file and define the variables wcfStorePassword and wcfKeyStorePassword to create Release builds\n\n'
+        }
+    } else {
+        println '\nYou don\'t have credentials.properties set up. You should have this file and define the variables wcfStorePassword and wcfKeyStorePassword to create Release builds\n\n'
     }
 
     dexOptions {
@@ -101,6 +127,9 @@ dependencies {
     implementation "androidx.preference:preference:${supportLibVersion}"
 
     implementation "com.google.android.material:material:${supportLibVersion}"
+
+    implementation "com.google.android.gms:play-services-fitness:${googleApiVersion}"
+    implementation "com.google.android.gms:play-services-auth:${googleApiVersion}"
 
     //    implementation "androidx.legacy:legacy-support-v4:${supportLibVersion}"
     //Install Referrer
@@ -167,7 +196,7 @@ dependencies {
     //testImplementation 'org.json:json:20140107'
     testImplementation "org.robolectric:robolectric:${robolectricVersion}"
 
-    androidTestImplementation "com.android.support.test.uiautomator:uiautomator-v${testUiAutoVersion}"
+    androidTestImplementation 'androidx.test.uiautomator:uiautomator:2.2.0'
     androidTestImplementation "androidx.test.espresso:espresso-core:${espressoVersion}"
     androidTestImplementation "androidx.test.espresso:espresso-intents:${espressoVersion}"
     androidTestImplementation "androidx.test:runner:${testRunnerVersion}"

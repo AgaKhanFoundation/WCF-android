@@ -40,7 +40,6 @@ import com.android.wcf.base.BaseActivity;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.onboard.OnboardActivity;
-import com.android.wcf.utils.Preferences;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -62,7 +61,7 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
     LoginButton loginButton;
 
     public static Intent createIntent(Context context) {
-        Intent intent =  new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         return intent;
     }
@@ -85,7 +84,7 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
 
     private void setupView() {
         loginButton = findViewById(R.id.login_button);
-        loginButton.setReadPermissions("public_profile", "email");
+        loginButton.setPermissions("public_profile", "email");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
@@ -94,8 +93,8 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                         new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
+
                                 String userName = "", userId = "", userEmail = "", userGender = "", userProfileUrl = "";
-                                Log.e("response: ", response + "");
                                 try {
                                     AccessToken token = AccessToken.getCurrentAccessToken();
                                     Log.d("access only Token is", String.valueOf(token.getToken()));
@@ -110,12 +109,13 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                                     SharedPreferencesUtil.saveUserFullName(userName);
                                     SharedPreferencesUtil.saveUserEmail(userEmail);
                                     SharedPreferencesUtil.saveUserFbProfileUrl(userProfileUrl);
+                                    joinFBGroup(userId);
+                                    presenter.onLoginSuccess();
 
-                                    joinFBGroup(token, userId);
-
-                                   // presenter.onLoginSuccess();
                                 } catch (Exception e) {
+                                    Log.e(TAG, "Error processing Facebook Login response\n" + e);
                                     e.printStackTrace();
+                                    presenter.onLoginError(null);
                                 }
                             }
                         });
@@ -133,36 +133,35 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
 
             @Override
             public void onError(FacebookException error) {
-                Log.d(TAG, "onError");
-                presenter.onLoginError();
+                Log.e(TAG, "Facebook Login error: " + error.getMessage());
+                presenter.onLoginError(error.getMessage());
             }
         });
     }
 
-    void joinFBGroup(AccessToken accessToken, String userId) {
+
+    void joinFBGroup( String userId) {
+
+        //THIS IS NO LONGER SUPPORTED BY FB
 
 //        new GraphRequest(
 //                AccessToken.getCurrentAccessToken(),
-//                "/group/466564417434674/members",
+//                "/466564417434674/members/"+ userId,
 //                null,
 //                HttpMethod.POST,
 //                new GraphRequest.Callback() {
 //                    public void onCompleted(GraphResponse response) {
-//                        /* handle the result */
+//                        if (response.getError() == null) {
+//                            Log.d(TAG, "Facebook Group join response" + response.toString());
+//                        } else {
+//                            Log.e(TAG, "Facebook Group join error: " + response.getError().getException().getMessage());
+//                        }
 //                    }
 //                }
 //        ).executeAsync();
-//    }
-//        GraphRequest.newPostRequest(accessToken, "/group/466564417434674/members", new JSONObject("userId)),
-//                new GraphRequest.GraphJSONObjectCallback() {
-//        @Override
-//        public void onCompleted (JSONObject object, GraphResponse response){
-//
-//            SharedPreferencesUtil.getMyFacebookId(userId);
-//
-//
-//        }
+
     }
+
     @Override
     public void showMessage(String message) {
         AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();

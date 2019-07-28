@@ -12,6 +12,8 @@ interface FitnessTrackerConnectionMvp {
     interface Host {
         fun setToolbarTitle(title: String)
         fun connectAppToFitbit()
+        fun connectAppToGoogleFit()
         fun disconnectAppFromFitbit()
+        fun disconnectAppFromGoogleFit()
     }
 }

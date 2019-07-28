@@ -38,8 +38,10 @@ ext {
     multidexLibVersion = '2.0.0'
     constraintLayoutVersion = '2.0.0-alpha3'
 
+    googleApiVersion = '17.0.0'
+
     //Google Play Services
-    playServicesVersion = '15.0.1'
+    playServicesVersion = '17.0.0'
 
     //Facebook
     facebookSdkVersion = '5.0.0'

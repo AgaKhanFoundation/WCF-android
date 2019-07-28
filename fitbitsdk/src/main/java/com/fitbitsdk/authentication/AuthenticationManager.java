@@ -28,9 +28,10 @@ import retrofit2.Response;
  */
 public class AuthenticationManager {
 
-    public static final String FITBIT_SHARED_PREFERENCE_NAME = "Fitbit";
     private static final String TAG = AuthenticationManager.class.getSimpleName();
-    private static final int RESULT_CODE = 1;
+
+    public static final String FITBIT_SHARED_PREFERENCE_NAME = "Fitbit";
+    public static final int FITBIT_LOGIN_REQUEST_CODE = 41;
     private static boolean configured = false;
     private static AuthenticationConfiguration authenticationConfiguration;
     private static OAuthAccessToken currentAccessToken;
@@ -73,14 +74,14 @@ public class AuthenticationManager {
                 authenticationConfiguration.getClientCredentials(),
                 scopes);
 
-        activity.startActivityForResult(intent, RESULT_CODE);
+        activity.startActivityForResult(intent, FITBIT_LOGIN_REQUEST_CODE);
     }
 
     public static boolean onActivityResult(int requestCode, int resultCode, Intent data, @NonNull AuthenticationHandler authenticationHandler) {
         Log.i(TAG, "onActivityResult");
         checkPreconditions();
         switch (requestCode) {
-            case (RESULT_CODE): {
+            case (FITBIT_LOGIN_REQUEST_CODE): {
                 if (resultCode == Activity.RESULT_OK) {
                     AuthenticationResult authenticationResult = data.getParcelableExtra(FitbitLoginActivity.AUTHENTICATION_RESULT_KEY);
 

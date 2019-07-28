@@ -1,5 +1,6 @@
 package com.android.wcf.base;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,12 +13,13 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.wcf.R;
 import com.android.wcf.fitbit.FitbitHelper;
-import com.android.wcf.fitbit.WCFFitbitLoginActivity;
+import com.android.wcf.googlefit.GoogleFitHelper;
 import com.android.wcf.settings.FitnessTrackerConnectionMvp;
 import com.fitbitsdk.authentication.AuthenticationConfiguration;
 import com.fitbitsdk.authentication.AuthenticationHandler;
@@ -29,10 +31,32 @@ import com.fitbitsdk.service.FitbitService;
 import com.fitbitsdk.service.models.Device;
 import com.fitbitsdk.service.models.User;
 import com.fitbitsdk.service.models.UserProfile;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.fitness.ConfigClient;
+import com.google.android.gms.fitness.Fitness;
+import com.google.android.gms.fitness.FitnessOptions;
+import com.google.android.gms.fitness.data.Bucket;
+import com.google.android.gms.fitness.data.DataPoint;
+import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataType;
+import com.google.android.gms.fitness.data.Field;
+import com.google.android.gms.fitness.request.DataReadRequest;
+import com.google.android.gms.fitness.result.DataReadResponse;
+import com.google.android.gms.fitness.result.DataReadResult;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,30 +95,28 @@ public abstract class BaseActivity extends AppCompatActivity
                 FitbitHelper.generateAuthenticationConfiguration(this, null);
         AuthenticationManager.configure(this, fitbitAuthenticationConfiguration);
 
-        // FitbitHelper.authenticationConfiguration = authenticationConfiguration;
-
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        Log.i(TAG, "onActivityResult");
+        final int unmaskedRequestCode = requestCode & 0x0000ffff;
+        Log.i(TAG, "onActivityResult for " + unmaskedRequestCode);
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (!AuthenticationManager.onActivityResult(requestCode, resultCode, data, this)) {
-            // Handle other activity results, if needed
-
-/*
-                if(result == AuthenticationResult.Status.dismissed) {
-
-                    displayAuthError(result);
+        switch (requestCode) {
+            case AuthenticationManager.FITBIT_LOGIN_REQUEST_CODE:
+                if (!AuthenticationManager.onActivityResult(requestCode, resultCode, data, this)) {
+                    // Handle other activity results, if needed
                 }
-                if (requestCode == 1) {
-                    if (resultCode == Activity.RESULT_OK) {
+                break;
 
-                    }
-                }
+            case RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE: {
+                //TODO: make a GoogleFitAuthManager similar to Fitbit's
+                onActivityResultForGoogleFit(requestCode, resultCode, data);
 
- */
+            }
+            default:
+                Log.e(TAG, "Unhandled Request Code " + requestCode);
         }
     }
 
@@ -113,7 +135,6 @@ public abstract class BaseActivity extends AppCompatActivity
     public void showError(int messageId) {
         Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
-
 
     @Override
     public void showMessage(String message) {
@@ -180,6 +201,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
+    /************* Fitbit related methods   ****************/
 
     @Override
     public void connectAppToFitbit() {
@@ -192,22 +214,23 @@ public abstract class BaseActivity extends AppCompatActivity
         Log.i(TAG, "disconnectAppFromFitbit");
         AuthenticationManager.logout(this, fitbitLogoutTaskCompletionHandler);
     }
+
     @Override
     public void onAuthFinished(AuthenticationResult result) {
         Log.i(TAG, "onAuthFinished");
         if (result != null) {
             if (result.isSuccessful()) {
-                onLoggedIn();
+                onFitbitLoggedIn();
                 sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, true).commit();
-            } else if (!result.isDismissed()){
+            } else if (!result.isDismissed()) {
                 displayAuthError(result);
                 sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
             }
         }
     }
 
-    protected void onLoggedIn() {
-        Log.i(TAG, "onLoggedIn");
+    protected void onFitbitLoggedIn() {
+        Log.i(TAG, "onFitbitLoggedIn");
         getUserProfile();
         getDeviceProfile();
     }
@@ -286,19 +309,16 @@ public abstract class BaseActivity extends AppCompatActivity
 
         if (authenticationResult.getStatus() == AuthenticationResult.Status.dismissed) {
             return;
-        }
-        else if (authenticationResult.getStatus() == AuthenticationResult.Status.error) {
+        } else if (authenticationResult.getStatus() == AuthenticationResult.Status.error) {
             if (authenticationResult.getErrorMessage().startsWith("net::ERR_INTERNET_DISCONNECTED")) {
                 message = "Please check internet connection and try again";
-            }
-            else {
+            } else {
                 message = authenticationResult.getErrorMessage();
             }
-        }
-        else if (authenticationResult.getStatus() == AuthenticationResult.Status.missing_required_scopes) {
+        } else if (authenticationResult.getStatus() == AuthenticationResult.Status.missing_required_scopes) {
             Set<Scope> missingScopes = authenticationResult.getMissingScopes();
             String missingScopesText = TextUtils.join(", ", missingScopes);
-            message = missingScopesText + " " + getString(R.string.missing_scopes_error) ;
+            message = missingScopesText + " " + getString(R.string.missing_scopes_error);
         }
         new AlertDialog.Builder(this)
                 .setTitle(R.string.login_title)
@@ -324,4 +344,166 @@ public abstract class BaseActivity extends AppCompatActivity
         Log.i(TAG, "onFitbitLogoutError");
         sharedPreferences.edit().putBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
     }
+
+    /************* end of fitbit related methods ***************/
+
+    /************* Google Fit related methods   ****************/
+    @Override
+    public void connectAppToGoogleFit() {
+        FitnessOptions fitnessOptions = FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .build();
+
+        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
+            GoogleSignIn.requestPermissions(
+                    this, // your activity
+                    RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE,
+                    GoogleSignIn.getLastSignedInAccount(this),
+                    fitnessOptions);
+        } else {
+            onGoogleFitLoggedIn();
+        }
+    }
+
+    protected void onActivityResultForGoogleFit(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResultForGoogleFit");
+        if (resultCode == Activity.RESULT_OK) {
+            sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit();
+            onGoogleFitLoggedIn();
+        } else {
+            sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+        }
+    }
+
+    protected void onGoogleFitLoggedIn() {
+
+        readStepsCountForWeek();
+    }
+
+
+    public void disconnectAppFromGoogleFit() {
+        GoogleSignInAccount googleSignInAccount = GoogleSignIn.getLastSignedInAccount(this);
+
+        if (googleSignInAccount != null) {
+            ConfigClient configClient = Fitness.getConfigClient(this, googleSignInAccount);
+            if (configClient != null) {
+                configClient.disableFit();
+            }
+        }
+
+        Fitness.getConfigClient(this, GoogleSignIn.getLastSignedInAccount(this)).disableFit();
+
+        FitnessOptions fitnessOptions =  FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .build();
+
+        GoogleSignInOptions signInOptions = new GoogleSignInOptions.Builder().addExtension(fitnessOptions).build();
+
+        GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
+        client.revokeAccess();
+
+        sharedPreferences.edit().putBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+        onGoogleFitLogoutSuccess();
+
+    }
+
+    protected void onGoogleFitLogoutSuccess() {
+
+    }
+
+    protected void onGoogleFitLogoutError() {
+
+    }
+
+    private void readStepsCountForWeek() {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        long endTime = cal.getTimeInMillis();
+        cal.add(Calendar.WEEK_OF_YEAR, -1);
+        long startTime = cal.getTimeInMillis();
+
+        //TODO: try this, looks like it waits for results to come
+//from: /Users/sultan/Documents/projects/samples/sample_android/sensors/Corey/app/src/main/java/at/shockbytes/corey/data/body/GoogleFitBodyRepository.kt
+//        GoogleSignInOptionsExtension fitnessOptions =
+//                FitnessOptions.builder()
+//                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+//                        .build();
+//        GoogleSignInAccount gsa = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
+//
+//        Date now = new Date();
+//        Task<DataReadResponse> response = Fitness.getHistoryClient(this, gsa)
+//                .readData(new DataReadRequest.Builder()
+//                        .read(DataType.TYPE_STEP_COUNT_DELTA)
+//                        .setTimeRange(now.getTime() - 7*24*60*60*1000, now.getTime(), TimeUnit.MILLISECONDS)
+//                        .build());
+//
+//        DataReadResult readDataResult = Tasks.await(response);
+//        DataSet dataSet = readDataResult.getDataSet(DataType.TYPE_STEP_COUNT_DELTA);
+
+
+        DataReadRequest readRequest = new DataReadRequest.Builder()
+                .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
+                .bucketByTime(1, TimeUnit.DAYS)
+                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
+                .build();
+
+        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this)).readData(readRequest)
+                .addOnSuccessListener(new OnSuccessListener<DataReadResponse>() {
+                    @Override
+                    public void onSuccess(DataReadResponse dataReadResponse) {
+                        List<Bucket> buckets = dataReadResponse.getBuckets();
+
+                        int totalSteps = 0;
+
+                        for (Bucket bucket : buckets) {
+
+                            List<DataSet> dataSets = bucket.getDataSets();
+
+                            for (DataSet dataSet : dataSets) {
+//                                if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
+
+
+                                for (DataPoint dp : dataSet.getDataPoints()) {
+                                    for (Field field : dp.getDataType().getFields()) {
+                                        int steps = dp.getValue(field).asInt();
+                                        totalSteps += steps;
+                                    }
+                                }
+                            }
+//                            }
+                        }
+                        Log.i(TAG, "total steps for this week: " + totalSteps);
+                    }
+                })
+                .addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        List<Bucket> buckets = ((DataReadResponse) task.getResult()).getBuckets();
+
+                        int totalSteps = 0;
+
+                        for (Bucket bucket : buckets) {
+
+                            List<DataSet> dataSets = bucket.getDataSets();
+
+                            for (DataSet dataSet : dataSets) {
+//                                if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
+
+
+                                for (DataPoint dp : dataSet.getDataPoints()) {
+                                    for (Field field : dp.getDataType().getFields()) {
+                                        int steps = dp.getValue(field).asInt();
+                                        totalSteps += steps;
+                                    }
+                                }
+                            }
+//                            }
+                        }
+                        Log.i(TAG, "total steps for this week: " + totalSteps);
+                    }
+                });
+    }
+
 }
