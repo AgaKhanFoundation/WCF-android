@@ -13,5 +13,7 @@ public interface SettingsMvp {
         void setToolbarTitle(String title);
 
         void showDeviceConnection();
+
+        void signout();
     }
 }

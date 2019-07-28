@@ -29,10 +29,14 @@ package com.android.wcf.application;
  **/
 
 import android.app.Application;
+import android.content.Intent;
 
 import com.android.wcf.R;
+import com.android.wcf.login.LoginActivity;
 
 import androidx.preference.PreferenceManager;
+
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 
 public class WCFApplication extends Application {
 
@@ -47,5 +51,11 @@ public class WCFApplication extends Application {
 
     public Application getInstance() {
         return instance;
+    }
+
+    public void requestLogin() {
+        Intent intent = LoginActivity.createIntent(this);
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        instance.startActivity(intent);
     }
 }
