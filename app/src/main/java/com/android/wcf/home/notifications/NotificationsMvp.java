@@ -1,4 +1,4 @@
-package com.android.wcf.home.Notifications;
+package com.android.wcf.home.notifications;
 
 import com.android.wcf.base.BaseMvp;
 

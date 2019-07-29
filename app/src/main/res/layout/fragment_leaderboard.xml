@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white"
-    tools:context="com.android.wcf.home.Leaderboard.LeaderboardFragment">
+    tools:context="com.android.wcf.home.leaderboard.LeaderboardFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/my_team_leaderboard_container"

@@ -1,4 +1,4 @@
-package com.android.wcf.home.Notifications;
+package com.android.wcf.home.notifications;
 
 import android.content.Context;
 import android.net.Uri;

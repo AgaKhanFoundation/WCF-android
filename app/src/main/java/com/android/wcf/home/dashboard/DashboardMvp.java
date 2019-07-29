@@ -1,4 +1,4 @@
-package com.android.wcf.home.Dashboard;
+package com.android.wcf.home.dashboard;
 
 import com.android.wcf.base.BaseMvp;
 

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.TouchDelegate;
@@ -13,15 +14,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.android.wcf.R;
-import com.android.wcf.base.BaseFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.wcf.R;
+import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.SharedPreferencesUtil;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+
+
 public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
+
+    private static final String TAG = SettingsFragment.class.getSimpleName();
 
     SettingsMvp.Host host;
 
@@ -32,13 +40,12 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                 case R.id.participant_miles_setting:
                     showMilesEditDialog();
                     break;
-                case R.id.team_view_team_icon:
-                    showMilesEditDialog();
-                    break;
                 case R.id.navigate_to_connect_app_or_device:
                     if (host != null) {
                         host.showDeviceConnection();
                     }
+                case R.id.team_view_team_icon:
+                    break;
                 case R.id.btn_signout:
                     if (host != null) {
                         host.signout();
@@ -48,6 +55,10 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     };
 
     TextView particpantMiles;
+    ImageView participantImage;
+    TextView participantName;
+    TextView teamName;
+    TextView teamLeadLabel;
 
     @Nullable
     @Override
@@ -56,6 +67,10 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
         particpantMiles = fragmentView.findViewById(R.id.participant_miles);
         fragmentView.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
+        participantImage = fragmentView.findViewById(R.id.participant_image);
+        participantName = fragmentView.findViewById(R.id.participant_name);
+        teamName = fragmentView.findViewById(R.id.team_name);
+        teamLeadLabel = fragmentView.findViewById(R.id.teamlead_label);
 
         setupConnectDeviceClickListeners(fragmentView);
         setupTeamSettingsClickListeners(fragmentView);
@@ -69,6 +84,8 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         if (host != null) {
             host.setToolbarTitle(getString(R.string.settings));
         }
+        showParticipantInfo();
+
     }
 
     @Override
@@ -119,16 +136,12 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        getActivity();
-        if(requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            //some code
-        }
     }
+
     private void showMilesEditDialog() {
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.view_miles_entry, null);
-
 
         final EditText editText = dialogView.findViewById(R.id.participant_miles);
         Button saveBtn = dialogView.findViewById(R.id.save);
@@ -151,6 +164,22 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
+    }
+
+    void showParticipantInfo() {
+
+        String profileImageUrl = SharedPreferencesUtil.getUserFbProfileUrl();
+        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+            Log.d(TAG, "profileImageUrl=" + profileImageUrl);
+
+            Glide.with(getContext())
+                    .load(profileImageUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(participantImage);
+        }
+
+        participantName.setText(SharedPreferencesUtil.getUserFullName());
+        teamLeadLabel.setVisibility(View.GONE);
     }
 
     void setupTeamSettingsClickListeners(View parentView) {

@@ -1,4 +1,4 @@
-package com.android.wcf.home.Leaderboard;
+package com.android.wcf.home.leaderboard;
 
 import android.content.Context;
 import android.net.Uri;
