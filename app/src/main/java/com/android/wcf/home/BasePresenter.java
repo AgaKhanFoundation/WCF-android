@@ -2,7 +2,7 @@ package com.android.wcf.home;
 
 import android.util.Log;
 
-import com.android.wcf.home.Leaderboard.LeaderboardTeam;
+import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;

@@ -26,9 +26,9 @@ import android.view.MenuItem;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseActivity;
 import com.android.wcf.home.campaign.CampaignFragment;
-import com.android.wcf.home.Dashboard.DashboardFragment;
-import com.android.wcf.home.Leaderboard.LeaderboardFragment;
-import com.android.wcf.home.Notifications.NotificationsFragment;
+import com.android.wcf.home.dashboard.DashboardFragment;
+import com.android.wcf.home.leaderboard.LeaderboardFragment;
+import com.android.wcf.home.notifications.NotificationsFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
 
 public class HomeActivity extends BaseActivity

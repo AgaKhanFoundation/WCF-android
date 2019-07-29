@@ -1,4 +1,4 @@
-package com.android.wcf.home.Dashboard;
+package com.android.wcf.home.dashboard;
 
 import android.content.Context;
 import android.net.Uri;
