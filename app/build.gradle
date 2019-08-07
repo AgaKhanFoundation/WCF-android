@@ -2,6 +2,7 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs"
 
 android {
     compileSdkVersion compileSdkVer
@@ -62,6 +63,10 @@ android {
                     fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
             ]
         }
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     androidExtensions {
@@ -125,6 +130,15 @@ dependencies {
     implementation "androidx.vectordrawable:vectordrawable:${supportLibVersion}"
     implementation "androidx.multidex:multidex:${multidexLibVersion}"
     implementation "androidx.preference:preference:${supportLibVersion}"
+
+    implementation "androidx.core:core-ktx:${versions_core_ktx}"
+    implementation "androidx.arch.core:core-runtime:$versions_arch_core"
+    implementation "androidx.arch.core:core-testing:$versions_arch_core"
+
+    // Navigation
+    implementation "androidx.navigation:navigation-runtime-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
     implementation "com.google.android.material:material:${supportLibVersion}"
 
