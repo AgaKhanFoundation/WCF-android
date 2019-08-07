@@ -183,7 +183,7 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
 
     @Override
     public void showHomeActivity() {
-        Intent intent = HomeActivity.createIntent(this);
+        Intent intent = HomeActivity.Companion.createIntent(this);
         this.startActivity(intent);
     }
 
