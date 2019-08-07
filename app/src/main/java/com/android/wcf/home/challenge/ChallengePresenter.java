@@ -1,4 +1,4 @@
-package com.android.wcf.home.campaign;
+package com.android.wcf.home.challenge;
 
 import android.util.Log;
 
@@ -11,10 +11,10 @@ import com.android.wcf.model.Team;
 
 import java.util.List;
 
-public class CampaignPresenter extends BasePresenter implements CampaignMvp.Presenter {
+public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Presenter {
 
-    private static final String TAG = CampaignPresenter.class.getSimpleName();
-    private CampaignMvp.CampaignView campaignView;
+    private static final String TAG = ChallengePresenter.class.getSimpleName();
+    private ChallengeMvp.ChallengeView challengeView;
 
     Event event;
     Participant participant = null;
@@ -26,8 +26,8 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     boolean teamRetrieved = false;
     boolean eventRetrieved = false;
 
-    public CampaignPresenter(CampaignMvp.CampaignView view) {
-        this.campaignView = view;
+    public ChallengePresenter(ChallengeMvp.ChallengeView view) {
+        this.challengeView = view;
     }
 
     public List<Team> getTeamsList() {
@@ -62,17 +62,17 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     private void checkAndShowTeamSection() {
         if (teamRetrieved) {
             if (team == null) {
-                campaignView.hideTeamCard();
+                challengeView.hideTeamCard();
                 if (eventRetrieved && event != null) {
                     if (event.daysToStartEvent() > 0 &&  !event.hasTeamBuildingEnded()) {
-                        campaignView.showCreateOrJoinTeamCard();
+                        challengeView.showCreateOrJoinTeamCard();
                     } else {
-                        campaignView.hideCreateOrJoinTeamCard();
+                        challengeView.hideCreateOrJoinTeamCard();
                     }
                 }
             } else {
-                campaignView.hideCreateOrJoinTeamCard();
-                campaignView.showMyTeamCard(team);
+                challengeView.hideCreateOrJoinTeamCard();
+                challengeView.showMyTeamCard(team);
             }
         }
     }
@@ -81,18 +81,18 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
         if (eventRetrieved) {
             if (event != null) {
                 if (event.daysToStartEvent() > 0) {
-                    campaignView.hideJourneyDetails();
+                    challengeView.hideJourneyDetails();
 
                     if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {
-                        campaignView.hideJourneyBeforeStartCard();
+                        challengeView.hideJourneyBeforeStartCard();
                     } else {
-                        campaignView.showJourneyBeforeStartCard(event);
+                        challengeView.showJourneyBeforeStartCard(event);
                     }
                 } else {
-                    campaignView.showJourneyDetails(event);
+                    challengeView.showJourneyDetails(event);
                 }
             } else {
-                campaignView.hideJourneyDetails();
+                challengeView.hideJourneyDetails();
             }
         }
     }
@@ -126,30 +126,30 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetTeamError(Throwable error) {
         super.onGetTeamError(error);
-        campaignView.showError(R.string.teams_manager_error, error.getMessage());
+        challengeView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
     @Override
     protected void onCreateTeamSuccess(Team team) {
         super.onCreateTeamSuccess(team);
-        campaignView.teamCreated(team);
+        challengeView.teamCreated(team);
     }
 
     @Override
     protected void onCreateTeamError(Throwable error) {
         super.onCreateTeamError(error);
-        campaignView.showError(R.string.teams_manager_error, error.getMessage());
+        challengeView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
     @Override
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
         this.teams = teams;
-        campaignView.enableShowCreateTeam(true);
+        challengeView.enableShowCreateTeam(true);
         if (teams == null || teams.size() == 0) {
-            campaignView.enableJoinExistingTeam(false);
+            challengeView.enableJoinExistingTeam(false);
         } else {
-            campaignView.enableJoinExistingTeam(true);
+            challengeView.enableJoinExistingTeam(true);
         }
     }
 
@@ -157,10 +157,10 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     protected void onGetTeamListError(Throwable error) {
         super.onGetTeamListError(error);
 
-        campaignView.enableShowCreateTeam(true);
-        campaignView.enableJoinExistingTeam(false);
+        challengeView.enableShowCreateTeam(true);
+        challengeView.enableJoinExistingTeam(false);
 
-        campaignView.showError(R.string.teams_manager_error, error.getMessage());
+        challengeView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
     @Override
@@ -172,7 +172,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetTeamStatsError(Throwable error) {
         super.onGetTeamStatsError(error);
-        campaignView.showError(R.string.teams_manager_error, error.getMessage());
+        challengeView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
     @Override
@@ -184,12 +184,12 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onDeleteTeamError(Throwable error) {
         super.onDeleteTeamError(error);
-        campaignView.showError(R.string.teams_manager_error, error.getMessage());
+        challengeView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
     @Override
     public void showCreateTeamClick() {
-        campaignView.showCreateNewTeamView();
+        challengeView.showCreateNewTeamView();
     }
 
     @Override
@@ -201,28 +201,28 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
 
     @Override
     public void cancelCreateTeamClick() {
-        campaignView.hideCreateNewTeamView();
+        challengeView.hideCreateNewTeamView();
     }
 
     @Override
     public void showTeamsToJoinClick() {
-        campaignView.showTeamList(teams);
+        challengeView.showTeamList(teams);
     }
 
     @Override
     protected void onAssignParticipantToTeamSuccess(List<Integer> results, String fbid, final int teamId) {
         super.onAssignParticipantToTeamSuccess(results, fbid, teamId);
         if (results != null && results.size() == 1) {
-            campaignView.participantJoinedTeam(fbid, teamId);
+            challengeView.participantJoinedTeam(fbid, teamId);
         } else {
-            campaignView.showError("Unable to assign to team. Please try again");
+            challengeView.showError("Unable to assign to team. Please try again");
         }
     }
 
     @Override
     protected void onAssignParticipantToTeamError(Throwable error, String fbid, final int teamId) {
         super.onAssignParticipantToTeamError(error, fbid, teamId);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 
 
@@ -235,7 +235,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onCreateParticipantError(Throwable error) {
         super.onCreateParticipantError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 
     @Override
@@ -247,7 +247,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetParticipantError(Throwable error) {
         super.onGetParticipantError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 
     @Override
@@ -259,7 +259,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onGetParticipantStatsError(Throwable error) {
         super.onGetParticipantStatsError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 
     @Override
@@ -270,7 +270,7 @@ public class CampaignPresenter extends BasePresenter implements CampaignMvp.Pres
     @Override
     protected void onDeleteParticipantError(Throwable error) {
         super.onDeleteParticipantError(error);
-        campaignView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 
 }

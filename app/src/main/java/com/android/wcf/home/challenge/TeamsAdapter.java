@@ -1,4 +1,4 @@
-package com.android.wcf.home.campaign;
+package com.android.wcf.home.challenge;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white_1"
-    tools:context="com.android.wcf.home.campaign.CampaignFragment">
+    tools:context="com.android.wcf.home.challenge.ChallengeFragment">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/create_team_card"

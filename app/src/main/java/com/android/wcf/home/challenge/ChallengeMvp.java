@@ -1,4 +1,4 @@
-package com.android.wcf.home.campaign;
+package com.android.wcf.home.challenge;
 
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Event;
@@ -6,8 +6,8 @@ import com.android.wcf.model.Team;
 
 import java.util.List;
 
-public interface CampaignMvp {
-    interface CampaignView extends BaseMvp.BaseView {
+public interface ChallengeMvp {
+    interface ChallengeView extends BaseMvp.BaseView {
 
         void hideJourneyBeforeStartCard();
         void showJourneyBeforeStartCard(Event event);

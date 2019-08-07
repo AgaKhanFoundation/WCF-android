@@ -13,7 +13,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.annotation.StringRes
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
 
 import android.os.Handler
@@ -23,7 +22,7 @@ import android.view.MenuItem
 
 import com.android.wcf.R
 import com.android.wcf.base.BaseActivity
-import com.android.wcf.home.campaign.CampaignFragment
+import com.android.wcf.home.challenge.ChallengeFragment
 import com.android.wcf.home.dashboard.DashboardFragment
 import com.android.wcf.home.leaderboard.LeaderboardFragment
 import com.android.wcf.home.notifications.NotificationsFragment
@@ -32,7 +31,7 @@ import com.android.wcf.helper.SharedPreferencesUtil
 class HomeActivity : BaseActivity()
         , HomeMvp.HomeView
         , DashboardFragment.FragmentHost
-        , CampaignFragment.FragmentHost
+        , ChallengeFragment.FragmentHost
         , LeaderboardFragment.FragmentHost
         , NotificationsFragment.FragmentHost {
 
@@ -40,7 +39,7 @@ class HomeActivity : BaseActivity()
 
     private var homePresenter: HomePresenter? = null
     private var dashboardFragment: DashboardFragment? = null
-    private var campaignFragment: CampaignFragment? = null
+    private var challengeFragment: ChallengeFragment? = null
     private var leaderboardFragment: LeaderboardFragment? = null
     private var notificationsFragment: NotificationsFragment? = null
 
@@ -67,9 +66,9 @@ class HomeActivity : BaseActivity()
                 }
                 return@OnNavigationItemSelectedListener true
             }
-            R.id.nav_campaign -> {
-                if (campaignFragment != null) {
-                    loadFragment(campaignFragment, getString(R.string.nav_campaign), R.id.nav_campaign)
+            R.id.nav_challenge -> {
+                if (challengeFragment != null) {
+                    loadFragment(challengeFragment, getString(R.string.nav_challenge), R.id.nav_challenge)
                 }
                 return@OnNavigationItemSelectedListener true
             }
@@ -196,7 +195,7 @@ class HomeActivity : BaseActivity()
 
     }
 
-    override fun onCampaignFragmentInteraction(uri: Uri) {
+    override fun onChallengeFragmentInteraction(uri: Uri) {
 
     }
 
@@ -252,15 +251,15 @@ class HomeActivity : BaseActivity()
             notificationsFragment = NotificationsFragment.newInstance(null, null)
         }
 
-        if (campaignFragment == null) {
-            campaignFragment = CampaignFragment.newInstance(myFacebookId, myActiveEventId, myTeamId)
+        if (challengeFragment == null) {
+            challengeFragment = ChallengeFragment.newInstance(myFacebookId, myActiveEventId, myTeamId)
         }
         if (leaderboardFragment == null) {
             leaderboardFragment = LeaderboardFragment.newInstance(myTeamId)
         }
 
         val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
-        navigation.selectedItemId = R.id.nav_campaign
+        navigation.selectedItemId = R.id.nav_challenge
 
     }
 

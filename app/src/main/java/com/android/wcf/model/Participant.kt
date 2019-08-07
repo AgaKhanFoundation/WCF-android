@@ -8,7 +8,7 @@ import java.util.ArrayList
     1) has FaceBookId to signup in the app,
     2) has a steps tracking deviceType/source,
     3) joins a team,
-    4) supports a cause and participants to walk in an event (campaign)
+    4) supports a cause and participants to walk in an event (challenge)
     5 has 0 or more individual achievements
  */
 
