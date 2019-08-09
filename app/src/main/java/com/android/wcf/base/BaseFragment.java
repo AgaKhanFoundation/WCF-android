@@ -1,10 +1,15 @@
 package com.android.wcf.base;
 
 
-import androidx.fragment.app.Fragment;
+import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+
+import com.android.wcf.model.Participant;
+import com.android.wcf.model.Team;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
@@ -12,6 +17,8 @@ import static android.content.Context.INPUT_METHOD_SERVICE;
  * A simple {@link Fragment} subclass.
  */
 abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
+
+    private BaseMvp.BaseView baseView;
 
     public BaseFragment() {
     }
@@ -77,6 +84,32 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     @Override
     public void hideLoadingView() {
 
+    }
+
+    @Override
+    public void setParticipant(Participant participant) {
+        baseView.setParticipant(participant);
+    }
+
+    @Override
+    public Participant getParticipant() {
+        return baseView.getParticipant();
+    }
+
+    @Override
+    public void setParticipantTeam(Team team) {
+        baseView.setParticipantTeam(team);
+    }
+
+    @Override
+    public Team getParticipantTeam() {
+        return baseView.getParticipantTeam();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        baseView = (BaseMvp.BaseView) context;
     }
 
     @Override

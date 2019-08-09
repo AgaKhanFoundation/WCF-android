@@ -17,10 +17,8 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     private ChallengeMvp.ChallengeView challengeView;
 
     Event event;
-    Participant participant = null;
     Stats participantStats = null;
     List<Team> teams = null;
-    Team team = null;
     Stats teamStats = null;
 
     boolean teamRetrieved = false;
@@ -61,6 +59,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
     private void checkAndShowTeamSection() {
         if (teamRetrieved) {
+            Team team = challengeView.getParticipantTeam();
             if (team == null) {
                 challengeView.hideTeamCard();
                 if (eventRetrieved && event != null) {
@@ -83,6 +82,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
                 if (event.daysToStartEvent() > 0) {
                     challengeView.hideJourneyDetails();
 
+                    Team team = challengeView.getParticipantTeam();
                     if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {
                         challengeView.hideJourneyBeforeStartCard();
                     } else {
@@ -116,7 +116,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamSuccess(Team team) {
         super.onGetTeamSuccess(team);
-        this.team = team;
+        challengeView.setParticipantTeam(team);
         teamRetrieved = true;
 
         checkAndShowJourneySection();
@@ -229,7 +229,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onCreateParticipantSuccess(Participant participant) {
         super.onCreateParticipantSuccess(participant);
-        this.participant = participant;
+        challengeView.setParticipant(participant);
     }
 
     @Override
@@ -241,7 +241,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetParticipantSuccess(Participant participant) {
         super.onGetParticipantSuccess(participant);
-        this.participant = participant;
+        challengeView.setParticipant(participant);
     }
 
     @Override

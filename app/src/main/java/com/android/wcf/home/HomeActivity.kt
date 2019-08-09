@@ -221,10 +221,10 @@ class HomeActivity : BaseActivity()
             myTeamId = 0
             homePresenter!!.participantLeaveFromTeam(myFacebookId)
         } else if (participantTeamId != null) {
-            myTeamId = participantTeamId // team must have been assigned remotely
+            myTeamId = participantTeamId.toInt() // team must have been assigned remotely
         }
 
-        if (participant.eventId == null || participant.eventId != myActiveEventId) {
+        if (participant.eventId == null || participant.eventId?.toInt() != myActiveEventId) {
             homePresenter!!.updateParticipantEvent(myFacebookId, myActiveEventId)
         } else {
             addNavigationFragments()
@@ -236,6 +236,7 @@ class HomeActivity : BaseActivity()
     }
 
     override fun onParticipantCreated(participant: Participant) {
+        setParticipant(participant);
         homePresenter!!.updateParticipantEvent(myFacebookId, myActiveEventId)
     }
 

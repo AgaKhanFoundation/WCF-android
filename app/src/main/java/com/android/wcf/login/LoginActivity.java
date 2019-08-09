@@ -46,7 +46,6 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
-import com.facebook.HttpMethod;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
@@ -104,11 +103,13 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                                     userEmail = object.getString("email");
                                     userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
 
+                                    SharedPreferencesUtil.saveMyAuthenticationMethodAsFacebook();
                                     SharedPreferencesUtil.saveMyFacebookId(userId);
+                                    SharedPreferencesUtil.saveMyParticipantId(userId);
                                     SharedPreferencesUtil.saveUserLoggedIn(true);
                                     SharedPreferencesUtil.saveUserFullName(userName);
                                     SharedPreferencesUtil.saveUserEmail(userEmail);
-                                    SharedPreferencesUtil.saveUserFbProfileUrl(userProfileUrl);
+                                    SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
                                     joinFBGroup(userId);
                                     presenter.onLoginSuccess();
 

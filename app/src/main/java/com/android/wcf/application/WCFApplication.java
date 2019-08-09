@@ -32,7 +32,10 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.android.wcf.R;
+import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
+import com.android.wcf.model.Participant;
+import com.android.wcf.model.Team;
 
 import androidx.preference.PreferenceManager;
 
@@ -55,6 +58,12 @@ public class WCFApplication extends Application {
 
     public void requestLogin() {
         Intent intent = LoginActivity.createIntent(this);
+        intent.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        instance.startActivity(intent);
+    }
+
+    public void openHomeActivity() {
+        Intent intent = HomeActivity.Companion.createIntent(this);
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         instance.startActivity(intent);
     }

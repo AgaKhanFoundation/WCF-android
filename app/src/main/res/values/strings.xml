@@ -114,6 +114,10 @@
     <string name="fundraising_progress_card_label">Fundraising Progress</string>
     <string name="fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
-
-
+    <string name="leave_team_title">Leave Team?</string>
+    <string name="leave_team_message">This will remove all your data linked to the team. You will not be able to participate in the challenge.</string>
+    <string name="cancel_leave_team_button_text">Cancel</string>
+    <string name="leave_team_button">Leave</string>
+    <string name="team_lead_label">Team Lead</string>
+    <string name="team_member_label">Team Member</string>
 </resources>

@@ -69,7 +69,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private View joinTeamView = null;
 
     private Button showCreateTeamButton = null;
-    private Button showJoinTeamsButton = null;
+    private Button showJoinTeamButton = null;
 
     private Button createTeamButton = null;
     private Button cancelCreateTeamButton = null;
@@ -85,7 +85,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private int activeEventId;
     private int teamId;
 
-    private ChallengeMvp.Presenter challengePresenter = new ChallengePresenter(this);
+    private ChallengeMvp.Presenter challengePresenter;
 
     public ChallengeFragment() {
     }
@@ -111,6 +111,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        challengePresenter = new ChallengePresenter(this);
+
         if (getArguments() != null) {
             facebookId = getArguments().getString(ARG_MY_FACEBOOK_ID);
             activeEventId = getArguments().getInt(ARG_MY_ACTIVE_EVENT_ID);
@@ -251,9 +253,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             if (showCreateTeamButton != null) {
                 showCreateTeamButton.setOnClickListener(null);
             }
-            showJoinTeamsButton = createOrJoinTeamCard.findViewById(R.id.show_join_teams_button);
-            if (showJoinTeamsButton != null) {
-                showJoinTeamsButton.setOnClickListener(null);
+            showJoinTeamButton = createOrJoinTeamCard.findViewById(R.id.show_join_team_button);
+            if (showJoinTeamButton != null) {
+                showJoinTeamButton.setOnClickListener(null);
             }
         }
         if (createOrJoinTeamCard.getVisibility() != View.GONE) {
@@ -270,9 +272,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             if (showCreateTeamButton != null) {
                 showCreateTeamButton.setOnClickListener(onClickListener);
             }
-            showJoinTeamsButton = createOrJoinTeamCard.findViewById(R.id.show_join_teams_button);
-            if (showJoinTeamsButton != null) {
-                showJoinTeamsButton.setOnClickListener(onClickListener);
+            showJoinTeamButton = createOrJoinTeamCard.findViewById(R.id.show_join_team_button);
+            if (showJoinTeamButton != null) {
+                showJoinTeamButton.setOnClickListener(onClickListener);
             }
         }
 
@@ -305,8 +307,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void enableJoinExistingTeam(boolean enabledFlag) {
-        if (showJoinTeamsButton != null) {
-            showJoinTeamsButton.setEnabled(enabledFlag);
+        if (showJoinTeamButton != null) {
+            showJoinTeamButton.setEnabled(enabledFlag);
         }
     }
 
@@ -361,7 +363,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     closeKeyboard();
                     challengePresenter.cancelCreateTeamClick();
                     break;
-                case R.id.show_join_teams_button:
+                case R.id.show_join_team_button:
                     challengePresenter.showTeamsToJoinClick();
                     break;
                 case R.id.join_team_button:
@@ -472,7 +474,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         showMessage("New team " + teamId + " created");
         // challengePresenter. update teamLeader();
         hideCreateNewTeamView();
-        showJoinTeamsButton.setEnabled(true);
+        showJoinTeamButton.setEnabled(true);
         challengePresenter.getTeams();
     }
 

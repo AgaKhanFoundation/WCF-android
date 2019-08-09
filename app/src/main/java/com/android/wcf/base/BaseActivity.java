@@ -18,8 +18,11 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.fitbit.FitbitHelper;
 import com.android.wcf.googlefit.GoogleFitHelper;
+import com.android.wcf.model.Participant;
+import com.android.wcf.model.Team;
 import com.android.wcf.settings.FitnessTrackerConnectionMvp;
 import com.fitbitsdk.authentication.AuthenticationConfiguration;
 import com.fitbitsdk.authentication.AuthenticationHandler;
@@ -62,7 +65,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public abstract class BaseActivity extends AppCompatActivity
+abstract public class BaseActivity extends AppCompatActivity
         implements BaseMvp.BaseView, FitnessTrackerConnectionMvp.Host, AuthenticationHandler {
 
     protected SharedPreferences sharedPreferences = null;
@@ -127,6 +130,26 @@ public abstract class BaseActivity extends AppCompatActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void setParticipant(Participant participant) {
+        DataHolder.setParticipant(participant);
+    }
+
+    @Override
+    public Participant getParticipant() {
+        return DataHolder.getParticipant();
+    }
+
+    @Override
+    public void setParticipantTeam(Team team) {
+        DataHolder.setParticipantTeam(team);
+    }
+
+    @Override
+    public Team getParticipantTeam() {
+        return DataHolder.getParticipantTeam();
     }
 
     //TODO: implement the proper dialogFragment for showing error messages
