@@ -123,6 +123,7 @@ public abstract class BasePresenter {
 
     protected void onGetParticipantSuccess(Participant participant) {
         Log.d(TAG, "onGetParticipantSuccess");
+
     }
 
     protected void onGetParticipantError(Throwable error) {
@@ -452,7 +453,6 @@ public abstract class BasePresenter {
 
     protected void onParticipantLeaveFromTeamSuccess(List<Integer> results, String fbid) {
         Log.d(TAG, "onParticipantLeaveFromTeamSuccess success: " + results.get(0));
-
     }
 
     protected void onParticipantLeaveFromTeamError(Throwable error, String fbid) {

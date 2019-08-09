@@ -28,7 +28,7 @@
 
     <string name="title_activity_home">Home</string>
     <string name="nav_dashboard">Dashboard</string>
-    <string name="nav_campaign">Campaign</string>
+    <string name="nav_challenge">Challenge</string>
     <string name="nav_leaderboard">Leaderboard</string>
     <string name="nav_notifications">Notifications</string>
 
@@ -105,5 +105,19 @@
     <string name="participants_manager_error">Participants Manager Error</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
     <string name="connecting_to_fitness_device">Connecting the app to your Fitbit Account</string>
+    <string name="connect_device_or_app_message">No activity yet. You will need to connect a fitness tracker to track your miles.</string>
+    <string name="connect_device_app_button_text">Connect an App or a Device</string>
+    <string name="dashboard_activity_card_label">Activity</string>
+    <string name="challenge_progress_card_label">Challenge Progress</string>
+    <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
 
+    <string name="fundraising_progress_card_label">Fundraising Progress</string>
+    <string name="fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
+    <string name="fundraising_invite_label">Invite supporters to pledge</string>
+    <string name="leave_team_title">Leave Team?</string>
+    <string name="leave_team_message">This will remove all your data linked to the team. You will not be able to participate in the challenge.</string>
+    <string name="cancel_leave_team_button_text">Cancel</string>
+    <string name="leave_team_button">Leave</string>
+    <string name="team_lead_label">Team Lead</string>
+    <string name="team_member_label">Team Member</string>
 </resources>

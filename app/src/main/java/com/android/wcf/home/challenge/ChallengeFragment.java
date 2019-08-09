@@ -1,4 +1,4 @@
-package com.android.wcf.home.campaign;
+package com.android.wcf.home.challenge;
 
 import android.content.Context;
 import android.net.Uri;
@@ -36,12 +36,12 @@ import java.util.List;
  * Activities that contain this fragment must implement the
  * {@link FragmentHost} interface
  * to handle interaction events.
- * Use the {@link CampaignFragment#newInstance} factory method to
+ * Use the {@link ChallengeFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CampaignFragment extends BaseFragment implements CampaignMvp.CampaignView, TeamsAdapterMvp.Host {
+public class ChallengeFragment extends BaseFragment implements ChallengeMvp.ChallengeView, TeamsAdapterMvp.Host {
 
-    private static final String TAG = CampaignFragment.class.getSimpleName();
+    private static final String TAG = ChallengeFragment.class.getSimpleName();
 
     /* the fragment initialization parameters */
     private static final String ARG_MY_FACEBOOK_ID = "my_fbid";
@@ -69,7 +69,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     private View joinTeamView = null;
 
     private Button showCreateTeamButton = null;
-    private Button showJoinTeamsButton = null;
+    private Button showJoinTeamButton = null;
 
     private Button createTeamButton = null;
     private Button cancelCreateTeamButton = null;
@@ -85,9 +85,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     private int activeEventId;
     private int teamId;
 
-    private CampaignMvp.Presenter campaignPresenter = new CampaignPresenter(this);
+    private ChallengeMvp.Presenter challengePresenter;
 
-    public CampaignFragment() {
+    public ChallengeFragment() {
     }
 
     /**
@@ -96,10 +96,10 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
      *
      * @param fbid   facebookId.
      * @param teamId teamId.
-     * @return A new instance of fragment CampaignFragment.
+     * @return A new instance of fragment ChallengeFragment.
      */
-    public static CampaignFragment newInstance(String fbid, int eventId, int teamId) {
-        CampaignFragment fragment = new CampaignFragment();
+    public static ChallengeFragment newInstance(String fbid, int eventId, int teamId) {
+        ChallengeFragment fragment = new ChallengeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_MY_FACEBOOK_ID, fbid);
         args.putInt(ARG_MY_ACTIVE_EVENT_ID, eventId);
@@ -111,6 +111,8 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        challengePresenter = new ChallengePresenter(this);
+
         if (getArguments() != null) {
             facebookId = getArguments().getString(ARG_MY_FACEBOOK_ID);
             activeEventId = getArguments().getInt(ARG_MY_ACTIVE_EVENT_ID);
@@ -122,7 +124,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View fragmentView = inflater.inflate(R.layout.fragment_campaign, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_challenge, container, false);
 
         setupView(fragmentView);
         return fragmentView;
@@ -133,14 +135,14 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
-        campaignPresenter.getEvent(activeEventId);
-        campaignPresenter.getTeam(teamId);
+        challengePresenter.getEvent(activeEventId);
+        challengePresenter.getTeam(teamId);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        campaignPresenter.getTeams(); //TODO: next version, we will have to associate teams to event
+        challengePresenter.getTeams(); //TODO: next version, we will have to associate teams to event
     }
 
     @Override
@@ -162,7 +164,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mHostingParent != null) {
-            mHostingParent.onCampaignFragmentInteraction(uri);
+            mHostingParent.onChallengeFragmentInteraction(uri);
         }
     }
 
@@ -251,9 +253,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
             if (showCreateTeamButton != null) {
                 showCreateTeamButton.setOnClickListener(null);
             }
-            showJoinTeamsButton = createOrJoinTeamCard.findViewById(R.id.show_join_teams_button);
-            if (showJoinTeamsButton != null) {
-                showJoinTeamsButton.setOnClickListener(null);
+            showJoinTeamButton = createOrJoinTeamCard.findViewById(R.id.show_join_team_button);
+            if (showJoinTeamButton != null) {
+                showJoinTeamButton.setOnClickListener(null);
             }
         }
         if (createOrJoinTeamCard.getVisibility() != View.GONE) {
@@ -270,9 +272,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
             if (showCreateTeamButton != null) {
                 showCreateTeamButton.setOnClickListener(onClickListener);
             }
-            showJoinTeamsButton = createOrJoinTeamCard.findViewById(R.id.show_join_teams_button);
-            if (showJoinTeamsButton != null) {
-                showJoinTeamsButton.setOnClickListener(onClickListener);
+            showJoinTeamButton = createOrJoinTeamCard.findViewById(R.id.show_join_team_button);
+            if (showJoinTeamButton != null) {
+                showJoinTeamButton.setOnClickListener(onClickListener);
             }
         }
 
@@ -305,8 +307,8 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
 
     @Override
     public void enableJoinExistingTeam(boolean enabledFlag) {
-        if (showJoinTeamsButton != null) {
-            showJoinTeamsButton.setEnabled(enabledFlag);
+        if (showJoinTeamButton != null) {
+            showJoinTeamButton.setEnabled(enabledFlag);
         }
     }
 
@@ -351,18 +353,18 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.show_create_team_button:
-                    campaignPresenter.showCreateTeamClick();
+                    challengePresenter.showCreateTeamClick();
                     break;
                 case R.id.create_team_button:
                     closeKeyboard();
-                    campaignPresenter.createTeamClick(teamNameEditText.getText().toString());
+                    challengePresenter.createTeamClick(teamNameEditText.getText().toString());
                     break;
                 case R.id.cancel_create_team_button:
                     closeKeyboard();
-                    campaignPresenter.cancelCreateTeamClick();
+                    challengePresenter.cancelCreateTeamClick();
                     break;
-                case R.id.show_join_teams_button:
-                    campaignPresenter.showTeamsToJoinClick();
+                case R.id.show_join_team_button:
+                    challengePresenter.showTeamsToJoinClick();
                     break;
                 case R.id.join_team_button:
                     teamSelectedToJoin();
@@ -470,10 +472,10 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
     public void teamCreated(Team team) {
         this.teamId = team.getId();
         showMessage("New team " + teamId + " created");
-        // campaignPresenter. update teamLeader();
+        // challengePresenter. update teamLeader();
         hideCreateNewTeamView();
-        showJoinTeamsButton.setEnabled(true);
-        campaignPresenter.getTeams();
+        showJoinTeamButton.setEnabled(true);
+        challengePresenter.getTeams();
     }
 
     @Override
@@ -501,7 +503,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         }
         //TODO ensure capacity, if not show message
 
-        campaignPresenter.assignParticipantToTeam(facebookId, selectedTeam.getId());
+        challengePresenter.assignParticipantToTeam(facebookId, selectedTeam.getId());
     }
 
     private void closeTeamSelection() {
@@ -516,9 +518,9 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
         // refresh the objects
         closeTeamSelection();
         //TODO: see if these refresh is needed, perhaps it is sufficient for presenter to update its data using the response
-        campaignPresenter.getParticipant(fbid);
-        campaignPresenter.getTeam(teamId);
-        campaignPresenter.getTeams();
+        challengePresenter.getParticipant(fbid);
+        challengePresenter.getTeam(teamId);
+        challengePresenter.getTeams();
     }
 
     /**
@@ -532,7 +534,7 @@ public class CampaignFragment extends BaseFragment implements CampaignMvp.Campai
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface FragmentHost {
-        void onCampaignFragmentInteraction(Uri uri);
+        void onChallengeFragmentInteraction(Uri uri);
 
         void showToolbarUpAffordance(boolean showFlag);
 

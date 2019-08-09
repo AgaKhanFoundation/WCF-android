@@ -6,9 +6,9 @@
         android:title="@string/nav_dashboard" />
 
     <item
-        android:id="@+id/nav_campaign"
-        android:icon="@drawable/ic_tab_campaign"
-        android:title="@string/nav_campaign" />
+        android:id="@+id/nav_challenge"
+        android:icon="@drawable/ic_tab_challenge"
+        android:title="@string/nav_challenge" />
 
     <item
         android:id="@+id/nav_leaderboard"

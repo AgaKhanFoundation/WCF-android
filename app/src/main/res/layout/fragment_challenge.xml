@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_white_1"
     android:fillViewport="true"
-    tools:context="com.android.wcf.home.campaign.CampaignFragment">
+    tools:context="com.android.wcf.home.challenge.ChallengeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,9 +16,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="visible"
-            android:layout_marginTop="24dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -201,7 +201,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/my_team_text" />
 
                     <Button
-                        android:id="@+id/show_join_teams_button"
+                        android:id="@+id/show_join_team_button"
                         style="@style/Widget.WCF.Button.Secondary"
                         android:enabled="false"
                         android:layout_width="0dp"
@@ -277,7 +277,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <include layout="@layout/view_campaign_create_team"/>
+            <include layout="@layout/view_challenge_create_team"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -290,7 +290,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <include layout="@layout/view_campaign_join_team"/>
+            <include layout="@layout/view_challenge_join_team"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

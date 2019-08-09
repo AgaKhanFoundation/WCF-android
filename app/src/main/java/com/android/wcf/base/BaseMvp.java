@@ -2,6 +2,9 @@ package com.android.wcf.base;
 
 import android.view.View;
 
+import com.android.wcf.model.Participant;
+import com.android.wcf.model.Team;
+
 public interface BaseMvp {
     interface BaseView {
 
@@ -31,9 +34,17 @@ public interface BaseMvp {
 
         void closeKeyboard();
 
+        void setParticipant(Participant participant);
+        Participant getParticipant();
+
+        void setParticipantTeam(Team team);
+        Team getParticipantTeam();
     }
 
     interface Presenter {
         String getTag();
+    }
+
+    interface Host {
     }
 }

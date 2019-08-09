@@ -149,7 +149,7 @@ public class WCFClient {
         return wcfApi.getParticipantStats(fbid);
     }
 
-    public Single<List<Integer>> updateParticipant(String currentFbid, String newFbid, int teamId, int causeId, int localityId, int eventId) {
+    public Single<List<Integer>> updateParticipant(String currentFbid, String newFbid, Integer teamId, Integer causeId, Integer localityId, Integer eventId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (newFbid != null && !newFbid.isEmpty())
             jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newFbid);
@@ -174,7 +174,7 @@ public class WCFClient {
         return wcfApi.updateParticipant(fbid, requestBody);
     }
 
-    public Single<List<Integer>> updateParticipantTrackingSource(String fbid, int sourceId) {
+    public Single<List<Integer>> updateParticipantTrackingSource(String fbid, Integer sourceId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (sourceId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);
 

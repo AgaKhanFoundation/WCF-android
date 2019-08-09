@@ -8,17 +8,17 @@ import java.util.ArrayList
     1) has FaceBookId to signup in the app,
     2) has a steps tracking deviceType/source,
     3) joins a team,
-    4) supports a cause and participants to walk in an event (campaign)
+    4) supports a cause and participants to walk in an event (challenge)
     5 has 0 or more individual achievements
  */
 
 data class Participant(
         @SerializedName("id") var id: Int = 0,
         @SerializedName("fbid") var fbId: String? = "",
-        @SerializedName("team_id") var teamId: Int? = 0,
-        @SerializedName("event_id") var eventId: Int? = 0,
-        @SerializedName("cause_id") var causeId: Int? = 0,
-        @SerializedName("source_id") var sourceId: Int? = 0,
+        @SerializedName("team_id") var teamId: Integer? = null,
+        @SerializedName("event_id") var eventId: Integer? = null,
+        @SerializedName("cause_id") var causeId: Integer? = null,
+        @SerializedName("source_id") var sourceId: Int = 0,
         @SerializedName("team") var team: Team? = Team(),
         @SerializedName("cause") var cause: Cause? = Cause(),
         @SerializedName("event") var event: Event? = Event(),

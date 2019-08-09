@@ -128,7 +128,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         }
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         Log.i(TAG, "onAttach")
         super.onAttach(context)
         if (context is FitnessTrackerConnectionMvp.Host) {
@@ -136,8 +136,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         }
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             android.R.id.home -> {
                 activity!!.onBackPressed()
                 return true

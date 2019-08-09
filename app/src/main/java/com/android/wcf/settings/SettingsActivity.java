@@ -63,8 +63,13 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
     @Override
     public void signout() {
         LoginManager.getInstance().logOut();
-        SharedPreferencesUtil.saveUserLoggedIn(false);
-        WCFApplication.instance.requestLogin();
+        SharedPreferencesUtil.clearMyLogin();
+        WCFApplication.instance.openHomeActivity();
+    }
+
+    @Override
+    public void restartHomeActivity() {
+        WCFApplication.instance.openHomeActivity();
     }
 
     private void setupView() {

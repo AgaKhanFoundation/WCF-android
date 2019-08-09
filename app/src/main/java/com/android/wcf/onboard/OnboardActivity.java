@@ -97,7 +97,7 @@ public class OnboardActivity extends AppCompatActivity implements OnboardMvp.Vie
 
     @Override
     public void showHomeActivity() {
-        Intent intent = HomeActivity.createIntent(this);
+        Intent intent = HomeActivity.Companion.createIntent(this);
         this.startActivity(intent);
     }
 

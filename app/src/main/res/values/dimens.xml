@@ -18,5 +18,6 @@
     <dimen name="spacing_extra_large">64dp</dimen>
     <dimen name="spacing_200">200dp</dimen>
     <dimen name="button_width_medium">140dp</dimen>
+    <dimen name="min_button_height">56dp</dimen>
 
 </resources>

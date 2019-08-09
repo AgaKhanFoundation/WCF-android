@@ -21,11 +21,12 @@ public class SplashPresenter extends BasePresenter implements SplashMvp.SplashPr
     protected void onGetEventsListSuccess(List<Event> events) {
         super.onGetEventsListSuccess(events);
         this.events = events;
-        if (getCurrentEvent() == null) {
+        Event currentEvent = getCurrentEvent();
+        if ( currentEvent == null) {
             splashView.showErrorAndCloseApp(R.string.events_list_not_setup_error);
             return;
         }
-        splashView.navigateToHomeView(getCurrentEvent());
+        splashView.navigateToHomeView(currentEvent);
     }
 
     @Override
