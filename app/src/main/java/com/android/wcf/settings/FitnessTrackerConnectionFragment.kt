@@ -185,11 +185,20 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             val tvFitnessAappMessage:TextView = fragmentView.findViewById(R.id.tv_fitness_app_message)
 
             sharedPreferences?.let { sharedPreferences ->
-                val deviceChoice = sharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_SELECTED, false)
+                var deviceChoice = sharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_SELECTED, false)
                 val deviceLoggedIn = sharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false)
 
-                val appChoice = sharedPreferences.getBoolean(GoogleFitHelper.GOOGLE_FIT_APP_SELECTED, false)
+                var appChoice = sharedPreferences.getBoolean(GoogleFitHelper.GOOGLE_FIT_APP_SELECTED, false)
                 val appLoggedIn = sharedPreferences.getBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false)
+
+                if (deviceLoggedIn) {
+                    deviceChoice = true;
+                    appChoice = false;
+                }
+                else if (appLoggedIn) {
+                    deviceChoice = false;
+                    appChoice = true;
+                }
 
                 if (deviceChoice) {
                     btnFitnessDevice.setEnabled(deviceChoice)
