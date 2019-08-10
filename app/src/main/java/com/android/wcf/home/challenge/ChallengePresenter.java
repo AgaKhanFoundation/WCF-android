@@ -16,7 +16,6 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     private static final String TAG = ChallengePresenter.class.getSimpleName();
     private ChallengeMvp.ChallengeView challengeView;
 
-    Event event;
     Stats participantStats = null;
     List<Team> teams = null;
     Stats teamStats = null;
@@ -52,12 +51,13 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetEventSuccess(Event event) {
         super.onGetEventSuccess(event);
         eventRetrieved = true;
-        this.event = event;
+        challengeView.setEvent(event);
         checkAndShowJourneySection();
         checkAndShowTeamSection();
     }
 
     private void checkAndShowTeamSection() {
+        Event event = challengeView.getEvent();
         if (teamRetrieved) {
             Team team = challengeView.getParticipantTeam();
             if (team == null) {
@@ -77,6 +77,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     private void checkAndShowJourneySection() {
+        Event event = challengeView.getEvent();
         if (eventRetrieved) {
             if (event != null) {
                 if (event.daysToStartEvent() > 0) {
@@ -151,6 +152,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         } else {
             challengeView.enableJoinExistingTeam(true);
         }
+        challengeView.showTeamList(teams);
     }
 
     @Override

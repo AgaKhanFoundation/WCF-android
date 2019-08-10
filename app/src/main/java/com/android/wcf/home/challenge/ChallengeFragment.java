@@ -3,17 +3,13 @@ package com.android.wcf.home.challenge;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.format.DateUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +18,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
-import com.android.wcf.helper.SharedPreferencesUtil;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentHost} interface
- * to handle interaction events.
- * Use the {@link ChallengeFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class ChallengeFragment extends BaseFragment implements ChallengeMvp.ChallengeView, TeamsAdapterMvp.Host {
 
     private static final String TAG = ChallengeFragment.class.getSimpleName();
@@ -53,7 +46,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public static final int MIN_TEAM_LEAD_NAME_SIZE = 0;
 
     // host for this fragment
-    FragmentHost mHostingParent;
+    ChallengeMvp.Host mHostingParent;
 
     /* UI elements */
 
@@ -118,6 +111,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             activeEventId = getArguments().getInt(ARG_MY_ACTIVE_EVENT_ID);
             teamId = getArguments().getInt(ARG_MY_TEAM_ID);
         }
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -146,6 +140,12 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        super.onCreateOptionsMenu(menu, menuInflater);
+        menuInflater.inflate(R.menu.menu_home, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean handled = super.onOptionsItemSelected(item);
         if (!handled) {
@@ -171,8 +171,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentHost) {
-            mHostingParent = (FragmentHost) context;
+        if (context instanceof ChallengeMvp.Host) {
+            mHostingParent = (ChallengeMvp.Host) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement FragmentHost");
@@ -275,6 +275,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             showJoinTeamButton = createOrJoinTeamCard.findViewById(R.id.show_join_team_button);
             if (showJoinTeamButton != null) {
                 showJoinTeamButton.setOnClickListener(onClickListener);
+                showJoinTeamButton.setEnabled(false);
             }
         }
 
@@ -523,21 +524,4 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         challengePresenter.getTeams();
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface FragmentHost {
-        void onChallengeFragmentInteraction(Uri uri);
-
-        void showToolbarUpAffordance(boolean showFlag);
-
-        void setViewTitle(String title);
-    }
 }

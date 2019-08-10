@@ -1,5 +1,7 @@
 package com.android.wcf.home.challenge;
 
+import android.net.Uri;
+
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
@@ -70,5 +72,14 @@ public interface ChallengeMvp {
         void createTeamClick(String teamName);
 
         void cancelCreateTeamClick();
+    }
+
+    interface Host {
+        void onChallengeFragmentInteraction(Uri uri);
+
+        void showToolbarUpAffordance(boolean showFlag);
+
+        void setViewTitle(String title);
+
     }
 }
