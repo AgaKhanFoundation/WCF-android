@@ -11,11 +11,11 @@ import java.util.List;
 public interface ChallengeMvp {
     interface ChallengeView extends BaseMvp.BaseView {
 
-        void hideJourneyBeforeStartCard();
-        void showJourneyBeforeStartCard(Event event);
+        void hideJourneyBeforeStartView();
+        void showJourneyBeforeStartView(Event event);
 
-        void hideJourneyDetails();
-        void showJourneyDetails(Event event);
+        void hideJourneyActiveView();
+        void showJourneyActiveView(Event event);
 
         void hideCreateOrJoinTeamCard();
         void showCreateOrJoinTeamCard();
@@ -32,7 +32,7 @@ public interface ChallengeMvp {
 
         void teamCreated(Team team);
 
-        void showTeamList(List<Team> teams);
+        void showTeamList();
 
         void enableShowCreateTeam(boolean enabledFlag);
 

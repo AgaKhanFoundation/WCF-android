@@ -17,7 +17,6 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     private ChallengeMvp.ChallengeView challengeView;
 
     Stats participantStats = null;
-    List<Team> teams = null;
     Stats teamStats = null;
 
     boolean teamRetrieved = false;
@@ -28,7 +27,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     public List<Team> getTeamsList() {
-        return teams;
+        return challengeView.getTeamList();
     }
 
     @Override
@@ -81,19 +80,19 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         if (eventRetrieved) {
             if (event != null) {
                 if (event.daysToStartEvent() > 0) {
-                    challengeView.hideJourneyDetails();
+                    challengeView.hideJourneyActiveView();
 
                     Team team = challengeView.getParticipantTeam();
                     if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {
-                        challengeView.hideJourneyBeforeStartCard();
+                        challengeView.hideJourneyBeforeStartView();
                     } else {
-                        challengeView.showJourneyBeforeStartCard(event);
+                        challengeView.showJourneyBeforeStartView(event);
                     }
                 } else {
-                    challengeView.showJourneyDetails(event);
+                    challengeView.showJourneyActiveView(event);
                 }
             } else {
-                challengeView.hideJourneyDetails();
+                challengeView.hideJourneyActiveView();
             }
         }
     }
@@ -145,14 +144,13 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
-        this.teams = teams;
+        challengeView.setTeamList(teams);
         challengeView.enableShowCreateTeam(true);
         if (teams == null || teams.size() == 0) {
             challengeView.enableJoinExistingTeam(false);
         } else {
             challengeView.enableJoinExistingTeam(true);
         }
-        challengeView.showTeamList(teams);
     }
 
     @Override
@@ -208,7 +206,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
     @Override
     public void showTeamsToJoinClick() {
-        challengeView.showTeamList(teams);
+        challengeView.showTeamList();
     }
 
     @Override
