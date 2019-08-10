@@ -12,6 +12,8 @@ import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
+import java.util.List;
+
 import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
@@ -115,6 +117,16 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     @Override
     public Team getParticipantTeam() {
         return baseView.getParticipantTeam();
+    }
+
+    @Override
+    public void setTeamList(List<Team> teams) {
+        baseView.setTeamList(teams);
+    }
+
+    @Override
+    public List<Team> getTeamList() {
+        return baseView.getTeamList();
     }
 
     @Override

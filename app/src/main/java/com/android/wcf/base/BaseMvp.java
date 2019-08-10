@@ -6,6 +6,8 @@ import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
+import java.util.List;
+
 public interface BaseMvp {
     interface BaseView {
 
@@ -43,6 +45,9 @@ public interface BaseMvp {
 
         void setParticipantTeam(Team team);
         Team getParticipantTeam();
+
+        void setTeamList(List<Team> teams);
+        List<Team> getTeamList();
     }
 
     interface Presenter {

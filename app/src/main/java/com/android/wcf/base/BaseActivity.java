@@ -146,6 +146,16 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
+    public void setTeamList(List<Team> teams) {
+        DataHolder.setTeams(teams);
+    }
+
+    @Override
+    public List<Team> getTeamList() {
+        return DataHolder.getTeams();
+    }
+
+    @Override
     public void setParticipant(Participant participant) {
         DataHolder.setParticipant(participant);
     }
