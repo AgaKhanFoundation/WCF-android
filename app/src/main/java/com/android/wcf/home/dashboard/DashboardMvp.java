@@ -1,5 +1,7 @@
 package com.android.wcf.home.dashboard;
 
+import android.net.Uri;
+
 import com.android.wcf.base.BaseMvp;
 
 public interface DashboardMvp {
@@ -15,5 +17,13 @@ public interface DashboardMvp {
         void getParticipantDonors(int participantId);
 
         void getParticipantStats(int participantId);
+    }
+
+    interface Host {
+        void onDashboardFragmentInteraction(Uri uri);
+        void showToolbarUpAffordance(boolean showFlag);
+        void setViewTitle(String title);
+        void showDeviceConnection();
+
     }
 }

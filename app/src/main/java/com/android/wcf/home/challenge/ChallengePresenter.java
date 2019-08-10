@@ -16,9 +16,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     private static final String TAG = ChallengePresenter.class.getSimpleName();
     private ChallengeMvp.ChallengeView challengeView;
 
-    Event event;
     Stats participantStats = null;
-    List<Team> teams = null;
     Stats teamStats = null;
 
     boolean teamRetrieved = false;
@@ -29,7 +27,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     public List<Team> getTeamsList() {
-        return teams;
+        return challengeView.getTeamList();
     }
 
     @Override
@@ -52,12 +50,13 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetEventSuccess(Event event) {
         super.onGetEventSuccess(event);
         eventRetrieved = true;
-        this.event = event;
+        challengeView.setEvent(event);
         checkAndShowJourneySection();
         checkAndShowTeamSection();
     }
 
     private void checkAndShowTeamSection() {
+        Event event = challengeView.getEvent();
         if (teamRetrieved) {
             Team team = challengeView.getParticipantTeam();
             if (team == null) {
@@ -77,22 +76,23 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     private void checkAndShowJourneySection() {
+        Event event = challengeView.getEvent();
         if (eventRetrieved) {
             if (event != null) {
                 if (event.daysToStartEvent() > 0) {
-                    challengeView.hideJourneyDetails();
+                    challengeView.hideJourneyActiveView();
 
                     Team team = challengeView.getParticipantTeam();
                     if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {
-                        challengeView.hideJourneyBeforeStartCard();
+                        challengeView.hideJourneyBeforeStartView();
                     } else {
-                        challengeView.showJourneyBeforeStartCard(event);
+                        challengeView.showJourneyBeforeStartView(event);
                     }
                 } else {
-                    challengeView.showJourneyDetails(event);
+                    challengeView.showJourneyActiveView(event);
                 }
             } else {
-                challengeView.hideJourneyDetails();
+                challengeView.hideJourneyActiveView();
             }
         }
     }
@@ -144,7 +144,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
-        this.teams = teams;
+        challengeView.setTeamList(teams);
         challengeView.enableShowCreateTeam(true);
         if (teams == null || teams.size() == 0) {
             challengeView.enableJoinExistingTeam(false);
@@ -206,7 +206,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
     @Override
     public void showTeamsToJoinClick() {
-        challengeView.showTeamList(teams);
+        challengeView.showTeamList();
     }
 
     @Override

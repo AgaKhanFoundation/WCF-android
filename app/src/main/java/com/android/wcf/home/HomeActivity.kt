@@ -27,11 +27,13 @@ import com.android.wcf.home.dashboard.DashboardFragment
 import com.android.wcf.home.leaderboard.LeaderboardFragment
 import com.android.wcf.home.notifications.NotificationsFragment
 import com.android.wcf.helper.SharedPreferencesUtil
+import com.android.wcf.home.challenge.ChallengeMvp
+import com.android.wcf.home.dashboard.DashboardMvp
 
 class HomeActivity : BaseActivity()
         , HomeMvp.HomeView
-        , DashboardFragment.FragmentHost
-        , ChallengeFragment.FragmentHost
+        , DashboardMvp.Host
+        , ChallengeMvp.Host
         , LeaderboardFragment.FragmentHost
         , NotificationsFragment.FragmentHost {
 
@@ -116,11 +118,6 @@ class HomeActivity : BaseActivity()
             return
         }
         homePresenter!!.getParticipant(myFacebookId!!)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_home, menu)
-        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -246,7 +243,7 @@ class HomeActivity : BaseActivity()
 
     protected fun addNavigationFragments() {
         if (dashboardFragment == null) {
-            dashboardFragment = DashboardFragment.newInstance(null, null)
+            dashboardFragment = DashboardFragment.newInstance()
         }
         if (notificationsFragment == null) {
             notificationsFragment = NotificationsFragment.newInstance(null, null)

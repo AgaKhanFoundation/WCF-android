@@ -16,13 +16,16 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.fitbit.FitbitHelper;
 import com.android.wcf.googlefit.GoogleFitHelper;
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
+import com.android.wcf.settings.FitnessTrackerConnectionFragment;
 import com.android.wcf.settings.FitnessTrackerConnectionMvp;
 import com.fitbitsdk.authentication.AuthenticationConfiguration;
 import com.fitbitsdk.authentication.AuthenticationHandler;
@@ -66,7 +69,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 abstract public class BaseActivity extends AppCompatActivity
-        implements BaseMvp.BaseView, FitnessTrackerConnectionMvp.Host, AuthenticationHandler {
+        implements BaseMvp.BaseView, BaseMvp.Host, FitnessTrackerConnectionMvp.Host, AuthenticationHandler {
 
     protected SharedPreferences sharedPreferences = null;
 
@@ -130,6 +133,26 @@ abstract public class BaseActivity extends AppCompatActivity
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void setEvent(Event event) {
+        DataHolder.setEvent(event);
+    }
+
+    @Override
+    public Event getEvent() {
+        return DataHolder.getEvent();
+    }
+
+    @Override
+    public void setTeamList(List<Team> teams) {
+        DataHolder.setTeams(teams);
+    }
+
+    @Override
+    public List<Team> getTeamList() {
+        return DataHolder.getTeams();
     }
 
     @Override
@@ -223,6 +246,18 @@ abstract public class BaseActivity extends AppCompatActivity
             imm.hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
         }
     }
+
+
+    @Override
+    public void showDeviceConnection() {
+        Fragment fragment = new FitnessTrackerConnectionFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
 
     /************* Fitbit related methods   ****************/
 

@@ -1,5 +1,7 @@
 package com.android.wcf.home.challenge;
 
+import android.net.Uri;
+
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
@@ -9,11 +11,11 @@ import java.util.List;
 public interface ChallengeMvp {
     interface ChallengeView extends BaseMvp.BaseView {
 
-        void hideJourneyBeforeStartCard();
-        void showJourneyBeforeStartCard(Event event);
+        void hideJourneyBeforeStartView();
+        void showJourneyBeforeStartView(Event event);
 
-        void hideJourneyDetails();
-        void showJourneyDetails(Event event);
+        void hideJourneyActiveView();
+        void showJourneyActiveView(Event event);
 
         void hideCreateOrJoinTeamCard();
         void showCreateOrJoinTeamCard();
@@ -30,7 +32,7 @@ public interface ChallengeMvp {
 
         void teamCreated(Team team);
 
-        void showTeamList(List<Team> teams);
+        void showTeamList();
 
         void enableShowCreateTeam(boolean enabledFlag);
 
@@ -70,5 +72,14 @@ public interface ChallengeMvp {
         void createTeamClick(String teamName);
 
         void cancelCreateTeamClick();
+    }
+
+    interface Host {
+        void onChallengeFragmentInteraction(Uri uri);
+
+        void showToolbarUpAffordance(boolean showFlag);
+
+        void setViewTitle(String title);
+
     }
 }

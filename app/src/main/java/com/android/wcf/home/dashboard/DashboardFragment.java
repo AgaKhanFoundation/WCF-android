@@ -1,75 +1,82 @@
 package com.android.wcf.home.dashboard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.fitbit.FitbitHelper;
+import com.android.wcf.googlefit.GoogleFitHelper;
+import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Participant;
+import com.android.wcf.model.Team;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentHost} interface
- * to handle interaction events.
- * Use the {@link DashboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class DashboardFragment extends BaseFragment implements DashboardMvp.DashboardView {
     private static final String TAG = DashboardFragment.class.getSimpleName();
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    SharedPreferences deviceSharedPreferences = null;
+    private DashboardMvp.Host mFragmentHost;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    View deviceConnectionView = null;
+    View activityTrackedInfoView = null;
+    View challengeProgressBeforeStart = null;
+    View fundraisingBeforeChallengeStartView = null;
 
-    private FragmentHost mFragmentHost;
+    ImageView participantImage;
+    TextView participantNameTv;
+    TextView teamNameTv;
+    TextView teamLeadLabelTv;
 
     private DashboardMvp.Presenter dashboardPresenter = new DashboardPresenter(this);
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.navigate_to_connect_app_or_device:
+                    if (mFragmentHost != null) {
+                        mFragmentHost.showDeviceConnection();
+                    }
+                    break;
+
+            }
+        }
+    };
 
     public DashboardFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment DashboardFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static DashboardFragment newInstance(String param1, String param2) {
+    public static DashboardFragment newInstance() {
         DashboardFragment fragment = new DashboardFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
+        showParticipantInfo();
+        showDashboardActivityInfo();
+        showChallengeProgress();
+        showFundRaisingInfo();
     }
 
     @Override
@@ -87,14 +94,25 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     }
 
     @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        View fragmentView = getView();
+        setupDashboardParticipantProfileCard(fragmentView);
+        setupDashboardActivityCard(fragmentView);
+        setupDashboardChallengeProgressCard(fragmentView);
+        setupDashboardFundraisingCard(fragmentView);
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentHost) {
-            mFragmentHost = (FragmentHost) context;
+        if (context instanceof DashboardMvp.Host) {
+            mFragmentHost = (DashboardMvp.Host) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement FragmentHost");
         }
+        deviceSharedPreferences = getActivity().getSharedPreferences(FitbitHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -103,19 +121,94 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         mFragmentHost = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface FragmentHost {
-        void onDashboardFragmentInteraction(Uri uri);
-        void showToolbarUpAffordance(boolean showFlag);
-        void setViewTitle(String title);
+    void showParticipantInfo() {
+
+        String profileImageUrl = SharedPreferencesUtil.getUserProfilePhotoUrl();
+        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+            Log.d(TAG, "profileImageUrl=" + profileImageUrl);
+
+            Glide.with(getContext())
+                    .load(profileImageUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(participantImage);
+        }
+
+        Team team = getParticipantTeam();
+        Participant participant = getParticipant();
+        participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
+        boolean teamLead = false;
+        if (team != null) {
+            teamNameTv.setText(team.getName());
+            if (team.getLeaderName().equalsIgnoreCase(SharedPreferencesUtil.getUserFullName())) {
+                teamLead = true;
+            }
+            teamLeadLabelTv.setText(teamLead ?
+                    getResources().getString(R.string.team_lead_label)
+                    : getResources().getString(R.string.team_member_label));
+
+            teamLeadLabelTv.setVisibility(View.VISIBLE);
+        } else {
+            teamLeadLabelTv.setVisibility(View.GONE);
+        }
+    }
+
+    void showDashboardActivityInfo() {
+        boolean teamFormationStarted = true;
+        boolean fitnessDeviceLoggedIn = false;
+        boolean fitnessAppLoggedIn = false;
+
+        if (deviceSharedPreferences != null) {
+            fitnessDeviceLoggedIn = deviceSharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false);
+            fitnessAppLoggedIn = deviceSharedPreferences.getBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false);
+        }
+        if (fitnessDeviceLoggedIn || fitnessAppLoggedIn) {
+            deviceConnectionView.setVisibility(View.GONE);
+            activityTrackedInfoView.setVisibility(View.VISIBLE);
+        } else {
+            deviceConnectionView.setVisibility(View.VISIBLE);
+            activityTrackedInfoView.setVisibility(View.GONE);
+        }
+    }
+
+    void showChallengeProgress() {
+        boolean challengeStarted = false;
+
+    }
+
+    void showFundRaisingInfo() {
+        boolean challengeStarted = false;
+        if (!challengeStarted) {
+            fundraisingBeforeChallengeStartView.setVisibility(View.VISIBLE);
+        } else {
+            fundraisingBeforeChallengeStartView.setVisibility(View.GONE);
+        }
+    }
+
+    void setupDashboardParticipantProfileCard(View fragmentView) {
+        View profileCard = fragmentView.findViewById(R.id.dashboard_participant_profile_card);
+        participantImage = profileCard.findViewById(R.id.participant_image);
+        participantNameTv = profileCard.findViewById(R.id.participant_name);
+        teamNameTv = profileCard.findViewById(R.id.team_name);
+        teamLeadLabelTv = profileCard.findViewById(R.id.teamlead_label);
+    }
+
+    void setupDashboardActivityCard(View fragmentView) {
+        View activityCard = fragmentView.findViewById(R.id.dashboard_activity_card);
+
+        deviceConnectionView = activityCard.findViewById(R.id.dashboard_activity_device_connection);
+        activityTrackedInfoView = activityCard.findViewById(R.id.dashboard_activity_tracked_info);
+
+        Button connectNavButton = deviceConnectionView.findViewById(R.id.navigate_to_connect_app_or_device);
+        connectNavButton.setOnClickListener(onClickListener);
+    }
+
+    void setupDashboardChallengeProgressCard(View fragmentView) {
+        View challengeProgressCard = fragmentView.findViewById(R.id.dashboard_challenge_progress_card);
+        challengeProgressBeforeStart = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_card_before);
+    }
+
+    void setupDashboardFundraisingCard(View fragmentView) {
+        View fundraisingProgressCard = fragmentView.findViewById(R.id.dashboard_fundraising_progress_card);
+        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.dashboard_fundraising_progress_card_before);
     }
 }
