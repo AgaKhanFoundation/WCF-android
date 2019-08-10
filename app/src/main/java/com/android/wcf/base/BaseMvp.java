@@ -2,6 +2,7 @@ package com.android.wcf.base;
 
 import android.view.View;
 
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
@@ -34,6 +35,9 @@ public interface BaseMvp {
 
         void closeKeyboard();
 
+        void setEvent(Event event);
+        Event getEvent();
+
         void setParticipant(Participant participant);
         Participant getParticipant();
 
@@ -46,5 +50,6 @@ public interface BaseMvp {
     }
 
     interface Host {
+        void showDeviceConnection();
     }
 }

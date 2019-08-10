@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
@@ -84,6 +85,16 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     @Override
     public void hideLoadingView() {
 
+    }
+
+    @Override
+    public void setEvent(Event event) {
+        baseView.setEvent(event);
+    }
+
+    @Override
+    public Event getEvent() {
+        return baseView.getEvent();
     }
 
     @Override

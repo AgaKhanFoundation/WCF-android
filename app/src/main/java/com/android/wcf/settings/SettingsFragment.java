@@ -71,7 +71,16 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View fragmentView = inflater.inflate(R.layout.fragment_settings, container, false);
+        return fragmentView;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        if (host != null) {
+            host.setToolbarTitle(getString(R.string.settings));
+        }
+        View fragmentView = getView();
         particpantMiles = fragmentView.findViewById(R.id.participant_miles);
         fragmentView.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
         participantImage = fragmentView.findViewById(R.id.participant_image);
@@ -83,15 +92,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         setupTeamSettingsClickListeners(fragmentView);
         setupLeaveTeamClickListeners(fragmentView);
         fragmentView.findViewById(R.id.btn_signout).setOnClickListener(onClickListener);
-        return fragmentView;
-    }
 
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        if (host != null) {
-            host.setToolbarTitle(getString(R.string.settings));
-        }
         showParticipantInfo();
 
     }

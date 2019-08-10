@@ -51,16 +51,6 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
     }
 
     @Override
-    public void showDeviceConnection() {
-        Fragment fragment = new FitnessTrackerConnectionFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
     public void signout() {
         LoginManager.getInstance().logOut();
         SharedPreferencesUtil.clearMyLogin();
