@@ -89,12 +89,15 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     @Override
     public void onStart() {
-        super.onStart();
         Log.d(TAG, "onStart");
+        super.onStart();
+        mFragmentHost.setToolbarTitle(getString(R.string.nav_leaderboard), false);
+
         if (leaderboardPresenter == null) {
             leaderboardPresenter = new LeaderboardPresenter(this);
         }
         leaderboardPresenter.getLeaderboard();
+
     }
 
     @Override

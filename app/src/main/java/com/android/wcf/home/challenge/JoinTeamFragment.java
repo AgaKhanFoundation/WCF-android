@@ -83,7 +83,7 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupView(getView());
-        host.setToolbarTitle(getString(R.string.join_team_title));
+        host.setToolbarTitle(getString(R.string.join_team_title), true);
     }
 
     @Override

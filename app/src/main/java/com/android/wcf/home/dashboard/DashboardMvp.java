@@ -17,8 +17,7 @@ public interface DashboardMvp {
         void getParticipantStats(int participantId);
     }
 
-    interface Host {
-        void setViewTitle(String title);
+    interface Host extends BaseMvp.Host {
         void showDeviceConnection();
     }
 }

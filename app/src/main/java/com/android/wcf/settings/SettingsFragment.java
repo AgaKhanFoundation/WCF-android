@@ -78,7 +78,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (host != null) {
-            host.setToolbarTitle(getString(R.string.settings));
+            host.setToolbarTitle(getString(R.string.settings), true);
         }
         View fragmentView = getView();
         particpantMiles = fragmentView.findViewById(R.id.participant_miles);

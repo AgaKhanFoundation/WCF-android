@@ -10,7 +10,6 @@ public interface NotificationsMvp {
     interface Presenter extends BaseMvp.Presenter  {
     }
 
-    interface Host {
-        void setViewTitle(String title);
+    interface Host extends BaseMvp.Host {
     }
 }

@@ -57,26 +57,26 @@ class HomeActivity : BaseActivity()
         when (item.itemId) {
             R.id.nav_dashboard -> {
                 if (dashboardFragment != null) {
-                    loadFragment(dashboardFragment, getString(R.string.nav_dashboard), R.id.nav_dashboard)
+                    loadFragment(dashboardFragment, R.id.nav_dashboard)
                 }
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_challenge -> {
                 if (challengeFragment != null) {
-                    loadFragment(challengeFragment, getString(R.string.nav_challenge), R.id.nav_challenge)
+                    loadFragment(challengeFragment, R.id.nav_challenge)
                 }
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_leaderboard -> {
                 if (leaderboardFragment != null) {
-                    loadFragment(leaderboardFragment, getString(R.string.nav_leaderboard), R.id.nav_leaderboard)
+                    loadFragment(leaderboardFragment, R.id.nav_leaderboard)
                     leaderboardFragment!!.setMyTeamId(myTeamId)
                 }
                 return@OnNavigationItemSelectedListener true
             }
             R.id.nav_notifications -> {
                 if (notificationsFragment != null) {
-                    loadFragment(notificationsFragment, getString(R.string.nav_notifications), R.id.nav_notifications)
+                    loadFragment(notificationsFragment, R.id.nav_notifications)
                 }
                 return@OnNavigationItemSelectedListener true
             }
@@ -133,7 +133,7 @@ class HomeActivity : BaseActivity()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
-    private fun loadFragment(fragment: Fragment?, title: String, navItemId: Int) {
+    private fun loadFragment(fragment: Fragment?, navItemId: Int) {
         val fm = supportFragmentManager
         // Pop off everything up to and including the current tab
         val fragmentManager = supportFragmentManager
@@ -144,7 +144,6 @@ class HomeActivity : BaseActivity()
                 .addToBackStack(BACK_STACK_ROOT_TAG)
                 .commit()
 
-        setViewTitle(title)
         currentNavigationId = navItemId
     }
 

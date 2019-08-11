@@ -126,35 +126,13 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void setToolbarTitle(@NotNull String title) {
+    public void setToolbarTitle(@NotNull String title, boolean homeAffordance) {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(title);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(homeAffordance);
     }
-
-    @Override
-    public void setViewTitle(String title) {
-        ActionBar actionBar = getSupportActionBar();
-        if (title != null) {
-            actionBar.setTitle(title);
-            actionBar.setDisplayShowTitleEnabled(true);
-        }
-        else {
-            actionBar.setDisplayShowTitleEnabled(false);
-        }
-        actionBar.setHomeButtonEnabled(false);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
-    public void showToolbarUpAffordance(boolean showFlag) {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
 
     @Override
     public void setEvent(Event event) {

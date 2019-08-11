@@ -66,8 +66,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         super.onCreate(savedInstanceState);
         challengePresenter = new ChallengePresenter(this);
 
-        if (getArguments() != null) {
-        }
         setHasOptionsMenu(true);
     }
 
@@ -89,10 +87,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void onStart() {
-        super.onStart();
         Log.d(TAG, "onStart");
-        mHostingParent.setViewTitle(getString(R.string.nav_challenge));
-
+        super.onStart();
+        mHostingParent.setToolbarTitle(getString(R.string.nav_challenge), false);
         participantId = SharedPreferencesUtil.getMyParticipantId();
         if(participantId == null || participantId.isEmpty()) {
             onParticipantIdMissing();

@@ -101,7 +101,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        host?.setToolbarTitle(getString(R.string.settings_connect_device_title))
+        host?.setToolbarTitle(getString(R.string.settings_connect_device_title), true)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
