@@ -8,6 +8,7 @@ interface CreateTeamMvp {
         fun teamCreated(team: Team)
         fun participantJoinedTeam(participantId: String, teamId: Int)
         fun showCreateTeamConstraintError()
+        fun confirmCancelTeamCreation()
     }
 
     interface Presenter : BaseMvp.Presenter {

@@ -1,5 +1,6 @@
 package com.android.wcf.home.challenge;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
@@ -66,8 +67,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
                     presenter.createTeam(teamName, teamLeadParticipantId, teamVisibility);
                     break;
                 case R.id.cancel_create_team_button:
-                    closeKeyboard();
-                    closeView();
+                    confirmCancelTeamCreation();
                     break;
             }
         }
@@ -116,7 +116,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                getActivity().onBackPressed();
+                confirmCancelTeamCreation();
                 return true;
             default:
                 break;
@@ -142,6 +142,33 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         if (teamNameInputLayout != null) {
             teamNameInputLayout.setError(getString(R.string.duplicate_team_name_error));
         }
+    }
+
+    @Override
+    public void confirmCancelTeamCreation() {
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_confirm_cancel_team_creation, null);
+
+        Button leaveBtn = dialogView.findViewById(R.id.ok_button);
+        Button cancelBtn = dialogView.findViewById(R.id.cancel_button);
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+            }
+        });
+        leaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+                closeView();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
     }
 
     void closeView() {

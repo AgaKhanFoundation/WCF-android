@@ -129,4 +129,8 @@
     <string name="create_team_button_text">Create Team</string>
     <string name="team_name_constraint_hint">Minimum length 6 characters</string>
     <string name="duplicate_team_name_error">Team name is taken. Select a different team name.</string>
+    <string name="cancel_team_creation_title">Cancel Team Setup?</string>
+    <string name="cancel_team_creation_message">If you choose to cancel setup, your team will be deleted and any changes you made will not be saved.</string>
+    <string name="create_team_continue_button_text">No, keep editing</string>
+    <string name="create_team_dont_continue_button_text">Yes, cancel setup</string>
 </resources>
