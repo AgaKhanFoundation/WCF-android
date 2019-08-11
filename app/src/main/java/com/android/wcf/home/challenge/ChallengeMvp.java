@@ -61,9 +61,9 @@ public interface ChallengeMvp {
 
         void deleteParticipant(String participantId);
 
-        void showCreateTeamClick();
+        void showCreateTeamView();
 
-        void showTeamsToJoinClick();
+        void showTeamsToJoinView();
 
     }
 

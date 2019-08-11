@@ -326,10 +326,10 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         public void onClick(View view) {
             switch (view.getId()) {
                 case R.id.show_create_team_button:
-                    challengePresenter.showCreateTeamClick();
+                    challengePresenter.showCreateTeamView();
                     break;
                 case R.id.show_join_team_button:
-                    challengePresenter.showTeamsToJoinClick();
+                    challengePresenter.showTeamsToJoinView();
                     break;
                 case R.id.join_team_button:
                     teamSelectedToJoin();
