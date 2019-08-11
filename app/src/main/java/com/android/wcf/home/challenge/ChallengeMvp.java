@@ -20,17 +20,13 @@ public interface ChallengeMvp {
         void hideCreateOrJoinTeamCard();
         void showCreateOrJoinTeamCard();
 
-        void onFacebookIdMissing();
+        void onParticipantIdMissing();
 
         void showCreateNewTeamView();
 
-
         void showMyTeamCard(Team team);
+
         void hideTeamCard();
-
-        void hideCreateNewTeamView();
-
-        void teamCreated(Team team);
 
         void showTeamList();
 
@@ -38,14 +34,14 @@ public interface ChallengeMvp {
 
         void enableJoinExistingTeam(boolean enabledFlag);
 
-        void participantJoinedTeam(String fbid, int teamId);
+        void participantJoinedTeam(String participantId, int teamId);
 
     }
 
     interface Presenter extends BaseMvp.Presenter {
         void getEvent(int eventId);
 
-        void createTeam(String teamName);
+        void createTeam(String teamName, String teamLeadParticipantId, boolean teamVisibility);
 
         void getTeams();
 
@@ -55,31 +51,24 @@ public interface ChallengeMvp {
 
         void deleteTeam(int teamId);
 
-        void createParticipant(String fbid);
+        void createParticipant(String participantId);
 
-        void getParticipant(String fbid);
+        void getParticipant(String participantId);
 
-        void assignParticipantToTeam(String fbid, int teamId);
+        void assignParticipantToTeam(String participantId, int teamId);
 
-        void getParticipantStats(String fbid);
+        void getParticipantStats(String participantId);
 
-        void deleteParticipant(String fbid);
+        void deleteParticipant(String participantId);
 
         void showCreateTeamClick();
 
         void showTeamsToJoinClick();
 
-        void createTeamClick(String teamName);
-
-        void cancelCreateTeamClick();
     }
 
-    interface Host {
-        void onChallengeFragmentInteraction(Uri uri);
+    interface Host extends BaseMvp.Host {
 
-        void showToolbarUpAffordance(boolean showFlag);
-
-        void setViewTitle(String title);
-
+        void showCreateTeam();
     }
 }

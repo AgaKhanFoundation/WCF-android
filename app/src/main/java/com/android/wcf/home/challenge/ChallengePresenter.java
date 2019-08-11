@@ -130,18 +130,6 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
-    protected void onCreateTeamSuccess(Team team) {
-        super.onCreateTeamSuccess(team);
-        challengeView.teamCreated(team);
-    }
-
-    @Override
-    protected void onCreateTeamError(Throwable error) {
-        super.onCreateTeamError(error);
-        challengeView.showError(R.string.teams_manager_error, error.getMessage());
-    }
-
-    @Override
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
         challengeView.setTeamList(teams);
@@ -193,35 +181,23 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
-    public void createTeamClick(String teamName) {
-        Log.d(TAG, "createTeamClick");
-        super.createTeam(teamName);
-
-    }
-
-    @Override
-    public void cancelCreateTeamClick() {
-        challengeView.hideCreateNewTeamView();
-    }
-
-    @Override
     public void showTeamsToJoinClick() {
         challengeView.showTeamList();
     }
 
     @Override
-    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String fbid, final int teamId) {
-        super.onAssignParticipantToTeamSuccess(results, fbid, teamId);
+    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String participantId, final int teamId) {
+        super.onAssignParticipantToTeamSuccess(results, participantId, teamId);
         if (results != null && results.size() == 1) {
-            challengeView.participantJoinedTeam(fbid, teamId);
+            challengeView.participantJoinedTeam(participantId, teamId);
         } else {
             challengeView.showError("Unable to assign to team. Please try again");
         }
     }
 
     @Override
-    protected void onAssignParticipantToTeamError(Throwable error, String fbid, final int teamId) {
-        super.onAssignParticipantToTeamError(error, fbid, teamId);
+    protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
+        super.onAssignParticipantToTeamError(error, participantId, teamId);
         challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 

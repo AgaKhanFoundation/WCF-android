@@ -2,40 +2,39 @@ package com.android.wcf.home
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
-
+import android.os.Handler
+import android.text.TextUtils
+import android.view.MenuItem
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.android.wcf.R
+import com.android.wcf.base.BaseActivity
+import com.android.wcf.helper.SharedPreferencesUtil
+import com.android.wcf.home.challenge.ChallengeFragment
+import com.android.wcf.home.challenge.ChallengeMvp
+import com.android.wcf.home.challenge.CreateTeamFragment
+import com.android.wcf.home.challenge.CreateTeamMvp
+import com.android.wcf.home.dashboard.DashboardFragment
+import com.android.wcf.home.dashboard.DashboardMvp
+import com.android.wcf.home.leaderboard.LeaderboardFragment
+import com.android.wcf.home.leaderboard.LeaderboardMvp
+import com.android.wcf.home.notifications.NotificationsFragment
+import com.android.wcf.home.notifications.NotificationsMvp
 import com.android.wcf.login.LoginActivity
 import com.android.wcf.model.Participant
 import com.android.wcf.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.appcompat.widget.Toolbar
-
-import android.os.Handler
-import android.text.TextUtils
-import android.view.Menu
-import android.view.MenuItem
-
-import com.android.wcf.R
-import com.android.wcf.base.BaseActivity
-import com.android.wcf.home.challenge.ChallengeFragment
-import com.android.wcf.home.dashboard.DashboardFragment
-import com.android.wcf.home.leaderboard.LeaderboardFragment
-import com.android.wcf.home.notifications.NotificationsFragment
-import com.android.wcf.helper.SharedPreferencesUtil
-import com.android.wcf.home.challenge.ChallengeMvp
-import com.android.wcf.home.dashboard.DashboardMvp
-
 class HomeActivity : BaseActivity()
         , HomeMvp.HomeView
         , DashboardMvp.Host
         , ChallengeMvp.Host
-        , LeaderboardFragment.FragmentHost
-        , NotificationsFragment.FragmentHost {
+        , CreateTeamMvp.Host
+        , LeaderboardMvp.Host
+        , NotificationsMvp.Host {
 
     private val SPLASH_TIMER = 3000
 
@@ -44,15 +43,11 @@ class HomeActivity : BaseActivity()
     private var challengeFragment: ChallengeFragment? = null
     private var leaderboardFragment: LeaderboardFragment? = null
     private var notificationsFragment: NotificationsFragment? = null
-
-    private var myFacebookId: String? = null
-    private val myFbEmail: String? = null
-    private val myFacebookName: String? = null
-    private val myFacebookProfileUrl: String? = null
+    private var toolbar: Toolbar? = null
 
     private var myActiveEventId: Int = 0
     private var myTeamId: Int = 0
-    private var toolbar: Toolbar? = null
+    private var myParticpantId: String? = null
 
     private var currentNavigationId: Int = 0
 
@@ -96,7 +91,7 @@ class HomeActivity : BaseActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        myFacebookId = SharedPreferencesUtil.getMyFacebookId()
+        myParticpantId = SharedPreferencesUtil.getMyParticipantId()
         myActiveEventId = SharedPreferencesUtil.getMyActiveEventId()
         myTeamId = SharedPreferencesUtil.getMyTeamId()
 
@@ -112,12 +107,12 @@ class HomeActivity : BaseActivity()
             showErrorAndCloseApp(R.string.events_not_selected_error)
             return
         }
-        if (myFacebookId == null || TextUtils.isEmpty(myFacebookId)) {
+        if (myParticpantId == null || TextUtils.isEmpty(myParticpantId)) {
             showLoginActivity()
             finish()
             return
         }
-        homePresenter!!.getParticipant(myFacebookId!!)
+        homePresenter!!.getParticipant(myParticpantId!!)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -155,29 +150,13 @@ class HomeActivity : BaseActivity()
         currentNavigationId = navItemId
     }
 
-    override fun setViewTitle(title: String?) {
-        val actionBar = supportActionBar
-        if (title != null) {
-            actionBar!!.title = title
-            actionBar.setDisplayShowTitleEnabled(true)
-        } else {
-            actionBar!!.setDisplayShowTitleEnabled(false)
-        }
-    }
-
-    override fun showToolbarUpAffordance(show: Boolean) {
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(show)
-        actionBar.setDisplayShowHomeEnabled(show)
-    }
-
     fun showLoginActivity() {
         val intent = LoginActivity.createIntent(this)
         this.startActivity(intent)
     }
 
-    fun setMyFacebookId(fbid: String) {
-        this.myFacebookId = fbid
+    fun setMyParticipantId(participantId: String) {
+        this.myParticpantId = participantId
     }
 
     fun setMyTeamId(myTeamId: Int) {
@@ -186,22 +165,6 @@ class HomeActivity : BaseActivity()
 
     fun setMyActiveEventId(myActiveEventId: Int) {
         this.myActiveEventId = myActiveEventId
-    }
-
-    override fun onDashboardFragmentInteraction(uri: Uri) {
-
-    }
-
-    override fun onChallengeFragmentInteraction(uri: Uri) {
-
-    }
-
-    override fun onLeaderboardFragmentInteraction(uri: Uri) {
-
-    }
-
-    override fun onNotificationFragmentInteraction(uri: Uri) {
-
     }
 
     override fun showErrorAndCloseApp(@StringRes messageId: Int) {
@@ -216,28 +179,28 @@ class HomeActivity : BaseActivity()
         val participantTeamId = participant.teamId
         if (participantTeamId == null && myTeamId > 0) {
             myTeamId = 0
-            homePresenter!!.participantLeaveFromTeam(myFacebookId)
+            homePresenter!!.participantLeaveFromTeam(myParticpantId)
         } else if (participantTeamId != null) {
             myTeamId = participantTeamId.toInt() // team must have been assigned remotely
         }
 
         if (participant.eventId == null || participant.eventId?.toInt() != myActiveEventId) {
-            homePresenter!!.updateParticipantEvent(myFacebookId, myActiveEventId)
+            homePresenter!!.updateParticipantEvent(myParticpantId, myActiveEventId)
         } else {
             addNavigationFragments()
         }
     }
 
     override fun onGetParticipantNotFound() {
-        homePresenter!!.createParticipant(myFacebookId)
+        homePresenter!!.createParticipant(myParticpantId)
     }
 
     override fun onParticipantCreated(participant: Participant) {
         setParticipant(participant);
-        homePresenter!!.updateParticipantEvent(myFacebookId, myActiveEventId)
+        homePresenter!!.updateParticipantEvent(myParticpantId, myActiveEventId)
     }
 
-    override fun onAssignedParticipantToEvent(fbId: String, eventId: Int) {
+    override fun onAssignedParticipantToEvent(participantId: String, eventId: Int) {
         addNavigationFragments()
     }
 
@@ -250,7 +213,7 @@ class HomeActivity : BaseActivity()
         }
 
         if (challengeFragment == null) {
-            challengeFragment = ChallengeFragment.newInstance(myFacebookId, myActiveEventId, myTeamId)
+            challengeFragment = ChallengeFragment.newInstance(myParticpantId, myActiveEventId, myTeamId)
         }
         if (leaderboardFragment == null) {
             leaderboardFragment = LeaderboardFragment.newInstance(myTeamId)
@@ -259,6 +222,15 @@ class HomeActivity : BaseActivity()
         val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
         navigation.selectedItemId = R.id.nav_challenge
 
+    }
+
+    override fun showCreateTeam() {
+        val fragment = CreateTeamFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
     companion object {

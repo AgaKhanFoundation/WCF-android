@@ -32,16 +32,16 @@ public interface WCFApiEndpoints {
     Single<Participant> createParticipant(@Body RequestBody params);
 
     @GET("participants/{fbid}")
-    Single<Participant> getParticipant(@Path("fbid") String fbid);
+    Single<Participant> getParticipant(@Path("fbid") String participantId);
 
     @PATCH("participants/{fbid}")
-    Single<List<Integer>> updateParticipant(@Path("fbid") String fbid, @Body RequestBody params);
+    Single<List<Integer>> updateParticipant(@Path("fbid") String participantId, @Body RequestBody params);
 
     @GET("participants/{fbid}/stats")
-    Single<Stats> getParticipantStats(@Path("fbid") String fbid);
+    Single<Stats> getParticipantStats(@Path("fbid") String participantId);
 
     @DELETE("participants/{fbid}")
-    Single<Integer> deleteParticipant(@Path("fbid") String fbid);
+    Single<Integer> deleteParticipant(@Path("fbid") String participantId);
 
     /*********** TEAM ***********/
 

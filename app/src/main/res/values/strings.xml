@@ -103,6 +103,9 @@
 
     <string name="teams_manager_error">Teams Manager Error</string>
     <string name="participants_manager_error">Participants Manager Error</string>
+    <string name="participant_team_join_error">Unable to assign to team</string>
+    <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
+
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
     <string name="connecting_to_fitness_device">Connecting the app to your Fitbit Account</string>
     <string name="connect_device_or_app_message">No activity yet. You will need to connect a fitness tracker to track your miles.</string>
@@ -120,4 +123,14 @@
     <string name="leave_team_button">Leave</string>
     <string name="team_lead_label">Team Lead</string>
     <string name="team_member_label">Team Member</string>
+
+    <string name="create_team_title">Create Team</string>
+    <string name="team_name_hint_text">Name your team (required)</string>
+    <string name="create_team_button_text">Create Team</string>
+    <string name="team_name_constraint_hint">Minimum length 6 characters</string>
+    <string name="duplicate_team_name_error">Team name is taken. Select a different team name.</string>
+    <string name="cancel_team_creation_title">Cancel Team Setup?</string>
+    <string name="cancel_team_creation_message">If you choose to cancel setup, your team will be deleted and any changes you made will not be saved.</string>
+    <string name="create_team_continue_button_text">No, keep editing</string>
+    <string name="create_team_dont_continue_button_text">Yes, cancel setup</string>
 </resources>

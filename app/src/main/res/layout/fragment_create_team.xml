@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white_1"
+    tools:context="com.android.wcf.home.challenge.ChallengeFragment">
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/create_team_card"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:cardBackgroundColor="@color/color_white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spacing_normal"
+            android:layout_marginRight="@dimen/spacing_normal">
+
+            <TextView
+                android:id="@+id/team_name_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_larger"
+                android:gravity="left"
+                android:text="@string/team_name_hint_text"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/team_name_input_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/team_name_constraint_hint"
+                app:errorEnabled="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/team_name_label">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/team_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 "
+                    android:imeOptions="actionNext"
+                    android:inputType="textNoSuggestions"
+                    android:textAppearance="@style/TextAppearance.WCF.Body1" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/team_visibilty_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_larger"
+                android:layout_marginBottom="@dimen/spacing_normal_half"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/team_name_input_layout">
+
+                <TextView
+                    android:id="@+id/team_visibilty_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Team visibility"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/team_visibility_public_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/spacing_normal_half"
+                    android:text="Public"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintBaseline_toBaselineOf="@id/team_visibilty_label"
+                    app:layout_constraintBottom_toBottomOf="@id/team_visibilty_label"
+                    app:layout_constraintEnd_toStartOf="@id/team_public_visibility_enabled"
+                    app:layout_constraintTop_toTopOf="@id/team_visibilty_label" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/team_public_visibility_enabled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:checked="true"
+                    app:layout_constraintBaseline_toBaselineOf="@id/team_visibilty_label"
+                    app:layout_constraintBottom_toBottomOf="@id/team_visibilty_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/team_visibilty_label" />
+
+                <TextView
+                    android:id="@+id/team_visibility_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/spacing_normal_half"
+                    android:text="@string/settings_team_public_visibility_on_message"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintEnd_toStartOf="@id/team_visibility_public_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/team_visibilty_label" />
+
+                <View
+                    android:id="@+id/seperator_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_light_grey_3"
+                    app:layout_constraintTop_toBottomOf="@id/team_visibility_message" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <Button
+                android:id="@+id/create_team_button"
+                style="@style/Widget.WCF.Button.Primary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_extra_large"
+                android:gravity="center"
+                android:text="@string/create_team_button_text"
+                android:textAppearance="@style/TextAppearance.WCF.Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/team_visibilty_container" />
+
+            <Button
+                android:id="@+id/cancel_create_team_button"
+                style="@style/Widget.WCF.Button.Secondary"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_large"
+                android:layout_marginBottom="@dimen/spacing_large"
+                android:gravity="center"
+                android:text="@string/team_card_cancel_button_text"
+                android:textAppearance="@style/TextAppearance.WCF.Button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_team_button"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </com.google.android.material.card.MaterialCardView>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

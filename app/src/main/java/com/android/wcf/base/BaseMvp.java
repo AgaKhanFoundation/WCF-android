@@ -56,5 +56,10 @@ public interface BaseMvp {
 
     interface Host {
         void showDeviceConnection();
+
+        void showToolbarUpAffordance(boolean showFlag);
+
+        void setViewTitle(String title);
+
     }
 }

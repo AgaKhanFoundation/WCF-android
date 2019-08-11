@@ -8,7 +8,7 @@ public interface SettingsMvp {
 
         void confirmToLeaveTeam();
 
-        void participantRemovedFromTeam(String fbid);
+        void participantRemovedFromTeam(String participantId);
     }
 
     interface Presenter {
@@ -16,7 +16,7 @@ public interface SettingsMvp {
 
         void onShowLeaveTeamSelected();
 
-        void removeFromTeam(String fbid);
+        void removeFromTeam(String participantId);
     }
 
     interface Host {

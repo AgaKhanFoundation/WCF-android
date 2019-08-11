@@ -1,13 +1,7 @@
 package com.android.wcf.home.leaderboard;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +15,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.view.ListPaddingDecoration;
@@ -28,24 +28,15 @@ import com.android.wcf.model.Constants;
 
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link FragmentHost} interface
- * to handle interaction events.
- * Use the {@link LeaderboardFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.LeaderboardView, LeaderboardAdapterMvp.Host {
     private static final String TAG = LeaderboardFragment.class.getSimpleName();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_MY_TEAM_ID = "my_team_id";
 
     private int myTeamId;
 
-    private FragmentHost mFragmentHost;
+    private LeaderboardMvp.Host mFragmentHost;
     private LeaderboardMvp.Presenter leaderboardPresenter;
 
     View emptyLeaderboardView;
@@ -99,10 +90,14 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
-        setupView(view);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupView(view);
     }
 
     @Override
@@ -118,11 +113,11 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof FragmentHost) {
-            mFragmentHost = (FragmentHost) context;
+        if (context instanceof LeaderboardMvp.Host) {
+            mFragmentHost = (LeaderboardMvp.Host) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement FragmentHost");
+                    + " must implement LeaderboardMvp.Host");
         }
     }
 
@@ -267,25 +262,4 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         emptyLeaderboardView.setVisibility(View.VISIBLE);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mFragmentHost != null) {
-            mFragmentHost.onLeaderboardFragmentInteraction(uri);
-        }
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     */
-    public interface FragmentHost {
-        void onLeaderboardFragmentInteraction(Uri uri);
-
-        void showToolbarUpAffordance(boolean showFlag);
-
-        void setViewTitle(String title);
-
-    }
 }

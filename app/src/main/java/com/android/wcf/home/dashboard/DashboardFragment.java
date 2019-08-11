@@ -2,7 +2,6 @@ package com.android.wcf.home.dashboard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -82,15 +81,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mFragmentHost != null) {
-            mFragmentHost.onDashboardFragmentInteraction(uri);
-        }
     }
 
     @Override
@@ -110,7 +101,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             mFragmentHost = (DashboardMvp.Host) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement FragmentHost");
+                    + " must implement DashboardMvp.Host");
         }
         deviceSharedPreferences = getActivity().getSharedPreferences(FitbitHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
@@ -139,7 +130,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         boolean teamLead = false;
         if (team != null) {
             teamNameTv.setText(team.getName());
-            if (team.getLeaderName().equalsIgnoreCase(SharedPreferencesUtil.getUserFullName())) {
+            if (SharedPreferencesUtil.getMyParticipantId().equalsIgnoreCase(team.getLeaderId())) {
                 teamLead = true;
             }
             teamLeadLabelTv.setText(teamLead ?
