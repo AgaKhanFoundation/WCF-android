@@ -5,15 +5,16 @@ import com.android.wcf.model.Team
 
 interface CreateTeamMvp {
     interface View : BaseMvp.BaseView {
-         fun teamCreated(team: Team)
-        fun participantJoinedTeam(participantId:String, teamId:Int)
-
+        fun teamCreated(team: Team)
+        fun participantJoinedTeam(participantId: String, teamId: Int)
+        fun showCreateTeamConstraintError()
     }
+
     interface Presenter : BaseMvp.Presenter {
-         fun createTeam(teamName: String, teamLeadParticipantId: String, teamVisibility: Boolean? = true)
+        fun createTeam(teamName: String, teamLeadParticipantId: String, teamVisibility: Boolean? = true)
     }
 
-    interface Host: BaseMvp.Host {
+    interface Host : BaseMvp.Host {
         fun setToolbarTitle(title: String)
     }
 }

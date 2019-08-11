@@ -33,6 +33,12 @@ public class CreateTeamPresenter extends BasePresenter implements CreateTeamMvp.
     }
 
     @Override
+    protected void onCreateTeamConstraintError() {
+        super.onCreateTeamConstraintError();
+        view.showCreateTeamConstraintError();
+    }
+
+    @Override
     protected void onCreateTeamError(Throwable error) {
         super.onCreateTeamError(error);
         view.showError(R.string.teams_manager_error, error.getMessage());
@@ -51,7 +57,7 @@ public class CreateTeamPresenter extends BasePresenter implements CreateTeamMvp.
     @Override
     protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
         super.onAssignParticipantToTeamError(error, participantId, teamId);
-        view.showError(R.string.participant_team_join_error, error.getMessage());
+        view.showError(R.string.team_created_but_participant_team_join_error);
     }
 
     @Override

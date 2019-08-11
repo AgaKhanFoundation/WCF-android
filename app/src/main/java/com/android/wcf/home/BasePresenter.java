@@ -198,6 +198,12 @@ public abstract class BasePresenter {
 
                     @Override
                     public void onError(Throwable error) {
+                        if (error.getMessage().startsWith("HTTP 409")) {
+                            onCreateTeamConstraintError();
+                        }
+                        else {
+                            onCreateTeamError(error);
+                        }
                     }
                 });
     }
@@ -208,7 +214,10 @@ public abstract class BasePresenter {
 
     protected void onCreateTeamError(Throwable error) {
         Log.e(TAG, "onCreateTeamError " + error.getMessage());
+    }
 
+    protected void onCreateTeamConstraintError() {
+        Log.e(TAG, "onCreateTeamConstraintError");
     }
 
     public void getTeams() {

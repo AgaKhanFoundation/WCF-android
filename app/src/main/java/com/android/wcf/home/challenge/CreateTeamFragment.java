@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,6 +18,8 @@ import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Team;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -31,7 +32,8 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     CreateTeamMvp.Host host;
     private Button createTeamButton = null;
     private Button cancelCreateTeamButton = null;
-    private EditText teamNameEditText = null;
+    private TextInputLayout teamNameInputLayout = null;
+    private TextInputEditText teamNameEditText = null;
     private SwitchCompat teamVisibiltySwitch = null;
 
     private TextWatcher creatTeamEditWatcher = new TextWatcher() {
@@ -42,6 +44,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
         @Override
         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            teamNameInputLayout.setError(null);
             enableCreateTeamButton();
         }
 
@@ -59,7 +62,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
                     closeKeyboard();
                     String teamName = teamNameEditText.getText().toString();
                     String teamLeadParticipantId = SharedPreferencesUtil.getMyParticipantId();
-                    boolean teamVisibility =  teamVisibiltySwitch.isChecked();
+                    boolean teamVisibility = teamVisibiltySwitch.isChecked();
                     presenter.createTeam(teamName, teamLeadParticipantId, teamVisibility);
                     break;
                 case R.id.cancel_create_team_button:
@@ -134,6 +137,13 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         closeView();
     }
 
+    @Override
+    public void showCreateTeamConstraintError() {
+        if (teamNameInputLayout != null) {
+            teamNameInputLayout.setError(getString(R.string.duplicate_team_name_error));
+        }
+    }
+
     void closeView() {
         getActivity().onBackPressed();
     }
@@ -154,6 +164,8 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         if (teamNameEditText != null) {
             teamNameEditText.addTextChangedListener(creatTeamEditWatcher);
         }
+        teamNameInputLayout = fragmentView.findViewById(R.id.team_name_input_layout);
+
         teamVisibiltySwitch = fragmentView.findViewById(R.id.team_public_visibility_enabled);
 
         enableCreateTeamButton();
@@ -162,7 +174,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
     void enableCreateTeamButton() {
         boolean enabled = false;
-        if (teamNameEditText != null ) {
+        if (teamNameEditText != null) {
             String teamName = teamNameEditText.getText().toString();
             if (teamName.trim().length() >= MIN_TEAM_NAME_SIZE) {
                 enabled = true;

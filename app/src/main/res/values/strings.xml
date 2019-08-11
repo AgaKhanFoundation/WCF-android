@@ -104,6 +104,7 @@
     <string name="teams_manager_error">Teams Manager Error</string>
     <string name="participants_manager_error">Participants Manager Error</string>
     <string name="participant_team_join_error">Unable to assign to team</string>
+    <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
 
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
     <string name="connecting_to_fitness_device">Connecting the app to your Fitbit Account</string>
@@ -127,4 +128,5 @@
     <string name="team_name_hint_text">Name your team (required)</string>
     <string name="create_team_button_text">Create Team</string>
     <string name="team_name_constraint_hint">Minimum length 6 characters</string>
+    <string name="duplicate_team_name_error">Team name is taken. Select a different team name.</string>
 </resources>
