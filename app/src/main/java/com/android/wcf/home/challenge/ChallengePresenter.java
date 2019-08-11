@@ -130,18 +130,6 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
-    protected void onCreateTeamSuccess(Team team) {
-        super.onCreateTeamSuccess(team);
-        challengeView.teamCreated(team);
-    }
-
-    @Override
-    protected void onCreateTeamError(Throwable error) {
-        super.onCreateTeamError(error);
-        challengeView.showError(R.string.teams_manager_error, error.getMessage());
-    }
-
-    @Override
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
         challengeView.setTeamList(teams);
@@ -190,17 +178,6 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     public void showCreateTeamClick() {
         challengeView.showCreateNewTeamView();
-    }
-
-    @Override
-    public void createTeamClick(String teamName, String teamLeadParticipantId, boolean teamVisibility) {
-        Log.d(TAG, "createTeamClick");
-        super.createTeam(teamName, teamLeadParticipantId, teamVisibility);
-    }
-
-    @Override
-    public void cancelCreateTeamClick() {
-        challengeView.hideCreateNewTeamView();
     }
 
     @Override

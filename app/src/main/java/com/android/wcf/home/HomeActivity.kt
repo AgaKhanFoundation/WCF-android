@@ -193,10 +193,6 @@ class HomeActivity : BaseActivity()
 
     }
 
-    override fun onChallengeFragmentInteraction(uri: Uri) {
-
-    }
-
     override fun onLeaderboardFragmentInteraction(uri: Uri) {
 
     }

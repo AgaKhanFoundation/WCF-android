@@ -24,13 +24,9 @@ public interface ChallengeMvp {
 
         void showCreateNewTeamView();
 
-
         void showMyTeamCard(Team team);
+
         void hideTeamCard();
-
-        void hideCreateNewTeamView();
-
-        void teamCreated(Team team);
 
         void showTeamList();
 
@@ -69,14 +65,9 @@ public interface ChallengeMvp {
 
         void showTeamsToJoinClick();
 
-        void createTeamClick(String teamName, String teamLeadParticipantId, boolean teamVisibility);
-
-        void cancelCreateTeamClick();
     }
 
     interface Host {
-        void onChallengeFragmentInteraction(Uri uri);
-
         void showToolbarUpAffordance(boolean showFlag);
 
         void setViewTitle(String title);
