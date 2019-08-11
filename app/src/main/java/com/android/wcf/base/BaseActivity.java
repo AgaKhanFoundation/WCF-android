@@ -51,7 +51,6 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
-import com.google.android.gms.fitness.result.DataReadResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -132,6 +131,27 @@ abstract public class BaseActivity extends AppCompatActivity
         actionBar.setTitle(title);
         actionBar.setDisplayShowTitleEnabled(true);
         actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void showToolbarUpAffordance(boolean showFlag) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    @Override
+    public void setViewTitle(String title) {
+        ActionBar actionBar = getSupportActionBar();
+        if (title != null) {
+            actionBar.setTitle(title);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
+        else {
+            actionBar.setDisplayShowTitleEnabled(false);
+        }
+        actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
@@ -452,7 +472,7 @@ abstract public class BaseActivity extends AppCompatActivity
 
         Fitness.getConfigClient(this, GoogleSignIn.getLastSignedInAccount(this)).disableFit();
 
-        FitnessOptions fitnessOptions =  FitnessOptions.builder()
+        FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
                 .build();

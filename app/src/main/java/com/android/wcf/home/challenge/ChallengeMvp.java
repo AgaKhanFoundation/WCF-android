@@ -67,10 +67,7 @@ public interface ChallengeMvp {
 
     }
 
-    interface Host {
-        void showToolbarUpAffordance(boolean showFlag);
-
-        void setViewTitle(String title);
+    interface Host extends BaseMvp.Host {
 
         void showCreateTeam();
     }

@@ -13,7 +13,7 @@ interface CreateTeamMvp {
          fun createTeam(teamName: String, teamLeadParticipantId: String, teamVisibility: Boolean? = true)
     }
 
-    interface Host {
+    interface Host: BaseMvp.Host {
         fun setToolbarTitle(title: String)
     }
 }

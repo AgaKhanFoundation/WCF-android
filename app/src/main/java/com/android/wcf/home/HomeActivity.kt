@@ -2,7 +2,6 @@ package com.android.wcf.home
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
@@ -21,7 +20,9 @@ import com.android.wcf.home.challenge.CreateTeamMvp
 import com.android.wcf.home.dashboard.DashboardFragment
 import com.android.wcf.home.dashboard.DashboardMvp
 import com.android.wcf.home.leaderboard.LeaderboardFragment
+import com.android.wcf.home.leaderboard.LeaderboardMvp
 import com.android.wcf.home.notifications.NotificationsFragment
+import com.android.wcf.home.notifications.NotificationsMvp
 import com.android.wcf.login.LoginActivity
 import com.android.wcf.model.Participant
 import com.android.wcf.settings.SettingsActivity
@@ -32,8 +33,8 @@ class HomeActivity : BaseActivity()
         , DashboardMvp.Host
         , ChallengeMvp.Host
         , CreateTeamMvp.Host
-        , LeaderboardFragment.FragmentHost
-        , NotificationsFragment.FragmentHost {
+        , LeaderboardMvp.Host
+        , NotificationsMvp.Host {
 
     private val SPLASH_TIMER = 3000
 
@@ -153,25 +154,6 @@ class HomeActivity : BaseActivity()
         currentNavigationId = navItemId
     }
 
-    override fun setViewTitle(title: String?) {
-        val actionBar = supportActionBar
-        if (title != null) {
-            actionBar!!.title = title
-            actionBar.setDisplayShowTitleEnabled(true)
-        } else {
-            actionBar!!.setDisplayShowTitleEnabled(false)
-        }
-
-        actionBar.setHomeButtonEnabled(false)
-        actionBar.setDisplayHomeAsUpEnabled(false)
-    }
-
-    override fun showToolbarUpAffordance(show: Boolean) {
-        val actionBar = supportActionBar
-        actionBar!!.setDisplayHomeAsUpEnabled(show)
-        actionBar.setDisplayShowHomeEnabled(show)
-    }
-
     fun showLoginActivity() {
         val intent = LoginActivity.createIntent(this)
         this.startActivity(intent)
@@ -187,18 +169,6 @@ class HomeActivity : BaseActivity()
 
     fun setMyActiveEventId(myActiveEventId: Int) {
         this.myActiveEventId = myActiveEventId
-    }
-
-    override fun onDashboardFragmentInteraction(uri: Uri) {
-
-    }
-
-    override fun onLeaderboardFragmentInteraction(uri: Uri) {
-
-    }
-
-    override fun onNotificationFragmentInteraction(uri: Uri) {
-
     }
 
     override fun showErrorAndCloseApp(@StringRes messageId: Int) {
