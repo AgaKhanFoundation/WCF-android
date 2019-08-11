@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
 
@@ -31,8 +32,6 @@ import java.util.List;
 
 public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.LeaderboardView, LeaderboardAdapterMvp.Host {
     private static final String TAG = LeaderboardFragment.class.getSimpleName();
-
-    private static final String ARG_MY_TEAM_ID = "my_team_id";
 
     private int myTeamId;
 
@@ -56,28 +55,15 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     public LeaderboardFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param myTeamId int.
-     * @return A new instance of fragment LeaderboardFragment.
-     */
-
-    public static LeaderboardFragment newInstance(int myTeamId) {
+    public static LeaderboardFragment newInstance() {
         LeaderboardFragment fragment = new LeaderboardFragment();
-        Bundle args = new Bundle();
-        args.putInt(ARG_MY_TEAM_ID, myTeamId);
-        fragment.setArguments(args);
+
         return fragment;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            myTeamId = getArguments().getInt(ARG_MY_TEAM_ID);
-        }
         setHasOptionsMenu(true);
     }
 
@@ -97,6 +83,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        myTeamId = SharedPreferencesUtil.getMyTeamId();
         setupView(view);
     }
 

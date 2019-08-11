@@ -133,4 +133,5 @@
     <string name="cancel_team_creation_message">If you choose to cancel setup, your team will be deleted and any changes you made will not be saved.</string>
     <string name="create_team_continue_button_text">No, keep editing</string>
     <string name="create_team_dont_continue_button_text">Yes, cancel setup</string>
+    <string name="join_team_title">Join Team</string>
 </resources>

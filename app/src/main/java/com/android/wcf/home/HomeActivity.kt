@@ -13,10 +13,7 @@ import androidx.fragment.app.FragmentManager
 import com.android.wcf.R
 import com.android.wcf.base.BaseActivity
 import com.android.wcf.helper.SharedPreferencesUtil
-import com.android.wcf.home.challenge.ChallengeFragment
-import com.android.wcf.home.challenge.ChallengeMvp
-import com.android.wcf.home.challenge.CreateTeamFragment
-import com.android.wcf.home.challenge.CreateTeamMvp
+import com.android.wcf.home.challenge.*
 import com.android.wcf.home.dashboard.DashboardFragment
 import com.android.wcf.home.dashboard.DashboardMvp
 import com.android.wcf.home.leaderboard.LeaderboardFragment
@@ -33,6 +30,7 @@ class HomeActivity : BaseActivity()
         , DashboardMvp.Host
         , ChallengeMvp.Host
         , CreateTeamMvp.Host
+        , JoinTeamMvp.Host
         , LeaderboardMvp.Host
         , NotificationsMvp.Host {
 
@@ -209,14 +207,14 @@ class HomeActivity : BaseActivity()
             dashboardFragment = DashboardFragment.newInstance()
         }
         if (notificationsFragment == null) {
-            notificationsFragment = NotificationsFragment.newInstance(null, null)
+            notificationsFragment = NotificationsFragment.newInstance()
         }
 
         if (challengeFragment == null) {
-            challengeFragment = ChallengeFragment.newInstance(myParticpantId, myActiveEventId, myTeamId)
+            challengeFragment = ChallengeFragment.newInstance()
         }
         if (leaderboardFragment == null) {
-            leaderboardFragment = LeaderboardFragment.newInstance(myTeamId)
+            leaderboardFragment = LeaderboardFragment.newInstance()
         }
 
         val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
@@ -226,6 +224,15 @@ class HomeActivity : BaseActivity()
 
     override fun showCreateTeam() {
         val fragment = CreateTeamFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun showJoinTeam() {
+        val fragment = JoinTeamFragment()
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

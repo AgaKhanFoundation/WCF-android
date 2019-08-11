@@ -40,4 +40,8 @@ public class SettingsPresenter  extends BasePresenter implements SettingsMvp.Pre
         super.onParticipantLeaveFromTeamError(error, participantId);
     }
 
+    @Override
+    public String getTag() {
+        return TAG;
+    }
 }

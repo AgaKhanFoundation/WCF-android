@@ -3,7 +3,7 @@ package com.android.wcf.settings;
 import com.android.wcf.base.BaseMvp;
 
 public interface SettingsMvp {
-    interface View {
+    interface View extends BaseMvp.BaseView {
         void showMilesEditDialog();
 
         void confirmToLeaveTeam();
@@ -11,7 +11,7 @@ public interface SettingsMvp {
         void participantRemovedFromTeam(String participantId);
     }
 
-    interface Presenter {
+    interface Presenter extends BaseMvp.Presenter{
         void onShowMilesCommitmentSelected();
 
         void onShowLeaveTeamSelected();
@@ -19,8 +19,7 @@ public interface SettingsMvp {
         void removeFromTeam(String participantId);
     }
 
-    interface Host {
-        void setToolbarTitle(String title);
+    interface Host extends BaseMvp.Host {
 
         void showDeviceConnection();
 

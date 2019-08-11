@@ -40,8 +40,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private static final String ARG_MY_TEAM_ID = "my_team_id";
 
     /* class constants */
-    public static final int MIN_TEAM_NAME_SIZE = 3;
-    public static final int MIN_TEAM_LEAD_NAME_SIZE = 0;
 
     // host for this fragment
     ChallengeMvp.Host mHostingParent;
@@ -69,21 +67,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public ChallengeFragment() {
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param participantId   participantId.
-     * @param teamId teamId.
-     * @return A new instance of fragment ChallengeFragment.
-     */
-    public static ChallengeFragment newInstance(String participantId, int eventId, int teamId) {
+    public static ChallengeFragment newInstance() {
         ChallengeFragment fragment = new ChallengeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_MY_PARTICIPANT_ID, participantId);
-        args.putInt(ARG_MY_ACTIVE_EVENT_ID, eventId);
-        args.putInt(ARG_MY_TEAM_ID, teamId);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -93,9 +78,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         challengePresenter = new ChallengePresenter(this);
 
         if (getArguments() != null) {
-            participantId = getArguments().getString(ARG_MY_PARTICIPANT_ID);
-            activeEventId = getArguments().getInt(ARG_MY_ACTIVE_EVENT_ID);
-            teamId = getArguments().getInt(ARG_MY_TEAM_ID);
         }
         setHasOptionsMenu(true);
     }
@@ -111,6 +93,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
         setupView(getView());
     }
 
@@ -119,6 +103,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         super.onStart();
         Log.d(TAG, "onStart");
         mHostingParent.setViewTitle(getString(R.string.nav_challenge));
+
+        participantId = SharedPreferencesUtil.getMyParticipantId();
+        activeEventId = SharedPreferencesUtil.getMyActiveEventId();
+        teamId = SharedPreferencesUtil.getMyTeamId();
+
         challengePresenter.getEvent(activeEventId);
         Team team = getParticipantTeam();
         if (team != null) {
@@ -274,8 +263,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             showJoinTeamButton = createOrJoinTeamCard.findViewById(R.id.show_join_team_button);
             if (showJoinTeamButton != null) {
                 showJoinTeamButton.setOnClickListener(onClickListener);
-                List<Team> teams = getTeamList();
-                showJoinTeamButton.setEnabled((teams == null || teams.size() == 0) ? false : true);
             }
         }
 
@@ -393,14 +380,20 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
+    public void showJoinTeamView() {
+        mHostingParent.showJoinTeam();
+    }
+
+
+    @Override
     public void showTeamList() {
-        List<Team> teams = getTeamList();
         setupViewForJoinTeam(joinTeamView);
 
         if (joinTeamView == null) {
             showMessage("Joining team coming soon");
             return;
         }
+        List<Team> teams = getTeamList();
         teamsAdapter.clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
         teamsListRecyclerView.scrollToPosition(0);
         teamsAdapter.updateTeamsData(teams);

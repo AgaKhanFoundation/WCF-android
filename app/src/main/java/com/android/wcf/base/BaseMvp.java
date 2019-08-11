@@ -38,15 +38,19 @@ public interface BaseMvp {
         void closeKeyboard();
 
         void setEvent(Event event);
+
         Event getEvent();
 
         void setParticipant(Participant participant);
+
         Participant getParticipant();
 
         void setParticipantTeam(Team team);
+
         Team getParticipantTeam();
 
         void setTeamList(List<Team> teams);
+
         List<Team> getTeamList();
     }
 
@@ -60,6 +64,8 @@ public interface BaseMvp {
         void showToolbarUpAffordance(boolean showFlag);
 
         void setViewTitle(String title);
+
+        void setToolbarTitle(String title);
 
     }
 }

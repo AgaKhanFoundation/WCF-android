@@ -182,7 +182,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
     @Override
     public void showTeamsToJoinView() {
-        challengeView.showTeamList();
+        challengeView.showJoinTeamView();
     }
 
     @Override

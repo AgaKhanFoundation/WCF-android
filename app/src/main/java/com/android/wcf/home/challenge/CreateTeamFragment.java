@@ -108,7 +108,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupView(getView());
+        setupView(view);
         host.setToolbarTitle(getString(R.string.create_team_title));
     }
 
