@@ -7,6 +7,7 @@ data internal class LeaderboardTeam(
         var id: Int = 0,
         var name: String = "",
         var image: String? = null,
+        var leaderId: String? = null,
         var leaderName: String? = null,
         var participantsCount: Int = 0,
         var spotsAvailable: Int = 0,

@@ -246,7 +246,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         boolean teamLead = false;
         if (team != null) {
             teamNameTv.setText(team.getName());
-            if (team.getLeaderName().equalsIgnoreCase(SharedPreferencesUtil.getUserFullName())) {
+            if (SharedPreferencesUtil.getMyParticipantId().equalsIgnoreCase(team.getLeaderId())) {
                 teamLead = true;
             }
             teamLeadLabelTv.setText(teamLead ?

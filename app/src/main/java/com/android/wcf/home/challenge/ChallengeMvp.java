@@ -45,7 +45,7 @@ public interface ChallengeMvp {
     interface Presenter extends BaseMvp.Presenter {
         void getEvent(int eventId);
 
-        void createTeam(String teamName);
+        void createTeam(String teamName, String teamLeadParticipantId, boolean teamVisibility);
 
         void getTeams();
 
@@ -69,7 +69,7 @@ public interface ChallengeMvp {
 
         void showTeamsToJoinClick();
 
-        void createTeamClick(String teamName);
+        void createTeamClick(String teamName, String teamLeadParticipantId, boolean teamVisibility);
 
         void cancelCreateTeamClick();
     }
@@ -81,5 +81,6 @@ public interface ChallengeMvp {
 
         void setViewTitle(String title);
 
+        void showCreateTeam();
     }
 }

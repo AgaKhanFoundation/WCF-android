@@ -4,36 +4,34 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-
+import android.os.Handler
+import android.text.TextUtils
+import android.view.MenuItem
+import androidx.annotation.StringRes
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.android.wcf.R
+import com.android.wcf.base.BaseActivity
+import com.android.wcf.helper.SharedPreferencesUtil
+import com.android.wcf.home.challenge.ChallengeFragment
+import com.android.wcf.home.challenge.ChallengeMvp
+import com.android.wcf.home.challenge.CreateTeamFragment
+import com.android.wcf.home.challenge.CreateTeamMvp
+import com.android.wcf.home.dashboard.DashboardFragment
+import com.android.wcf.home.dashboard.DashboardMvp
+import com.android.wcf.home.leaderboard.LeaderboardFragment
+import com.android.wcf.home.notifications.NotificationsFragment
 import com.android.wcf.login.LoginActivity
 import com.android.wcf.model.Participant
 import com.android.wcf.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-import androidx.annotation.StringRes
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.appcompat.widget.Toolbar
-
-import android.os.Handler
-import android.text.TextUtils
-import android.view.Menu
-import android.view.MenuItem
-
-import com.android.wcf.R
-import com.android.wcf.base.BaseActivity
-import com.android.wcf.home.challenge.ChallengeFragment
-import com.android.wcf.home.dashboard.DashboardFragment
-import com.android.wcf.home.leaderboard.LeaderboardFragment
-import com.android.wcf.home.notifications.NotificationsFragment
-import com.android.wcf.helper.SharedPreferencesUtil
-import com.android.wcf.home.challenge.ChallengeMvp
-import com.android.wcf.home.dashboard.DashboardMvp
-
 class HomeActivity : BaseActivity()
         , HomeMvp.HomeView
         , DashboardMvp.Host
         , ChallengeMvp.Host
+        , CreateTeamMvp.Host
         , LeaderboardFragment.FragmentHost
         , NotificationsFragment.FragmentHost {
 
@@ -163,6 +161,9 @@ class HomeActivity : BaseActivity()
         } else {
             actionBar!!.setDisplayShowTitleEnabled(false)
         }
+
+        actionBar.setHomeButtonEnabled(false)
+        actionBar.setDisplayHomeAsUpEnabled(false)
     }
 
     override fun showToolbarUpAffordance(show: Boolean) {
@@ -259,6 +260,15 @@ class HomeActivity : BaseActivity()
         val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
         navigation.selectedItemId = R.id.nav_challenge
 
+    }
+
+    override fun showCreateTeam() {
+        val fragment = CreateTeamFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
     companion object {

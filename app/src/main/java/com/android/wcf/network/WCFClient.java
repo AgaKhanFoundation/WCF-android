@@ -105,9 +105,11 @@ public class WCFClient {
         return wcfApi.getEvents();
     }
 
-    public Single<Team> createTeam(String teamName) {
+    public Single<Team> createTeam(String teamName, String teamLeadParticipantId, boolean teamVisibility) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         jsonParams.put(Team.TEAM_ATTRIBUTE_NAME, teamName);
+        jsonParams.put(Team.TEAM_LEADER_ID_ATTRIBUTE_NAME, teamLeadParticipantId);
+        jsonParams.put(Team.TEAM_VISIBILITY_ATTRIBUTE_NAME, teamVisibility);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());

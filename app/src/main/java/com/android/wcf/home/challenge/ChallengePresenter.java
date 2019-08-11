@@ -193,10 +193,9 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
-    public void createTeamClick(String teamName) {
+    public void createTeamClick(String teamName, String teamLeadParticipantId, boolean teamVisibility) {
         Log.d(TAG, "createTeamClick");
-        super.createTeam(teamName);
-
+        super.createTeam(teamName, teamLeadParticipantId, teamVisibility);
     }
 
     @Override

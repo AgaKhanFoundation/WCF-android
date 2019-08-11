@@ -186,8 +186,8 @@ public abstract class BasePresenter {
     }
 
     /******* TEAM API   ******/
-    public void createTeam(String teamName) {
-        wcfClient.createTeam(teamName)
+    public void createTeam(String teamName, String teamLeadParticipantId, boolean teamVisibility) {
+        wcfClient.createTeam(teamName, teamLeadParticipantId, teamVisibility)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Team>() {
@@ -341,6 +341,7 @@ public abstract class BasePresenter {
                 , team.getId()
                 , team.getName()
                 , team.getImage()
+                , team.getLeaderId()
                 , team.getLeaderName()
                 , participantsCount
                 , spotsAvailable

@@ -1,7 +1,6 @@
 package com.android.wcf.home.challenge;
 
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -19,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -112,19 +112,27 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View fragmentView = inflater.inflate(R.layout.fragment_challenge, container, false);
 
-        setupView(fragmentView);
         return fragmentView;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setupView(getView());
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Log.d(TAG, "onStart");
+        mHostingParent.setViewTitle(getString(R.string.nav_challenge));
         challengePresenter.getEvent(activeEventId);
+        Team team = getParticipantTeam();
+        if (team != null) {
+            teamId = team.getId();
+        }
         challengePresenter.getTeam(teamId);
     }
 
@@ -275,13 +283,15 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             showJoinTeamButton = createOrJoinTeamCard.findViewById(R.id.show_join_team_button);
             if (showJoinTeamButton != null) {
                 showJoinTeamButton.setOnClickListener(onClickListener);
-                showJoinTeamButton.setEnabled(false);
+                List<Team> teams = getTeamList();
+                showJoinTeamButton.setEnabled((teams == null || teams.size() == 0) ? false : true);
             }
         }
 
         if (createOrJoinTeamCard.getVisibility() != View.VISIBLE) {
             createOrJoinTeamCard.setVisibility(View.VISIBLE);
         }
+       // challengePresenter.getTeams();
     }
 
     public void hideTeamCard() {
@@ -358,7 +368,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     break;
                 case R.id.create_team_button:
                     closeKeyboard();
-                    challengePresenter.createTeamClick(teamNameEditText.getText().toString());
+                    challengePresenter.createTeamClick(teamNameEditText.getText().toString(), SharedPreferencesUtil.getUserFullName(), true);
                     break;
                 case R.id.cancel_create_team_button:
                     closeKeyboard();
@@ -381,6 +391,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         joinTeamView = fragmentView.findViewById(R.id.join_team_content);
 
         setHasOptionsMenu(true);
+
 
         setupViewForMainContent(mainContentView);
         setupViewForNewTeam(newTeamView);
@@ -453,15 +464,16 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         if (newTeamView == null) {
             return;
         }
-        newTeamView.setVisibility(View.VISIBLE);
-        enableCreateTeamButton();
-
-        if (mainContentView != null && mainContentView.getVisibility() != View.GONE) {
-            mainContentView.setVisibility(View.GONE);
-        }
-        if (joinTeamView != null && joinTeamView.getVisibility() != View.GONE) {
-            joinTeamView.setVisibility(View.GONE);
-        }
+//        newTeamView.setVisibility(View.VISIBLE);
+//        enableCreateTeamButton();
+//
+//        if (mainContentView != null && mainContentView.getVisibility() != View.GONE) {
+//            mainContentView.setVisibility(View.GONE);
+//        }
+//        if (joinTeamView != null && joinTeamView.getVisibility() != View.GONE) {
+//            joinTeamView.setVisibility(View.GONE);
+//        }
+        mHostingParent.showCreateTeam();
     }
 
     @Override
