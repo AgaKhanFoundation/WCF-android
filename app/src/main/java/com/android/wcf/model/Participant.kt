@@ -22,11 +22,12 @@ data class Participant(
         @SerializedName("team") var team: Team? = Team(),
         @SerializedName("cause") var cause: Cause? = Cause(),
         @SerializedName("event") var event: Event? = Event(),
-        @SerializedName("achievements") var achievements: List<Achievement> = ArrayList()) {
+        @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
+    var participantId: String? = this.fbId
 
 
     companion object {
-        const val PARTICIPANT_ATTRIBUTE_FBID = "fbid"
+        const val PARTICIPANT_ATTRIBUTE_ID = "fbid"
         const val PARTICIPANT_ATTRIBUTE_TEAM_ID = "team_id"
         const val PARTICIPANT_ATTRIBUTE_CAUSE_ID = "cause_id"
         const val PARTICIPANT_ATTRIBUTE_LOCALITY_ID = "locality_id"

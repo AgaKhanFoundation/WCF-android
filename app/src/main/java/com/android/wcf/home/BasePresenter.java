@@ -78,8 +78,8 @@ public abstract class BasePresenter {
 
     /******* PARTICIPANT API   ******/
 
-    public void createParticipant(String fbid) {
-        wcfClient.createParticipant(fbid)
+    public void createParticipant(String participantId) {
+        wcfClient.createParticipant(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Participant>() {
@@ -104,8 +104,8 @@ public abstract class BasePresenter {
         Log.e(TAG, "onCreateParticipantError: " + error.getMessage());
     }
 
-    public void getParticipant(String fbid) {
-        wcfClient.getParticipant(fbid)
+    public void getParticipant(String participantId) {
+        wcfClient.getParticipant(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Participant>() {
@@ -127,12 +127,12 @@ public abstract class BasePresenter {
     }
 
     protected void onGetParticipantError(Throwable error) {
-        Log.e(TAG, "onGetParticipantError (fbid) : " + error.getMessage());
+        Log.e(TAG, "onGetParticipantError (participantId) : " + error.getMessage());
     }
 
 
-    public void getParticipantStats(String fbid) {
-        wcfClient.getParticipantStat(fbid)
+    public void getParticipantStats(String participantId) {
+        wcfClient.getParticipantStat(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Stats>() {
@@ -157,8 +157,8 @@ public abstract class BasePresenter {
     }
 
 
-    public void deleteParticipant(String fbid) {
-        wcfClient.deleteParticipant(fbid)
+    public void deleteParticipant(String participantId) {
+        wcfClient.deleteParticipant(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Integer>() {
@@ -409,83 +409,83 @@ public abstract class BasePresenter {
     }
 
     /***** PARTICPANT TO TEAM API ******/
-    public void assignParticipantToTeam(final String fbid, final int teamId) {
-            wcfClient.updateParticipant(fbid, null, teamId, 0, 0, 0)
+    public void assignParticipantToTeam(final String participantId, final int teamId) {
+            wcfClient.updateParticipant(participantId, null, teamId, 0, 0, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<Integer>>() {
                     @Override
                     public void onSuccess(List<Integer> results) {
-                        onAssignParticipantToTeamSuccess(results, fbid, teamId);
+                        onAssignParticipantToTeamSuccess(results, participantId, teamId);
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        onAssignParticipantToTeamError(error, fbid, teamId);
+                        onAssignParticipantToTeamError(error, participantId, teamId);
                     }
                 });
     }
 
-    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String fbid, final int teamId) {
+    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String participantId, final int teamId) {
         Log.d(TAG, "assignParticipantToTeam success: " + results.get(0));
 
     }
 
-    protected void onAssignParticipantToTeamError(Throwable error, String fbid, final int teamId) {
-        Log.e(TAG, "assignParticipantToTeam(fbid, teamId) Error: " + error.getMessage());
+    protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
+        Log.e(TAG, "assignParticipantToTeam(participantId, teamId) Error: " + error.getMessage());
     }
 
-    public void participantLeaveFromTeam(final String fbid) {
-        wcfClient.updateParticipantLeaveTeam(fbid)
+    public void participantLeaveFromTeam(final String participantId) {
+        wcfClient.updateParticipantLeaveTeam(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<Integer>>() {
                     @Override
                     public void onSuccess(List<Integer> results) {
-                        onParticipantLeaveFromTeamSuccess(results, fbid);
+                        onParticipantLeaveFromTeamSuccess(results, participantId);
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        onParticipantLeaveFromTeamError(error, fbid);
+                        onParticipantLeaveFromTeamError(error, participantId);
                     }
                 });
     }
 
-    protected void onParticipantLeaveFromTeamSuccess(List<Integer> results, String fbid) {
+    protected void onParticipantLeaveFromTeamSuccess(List<Integer> results, String participantId) {
         Log.d(TAG, "onParticipantLeaveFromTeamSuccess success: " + results.get(0));
     }
 
-    protected void onParticipantLeaveFromTeamError(Throwable error, String fbid) {
-        Log.e(TAG, "onParticipantLeaveFromTeamError(fbid) Error: " + error.getMessage());
+    protected void onParticipantLeaveFromTeamError(Throwable error, String participantId) {
+        Log.e(TAG, "onParticipantLeaveFromTeamError(participantId) Error: " + error.getMessage());
     }
 
 
     /***** PARTICPANT TO Event API ******/
-    public void assignParticipantToEvent(final String fbid, final int eventId, final int causeId, final int localityId ) {
-        wcfClient.updateParticipant(fbid, null, 0, 0, 0, eventId)
+    public void assignParticipantToEvent(final String participantId, final int eventId, final int causeId, final int localityId ) {
+        wcfClient.updateParticipant(participantId, null, 0, 0, 0, eventId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<Integer>>() {
                     @Override
                     public void onSuccess(List<Integer> results) {
-                        onAssignParticipantToEventSuccess(results, fbid, eventId, causeId, localityId);
+                        onAssignParticipantToEventSuccess(results, participantId, eventId, causeId, localityId);
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        onAssignParticipantToEventError(error, fbid, eventId, causeId, localityId);
+                        onAssignParticipantToEventError(error, participantId, eventId, causeId, localityId);
                     }
                 });
     }
 
-    protected void onAssignParticipantToEventSuccess(List<Integer> results, String fbid, final int eventId, final int causeId, final int localityId) {
+    protected void onAssignParticipantToEventSuccess(List<Integer> results, String participantId, final int eventId, final int causeId, final int localityId) {
         Log.d(TAG, "onAssignParticipantToEventSuccess success: " + results.get(0));
 
     }
 
-    protected void onAssignParticipantToEventError(Throwable error, String fbid, final int eventId, final int causeId, final int localityId) {
-        Log.e(TAG, "onAssignParticipantToEventError(fbid, eventId, causeId, localityId) Error: " + error.getMessage());
+    protected void onAssignParticipantToEventError(Throwable error, String participantId, final int eventId, final int causeId, final int localityId) {
+        Log.e(TAG, "onAssignParticipantToEventError(participantId, eventId, causeId, localityId) Error: " + error.getMessage());
     }
 }
 

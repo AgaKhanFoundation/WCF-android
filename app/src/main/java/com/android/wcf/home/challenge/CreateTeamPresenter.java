@@ -39,21 +39,20 @@ public class CreateTeamPresenter extends BasePresenter implements CreateTeamMvp.
     }
 
     @Override
-    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String fbid, final int teamId) {
-        super.onAssignParticipantToTeamSuccess(results, fbid, teamId);
+    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String participantId, final int teamId) {
+        super.onAssignParticipantToTeamSuccess(results, participantId, teamId);
         if (results != null && results.size() == 1) {
-            view.participantJoinedTeam(fbid, teamId);
+            view.participantJoinedTeam(participantId, teamId);
         } else {
             view.showError("Unable to assign to team. Please try again");
         }
     }
 
     @Override
-    protected void onAssignParticipantToTeamError(Throwable error, String fbid, final int teamId) {
-        super.onAssignParticipantToTeamError(error, fbid, teamId);
+    protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
+        super.onAssignParticipantToTeamError(error, participantId, teamId);
         view.showError(R.string.participant_team_join_error, error.getMessage());
     }
-
 
     @Override
     public String getTag() {

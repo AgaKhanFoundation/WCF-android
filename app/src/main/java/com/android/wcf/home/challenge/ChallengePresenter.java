@@ -186,18 +186,18 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
-    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String fbid, final int teamId) {
-        super.onAssignParticipantToTeamSuccess(results, fbid, teamId);
+    protected void onAssignParticipantToTeamSuccess(List<Integer> results, String participantId, final int teamId) {
+        super.onAssignParticipantToTeamSuccess(results, participantId, teamId);
         if (results != null && results.size() == 1) {
-            challengeView.participantJoinedTeam(fbid, teamId);
+            challengeView.participantJoinedTeam(participantId, teamId);
         } else {
             challengeView.showError("Unable to assign to team. Please try again");
         }
     }
 
     @Override
-    protected void onAssignParticipantToTeamError(Throwable error, String fbid, final int teamId) {
-        super.onAssignParticipantToTeamError(error, fbid, teamId);
+    protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
+        super.onAssignParticipantToTeamError(error, participantId, teamId);
         challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 

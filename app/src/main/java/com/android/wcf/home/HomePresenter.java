@@ -19,8 +19,8 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     }
 
     @Override
-    public void getParticipant(@NonNull String fbId) {
-        super.getParticipant(fbId);
+    public void getParticipant(@NonNull String participantId) {
+        super.getParticipant(participantId);
     }
 
     @Override
@@ -42,8 +42,8 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     }
 
     @Override
-    public void createParticipant(String fbId) {
-        super.createParticipant(fbId);
+    public void createParticipant(String participantId) {
+        super.createParticipant(participantId);
     }
 
     @Override
@@ -53,9 +53,9 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     }
 
     @Override
-    public void updateParticipantEvent(String fbId, int eventId) {
-        super.assignParticipantToEvent(fbId, eventId, 0, 0);
-        homeView.onAssignedParticipantToEvent(fbId, eventId);
+    public void updateParticipantEvent(String participantId, int eventId) {
+        super.assignParticipantToEvent(participantId, eventId, 0, 0);
+        homeView.onAssignedParticipantToEvent(participantId, eventId);
 
     }
 }

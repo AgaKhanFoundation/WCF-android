@@ -133,9 +133,9 @@ public class WCFClient {
         return wcfApi.deleteTeam(teamId);
     }
 
-    public Single<Participant> createParticipant(String fbid) {
+    public Single<Participant> createParticipant(String participantId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, fbid);
+        jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_ID, participantId);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
@@ -143,18 +143,18 @@ public class WCFClient {
         return wcfApi.createParticipant(requestBody);
     }
 
-    public Single<Participant> getParticipant(String fbid) {
-        return wcfApi.getParticipant(fbid);
+    public Single<Participant> getParticipant(String participantId) {
+        return wcfApi.getParticipant(participantId);
     }
 
-    public Single<Stats> getParticipantStat(String fbid) {
-        return wcfApi.getParticipantStats(fbid);
+    public Single<Stats> getParticipantStat(String participantId) {
+        return wcfApi.getParticipantStats(participantId);
     }
 
-    public Single<List<Integer>> updateParticipant(String currentFbid, String newFbid, Integer teamId, Integer causeId, Integer localityId, Integer eventId) {
+    public Single<List<Integer>> updateParticipant(String currentParticipantId, String newParticipantId, Integer teamId, Integer causeId, Integer localityId, Integer eventId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        if (newFbid != null && !newFbid.isEmpty())
-            jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newFbid);
+        if (newParticipantId != null && !newParticipantId.isEmpty())
+            jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_ID, newParticipantId);
         if (teamId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_TEAM_ID, teamId);
         if (causeId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_CAUSE_ID, causeId);
         if (localityId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_LOCALITY_ID, localityId);
@@ -163,30 +163,30 @@ public class WCFClient {
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
 
-        return wcfApi.updateParticipant(currentFbid, requestBody);
+        return wcfApi.updateParticipant(currentParticipantId, requestBody);
     }
 
-    public Single<List<Integer>> updateParticipantLeaveTeam(String fbid) {
+    public Single<List<Integer>> updateParticipantLeaveTeam(String participantId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_TEAM_ID, null);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
 
-        return wcfApi.updateParticipant(fbid, requestBody);
+        return wcfApi.updateParticipant(participantId, requestBody);
     }
 
-    public Single<List<Integer>> updateParticipantTrackingSource(String fbid, Integer sourceId) {
+    public Single<List<Integer>> updateParticipantTrackingSource(String participantId, Integer sourceId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (sourceId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 (new JSONObject(jsonParams)).toString());
 
-        return wcfApi.updateParticipant(fbid, requestBody);
+        return wcfApi.updateParticipant(participantId, requestBody);
     }
 
-    public Single<Integer> deleteParticipant(String fbid) {
-        return wcfApi.deleteParticipant(fbid);
+    public Single<Integer> deleteParticipant(String participantId) {
+        return wcfApi.deleteParticipant(participantId);
     }
 }

@@ -16,17 +16,17 @@ public interface HomeMvp {
 
         void onParticipantCreated(Participant participant);
 
-        void onAssignedParticipantToEvent(String fbId, int eventId);
+        void onAssignedParticipantToEvent(String participantId, int eventId);
 
         void showCreateTeam();
     }
 
     interface HomePresenter {
-        void getParticipant(String fbId);
+        void getParticipant(String participantId);
 
-        void createParticipant(String fbId);
+        void createParticipant(String participantId);
 
-        void updateParticipantEvent(String fbId, int eventId);
+        void updateParticipantEvent(String participantId, int eventId);
     }
 
 }

@@ -22,8 +22,8 @@ public class SettingsPresenter  extends BasePresenter implements SettingsMvp.Pre
     }
 
     @Override
-    public void removeFromTeam(String fbid) {
-       participantLeaveFromTeam(fbid);
+    public void removeFromTeam(String participantId) {
+       participantLeaveFromTeam(participantId);
     }
 
     public SettingsPresenter(SettingsMvp.View settingsView) {
@@ -31,13 +31,13 @@ public class SettingsPresenter  extends BasePresenter implements SettingsMvp.Pre
     }
 
     @Override
-    protected void onParticipantLeaveFromTeamSuccess(List<Integer> results, String fbid) {
-        super.onParticipantLeaveFromTeamSuccess(results, fbid);
-        settingsView.participantRemovedFromTeam(fbid);
+    protected void onParticipantLeaveFromTeamSuccess(List<Integer> results, String participantId) {
+        super.onParticipantLeaveFromTeamSuccess(results, participantId);
+        settingsView.participantRemovedFromTeam(participantId);
     }
     @Override
-    protected void onParticipantLeaveFromTeamError(Throwable error, String fbid) {
-        super.onParticipantLeaveFromTeamError(error, fbid);
+    protected void onParticipantLeaveFromTeamError(Throwable error, String participantId) {
+        super.onParticipantLeaveFromTeamError(error, participantId);
     }
 
 }

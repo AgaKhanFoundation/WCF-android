@@ -35,7 +35,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private static final String TAG = ChallengeFragment.class.getSimpleName();
 
     /* the fragment initialization parameters */
-    private static final String ARG_MY_FACEBOOK_ID = "my_fbid";
+    private static final String ARG_MY_PARTICIPANT_ID = "my_participant_id";
     private static final String ARG_MY_ACTIVE_EVENT_ID = "my_active_event_id";
     private static final String ARG_MY_TEAM_ID = "my_team_id";
 
@@ -60,7 +60,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private TeamsAdapter teamsAdapter = null;
 
     /* non-ui class properties */
-    private String facebookId;
+    private String participantId;
     private int activeEventId;
     private int teamId;
 
@@ -73,14 +73,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param fbid   facebookId.
+     * @param participantId   participantId.
      * @param teamId teamId.
      * @return A new instance of fragment ChallengeFragment.
      */
-    public static ChallengeFragment newInstance(String fbid, int eventId, int teamId) {
+    public static ChallengeFragment newInstance(String participantId, int eventId, int teamId) {
         ChallengeFragment fragment = new ChallengeFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_MY_FACEBOOK_ID, fbid);
+        args.putString(ARG_MY_PARTICIPANT_ID, participantId);
         args.putInt(ARG_MY_ACTIVE_EVENT_ID, eventId);
         args.putInt(ARG_MY_TEAM_ID, teamId);
         fragment.setArguments(args);
@@ -93,7 +93,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         challengePresenter = new ChallengePresenter(this);
 
         if (getArguments() != null) {
-            facebookId = getArguments().getString(ARG_MY_FACEBOOK_ID);
+            participantId = getArguments().getString(ARG_MY_PARTICIPANT_ID);
             activeEventId = getArguments().getInt(ARG_MY_ACTIVE_EVENT_ID);
             teamId = getArguments().getInt(ARG_MY_TEAM_ID);
         }
@@ -173,8 +173,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
-    public void onFacebookIdMissing() {
-        Toast.makeText(getContext(), "FacebookId needed. Please login", Toast.LENGTH_SHORT).show();
+    public void onParticipantIdMissing() {
+        Toast.makeText(getContext(), "Login Id needed. Please login", Toast.LENGTH_SHORT).show();
         WCFApplication.instance.requestLogin();
     }
 
@@ -420,7 +420,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         }
         //TODO ensure capacity, if not show message
 
-        challengePresenter.assignParticipantToTeam(facebookId, selectedTeam.getId());
+        challengePresenter.assignParticipantToTeam(participantId, selectedTeam.getId());
     }
 
     private void closeTeamSelection() {
@@ -433,12 +433,12 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
-    public void participantJoinedTeam(String fbid, int teamId) {
+    public void participantJoinedTeam(String participantId, int teamId) {
         SharedPreferencesUtil.saveMyTeamId(teamId);
         // refresh the objects
         closeTeamSelection();
         //TODO: see if these refresh is needed, perhaps it is sufficient for presenter to update its data using the response
-        challengePresenter.getParticipant(fbid);
+        challengePresenter.getParticipant(participantId);
         challengePresenter.getTeam(teamId);
         challengePresenter.getTeams();
     }
