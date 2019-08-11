@@ -135,13 +135,6 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void showToolbarUpAffordance(boolean showFlag) {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-    }
-
-    @Override
     public void setViewTitle(String title) {
         ActionBar actionBar = getSupportActionBar();
         if (title != null) {
@@ -154,6 +147,14 @@ abstract public class BaseActivity extends AppCompatActivity
         actionBar.setHomeButtonEnabled(false);
         actionBar.setDisplayHomeAsUpEnabled(true);
     }
+
+    @Override
+    public void showToolbarUpAffordance(boolean showFlag) {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setDisplayShowTitleEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
 
     @Override
     public void setEvent(Event event) {

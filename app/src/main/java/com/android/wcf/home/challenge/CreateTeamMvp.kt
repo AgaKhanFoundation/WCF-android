@@ -16,6 +16,5 @@ interface CreateTeamMvp {
     }
 
     interface Host : BaseMvp.Host {
-        fun setToolbarTitle(title: String)
     }
 }

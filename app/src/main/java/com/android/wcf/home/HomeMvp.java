@@ -17,8 +17,6 @@ public interface HomeMvp {
         void onParticipantCreated(Participant participant);
 
         void onAssignedParticipantToEvent(String participantId, int eventId);
-
-        void showCreateTeam();
     }
 
     interface HomePresenter {

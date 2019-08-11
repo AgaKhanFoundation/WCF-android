@@ -277,8 +277,19 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     void setupLeaveTeamClickListeners(View parentView) {
         View container = parentView.findViewById(R.id.leave_team_container);
         View image = container.findViewById(R.id.leave_team_icon);
-        image.setOnClickListener(onClickListener);
-        expandViewHitArea(image, container);
+
+        int teamId = SharedPreferencesUtil.getMyTeamId();
+        if (teamId > 0) {
+            image.setOnClickListener(onClickListener);
+            expandViewHitArea(image, container);
+            image.setEnabled(true);
+            container.setEnabled(true);
+        }
+        else {
+            image.setOnClickListener(null);
+            image.setEnabled(false);
+            container.setEnabled(false);
+        }
     }
 
     void expandViewHitArea(final View childView, final View parentView) {

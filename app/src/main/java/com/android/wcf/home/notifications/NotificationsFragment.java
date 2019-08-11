@@ -22,7 +22,7 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     public NotificationsFragment() {
     }
 
-    public static NotificationsFragment newInstance(String param1, String param2) {
+    public static NotificationsFragment newInstance() {
         NotificationsFragment fragment = new NotificationsFragment();
         return fragment;
     }
