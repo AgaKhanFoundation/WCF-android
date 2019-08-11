@@ -16,21 +16,15 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 
-import java.util.List;
-
-public class ChallengeFragment extends BaseFragment implements ChallengeMvp.ChallengeView, TeamsAdapterMvp.Host {
+public class ChallengeFragment extends BaseFragment implements ChallengeMvp.ChallengeView {
 
     private static final String TAG = ChallengeFragment.class.getSimpleName();
 
@@ -48,14 +42,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     private View mainContentView = null;
     private View journeyCard = null;
-    private View joinTeamView = null;
 
     private Button showCreateTeamButton = null;
     private Button showJoinTeamButton = null;
-
-    private Button joinTeamButton = null;
-    private RecyclerView teamsListRecyclerView = null;
-    private TeamsAdapter teamsAdapter = null;
 
     /* non-ui class properties */
     private String participantId;
@@ -105,6 +94,10 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         mHostingParent.setViewTitle(getString(R.string.nav_challenge));
 
         participantId = SharedPreferencesUtil.getMyParticipantId();
+        if(participantId == null || participantId.isEmpty()) {
+            onParticipantIdMissing();
+            return;
+        }
         activeEventId = SharedPreferencesUtil.getMyActiveEventId();
         teamId = SharedPreferencesUtil.getMyTeamId();
 
@@ -126,22 +119,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater);
         menuInflater.inflate(R.menu.menu_home, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        boolean handled = super.onOptionsItemSelected(item);
-        if (!handled) {
-            switch (item.getItemId()) {
-                case android.R.id.home:
-                    closeTeamSelection();
-                    handled = true;
-                    break;
-                default:
-                    break;
-            }
-        }
-        return handled;
     }
 
     @Override
@@ -269,7 +246,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         if (createOrJoinTeamCard.getVisibility() != View.VISIBLE) {
             createOrJoinTeamCard.setVisibility(View.VISIBLE);
         }
-        // challengePresenter.getTeams();
     }
 
     public void hideTeamCard() {
@@ -318,9 +294,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 case R.id.show_join_team_button:
                     challengePresenter.showTeamsToJoinView();
                     break;
-                case R.id.join_team_button:
-                    teamSelectedToJoin();
-                    break;
             }
         }
     };
@@ -328,7 +301,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     void setupView(View fragmentView) {
 
         mainContentView = fragmentView.findViewById(R.id.main_content);
-        joinTeamView = fragmentView.findViewById(R.id.join_team_content);
 
         setHasOptionsMenu(true);
 
@@ -344,35 +316,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         View myTeamCard = mainView.findViewById(R.id.my_team_card);
     }
 
-    private void setupViewForJoinTeam(View joinTeamView) {
-        if (teamsAdapter == null) {
-            teamsAdapter = new TeamsAdapter(this);
-        }
-
-        teamsListRecyclerView = joinTeamView.findViewById(R.id.teams_list);
-        teamsListRecyclerView.setLayoutManager(new LinearLayoutManager(joinTeamView.getContext()));
-        teamsListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
-
-        teamsListRecyclerView.addItemDecoration(new ListPaddingDecoration(getContext()));
-
-        teamsListRecyclerView.setAdapter(teamsAdapter);
-
-        joinTeamButton = joinTeamView.findViewById(R.id.join_team_button);
-
-        if (joinTeamButton != null) {
-            joinTeamButton.setOnClickListener(onClickListener);
-            joinTeamButton.setEnabled(false); // will be enabled when a team is selected
-        }
-
-        mHostingParent.showToolbarUpAffordance(true);
-    }
-
-    @Override
-    public void teamRowSelected(int pos) {
-        //TODO: enable selecting a team if it has capacity for additional members or show message
-        joinTeamButton.setEnabled(pos >= 0);
-    }
 
     @Override
     public void showCreateNewTeamView() {
@@ -382,58 +325,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void showJoinTeamView() {
         mHostingParent.showJoinTeam();
-    }
-
-
-    @Override
-    public void showTeamList() {
-        setupViewForJoinTeam(joinTeamView);
-
-        if (joinTeamView == null) {
-            showMessage("Joining team coming soon");
-            return;
-        }
-        List<Team> teams = getTeamList();
-        teamsAdapter.clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
-        teamsListRecyclerView.scrollToPosition(0);
-        teamsAdapter.updateTeamsData(teams);
-
-        joinTeamView.setVisibility(View.VISIBLE);
-
-        if (mainContentView != null && mainContentView.getVisibility() != View.GONE) {
-            mainContentView.setVisibility(View.GONE);
-        }
-    }
-
-    private void teamSelectedToJoin() {
-        Team selectedTeam = teamsAdapter.getSelectedTeam();
-        if (selectedTeam == null) {
-            showMessage("Please select a team to join");
-            return;
-        }
-        //TODO ensure capacity, if not show message
-
-        challengePresenter.assignParticipantToTeam(participantId, selectedTeam.getId());
-    }
-
-    private void closeTeamSelection() {
-        mainContentView.setVisibility(View.VISIBLE);
-
-        if (joinTeamView != null && joinTeamView.getVisibility() != View.GONE) {
-            joinTeamView.setVisibility(View.GONE);
-        }
-        mHostingParent.showToolbarUpAffordance(false);
-    }
-
-    @Override
-    public void participantJoinedTeam(String participantId, int teamId) {
-        SharedPreferencesUtil.saveMyTeamId(teamId);
-        // refresh the objects
-        closeTeamSelection();
-        //TODO: see if these refresh is needed, perhaps it is sufficient for presenter to update its data using the response
-        challengePresenter.getParticipant(participantId);
-        challengePresenter.getTeam(teamId);
-        challengePresenter.getTeams();
     }
 
 }

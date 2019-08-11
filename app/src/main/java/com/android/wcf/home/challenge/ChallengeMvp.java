@@ -29,13 +29,9 @@ public interface ChallengeMvp {
 
         void hideTeamCard();
 
-        void showTeamList();
-
         void enableShowCreateTeam(boolean enabledFlag);
 
         void enableJoinExistingTeam(boolean enabledFlag);
-
-        void participantJoinedTeam(String participantId, int teamId);
 
     }
 
@@ -50,11 +46,7 @@ public interface ChallengeMvp {
 
         void deleteTeam(int teamId);
 
-        void createParticipant(String participantId);
-
         void getParticipant(String participantId);
-
-        void assignParticipantToTeam(String participantId, int teamId);
 
         void getParticipantStats(String participantId);
 
