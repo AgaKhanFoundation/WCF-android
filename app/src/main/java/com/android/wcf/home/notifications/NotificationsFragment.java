@@ -41,8 +41,9 @@ public class NotificationsFragment extends BaseFragment implements Notifications
 
     @Override
     public void onStart() {
-        super.onStart();
         Log.d(TAG, "onStart");
+        super.onStart();
+        mFragmentHost.setToolbarTitle(getString(R.string.nav_notifications), false);
     }
 
     @Override

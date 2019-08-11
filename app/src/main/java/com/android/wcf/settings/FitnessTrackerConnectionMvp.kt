@@ -1,16 +1,17 @@
 package com.android.wcf.settings
 
+import com.android.wcf.base.BaseMvp
+
 interface FitnessTrackerConnectionMvp {
-    interface View {
+    interface View: BaseMvp.BaseView {
 
     }
 
-    interface Presenter {
+    interface Presenter : BaseMvp.Presenter {
 
     }
 
-    interface Host {
-        fun setToolbarTitle(title: String)
+    interface Host : BaseMvp.Host {
         fun connectAppToFitbit()
         fun connectAppToGoogleFit()
         fun disconnectAppFromFitbit()

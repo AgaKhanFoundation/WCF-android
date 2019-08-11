@@ -17,6 +17,5 @@ public interface LeaderboardMvp {
         void sortTeamsBy(String sortColumn, int sortMode);
     }
     interface Host extends BaseMvp.Host {
-        void setViewTitle(String title);
     }
 }
