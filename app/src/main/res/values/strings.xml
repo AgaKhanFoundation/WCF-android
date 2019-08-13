@@ -134,4 +134,17 @@
     <string name="create_team_continue_button_text">No, keep editing</string>
     <string name="create_team_dont_continue_button_text">Yes, cancel setup</string>
     <string name="join_team_title">Join Team</string>
+    <string name="team_created_message">Your team has been created!</string>
+    <string name="team_created_invite_members_message">Next, invite friends to join. You have 10 spots remaining on your team.</string>
+    <string name="invite_members_to_join_label">Invite friends to join</string>
+    <string name="team_created_continue_message">Continue</string>
+    <string name="invite_team_member_template">"Hey! I  created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Change, and I want you on my team!\n" +
+                "Download the app here:\n" +
+                "%3$s\n" +
+                "In the app, please select '%4$s' from the team list and join me!\n" </string>
+    <!--
+    "Use this link to join my team:\n"
+     "%4$s";</string>
+                     +-->
+
 </resources>

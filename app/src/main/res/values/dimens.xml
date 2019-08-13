@@ -16,6 +16,7 @@
     <dimen name="spacing_large">32dp</dimen>
     <dimen name="spacing_larger">48dp</dimen>
     <dimen name="spacing_extra_large">64dp</dimen>
+    <dimen name="spacing_100">100dp</dimen>
     <dimen name="spacing_200">200dp</dimen>
     <dimen name="button_width_medium">140dp</dimen>
     <dimen name="button_padding_medium">96dp</dimen>
