@@ -2,9 +2,11 @@ package com.android.wcf.home.challenge;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
@@ -31,11 +34,18 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
     CreateTeamPresenter presenter;
     CreateTeamMvp.Host host;
+    private View createTeamCard = null;
+    private View teamCreatedCard = null;
     private Button createTeamButton = null;
     private Button cancelCreateTeamButton = null;
     private TextInputLayout teamNameInputLayout = null;
     private TextInputEditText teamNameEditText = null;
     private SwitchCompat teamVisibiltySwitch = null;
+
+    private Button inviteMembersButton = null;
+    private View teamCreatedContinueView = null;
+
+    private boolean teamCreated = false;
 
     private TextWatcher creatTeamEditWatcher = new TextWatcher() {
         @Override
@@ -67,8 +77,17 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
                     presenter.createTeam(teamName, teamLeadParticipantId, teamVisibility);
                     break;
                 case R.id.cancel_create_team_button:
-                    confirmCancelTeamCreation();
+                    if (teamCreated) {
+                        closeView();
+                    } else {
+                        confirmCancelTeamCreation();
+                    }
                     break;
+                case R.id.btn_invite_members:
+                    inviteTeamMembers();
+                    break;
+                case R.id.team_created_continue:
+                    closeView();
             }
         }
     };
@@ -134,7 +153,8 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     @Override
     public void participantJoinedTeam(@NotNull String participantId, int teamId) {
         SharedPreferencesUtil.saveMyTeamId(teamId);
-        closeView();
+        teamCreated = true;
+        showTeamCreatedView();
     }
 
     @Override
@@ -177,26 +197,53 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
     void setupView(View fragmentView) {
 
-        createTeamButton = fragmentView.findViewById(R.id.create_team_button);
+        createTeamCard = fragmentView.findViewById(R.id.create_team_card);
+        teamCreatedCard = fragmentView.findViewById(R.id.team_created_card);
+
+        setupCreateTeamCardView(createTeamCard);
+        setupTeamCreatedCardView(teamCreatedCard);
+        showCreateTeamView();
+    }
+
+    void setupCreateTeamCardView(View createTeamCard) {
+
+        createTeamButton = createTeamCard.findViewById(R.id.create_team_button);
         if (createTeamButton != null) {
             createTeamButton.setOnClickListener(onClickListener);
         }
 
-        cancelCreateTeamButton = fragmentView.findViewById(R.id.cancel_create_team_button);
+        cancelCreateTeamButton = createTeamCard.findViewById(R.id.cancel_create_team_button);
         if (cancelCreateTeamButton != null) {
             cancelCreateTeamButton.setOnClickListener(onClickListener);
         }
 
-        teamNameEditText = fragmentView.findViewById(R.id.team_name);
+        teamNameEditText = createTeamCard.findViewById(R.id.team_name);
         if (teamNameEditText != null) {
             teamNameEditText.addTextChangedListener(creatTeamEditWatcher);
         }
-        teamNameInputLayout = fragmentView.findViewById(R.id.team_name_input_layout);
+        teamNameInputLayout = createTeamCard.findViewById(R.id.team_name_input_layout);
 
-        teamVisibiltySwitch = fragmentView.findViewById(R.id.team_public_visibility_enabled);
+        teamVisibiltySwitch = createTeamCard.findViewById(R.id.team_public_visibility_enabled);
 
         enableCreateTeamButton();
 
+    }
+
+    void setupTeamCreatedCardView(View view) {
+        inviteMembersButton = view.findViewById(R.id.btn_invite_members);
+        teamCreatedContinueView = view.findViewById(R.id.team_created_continue);
+        inviteMembersButton.setOnClickListener(onClickListener);
+        teamCreatedContinueView.setOnClickListener(onClickListener);
+    }
+
+    void showCreateTeamView() {
+        createTeamCard.setVisibility(View.VISIBLE);
+        teamCreatedCard.setVisibility(View.GONE);
+    }
+
+    void showTeamCreatedView() {
+        createTeamCard.setVisibility(View.GONE);
+        teamCreatedCard.setVisibility(View.VISIBLE);
     }
 
     void enableCreateTeamButton() {
@@ -210,4 +257,24 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         createTeamButton.setEnabled(enabled);
     }
 
+    void inviteTeamMembers() {
+
+        String teamName = getParticipantTeam().getName();
+        String eventName = getEvent().getName();
+        String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+        String teamLink = getParticipantTeam().getName();
+
+        String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName, appLink, teamLink);
+
+        try {
+            Intent shareIntent = new Intent();
+            shareIntent.setAction(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Join my team on the new Aga Khan Foundation app, Steps4Change");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
+            startActivity(Intent.createChooser(shareIntent, "Share"));
+        } catch (Exception e) {
+            Log.e(TAG, "Team invitation share error: " + e.getMessage());
+        }
+    }
 }
