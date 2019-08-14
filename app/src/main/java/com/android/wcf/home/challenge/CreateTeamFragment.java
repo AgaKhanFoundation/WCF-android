@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +18,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ShareCompat;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
@@ -257,24 +260,4 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         createTeamButton.setEnabled(enabled);
     }
 
-    void inviteTeamMembers() {
-
-        String teamName = getParticipantTeam().getName();
-        String eventName = getEvent().getName();
-        String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
-        String teamLink = getParticipantTeam().getName();
-
-        String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName, appLink, teamLink);
-
-        try {
-            Intent shareIntent = new Intent();
-            shareIntent.setAction(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_SUBJECT, "Join my team on the new Aga Khan Foundation app, Steps4Change");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareMessage);
-            startActivity(Intent.createChooser(shareIntent, "Share"));
-        } catch (Exception e) {
-            Log.e(TAG, "Team invitation share error: " + e.getMessage());
-        }
-    }
 }

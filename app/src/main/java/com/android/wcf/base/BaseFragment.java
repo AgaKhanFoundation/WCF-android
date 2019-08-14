@@ -2,12 +2,17 @@ package com.android.wcf.base;
 
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 
+import com.android.wcf.BuildConfig;
+import com.android.wcf.R;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -138,11 +143,6 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     @Override
     public void onStop() {
         super.onStop();
-
-//        View view = view = getView();
-//        if (view != null) {
-//            view.clearFocus();
-//        }
     }
 
     @Override
@@ -151,6 +151,33 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
+        }
+    }
+
+    public void inviteTeamMembers() {
+
+        String teamName = getParticipantTeam().getName();
+        String eventName = getEvent().getName();
+        String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+        String teamLink = getParticipantTeam().getName();
+
+        String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName, appLink);
+
+        try {
+
+            ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());
+            Intent shareIntent = intentBuilder
+                    .setType("text/plain")
+                    .setText(shareMessage)
+                    .setSubject("Join my team " + teamName + " on Steps4Change")
+                    .setChooserTitle("Share Via")
+                    .createChooserIntent();
+
+            if (shareIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(shareIntent);
+            }
+        } catch (Exception e) {
+            Log.e(getTag(), "Team invitation share error: " + e.getMessage());
         }
     }
 }
