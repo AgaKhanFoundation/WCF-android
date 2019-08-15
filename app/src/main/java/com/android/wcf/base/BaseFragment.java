@@ -3,7 +3,9 @@ package com.android.wcf.base;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.util.Log;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
@@ -179,5 +181,22 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         } catch (Exception e) {
             Log.e(getTag(), "Team invitation share error: " + e.getMessage());
         }
+    }
+
+
+    public void expandViewHitArea(final View childView, final View parentView) {
+        parentView.post(new Runnable() {
+            @Override
+            public void run() {
+                Rect parentRect = new Rect();
+                Rect childRect = new Rect();
+                parentView.getHitRect(parentRect);
+                childView.getHitRect(childRect);
+                childRect.left = parentRect.left;
+                childRect.right = parentRect.width();
+
+                parentView.setTouchDelegate(new TouchDelegate(childRect, childView));
+            }
+        });
     }
 }

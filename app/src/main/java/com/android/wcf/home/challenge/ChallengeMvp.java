@@ -25,14 +25,17 @@ public interface ChallengeMvp {
 
         void showJoinTeamView();
 
-        void showMyTeamCard(Team team);
+        void showMyTeamSummaryCard(Team team);
 
-        void hideTeamCard();
+        void hideMyTeamSummaryCard();
 
         void enableShowCreateTeam(boolean enabledFlag);
 
         void enableJoinExistingTeam(boolean enabledFlag);
 
+        void hideInviteTeamMembersCard();
+
+        void showInviteTeamMembersCard(int openSlots);
     }
 
     interface Presenter extends BaseMvp.Presenter {

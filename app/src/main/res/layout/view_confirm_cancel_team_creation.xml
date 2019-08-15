@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="@string/cancel_team_creation_message"
         android:gravity="center"
-        android:lineSpacingMultiplier="1.25"
+        android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
         android:textAppearance="?textAppearanceBody1"
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"

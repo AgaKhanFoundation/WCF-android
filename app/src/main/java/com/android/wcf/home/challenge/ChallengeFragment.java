@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -42,7 +41,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     private View mainContentView = null;
     private View journeyCard = null;
-
+    private View challengeTeamInviteCard = null;
+    private View myTeamSummaryCard = null;
     private Button showCreateTeamButton = null;
     private Button showJoinTeamButton = null;
 
@@ -52,6 +52,23 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private int teamId;
 
     private ChallengeMvp.Presenter challengePresenter;
+
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.show_create_team_button:
+                    challengePresenter.showCreateTeamView();
+                    break;
+                case R.id.show_join_team_button:
+                    challengePresenter.showTeamsToJoinView();
+                    break;
+                case R.id.team_invite_chevron:
+                    inviteTeamMembers();
+                    break;
+            }
+        }
+    };
 
     public ChallengeFragment() {
     }
@@ -80,9 +97,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-        setupView(getView());
+        setupView(view);
     }
 
     @Override
@@ -98,11 +113,12 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         activeEventId = SharedPreferencesUtil.getMyActiveEventId();
         teamId = SharedPreferencesUtil.getMyTeamId();
 
-        challengePresenter.getEvent(activeEventId);
         Team team = getParticipantTeam();
         if (team != null) {
             teamId = team.getId();
         }
+
+        challengePresenter.getEvent(activeEventId);
         challengePresenter.getTeam(teamId);
     }
 
@@ -143,7 +159,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void hideJourneyBeforeStartView() {
-        View journeyBeforeStartView = mainContentView.findViewById(R.id.journey_before_start_view);
+        View journeyBeforeStartView = mainContentView.findViewById(R.id.journey_active_view);
         if (journeyBeforeStartView != null && journeyBeforeStartView.getVisibility() != View.GONE) {
             journeyBeforeStartView.setVisibility(View.GONE);
         }
@@ -208,7 +224,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void hideCreateOrJoinTeamCard() {
-        View createOrJoinTeamCard = mainContentView.findViewById(R.id.create_or_join_team_card);
+        View createOrJoinTeamCard = mainContentView.findViewById(R.id.challenge_create_or_join_team_card);
 
         if (createOrJoinTeamCard != null) {
             showCreateTeamButton = createOrJoinTeamCard.findViewById(R.id.show_create_team_button);
@@ -227,7 +243,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void showCreateOrJoinTeamCard() {
-        View createOrJoinTeamCard = mainContentView.findViewById(R.id.create_or_join_team_card);
+        View createOrJoinTeamCard = mainContentView.findViewById(R.id.challenge_create_or_join_team_card);
 
         if (createOrJoinTeamCard != null) {
             showCreateTeamButton = createOrJoinTeamCard.findViewById(R.id.show_create_team_button);
@@ -245,16 +261,16 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         }
     }
 
-    public void hideTeamCard() {
-        View myTeamCard = mainContentView.findViewById(R.id.my_team_card);
-        if (myTeamCard != null && myTeamCard.getVisibility() != View.GONE) {
-            myTeamCard.setVisibility(View.GONE);
+    public void hideMyTeamSummaryCard() {
+
+        if (myTeamSummaryCard != null && myTeamSummaryCard.getVisibility() != View.GONE) {
+            myTeamSummaryCard.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void showMyTeamCard(Team team) {
-        View myTeamCard = mainContentView.findViewById(R.id.my_team_card);
+    public void showMyTeamSummaryCard(Team team) {
+        View myTeamCard = mainContentView.findViewById(R.id.challenge_my_team_summary_card);
         if (myTeamCard != null) {
 
             if (team != null) {
@@ -281,23 +297,32 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         }
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.show_create_team_button:
-                    challengePresenter.showCreateTeamView();
-                    break;
-                case R.id.show_join_team_button:
-                    challengePresenter.showTeamsToJoinView();
-                    break;
-            }
-        }
-    };
+    @Override
+    public void hideInviteTeamMembersCard() {
+        challengeTeamInviteCard.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showInviteTeamMembersCard(int openSlots) {
+        challengeTeamInviteCard.setVisibility(View.VISIBLE);
+
+        TextView inviteMessage = challengeTeamInviteCard.findViewById(R.id.invite_team_members_message);
+        inviteMessage.setText(getString(R.string.challenge_invite_team_members_message, openSlots));
+
+        TextView inviteLabel = challengeTeamInviteCard.findViewById(R.id.team_invite_label);
+        inviteLabel.setText(getString(R.string.team_invite_more_members_message, openSlots));
+    }
+
+    void setupTeamInviteClickListeners(View parentView) {
+        View container = parentView.findViewById(R.id.team_invite_container);
+        View image = container.findViewById(R.id.team_invite_chevron);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
+    }
 
     void setupView(View fragmentView) {
 
-        mainContentView = fragmentView.findViewById(R.id.main_content);
+        mainContentView = fragmentView.findViewById(R.id.challenge_main_content);
 
         setHasOptionsMenu(true);
 
@@ -306,14 +331,21 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     private void setupViewForMainContent(View mainView) {
 
-        journeyCard = mainView.findViewById(R.id.journey_card);
+        journeyCard = mainView.findViewById(R.id.challenge_journey_card);
         View journeyBeforeStartView = journeyCard.findViewById(R.id.journey_before_start_view);
         View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
 
-        View myTeamCard = mainView.findViewById(R.id.my_team_card);
+        myTeamSummaryCard = mainView.findViewById(R.id.challenge_my_team_summary_card);
+        challengeTeamInviteCard = mainView.findViewById(R.id.challenge_team_invite_card);
+        setupTeamInviteClickListeners(challengeTeamInviteCard);
     }
 
-
+    /*
+    showParticipantInfo();
+        showDashboardActivityInfo();
+        showChallengeProgress();
+        showFundRaisingInfo();
+     */
     @Override
     public void showCreateNewTeamView() {
         mHostingParent.showCreateTeam();

@@ -1,7 +1,5 @@
 package com.android.wcf.home.challenge;
 
-import android.util.Log;
-
 import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Event;
@@ -41,48 +39,68 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             super.getEvent(eventId);
         } else {
             eventRetrieved = true;
-            checkAndShowJourneySection();
-            checkAndShowTeamSection();
+            updateJourneySection();
+            updateTeamSection();
         }
     }
 
     @Override
     protected void onGetEventSuccess(Event event) {
         super.onGetEventSuccess(event);
-        eventRetrieved = true;
         challengeView.setEvent(event);
-        checkAndShowJourneySection();
-        checkAndShowTeamSection();
+        eventRetrieved = true;
+        updateJourneySection();
+        updateTeamSection();
     }
 
-    private void checkAndShowTeamSection() {
-        Event event = challengeView.getEvent();
-        if (teamRetrieved) {
+    @Override
+    protected void onGetEventError(Throwable error) {
+        super.onGetEventError(error);
+    }
+
+    private void updateTeamSection() {
+        if (eventRetrieved && teamRetrieved) {
+            Event event = challengeView.getEvent();
             Team team = challengeView.getParticipantTeam();
             if (team == null) {
-                challengeView.hideTeamCard();
+                challengeView.hideMyTeamSummaryCard();
                 if (eventRetrieved && event != null) {
                     if (event.daysToStartEvent() > 0 &&  !event.hasTeamBuildingEnded()) {
                         challengeView.showCreateOrJoinTeamCard();
                     } else {
                         challengeView.hideCreateOrJoinTeamCard();
                     }
+                    challengeView.hideInviteTeamMembersCard();
                 }
             } else {
                 challengeView.hideCreateOrJoinTeamCard();
-                challengeView.showMyTeamCard(team);
+                challengeView.showMyTeamSummaryCard(team);
+                List<Participant> participants = team.getParticipants();
+                if (participants != null) {
+                  int openSlots = event.getTeamLimit() - participants.size();
+                    if (openSlots > 0) {
+                        challengeView.showInviteTeamMembersCard(openSlots);
+                    }
+                    else {
+                        challengeView.hideInviteTeamMembersCard();
+                    }
+                }
+                else {
+                    challengeView.hideInviteTeamMembersCard();
+                }
             }
         }
     }
 
-    private void checkAndShowJourneySection() {
-        Event event = challengeView.getEvent();
-        if (eventRetrieved) {
+    private void updateJourneySection() {
+        if (eventRetrieved && teamRetrieved) {
+            Event event = challengeView.getEvent();
+            Team team = challengeView.getParticipantTeam();
+
             if (event != null) {
                 if (event.daysToStartEvent() > 0) {
                     challengeView.hideJourneyActiveView();
 
-                    Team team = challengeView.getParticipantTeam();
                     if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {
                         challengeView.hideJourneyBeforeStartView();
                     } else {
@@ -98,29 +116,23 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
-    protected void onGetEventError(Throwable error) {
-        super.onGetEventError(error);
-    }
-
-    @Override
     public void getTeam(int id) {
         if (id > 0) {
             super.getTeam(id);
         } else {
             teamRetrieved = true;
-            checkAndShowJourneySection();
-            checkAndShowTeamSection();
+            updateJourneySection();
+            updateTeamSection();
         }
     }
 
     @Override
     protected void onGetTeamSuccess(Team team) {
         super.onGetTeamSuccess(team);
-        challengeView.setParticipantTeam(team);
         teamRetrieved = true;
-
-        checkAndShowJourneySection();
-        checkAndShowTeamSection();
+        challengeView.setParticipantTeam(team);
+        updateJourneySection();
+        updateTeamSection();
     }
 
     @Override

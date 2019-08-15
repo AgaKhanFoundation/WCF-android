@@ -70,7 +70,6 @@ class HomeActivity : BaseActivity()
             R.id.nav_leaderboard -> {
                 if (leaderboardFragment != null) {
                     loadFragment(leaderboardFragment, R.id.nav_leaderboard)
-                    leaderboardFragment!!.setMyTeamId(myTeamId)
                 }
                 return@OnNavigationItemSelectedListener true
             }
@@ -178,9 +177,9 @@ class HomeActivity : BaseActivity()
             myTeamId = 0
             homePresenter!!.participantLeaveFromTeam(myParticpantId)
         } else if (participantTeamId != null) {
-            myTeamId = participantTeamId.toInt() // team must have been assigned remotely
+            myTeamId = participantTeamId.toInt() // team must have been assigned previously
+            SharedPreferencesUtil.saveMyTeamId (myTeamId)
         }
-
         if (participant.eventId == null || participant.eventId?.toInt() != myActiveEventId) {
             homePresenter!!.updateParticipantEvent(myParticpantId, myActiveEventId)
         } else {
