@@ -114,8 +114,8 @@
     <string name="challenge_progress_card_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
 
-    <string name="fundraising_progress_card_label">Fundraising Progress</string>
-    <string name="fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
+    <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
+    <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
     <string name="leave_team_title">Leave Team?</string>
     <string name="leave_team_message">This will remove all your data linked to the team. You will not be able to participate in the challenge.</string>
@@ -144,6 +144,8 @@
     <string name="team_invite_more_members_message">Invite %1$d new team members</string>
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
     <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$d spots remaining. Invite more friends to join!</string>
+    <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
+    <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
     <!--"In the app, please select %4$s from the team list and join me!\n" </string>-->
     <!--
     "Use this link to join my team:\n"

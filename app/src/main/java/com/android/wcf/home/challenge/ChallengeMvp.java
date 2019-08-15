@@ -36,6 +36,8 @@ public interface ChallengeMvp {
         void hideInviteTeamMembersCard();
 
         void showInviteTeamMembersCard(int openSlots);
+
+        void showFundraisingInvite();
     }
 
     interface Presenter extends BaseMvp.Presenter {

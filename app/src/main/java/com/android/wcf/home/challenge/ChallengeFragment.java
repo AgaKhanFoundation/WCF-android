@@ -45,6 +45,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private View myTeamSummaryCard = null;
     private Button showCreateTeamButton = null;
     private Button showJoinTeamButton = null;
+    private View challengeFundraisingProgressCard = null;
+
 
     /* non-ui class properties */
     private String participantId;
@@ -313,11 +315,15 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         inviteLabel.setText(getString(R.string.team_invite_more_members_message, openSlots));
     }
 
-    void setupTeamInviteClickListeners(View parentView) {
-        View container = parentView.findViewById(R.id.team_invite_container);
-        View image = container.findViewById(R.id.team_invite_chevron);
-        image.setOnClickListener(onClickListener);
-        expandViewHitArea(image, container);
+    @Override
+    public void showFundraisingInvite() {
+        View fundraisingBeforeChallengeStartView = challengeFundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before);
+        boolean challengeStarted = false;
+        if (!challengeStarted) {
+            fundraisingBeforeChallengeStartView.setVisibility(View.VISIBLE);
+        } else {
+            fundraisingBeforeChallengeStartView.setVisibility(View.GONE);
+        }
     }
 
     void setupView(View fragmentView) {
@@ -338,7 +344,21 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         myTeamSummaryCard = mainView.findViewById(R.id.challenge_my_team_summary_card);
         challengeTeamInviteCard = mainView.findViewById(R.id.challenge_team_invite_card);
         setupTeamInviteClickListeners(challengeTeamInviteCard);
+        challengeFundraisingProgressCard = mainView.findViewById(R.id.challenge_fundraising_progress_card);
+        setupDashboardFundraisingCard();
     }
+
+
+    void setupTeamInviteClickListeners(View parentView) {
+        View container = parentView.findViewById(R.id.team_invite_container);
+        View image = container.findViewById(R.id.team_invite_chevron);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
+    }
+
+    void setupDashboardFundraisingCard() {
+    }
+
 
     /*
     showParticipantInfo();

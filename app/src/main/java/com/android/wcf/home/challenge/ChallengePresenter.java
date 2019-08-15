@@ -71,6 +71,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
                         challengeView.hideCreateOrJoinTeamCard();
                     }
                     challengeView.hideInviteTeamMembersCard();
+                    challengeView.showFundraisingInvite();
                 }
             } else {
                 challengeView.hideCreateOrJoinTeamCard();

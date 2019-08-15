@@ -202,6 +202,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     void setupDashboardFundraisingCard(View fragmentView) {
         View fundraisingProgressCard = fragmentView.findViewById(R.id.dashboard_fundraising_progress_card);
-        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.dashboard_fundraising_progress_card_before);
+        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before);
     }
 }
