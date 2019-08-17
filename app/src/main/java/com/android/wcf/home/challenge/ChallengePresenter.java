@@ -70,31 +70,37 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             Event event = challengeView.getEvent();
             Team team = challengeView.getParticipantTeam();
             if (team == null) {
-                challengeView.hideMyTeamSummaryCard();
                 if (eventRetrieved && event != null) {
-                    if (event.daysToStartEvent() > 0 &&  !event.hasTeamBuildingEnded()) {
-                        challengeView.showCreateOrJoinTeamCard();
+                    if (event.daysToStartEvent() > 0 && !event.hasTeamBuildingEnded()) {
+                        challengeView.hideParticipantTeamProfileView();
+                        challengeView.showCreateOrJoinTeamView();
                     } else {
-                        challengeView.hideCreateOrJoinTeamCard();
+                        challengeView.hideCreateOrJoinTeamView();
+                        challengeView.showParticipantTeamProfileView();
                     }
                     challengeView.hideInviteTeamMembersCard();
                     challengeView.showFundraisingInvite();
                 }
             } else {
-                challengeView.hideCreateOrJoinTeamCard();
-                challengeView.showMyTeamSummaryCard(team);
-                List<Participant> participants = team.getParticipants();
-                if (participants != null) {
-                  int openSlots = event.getTeamLimit() - participants.size();
-                    if (openSlots > 0) {
-                        challengeView.showInviteTeamMembersCard(openSlots);
+                challengeView.hideCreateOrJoinTeamView();
+                challengeView.showParticipantTeamProfileView();
+                challengeView.showParticipantTeamSummaryCard(team);
+
+                boolean showTeamInvite = false;
+                if (eventRetrieved && event != null) {
+                    if (event.daysToStartEvent() > 0 && !event.hasTeamBuildingEnded()) {
+                        List<Participant> participants = team.getParticipants();
+                        if (participants != null) {
+                            int openSlots = event.getTeamLimit() - participants.size();
+                            if (openSlots > 0) {
+                                showTeamInvite = true;
+                                challengeView.showInviteTeamMembersCard(openSlots);
+                            }
+                        }
                     }
-                    else {
+                    if (!showTeamInvite) {
                         challengeView.hideInviteTeamMembersCard();
                     }
-                }
-                else {
-                    challengeView.hideInviteTeamMembersCard();
                 }
             }
         }

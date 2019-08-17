@@ -7,6 +7,7 @@ import com.android.wcf.settings.EditTextDialogListener;
 
 public interface ChallengeMvp {
     interface ChallengeView extends BaseMvp.BaseView {
+        void onParticipantIdMissing();
 
         void hideJourneyBeforeStartView();
 
@@ -16,23 +17,20 @@ public interface ChallengeMvp {
 
         void showJourneyActiveView(Event event);
 
-        void hideCreateOrJoinTeamCard();
+        void showParticipantTeamSummaryCard(Team team);
+        void hideParticipantTeamSummaryCard();
 
-        void showCreateOrJoinTeamCard();
-
-        void onParticipantIdMissing();
-
-        void showCreateNewTeamView();
-
-        void showJoinTeamView();
-
-        void showMyTeamSummaryCard(Team team);
-
-        void hideMyTeamSummaryCard();
+        void hideCreateOrJoinTeamView();
+        void showCreateOrJoinTeamView();
 
         void enableShowCreateTeam(boolean enabledFlag);
-
         void enableJoinExistingTeam(boolean enabledFlag);
+
+        void showCreateNewTeamView();
+        void showJoinTeamView();
+
+        void hideParticipantTeamProfileView();
+        void showParticipantTeamProfileView();
 
         void hideInviteTeamMembersCard();
 

@@ -18,21 +18,23 @@ import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View, TeamsAdapterMvp.Host {
+public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View, JoinTeamAdapterMvp.Host {
 
     private static final String TAG = JoinTeamFragment.class.getSimpleName();
     JoinTeamMvp.Presenter presenter;
     JoinTeamMvp.Host host;
+    int teamSize = 10;
 
     private Button joinTeamButton = null;
     private RecyclerView teamsListRecyclerView = null;
-    private TeamsAdapter teamsAdapter = null;
+    private JoinTeamAdapter teamsAdapter = null;
     private String participantId;
     private Team selectedTeam = null;
 
@@ -82,8 +84,8 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setupView(getView());
         host.setToolbarTitle(getString(R.string.join_team_title), true);
+        setupView(getView());
     }
 
     @Override
@@ -123,8 +125,10 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     }
 
     void setupView(View joinTeamView) {
+        Event event = getEvent();
+
         if (teamsAdapter == null) {
-            teamsAdapter = new TeamsAdapter(this);
+            teamsAdapter = new JoinTeamAdapter(this, ((Event) event).getTeamLimit());
         }
 
         teamsListRecyclerView = joinTeamView.findViewById(R.id.teams_list);
