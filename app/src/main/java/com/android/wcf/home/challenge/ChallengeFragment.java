@@ -30,6 +30,7 @@ import com.android.wcf.settings.EditTextDialogListener;
 import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class ChallengeFragment extends BaseFragment implements ChallengeMvp.ChallengeView {
 
@@ -79,6 +80,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     editParticipantCommitment();
                     break;
                 case R.id.navigate_team_commitment_breakdown:
+                    showTeamCommitmentBreakdown();
                     break;
             }
         }
@@ -293,7 +295,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
                 TextView teamCommittedMilesTv = teamProfile.findViewById(R.id.team_committed_miles);
                 TextView remainingGoalMilesTv = teamProfile.findViewById(R.id.remaining_goal_miles);
-                ImageView teamBreakdownBtn = teamProfile.findViewById(R.id.navigate_team_commitment_breakdown);
+
+                setupTeamTeamCommitmentBreakdown(teamProfile);
                 TextView editParticipantCommitmentTv = teamProfile.findViewById(R.id.participant_committed_miles_edit);
                 editParticipantCommitmentTv.setOnClickListener(onClickListener);
 
@@ -306,7 +309,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
                 String participantMiles = formatter.format(SharedPreferencesUtil.getMyMilesCommitted());
                 String teamMilesCommitted = formatter.format(teamMiles);
-                teamBreakdownBtn.setOnClickListener(onClickListener);
 
                 teamNameTv.setText(team.getName());
                 teamLeadLabelTv.setVisibility(View.VISIBLE);
@@ -322,6 +324,13 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 participantTeamSummaryCard.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    void setupTeamTeamCommitmentBreakdown(View teamProfile) {
+        View container = teamProfile.findViewById(R.id.team_commitment_container);
+        View image = container.findViewById(R.id.navigate_team_commitment_breakdown);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
     }
 
     @Override
@@ -413,8 +422,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         try {
             View teamProfile = participantTeamSummaryCard.findViewById(R.id.team_profile);
             TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
-
-            currentMiles = Integer.parseInt(participantCommittedMilesTv.getText().toString().replaceAll(",", ""));
+             currentMiles = NumberFormat.getNumberInstance().parse(participantCommittedMilesTv.getText().toString()).intValue();
         }
         catch(Exception e) {
             currentMiles = 0;
@@ -422,9 +430,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         challengePresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
             @Override
             public void onDialogDone(@NotNull String editedValue) {
-//                View teamProfile = participantTeamSummaryCard.findViewById(R.id.team_profile);
-//                TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
-//                participantCommittedMilesTv.setText(editedValue);
                 Team team = getParticipantTeam();
                 showMyTeamSummaryCard(team);
             }
@@ -433,5 +438,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             public void onDialogCancel() {
             }
         });
+    }
+
+    public void showTeamCommitmentBreakdown(){
+        Log.d(TAG, "showTeamCommitmentBreakdown");
     }
 }

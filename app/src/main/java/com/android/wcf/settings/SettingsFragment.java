@@ -10,7 +10,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,6 +26,8 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.NumberFormat;
+
 
 public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
@@ -40,7 +41,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     TextView participantNameTv;
     TextView teamNameTv;
     TextView teamLeadLabelTv;
-
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -161,7 +161,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     public void editParticipantCommitment(){
         int currentMiles = 0;
         try {
-            currentMiles = Integer.parseInt(particpantMiles.getText().toString().replaceAll(",", ""));
+            currentMiles = NumberFormat.getNumberInstance().parse(particpantMiles.getText().toString()).intValue();
         }
         catch(Exception e) {
             currentMiles = 0;
