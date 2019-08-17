@@ -145,10 +145,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         super.onOptionsMenuClosed(menu);
     }
 
-    public void setMyTeamId(int teamId) {
-        myTeamId = teamId;
-    }
-
     @Override
     public void showLeaderboard(List<LeaderboardTeam> leaderboard) {
         if (leaderboardAdapter == null) {

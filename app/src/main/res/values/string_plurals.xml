@@ -5,4 +5,11 @@
         <item quantity="one">Your journey starts tommorrow</item>
         <item quantity="other">Your journey starts in %1$d days on %2$s</item>
     </plurals>
+
+    <plurals name="team_members_count">
+        <item quantity="zero">None</item>
+        <item quantity="one">%1$d member</item>
+        <item quantity="other">%1$d members</item>
+    </plurals>
+
 </resources>

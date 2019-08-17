@@ -7,10 +7,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,8 +21,16 @@ import com.android.wcf.R;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
+import com.android.wcf.settings.EditTextDialogListener;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 public class ChallengeFragment extends BaseFragment implements ChallengeMvp.ChallengeView {
 
@@ -42,16 +50,41 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     private View mainContentView = null;
     private View journeyCard = null;
-
+    private View challengeTeamInviteCard = null;
+    private View participantTeamSummaryCard = null;
     private Button showCreateTeamButton = null;
     private Button showJoinTeamButton = null;
+    private View challengeFundraisingProgressCard = null;
 
-    /* non-ui class properties */
+    //non-ui properties
+    private ChallengeMvp.Presenter challengePresenter;
+
     private String participantId;
     private int activeEventId;
     private int teamId;
 
-    private ChallengeMvp.Presenter challengePresenter;
+    private View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            switch (view.getId()) {
+                case R.id.show_create_team_button:
+                    challengePresenter.showCreateTeamView();
+                    break;
+                case R.id.show_join_team_button:
+                    challengePresenter.showTeamsToJoinView();
+                    break;
+                case R.id.team_invite_chevron:
+                    inviteTeamMembers();
+                    break;
+                case R.id.participant_committed_miles_edit:
+                    editParticipantCommitment();
+                    break;
+                case R.id.navigate_team_commitment_breakdown:
+                    showTeamCommitmentBreakdown();
+                    break;
+            }
+        }
+    };
 
     public ChallengeFragment() {
     }
@@ -80,9 +113,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-        setupView(getView());
+        setupView(view);
     }
 
     @Override
@@ -95,15 +126,13 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             onParticipantIdMissing();
             return;
         }
-        activeEventId = SharedPreferencesUtil.getMyActiveEventId();
+
         teamId = SharedPreferencesUtil.getMyTeamId();
+        activeEventId = SharedPreferencesUtil.getMyActiveEventId();
 
         challengePresenter.getEvent(activeEventId);
-        Team team = getParticipantTeam();
-        if (team != null) {
-            teamId = team.getId();
-        }
         challengePresenter.getTeam(teamId);
+        challengePresenter.getParticipant(participantId);
     }
 
     @Override
@@ -143,7 +172,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void hideJourneyBeforeStartView() {
-        View journeyBeforeStartView = mainContentView.findViewById(R.id.journey_before_start_view);
+        View journeyBeforeStartView = mainContentView.findViewById(R.id.journey_active_view);
         if (journeyBeforeStartView != null && journeyBeforeStartView.getVisibility() != View.GONE) {
             journeyBeforeStartView.setVisibility(View.GONE);
         }
@@ -202,13 +231,12 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             if (journeyStartView != null && journeyStartView.getVisibility() != View.GONE) {
                 journeyStartView.setVisibility(View.GONE);
             }
-
         }
     }
 
     @Override
     public void hideCreateOrJoinTeamCard() {
-        View createOrJoinTeamCard = mainContentView.findViewById(R.id.create_or_join_team_card);
+        View createOrJoinTeamCard = mainContentView.findViewById(R.id.challenge_create_or_join_team_card);
 
         if (createOrJoinTeamCard != null) {
             showCreateTeamButton = createOrJoinTeamCard.findViewById(R.id.show_create_team_button);
@@ -227,7 +255,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void showCreateOrJoinTeamCard() {
-        View createOrJoinTeamCard = mainContentView.findViewById(R.id.create_or_join_team_card);
+        View createOrJoinTeamCard = mainContentView.findViewById(R.id.challenge_create_or_join_team_card);
 
         if (createOrJoinTeamCard != null) {
             showCreateTeamButton = createOrJoinTeamCard.findViewById(R.id.show_create_team_button);
@@ -245,26 +273,64 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         }
     }
 
-    public void hideTeamCard() {
-        View myTeamCard = mainContentView.findViewById(R.id.my_team_card);
-        if (myTeamCard != null && myTeamCard.getVisibility() != View.GONE) {
-            myTeamCard.setVisibility(View.GONE);
+    public void hideMyTeamSummaryCard() {
+
+        if (participantTeamSummaryCard != null && participantTeamSummaryCard.getVisibility() != View.GONE) {
+            participantTeamSummaryCard.setVisibility(View.GONE);
         }
     }
 
     @Override
-    public void showMyTeamCard(Team team) {
-        View myTeamCard = mainContentView.findViewById(R.id.my_team_card);
-        if (myTeamCard != null) {
-
+    public void showMyTeamSummaryCard(Team team) {
+        if (participantTeamSummaryCard != null) {
+            Participant participant = getParticipant();
+            Event event = getEvent();
+            View teamProfile = participantTeamSummaryCard.findViewById(R.id.team_profile);
             if (team != null) {
-                //update team view data
+                TextView teamNameTv = teamProfile.findViewById(R.id.team_name);
+                TextView teamLeadLabelTv = teamProfile.findViewById(R.id.team_lead_label);
+                TextView teamLeadNameTv = teamProfile.findViewById(R.id.team_lead_name);
+                TextView teamSizeTv = teamProfile.findViewById(R.id.team_size_label);
+                TextView teamMilesCommitmentStatusLabelTv = teamProfile.findViewById(R.id.team_miles_commitment_status_label);
+                TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
+                TextView teamCommittedMilesTv = teamProfile.findViewById(R.id.team_committed_miles);
+                TextView remainingGoalMilesTv = teamProfile.findViewById(R.id.remaining_goal_miles);
+
+                setupTeamTeamCommitmentBreakdown(teamProfile);
+                TextView editParticipantCommitmentTv = teamProfile.findViewById(R.id.participant_committed_miles_edit);
+                editParticipantCommitmentTv.setOnClickListener(onClickListener);
+
+                DecimalFormat formatter = new DecimalFormat("#,###,###");
+                int currentTeamSize = team.getParticipants().size();
+                int teamMiles = currentTeamSize * Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT;
+                int teamGoal = event.getTeamLimit() * Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT;
+                int remainingTeamGoalMiles = teamGoal - teamMiles;
+                if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
+
+                String participantMiles = formatter.format(SharedPreferencesUtil.getMyMilesCommitted());
+                String teamMilesCommitted = formatter.format(teamMiles);
+
+                teamNameTv.setText(team.getName());
+                teamLeadLabelTv.setVisibility(View.VISIBLE);
+                teamLeadNameTv.setText(participant.getParticipantId()); //TODO get participant name
+                teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
+                teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, teamMiles, teamGoal));
+                teamCommittedMilesTv.setText(teamMilesCommitted);
+                participantCommittedMilesTv.setText(participantMiles);
+                remainingGoalMilesTv.setText(formatter.format( remainingTeamGoalMiles));
             }
 
-            if (myTeamCard.getVisibility() != View.VISIBLE) {
-                myTeamCard.setVisibility(View.VISIBLE);
+            if (participantTeamSummaryCard.getVisibility() != View.VISIBLE) {
+                participantTeamSummaryCard.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    void setupTeamTeamCommitmentBreakdown(View teamProfile) {
+        View container = teamProfile.findViewById(R.id.team_commitment_container);
+        View image = container.findViewById(R.id.navigate_team_commitment_breakdown);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
     }
 
     @Override
@@ -281,23 +347,36 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         }
     }
 
-    private View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            switch (view.getId()) {
-                case R.id.show_create_team_button:
-                    challengePresenter.showCreateTeamView();
-                    break;
-                case R.id.show_join_team_button:
-                    challengePresenter.showTeamsToJoinView();
-                    break;
-            }
+    @Override
+    public void hideInviteTeamMembersCard() {
+        challengeTeamInviteCard.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showInviteTeamMembersCard(int openSlots) {
+        challengeTeamInviteCard.setVisibility(View.VISIBLE);
+
+        TextView inviteMessage = challengeTeamInviteCard.findViewById(R.id.invite_team_members_message);
+        inviteMessage.setText(getString(R.string.challenge_invite_team_members_message, openSlots));
+
+        TextView inviteLabel = challengeTeamInviteCard.findViewById(R.id.team_invite_label);
+        inviteLabel.setText(getString(R.string.team_invite_more_members_message, openSlots));
+    }
+
+    @Override
+    public void showFundraisingInvite() {
+        View fundraisingBeforeChallengeStartView = challengeFundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before);
+        boolean challengeStarted = false;
+        if (!challengeStarted) {
+            fundraisingBeforeChallengeStartView.setVisibility(View.VISIBLE);
+        } else {
+            fundraisingBeforeChallengeStartView.setVisibility(View.GONE);
         }
-    };
+    }
 
     void setupView(View fragmentView) {
 
-        mainContentView = fragmentView.findViewById(R.id.main_content);
+        mainContentView = fragmentView.findViewById(R.id.challenge_main_content);
 
         setHasOptionsMenu(true);
 
@@ -306,13 +385,27 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     private void setupViewForMainContent(View mainView) {
 
-        journeyCard = mainView.findViewById(R.id.journey_card);
+        journeyCard = mainView.findViewById(R.id.challenge_journey_card);
         View journeyBeforeStartView = journeyCard.findViewById(R.id.journey_before_start_view);
         View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
 
-        View myTeamCard = mainView.findViewById(R.id.my_team_card);
+        participantTeamSummaryCard = mainView.findViewById(R.id.challenge_participant_team_card);
+        challengeTeamInviteCard = mainView.findViewById(R.id.challenge_team_invite_card);
+        setupTeamInviteClickListeners(challengeTeamInviteCard);
+        challengeFundraisingProgressCard = mainView.findViewById(R.id.challenge_fundraising_progress_card);
+        setupDashboardFundraisingCard();
     }
 
+
+    void setupTeamInviteClickListeners(View parentView) {
+        View container = parentView.findViewById(R.id.team_invite_container);
+        View image = container.findViewById(R.id.team_invite_chevron);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
+    }
+
+    void setupDashboardFundraisingCard() {
+    }
 
     @Override
     public void showCreateNewTeamView() {
@@ -324,4 +417,30 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         mHostingParent.showJoinTeam();
     }
 
+    public void editParticipantCommitment() {
+        int currentMiles = 0;
+        try {
+            View teamProfile = participantTeamSummaryCard.findViewById(R.id.team_profile);
+            TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
+             currentMiles = NumberFormat.getNumberInstance().parse(participantCommittedMilesTv.getText().toString()).intValue();
+        }
+        catch(Exception e) {
+            currentMiles = 0;
+        }
+        challengePresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
+            @Override
+            public void onDialogDone(@NotNull String editedValue) {
+                Team team = getParticipantTeam();
+                showMyTeamSummaryCard(team);
+            }
+
+            @Override
+            public void onDialogCancel() {
+            }
+        });
+    }
+
+    public void showTeamCommitmentBreakdown(){
+        Log.d(TAG, "showTeamCommitmentBreakdown");
+    }
 }

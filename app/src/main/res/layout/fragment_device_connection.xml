@@ -149,7 +149,7 @@
         android:layout_marginEnd="@dimen/spacing_normal"
         app:layout_constraintTop_toTopOf="@id/iv_device_message_expand"
         android:text="Can't see your device on the list?"
-        android:lineSpacingMultiplier="1.83"
+        android:lineSpacingMultiplier="@dimen/body_line_spacing_3"
         android:textColor="@color/color_light_grey_7"
         android:textSize="12sp"/>
 
@@ -162,7 +162,7 @@
         android:layout_marginEnd="@dimen/spacing_normal"
         app:layout_constraintTop_toBottomOf="@id/other_device_message_short"
         android:text="Fitness trackers such as Jawbone, Garmin, etc. connect to your phone’s fitness app. Use the Fitness app feature above to track your steps. "
-        android:lineSpacingMultiplier="1.83"
+        android:lineSpacingMultiplier="@dimen/body_line_spacing_3"
         android:visibility="gone"
         android:textAppearance="?attr/textAppearanceCaption"
         android:textColor="@color/color_light_grey_7"

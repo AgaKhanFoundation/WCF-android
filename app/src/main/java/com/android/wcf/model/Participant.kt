@@ -23,7 +23,8 @@ data class Participant(
         @SerializedName("cause") var cause: Cause? = Cause(),
         @SerializedName("event") var event: Event? = Event(),
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
-    var participantId: String? = this.fbId
+        var participantId: String? = ""
+            get() = this.fbId
 
 
     companion object {

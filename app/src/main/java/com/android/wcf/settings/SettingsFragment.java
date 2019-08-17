@@ -3,16 +3,13 @@ package com.android.wcf.settings;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -26,6 +23,10 @@ import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+
+import org.jetbrains.annotations.NotNull;
+
+import java.text.NumberFormat;
 
 
 public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
@@ -46,7 +47,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.participant_miles_setting:
-                    settingsPresenter.onShowMilesCommitmentSelected();
+                    editParticipantCommitment();
                     break;
                 case R.id.navigate_to_connect_app_or_device:
                     if (host != null) {
@@ -62,7 +63,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                 case R.id.leave_team_icon:
                     settingsPresenter.onShowLeaveTeamSelected();
                     break;
-
             }
         }
     };
@@ -86,7 +86,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         participantImage = fragmentView.findViewById(R.id.participant_image);
         participantNameTv = fragmentView.findViewById(R.id.participant_name);
         teamNameTv = fragmentView.findViewById(R.id.team_name);
-        teamLeadLabelTv = fragmentView.findViewById(R.id.teamlead_label);
+        teamLeadLabelTv = fragmentView.findViewById(R.id.team_lead_label);
 
         setupConnectDeviceClickListeners(fragmentView);
         setupTeamSettingsClickListeners(fragmentView);
@@ -158,6 +158,26 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void editParticipantCommitment(){
+        int currentMiles = 0;
+        try {
+            currentMiles = NumberFormat.getNumberInstance().parse(particpantMiles.getText().toString()).intValue();
+        }
+        catch(Exception e) {
+            currentMiles = 0;
+        }
+        settingsPresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
+            @Override
+            public void onDialogDone(@NotNull String editedValue) {
+                particpantMiles.setText(editedValue);
+            }
+
+            @Override
+            public void onDialogCancel() {
+            }
+        });
+    }
+
     @Override
     public void confirmToLeaveTeam() {
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
@@ -199,35 +219,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         }
     }
 
-    @Override
-    public void showMilesEditDialog() {
-        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.view_miles_entry, null);
-
-        final EditText editText = dialogView.findViewById(R.id.participant_miles);
-        Button saveBtn = dialogView.findViewById(R.id.save);
-        Button cancelBtn = dialogView.findViewById(R.id.cancel);
-
-        editText.setText(particpantMiles.getText());
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogBuilder.dismiss();
-            }
-        });
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                particpantMiles.setText(editText.getText());
-                dialogBuilder.dismiss();
-            }
-        });
-
-        dialogBuilder.setView(dialogView);
-        dialogBuilder.show();
-    }
-
     void showParticipantInfo() {
 
         String profileImageUrl = SharedPreferencesUtil.getUserProfilePhotoUrl();
@@ -243,7 +234,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         Team team = getParticipantTeam();
         Participant participant = getParticipant();
         participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
-        boolean teamLead = false;
+        boolean teamLead = true; //TODO default to false after API supports team lead's ID
         if (team != null) {
             teamNameTv.setText(team.getName());
             if (SharedPreferencesUtil.getMyParticipantId().equalsIgnoreCase(team.getLeaderId())) {
@@ -258,6 +249,8 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         else {
             teamLeadLabelTv.setVisibility(View.GONE);
         }
+
+        particpantMiles.setText(SharedPreferencesUtil.getMyMilesCommitted() + "");
     }
 
     void setupConnectDeviceClickListeners(View parentView) {
@@ -290,21 +283,5 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             image.setEnabled(false);
             container.setEnabled(false);
         }
-    }
-
-    void expandViewHitArea(final View childView, final View parentView) {
-        parentView.post(new Runnable() {
-            @Override
-            public void run() {
-                Rect parentRect = new Rect();
-                Rect childRect = new Rect();
-                parentView.getHitRect(parentRect);
-                childView.getHitRect(childRect);
-                childRect.left = parentRect.left;
-                childRect.right = parentRect.width();
-
-                parentView.setTouchDelegate(new TouchDelegate(childRect, childView));
-            }
-        });
     }
 }

@@ -182,7 +182,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         participantImage = profileCard.findViewById(R.id.participant_image);
         participantNameTv = profileCard.findViewById(R.id.participant_name);
         teamNameTv = profileCard.findViewById(R.id.team_name);
-        teamLeadLabelTv = profileCard.findViewById(R.id.teamlead_label);
+        teamLeadLabelTv = profileCard.findViewById(R.id.team_lead_label);
     }
 
     void setupDashboardActivityCard(View fragmentView) {
@@ -202,6 +202,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     void setupDashboardFundraisingCard(View fragmentView) {
         View fundraisingProgressCard = fragmentView.findViewById(R.id.dashboard_fundraising_progress_card);
-        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.dashboard_fundraising_progress_card_before);
+        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before);
     }
 }

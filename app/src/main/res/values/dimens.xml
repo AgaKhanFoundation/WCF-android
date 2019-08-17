@@ -3,6 +3,9 @@
     <dimen name="circleprog_myteam_miles_radius">40dp</dimen>
     <dimen name="circleprog_myteam_miles_thickness">5dp</dimen>
 
+    <dimen name="body_line_spacing_1">1.25</dimen>
+    <dimen name="body_line_spacing_2">1.33</dimen>
+    <dimen name="body_line_spacing_3">1.82</dimen>
 
     <dimen name="spacing_zero">0dp</dimen>
     <dimen name="spacing_tiniest">1dp</dimen>
@@ -21,5 +24,8 @@
     <dimen name="button_width_medium">140dp</dimen>
     <dimen name="button_padding_medium">96dp</dimen>
     <dimen name="min_button_height">56dp</dimen>
+    <dimen name="card_image_size">135dp</dimen>
+    <dimen name="progressbar_height">19dp</dimen>
+    <dimen name="progressbar_radius">13dp</dimen>
 
 </resources>

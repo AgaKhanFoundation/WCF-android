@@ -1,16 +1,29 @@
 package com.android.wcf.base;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Rect;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.TouchDelegate;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 
+import com.android.wcf.BuildConfig;
+import com.android.wcf.R;
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
+import com.android.wcf.settings.EditTextDialogListener;
 
 import java.util.List;
 
@@ -138,11 +151,6 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     @Override
     public void onStop() {
         super.onStop();
-
-//        View view = view = getView();
-//        if (view != null) {
-//            view.clearFocus();
-//        }
     }
 
     @Override
@@ -152,5 +160,82 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
         }
+    }
+
+    public void inviteTeamMembers() {
+
+        String teamName = getParticipantTeam().getName();
+        String eventName = getEvent().getName();
+        String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+        String teamLink = getParticipantTeam().getName();
+
+        String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName, appLink);
+
+        try {
+
+            ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());
+            Intent shareIntent = intentBuilder
+                    .setType("text/plain")
+                    .setText(shareMessage)
+                    .setSubject("Join my team " + teamName + " on Steps4Change")
+                    .setChooserTitle("Share Via")
+                    .createChooserIntent();
+
+            if (shareIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(shareIntent);
+            }
+        } catch (Exception e) {
+            Log.e(getTag(), "Team invitation share error: " + e.getMessage());
+        }
+    }
+
+    public void expandViewHitArea(final View childView, final View parentView) {
+        parentView.post(new Runnable() {
+            @Override
+            public void run() {
+                Rect parentRect = new Rect();
+                Rect childRect = new Rect();
+                parentView.getHitRect(parentRect);
+                childView.getHitRect(childRect);
+                childRect.left = parentRect.left;
+                childRect.right = parentRect.width();
+
+                parentView.setTouchDelegate(new TouchDelegate(childRect, childView));
+            }
+        });
+    }
+
+    public void showMilesEditDialog(int currentMiles, final EditTextDialogListener editTextDialogListener) {
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_miles_entry, null);
+
+        final EditText editText = dialogView.findViewById(R.id.participant_miles);
+        Button saveBtn = dialogView.findViewById(R.id.save);
+        Button cancelBtn = dialogView.findViewById(R.id.cancel);
+
+        editText.setText(currentMiles + "");
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editTextDialogListener != null){
+                    editTextDialogListener.onDialogCancel();
+                }
+                dialogBuilder.dismiss();
+            }
+        });
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferencesUtil.savetMyMilesCommitted(Integer.parseInt(editText.getText().toString()));
+                if (editTextDialogListener != null){
+                    editTextDialogListener.onDialogDone(editText.getText().toString());
+                }
+                dialogBuilder.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
     }
 }

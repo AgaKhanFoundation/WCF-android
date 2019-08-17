@@ -114,8 +114,8 @@
     <string name="challenge_progress_card_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
 
-    <string name="fundraising_progress_card_label">Fundraising Progress</string>
-    <string name="fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
+    <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
+    <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
     <string name="leave_team_title">Leave Team?</string>
     <string name="leave_team_message">This will remove all your data linked to the team. You will not be able to participate in the challenge.</string>
@@ -138,13 +138,22 @@
     <string name="team_created_invite_members_message">Next, invite friends to join. You have 10 spots remaining on your team.</string>
     <string name="invite_members_to_join_label">Invite friends to join</string>
     <string name="team_created_continue_message">Continue</string>
-    <string name="invite_team_member_template">"Hey! I  created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Change, and I want you on my team!\n" +
-                "Download the app here:\n" +
-                "%3$s\n" +
-                "In the app, please select '%4$s' from the team list and join me!\n" </string>
+    <string name="invite_team_member_template">"Hey! I have created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Change, and I want you on my team!\n"
+                "Download the app here:\n"
+        "%3$s\n" </string>
+    <string name="team_invite_more_members_message">Invite %1$d new team members</string>
+    <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
+    <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$d spots remaining. Invite more friends to join!</string>
+    <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
+    <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
+    <string name="participant_committed_miles_label">Your committed miles</string>
+    <string name="team_committed_miles_label">Team\'s committed miles</string>
+    <string name="remaining_goal_miles_label">Uncommitted miles</string>
+    <!--"In the app, please select %4$s from the team list and join me!\n" </string>-->
     <!--
     "Use this link to join my team:\n"
      "%4$s";</string>
                      +-->
 
+    <string name="team_miles_commitment_status_template">%1$d/%2$d miles committed</string>
 </resources>

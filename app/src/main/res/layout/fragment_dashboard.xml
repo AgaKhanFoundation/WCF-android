@@ -72,7 +72,7 @@
                     tools:text="World Walkers" />
 
                 <TextView
-                    android:id="@+id/teamlead_label"
+                    android:id="@+id/team_lead_label"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_normal"
@@ -133,6 +133,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="@null"
                     android:gravity="start"
+                    android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
                     android:text="@string/connect_device_or_app_message"
                     android:textAppearance="@style/TextAppearance.WCF.Body1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -203,9 +204,10 @@
                     android:id="@+id/challenge_progess_card_message_before_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:layout_marginTop="@dimen/spacing_small"
                     android:contentDescription="@null"
                     android:gravity="start"
+                    android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
                     android:text="@string/challenge_progress_before_start_message"
                     android:textAppearance="@style/TextAppearance.WCF.Body1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -227,7 +229,7 @@
             app:layout_constraintTop_toBottomOf="@id/dashboard_challenge_progress_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/dashboard_fundraising_progress_card_before"
+                android:id="@+id/fundraising_progress_card_before"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal">
@@ -236,19 +238,20 @@
                     android:id="@+id/fundraising_progress_card_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/fundraising_progress_card_label"
+                    android:text="@string/dashboard_fundraising_progress_card_label"
                     android:textAppearance="@style/TextAppearance.WCF.Headline6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/challenge_card_message_before_start"
+                    android:id="@+id/fundraising_message_before_start"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:contentDescription="@null"
                     android:gravity="start"
-                    android:text="@string/fundraising_progress_before_start_message"
+                    android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
+                    android:text="@string/dashboard_fundraising_progress_before_start_message"
                     android:textAppearance="@style/TextAppearance.WCF.Body1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/fundraising_progress_card_label" />
@@ -259,7 +262,7 @@
                     android:layout_height="1dp"
                     android:layout_marginTop="@dimen/spacing_normal_half"
                     android:background="@color/color_light_grey_3"
-                    app:layout_constraintTop_toBottomOf="@id/challenge_card_message_before_start" />
+                    app:layout_constraintTop_toBottomOf="@id/fundraising_message_before_start" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/fundraising_invite_container"
