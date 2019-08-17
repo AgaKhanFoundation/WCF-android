@@ -48,7 +48,6 @@
                         android:layout_width="@dimen/card_image_size"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/spacing_normal"
                         android:contentDescription="TODO"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -152,7 +151,6 @@
                         android:layout_width="@dimen/card_image_size"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/spacing_normal"
                         android:contentDescription="@null"
                         android:src="@drawable/icon_team"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -217,7 +215,7 @@
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
-                android:id="@+id/challenge_my_team_summary_card"
+                android:id="@+id/challenge_participant_team_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
@@ -228,36 +226,220 @@
                 app:layout_constraintTop_toBottomOf="@id/challenge_journey_card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/my_team_summary_view"
+                    android:id="@+id/team_profile"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_normal">
-
-                    <ImageView
-                        android:id="@+id/team_view_team_icon"
-                        android:layout_height="@dimen/card_image_size"
-                        android:layout_width="wrap_content"
-                        android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/spacing_normal"
-                        android:contentDescription="TODO"
-                        android:src="@drawable/icon_team"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                    android:padding="@dimen/spacing_normal"
+                    app:layout_constraintTop_toTopOf="parent">
 
                     <TextView
-                        android:id="@+id/team_view_team_label"
+                        android:id="@+id/team_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:textAppearance="?textAppearanceHeadline6"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        android:text="World walkers" />
+
+                    <TextView
+                        android:id="@+id/team_lead_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        android:text="Team Lead"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/team_name" />
+
+                    <TextView
+                        android:id="@+id/team_lead_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/spacing_small"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        tools:text="Sarah Bhamani"
+                        app:layout_constraintStart_toEndOf="@id/team_lead_label"
+                        app:layout_constraintBaseline_toBaselineOf="@+id/team_lead_label" />
+
+                    <TextView
+                        android:id="@+id/team_size_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/spacing_normal"
+                        tools:text="4 members"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/team_lead_label" />
+
+                    <TextView
+                        android:id="@+id/team_miles_commitment_status_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:gravity="start"
-                        android:lineSpacingMultiplier="@dimen/body_line_spacing_2"
-                        android:text="My team"
-                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
+                        android:textAppearance="?textAppearanceSubtitle2"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/team_view_team_icon" />
+                        app:layout_constraintTop_toBottomOf="@+id/team_size_label"
+                        android:text="3500/5000 miles committed"/>
+
+                    <ProgressBar
+                        android:id="@+id/team_miles_commitment_status_graph"
+                        style="@style/wcf_progressbar_horizontal_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/progressbar_height"
+                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/team_miles_commitment_status_label"
+                        android:secondaryProgress="50"
+                        android:progress="20"
+                        android:max="100" />
+
+                    <View
+                        android:id="@+id/participant_committed_miles_key"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:background="@color/color_progress_primary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/team_miles_commitment_status_graph" />
+
+                    <TextView
+                        android:id="@+id/participant_committed_miles_label"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:text="@string/participant_committed_miles_label"
+                        app:layout_constraintStart_toEndOf="@id/participant_committed_miles_key"
+                        android:layout_marginStart="@dimen/spacing_normal_half"
+                        app:layout_constraintTop_toTopOf="@id/participant_committed_miles_key"
+                    app:layout_constraintBottom_toBottomOf="@id/participant_committed_miles_key" />
+
+                    <TextView
+                        android:id="@+id/participant_committed_miles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textAppearance="?textAppearanceSubtitle2"
+                        android:text="5000"
+                        app:layout_constraintStart_toEndOf="@id/participant_committed_miles_label"
+                        app:layout_constraintEnd_toStartOf="@+id/participant_committed_miles_edit"
+                        android:layout_marginStart="@dimen/spacing_normal_half"
+                        android:layout_marginEnd="@dimen/spacing_normal_half"
+                        app:layout_constraintBaseline_toBaselineOf="@id/participant_committed_miles_label"
+                        />
+
+                    <TextView
+                        android:id="@+id/participant_committed_miles_edit"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?textAppearanceSubtitle2"
+                        android:text="Edit"
+                        android:textColor="@color/color_light_blue_1"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        android:layout_marginEnd="@dimen/spacing_normal_half"
+                        app:layout_constraintBaseline_toBaselineOf="@id/participant_committed_miles_label"
+                        />
+
+                    <View
+                        android:id="@+id/team_committed_miles_key"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:background="@color/color_progress_secondary"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/participant_committed_miles_key" />
+
+                    <TextView
+                        android:id="@+id/team_committed_miles_label"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:text="@string/team_committed_miles_label"
+                        app:layout_constraintStart_toEndOf="@id/team_committed_miles_key"
+                        android:layout_marginStart="@dimen/spacing_normal_half"
+                        app:layout_constraintTop_toTopOf="@id/team_committed_miles_key"
+                        app:layout_constraintBottom_toBottomOf="@id/team_committed_miles_key" />
+
+                    <TextView
+                        android:id="@+id/team_committed_miles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textAppearance="?textAppearanceSubtitle2"
+                        android:text="25000"
+                        app:layout_constraintEnd_toEndOf="@id/participant_committed_miles"
+                        app:layout_constraintBaseline_toBaselineOf="@id/team_committed_miles_label" />
+
+                    <View
+                        android:id="@+id/remaining_goal_miles_key"
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:background="@color/color_progress_bg"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/team_committed_miles_key" />
+
+                    <TextView
+                        android:id="@+id/remaining_goal_miles_label"
+                        android:layout_width="200dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:text="@string/remaining_goal_miles_label"
+                        app:layout_constraintStart_toEndOf="@id/remaining_goal_miles_key"
+                        android:layout_marginStart="@dimen/spacing_normal_half"
+                        app:layout_constraintTop_toTopOf="@id/remaining_goal_miles_key"
+                        app:layout_constraintBottom_toBottomOf="@id/remaining_goal_miles_key" />
+
+                    <TextView
+                        android:id="@+id/remaining_goal_miles"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:textAppearance="?textAppearanceSubtitle2"
+                        android:text="55000"
+                        app:layout_constraintEnd_toEndOf="@id/participant_committed_miles"
+                        app:layout_constraintBaseline_toBaselineOf="@id/remaining_goal_miles_label" />
+
+                    <View
+                        android:id="@+id/seperator_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        android:background="@color/color_light_grey_3"
+                        app:layout_constraintTop_toBottomOf="@id/remaining_goal_miles_key" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/team_commitment_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/seperator_1">
+
+                        <TextView
+                            android:id="@+id/team_commitment_label"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/spacing_normal_half"
+                            android:text="View Breakdown"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="@color/color_blue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageView
+                            android:id="@+id/team_commitment_chevron"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="right"
+                            android:src="@drawable/ic_chevron_right"
+                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            app:layout_constraintBottom_toBottomOf="@id/team_commitment_label"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@id/team_commitment_label" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
             </com.google.android.material.card.MaterialCardView>
 
             <com.google.android.material.card.MaterialCardView
@@ -269,7 +451,7 @@
                 app:cardBackgroundColor="@color/color_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/challenge_my_team_summary_card">
+                app:layout_constraintTop_toBottomOf="@id/challenge_participant_team_card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/challenge_team_invite_view"
@@ -282,7 +464,6 @@
                         android:layout_height="@dimen/card_image_size"
                         android:layout_width="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/spacing_normal"
                         android:contentDescription="@null"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -312,7 +493,7 @@
                         app:layout_constraintTop_toBottomOf="@id/invite_team_members_title" />
 
                     <View
-                        android:id="@+id/seperator_3"
+                        android:id="@+id/seperator_2"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/spacing_normal_half"
@@ -325,7 +506,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal_half"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/seperator_3">
+                        app:layout_constraintTop_toBottomOf="@id/seperator_2">
 
                         <TextView
                             android:id="@+id/team_invite_label"
@@ -372,6 +553,17 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal">
 
+                    <ImageView
+                        android:id="@+id/icon_invite_to_support"
+                        android:layout_height="@dimen/card_image_size"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:contentDescription="@null"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:srcCompat="@drawable/ic_art_fundraise" />
+
                     <TextView
                         android:id="@+id/fundraising_progress_card_label"
                         android:layout_width="wrap_content"
@@ -379,7 +571,7 @@
                         android:text="@string/challenge_fundraising_progress_card_label"
                         android:textAppearance="@style/TextAppearance.WCF.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toBottomOf="@id/icon_invite_to_support" />
 
                     <TextView
                         android:id="@+id/fundraising_message_before_start"
@@ -395,7 +587,7 @@
                         app:layout_constraintTop_toBottomOf="@id/fundraising_progress_card_label" />
 
                     <View
-                        android:id="@+id/seperator_2"
+                        android:id="@+id/seperator_3"
                         android:layout_width="match_parent"
                         android:layout_height="1dp"
                         android:layout_marginTop="@dimen/spacing_normal_half"
@@ -408,7 +600,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal_half"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/seperator_2">
+                        app:layout_constraintTop_toBottomOf="@id/seperator_3">
 
                         <TextView
                             android:id="@+id/fundraising_invite_label"

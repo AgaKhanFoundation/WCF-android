@@ -95,4 +95,22 @@
         <item name="android:dropDownSelector">@android:color/transparent</item>
     </style>
 
+    <style name="wcf_progressbar_horizontal_style" parent="@style/Base.Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:progressDrawable">@drawable/progressbar_bg</item>
+        <!--<item name="android:backgroundTint">@color/color_progress_bg</item>-->
+        <!--<item name="android:secondaryProgressTint">@color/color_progress_secondary</item>-->
+        <!--<item name="android:progressBackgroundTint">@color/color_progress_primary</item>-->
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+
+    <style name="MyProgressBarTwo" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="colorButtonNormal">#f50057</item>
+        <item name="colorControlActivated">#33691e</item>
+        <item name="colorControlHighlight">#ff6d00</item>
+        <item name="android:progressDrawable">@drawable/progressbar_bg</item>
+        <item name="android:minWidth">200dp</item>
+    </style>
+
 </resources>
+

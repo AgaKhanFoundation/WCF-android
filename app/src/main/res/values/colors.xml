@@ -16,7 +16,10 @@
     <color name="color_gold">#F7AB1E</color>
     <color name="color_yellow">#ffc845</color>
     <color name="color_light_green">#95c11f</color>
+    <color name="color_progress_secondary">#FF98D44E</color>
+
     <color name="color_dark_green">#045a38</color>
+    <color name="color_progress_primary">#FF00A85D</color>
     <color name="color_overlay_color">@color/color_light_grey_5</color>
     <color name="color_red">#D0021B</color>
 
@@ -29,6 +32,7 @@
     <color name="color_light_grey_5">#dcdcdc</color>
     <color name="color_light_grey_6">#F1F1F1</color>
     <color name="color_light_grey_7">#7F7F7F</color>
+    <color name="color_progress_bg">#FFC7CAD1</color>
 
     <color name="color_white">#FFFFFF</color>
     <color name="color_white_1">#F4F6F9</color>
@@ -36,6 +40,7 @@
     <color name="color_white_3">#F7F7F7</color>
 
     <color name="color_blue">#077BF8</color>
+    <color name="color_blue_1">#0D74E3</color>
     <color name="color_light_blue_1">#4A90E2</color>
 
     <color name="color_primary_alpha_mask_1">#3300a85d</color>

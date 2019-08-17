@@ -25,5 +25,7 @@
     <dimen name="button_padding_medium">96dp</dimen>
     <dimen name="min_button_height">56dp</dimen>
     <dimen name="card_image_size">135dp</dimen>
+    <dimen name="progressbar_height">19dp</dimen>
+    <dimen name="progressbar_radius">13dp</dimen>
 
 </resources>

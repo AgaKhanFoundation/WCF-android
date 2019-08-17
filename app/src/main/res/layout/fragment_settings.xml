@@ -65,7 +65,7 @@
                 tools:text="World Walkers" />
 
             <TextView
-                android:id="@+id/teamlead_label"
+                android:id="@+id/team_lead_label"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="@dimen/spacing_normal"

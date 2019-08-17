@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.android.wcf.application.WCFApplication;
+import com.android.wcf.model.Constants;
 
 public class SharedPreferencesUtil {
 
@@ -24,6 +25,7 @@ public class SharedPreferencesUtil {
     private static String PREF_NAME_USER_FULL_NAME = "userFullName";
     private static String PREF_NAME_USER_EMAIL = "userEmail";
     private static String PREF_NAME_USER_PROFILE_PHOTO_URL = "userProfilePhotoUrl";
+    private static String PREF_NAME_USER_MILES_COMMITTED = "userMilesCommitted";
 
     public static final String DEFAULT_FB_ID = null;   //TODO: this will be null for not logged-in person
     public static final int DEFAULT_TEAM_ID = -1;            //TODO: this will be -1 for represent unassigned teamId
@@ -174,5 +176,17 @@ public class SharedPreferencesUtil {
     public static String getUserProfilePhotoUrl( ) {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
         return preferences.getString(PREF_NAME_USER_PROFILE_PHOTO_URL,  null);
+    }
+
+    public static void savetMyMilesCommitted(int miles) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putInt(PREF_NAME_USER_MILES_COMMITTED, miles);
+        editor.commit();
+    }
+
+    public static int getMyMilesCommitted() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getInt(PREF_NAME_USER_MILES_COMMITTED, Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT);
+
     }
 }

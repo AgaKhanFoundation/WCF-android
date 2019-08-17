@@ -19,6 +19,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
     boolean teamRetrieved = false;
     boolean eventRetrieved = false;
+    boolean participantRetrieved = false;
 
     public ChallengePresenter(ChallengeMvp.ChallengeView view) {
         this.challengeView = view;
@@ -59,7 +60,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     private void updateTeamSection() {
-        if (eventRetrieved && teamRetrieved) {
+        if (eventRetrieved && teamRetrieved && participantRetrieved) {
             Event event = challengeView.getEvent();
             Team team = challengeView.getParticipantTeam();
             if (team == null) {
@@ -202,6 +203,8 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetParticipantSuccess(Participant participant) {
         super.onGetParticipantSuccess(participant);
         challengeView.setParticipant(participant);
+        participantRetrieved = true;
+        updateTeamSection();
     }
 
     @Override

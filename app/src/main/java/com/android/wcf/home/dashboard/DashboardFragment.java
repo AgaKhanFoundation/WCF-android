@@ -182,7 +182,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         participantImage = profileCard.findViewById(R.id.participant_image);
         participantNameTv = profileCard.findViewById(R.id.participant_name);
         teamNameTv = profileCard.findViewById(R.id.team_name);
-        teamLeadLabelTv = profileCard.findViewById(R.id.teamlead_label);
+        teamLeadLabelTv = profileCard.findViewById(R.id.team_lead_label);
     }
 
     void setupDashboardActivityCard(View fragmentView) {

@@ -86,7 +86,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         participantImage = fragmentView.findViewById(R.id.participant_image);
         participantNameTv = fragmentView.findViewById(R.id.participant_name);
         teamNameTv = fragmentView.findViewById(R.id.team_name);
-        teamLeadLabelTv = fragmentView.findViewById(R.id.teamlead_label);
+        teamLeadLabelTv = fragmentView.findViewById(R.id.team_lead_label);
 
         setupConnectDeviceClickListeners(fragmentView);
         setupTeamSettingsClickListeners(fragmentView);
@@ -220,6 +220,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             @Override
             public void onClick(View view) {
                 particpantMiles.setText(editText.getText());
+                SharedPreferencesUtil.savetMyMilesCommitted(Integer.parseInt(editText.getText().toString()));
                 dialogBuilder.dismiss();
             }
         });
@@ -243,7 +244,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         Team team = getParticipantTeam();
         Participant participant = getParticipant();
         participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
-        boolean teamLead = false;
+        boolean teamLead = true; //TODO default to false after API supports team lead's ID
         if (team != null) {
             teamNameTv.setText(team.getName());
             if (SharedPreferencesUtil.getMyParticipantId().equalsIgnoreCase(team.getLeaderId())) {
@@ -258,6 +259,8 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         else {
             teamLeadLabelTv.setVisibility(View.GONE);
         }
+
+        particpantMiles.setText(SharedPreferencesUtil.getMyMilesCommitted() + "");
     }
 
     void setupConnectDeviceClickListeners(View parentView) {
