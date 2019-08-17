@@ -156,4 +156,6 @@
                      +-->
 
     <string name="team_miles_commitment_status_template">%1$d/%2$d miles committed</string>
+    <string name="team_spots_message_template">%1$d of %2$d spots available</string>
+    <string name="no_spots_available_message">No spots available</string>
 </resources>
