@@ -3,6 +3,7 @@ package com.android.wcf.home.challenge;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
+import com.android.wcf.settings.EditTextDialogListener;
 
 public interface ChallengeMvp {
     interface ChallengeView extends BaseMvp.BaseView {
@@ -38,6 +39,8 @@ public interface ChallengeMvp {
         void showInviteTeamMembersCard(int openSlots);
 
         void showFundraisingInvite();
+
+        void showMilesEditDialog( int currentMiles, final EditTextDialogListener editTextDialogListener);
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -60,6 +63,8 @@ public interface ChallengeMvp {
         void showCreateTeamView();
 
         void showTeamsToJoinView();
+
+        void onShowMilesCommitmentSelected( int currentMiles, final EditTextDialogListener editTextDialogListener);
 
     }
 

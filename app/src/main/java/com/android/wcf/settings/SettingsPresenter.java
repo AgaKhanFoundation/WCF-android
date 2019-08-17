@@ -1,19 +1,17 @@
 package com.android.wcf.settings;
 
-import android.util.Log;
-
 import com.android.wcf.home.BasePresenter;
 
 import java.util.List;
 
-public class SettingsPresenter  extends BasePresenter implements SettingsMvp.Presenter {
+public class SettingsPresenter extends BasePresenter implements SettingsMvp.Presenter {
 
     private static final String TAG = SettingsPresenter.class.getSimpleName();
     SettingsMvp.View settingsView;
 
     @Override
-    public void onShowMilesCommitmentSelected() {
-        settingsView.showMilesEditDialog();
+    public void onShowMilesCommitmentSelected(int currentMiles, final EditTextDialogListener editTextDialogListener) {
+        settingsView.showMilesEditDialog(currentMiles, editTextDialogListener);
     }
 
     @Override

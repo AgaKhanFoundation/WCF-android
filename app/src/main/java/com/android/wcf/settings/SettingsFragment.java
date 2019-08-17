@@ -3,12 +3,10 @@ package com.android.wcf.settings;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.TouchDelegate;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -27,6 +25,8 @@ import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import org.jetbrains.annotations.NotNull;
+
 
 public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
@@ -41,12 +41,13 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     TextView teamNameTv;
     TextView teamLeadLabelTv;
 
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.participant_miles_setting:
-                    settingsPresenter.onShowMilesCommitmentSelected();
+                    editParticipantCommitment();
                     break;
                 case R.id.navigate_to_connect_app_or_device:
                     if (host != null) {
@@ -62,7 +63,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                 case R.id.leave_team_icon:
                     settingsPresenter.onShowLeaveTeamSelected();
                     break;
-
             }
         }
     };
@@ -158,6 +158,26 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    public void editParticipantCommitment(){
+        int currentMiles = 0;
+        try {
+            currentMiles = Integer.parseInt(particpantMiles.getText().toString().replaceAll(",", ""));
+        }
+        catch(Exception e) {
+            currentMiles = 0;
+        }
+        settingsPresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
+            @Override
+            public void onDialogDone(@NotNull String editedValue) {
+                particpantMiles.setText(editedValue);
+            }
+
+            @Override
+            public void onDialogCancel() {
+            }
+        });
+    }
+
     @Override
     public void confirmToLeaveTeam() {
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
@@ -197,36 +217,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         else {  //team lead removed a member, so refresh view
 
         }
-    }
-
-    @Override
-    public void showMilesEditDialog() {
-        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.view_miles_entry, null);
-
-        final EditText editText = dialogView.findViewById(R.id.participant_miles);
-        Button saveBtn = dialogView.findViewById(R.id.save);
-        Button cancelBtn = dialogView.findViewById(R.id.cancel);
-
-        editText.setText(particpantMiles.getText());
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogBuilder.dismiss();
-            }
-        });
-        saveBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                particpantMiles.setText(editText.getText());
-                SharedPreferencesUtil.savetMyMilesCommitted(Integer.parseInt(editText.getText().toString()));
-                dialogBuilder.dismiss();
-            }
-        });
-
-        dialogBuilder.setView(dialogView);
-        dialogBuilder.show();
     }
 
     void showParticipantInfo() {
@@ -294,5 +284,4 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             container.setEnabled(false);
         }
     }
-
 }

@@ -1,13 +1,17 @@
 package com.android.wcf.base;
 
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.core.app.ShareCompat;
@@ -15,9 +19,11 @@ import androidx.fragment.app.Fragment;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
+import com.android.wcf.settings.EditTextDialogListener;
 
 import java.util.List;
 
@@ -183,7 +189,6 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         }
     }
 
-
     public void expandViewHitArea(final View childView, final View parentView) {
         parentView.post(new Runnable() {
             @Override
@@ -198,5 +203,39 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
                 parentView.setTouchDelegate(new TouchDelegate(childRect, childView));
             }
         });
+    }
+
+    public void showMilesEditDialog(int currentMiles, final EditTextDialogListener editTextDialogListener) {
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_miles_entry, null);
+
+        final EditText editText = dialogView.findViewById(R.id.participant_miles);
+        Button saveBtn = dialogView.findViewById(R.id.save);
+        Button cancelBtn = dialogView.findViewById(R.id.cancel);
+
+        editText.setText(currentMiles + "");
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editTextDialogListener != null){
+                    editTextDialogListener.onDialogCancel();
+                }
+                dialogBuilder.dismiss();
+            }
+        });
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                SharedPreferencesUtil.savetMyMilesCommitted(Integer.parseInt(editText.getText().toString()));
+                if (editTextDialogListener != null){
+                    editTextDialogListener.onDialogDone(editText.getText().toString());
+                }
+                dialogBuilder.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
     }
 }

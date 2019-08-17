@@ -25,6 +25,9 @@ import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
+import com.android.wcf.settings.EditTextDialogListener;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 
@@ -71,6 +74,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     break;
                 case R.id.team_invite_chevron:
                     inviteTeamMembers();
+                    break;
+                case R.id.participant_committed_miles_edit:
+                    editParticipantCommitment();
+                    break;
+                case R.id.navigate_team_commitment_breakdown:
                     break;
             }
         }
@@ -221,7 +229,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             if (journeyStartView != null && journeyStartView.getVisibility() != View.GONE) {
                 journeyStartView.setVisibility(View.GONE);
             }
-
         }
     }
 
@@ -286,7 +293,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
                 TextView teamCommittedMilesTv = teamProfile.findViewById(R.id.team_committed_miles);
                 TextView remainingGoalMilesTv = teamProfile.findViewById(R.id.remaining_goal_miles);
-                ImageView teamBreakdownBtn = teamProfile.findViewById(R.id.team_commitment_chevron);
+                ImageView teamBreakdownBtn = teamProfile.findViewById(R.id.navigate_team_commitment_breakdown);
+                TextView editParticipantCommitmentTv = teamProfile.findViewById(R.id.participant_committed_miles_edit);
+                editParticipantCommitmentTv.setOnClickListener(onClickListener);
 
                 DecimalFormat formatter = new DecimalFormat("#,###,###");
                 int currentTeamSize = team.getParticipants().size();
@@ -389,13 +398,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     void setupDashboardFundraisingCard() {
     }
 
-
-    /*
-    showParticipantInfo();
-        showDashboardActivityInfo();
-        showChallengeProgress();
-        showFundRaisingInfo();
-     */
     @Override
     public void showCreateNewTeamView() {
         mHostingParent.showCreateTeam();
@@ -406,4 +408,30 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         mHostingParent.showJoinTeam();
     }
 
+    public void editParticipantCommitment() {
+        int currentMiles = 0;
+        try {
+            View teamProfile = participantTeamSummaryCard.findViewById(R.id.team_profile);
+            TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
+
+            currentMiles = Integer.parseInt(participantCommittedMilesTv.getText().toString().replaceAll(",", ""));
+        }
+        catch(Exception e) {
+            currentMiles = 0;
+        }
+        challengePresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
+            @Override
+            public void onDialogDone(@NotNull String editedValue) {
+//                View teamProfile = participantTeamSummaryCard.findViewById(R.id.team_profile);
+//                TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
+//                participantCommittedMilesTv.setText(editedValue);
+                Team team = getParticipantTeam();
+                showMyTeamSummaryCard(team);
+            }
+
+            @Override
+            public void onDialogCancel() {
+            }
+        });
+    }
 }

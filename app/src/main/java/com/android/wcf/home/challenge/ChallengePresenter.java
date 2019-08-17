@@ -6,6 +6,7 @@ import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
+import com.android.wcf.settings.EditTextDialogListener;
 
 import java.util.List;
 
@@ -32,6 +33,11 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     public String getTag() {
         return TAG;
+    }
+
+    @Override
+    public void onShowMilesCommitmentSelected(int currentMiles, EditTextDialogListener editTextDialogListener) {
+        challengeView.showMilesEditDialog(currentMiles, editTextDialogListener);
     }
 
     @Override
