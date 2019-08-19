@@ -25,7 +25,12 @@ data class Participant(
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
         var participantId: String? = ""
             get() = this.fbId
-
+        var participantProfile:String? = ""
+        var name:String?  = ""
+        var commitmentMiles = Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT
+        var completedSteps:Int = 0
+        var fundsCommitted:Double = 0.0
+        var fundsAccrued:Double = 0.0
 
     companion object {
         const val PARTICIPANT_ATTRIBUTE_ID = "fbid"
