@@ -13,7 +13,27 @@ data class Team(
         @SerializedName("participants") var participants: List<Participant> = arrayListOf(),
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
 
-    var leaderName:String? = ""
+    fun getLeaderName():String? {
+        this.participants?.let {
+            if (it.size > 0) {
+                return it.get(0).name
+            }
+        }
+        return ""
+    }
+
+    fun getLeaderParticipantId():String? {
+        this.participants?.let {
+            if (it.size > 0) {
+                return it.get(0).participantId
+            }
+        }
+        return ""
+    }
+    fun isTeamLeader(participantId:String):Boolean{
+        val leaderId = getLeaderParticipantId();
+        return (!leaderId.isNullOrEmpty() && participantId.equals(leaderId))
+    }
 
     companion object {
         const val TEAM_ATTRIBUTE_NAME = "name"
