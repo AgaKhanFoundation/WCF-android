@@ -16,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
@@ -92,6 +93,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         setupTeamSettingsClickListeners(fragmentView);
         setupLeaveTeamClickListeners(fragmentView);
         fragmentView.findViewById(R.id.btn_signout).setOnClickListener(onClickListener);
+
+        TextView appVersionTv = fragmentView.findViewById(R.id.app_version);
+        appVersionTv.setText("v" + BuildConfig.VERSION_NAME);
 
         showParticipantInfo();
 
