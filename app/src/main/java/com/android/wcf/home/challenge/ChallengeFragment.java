@@ -401,19 +401,29 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
 
         participantTeamSummaryCard = mainView.findViewById(R.id.challenge_participant_team_card);
+        View createOrJoinTeamView = participantTeamSummaryCard.findViewById(R.id.challenge_create_or_join_team_view);
+        if (createOrJoinTeamView != null) {
+            showCreateTeamButton = createOrJoinTeamView.findViewById(R.id.show_create_team_button);
+            if (showCreateTeamButton != null) {
+                showCreateTeamButton.setOnClickListener(onClickListener);
+            }
+            showJoinTeamButton = createOrJoinTeamView.findViewById(R.id.show_join_team_button);
+            if (showJoinTeamButton != null) {
+                showJoinTeamButton.setOnClickListener(onClickListener);
+            }
+        }
+
         challengeTeamInviteCard = mainView.findViewById(R.id.challenge_team_invite_card);
         setupChallengeTeamInviteCard(challengeTeamInviteCard);
         challengeFundraisingProgressCard = mainView.findViewById(R.id.challenge_fundraising_progress_card);
         setupDashboardFundraisingCard();
     }
 
-
     void setupChallengeTeamInviteCard(View parentView) {
         View container = parentView.findViewById(R.id.challenge_team_invite_container);
         View image = container.findViewById(R.id.team_invite_chevron);
         expandViewHitArea(image, container);
         image.setOnClickListener(onClickListener);
-
     }
 
     void setupDashboardFundraisingCard() {
