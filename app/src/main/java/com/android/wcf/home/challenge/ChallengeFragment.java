@@ -316,7 +316,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
                 teamNameTv.setText(team.getName());
                 teamLeadLabelTv.setVisibility(View.VISIBLE);
-                teamLeadNameTv.setText(participant.getParticipantId()); //TODO get participant name
+                teamLeadNameTv.setText(participant.getName()); //TODO get participant name
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
                 teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, teamMiles, teamGoal));
                 teamCommittedMilesTv.setText(teamMilesCommitted);
