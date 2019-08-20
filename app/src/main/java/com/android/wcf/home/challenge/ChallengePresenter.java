@@ -143,16 +143,30 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamSuccess(Team team) {
         super.onGetTeamSuccess(team);
-        teamRetrieved = true;
-        challengeView.setParticipantTeam(team);
-        updateJourneySection();
-        updateTeamSection();
+        getTeamParticipantsInfoFromFacebook(team);
     }
 
     @Override
     protected void onGetTeamError(Throwable error) {
         super.onGetTeamError(error);
         challengeView.showError(R.string.teams_manager_error, error.getMessage());
+    }
+
+    @Override
+    protected void onGetTeamParticipantsInfoSuccess(Team team){
+        challengeView.setParticipantTeam(team);
+        teamRetrieved = true;
+        updateJourneySection();
+        updateTeamSection();
+
+    }
+
+    @Override
+    protected void onGetTeamParticipantsInfoError(Throwable error) {
+        super.onGetTeamParticipantsInfoError(error);
+        teamRetrieved = true;
+        updateJourneySection();
+        updateTeamSection();
     }
 
     @Override

@@ -123,19 +123,6 @@
 
             </com.google.android.material.card.MaterialCardView>
 
-            <!--<com.google.android.material.card.MaterialCardView-->
-                <!--android:id="@+id/challenge_create_or_join_team_card"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="@dimen/spacing_normal"-->
-                <!--android:visibility="gone"-->
-                <!--app:cardBackgroundColor="@color/color_white"-->
-                <!--app:layout_constraintEnd_toEndOf="parent"-->
-                <!--app:layout_constraintStart_toStartOf="parent"-->
-                <!--app:layout_constraintTop_toBottomOf="@id/challenge_journey_card">-->
-
-            <!--</com.google.android.material.card.MaterialCardView>-->
-
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/challenge_participant_team_card"
                 android:layout_width="match_parent"
@@ -153,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <ImageView
                         android:id="@+id/icon_my_team"
@@ -228,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/team_name"
@@ -445,7 +432,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal"
-                android:visibility="gone"
+                android:visibility="visible"
                 app:cardBackgroundColor="@color/color_white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -499,7 +486,7 @@
                         app:layout_constraintTop_toBottomOf="@id/invite_team_members_message" />
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        android:id="@+id/team_invite_container"
+                        android:id="@+id/challenge_team_invite_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal_half"

@@ -323,6 +323,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 participantCommittedMilesTv.setText(participantMiles);
                 remainingGoalMilesTv.setText(formatter.format( remainingTeamGoalMiles));
 
+
                 if (teamProfileView.getVisibility() != View.VISIBLE){
                     teamProfileView.setVisibility(View.VISIBLE);
                 }
@@ -401,17 +402,18 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
         participantTeamSummaryCard = mainView.findViewById(R.id.challenge_participant_team_card);
         challengeTeamInviteCard = mainView.findViewById(R.id.challenge_team_invite_card);
-        setupTeamInviteClickListeners(challengeTeamInviteCard);
+        setupChallengeTeamInviteCard(challengeTeamInviteCard);
         challengeFundraisingProgressCard = mainView.findViewById(R.id.challenge_fundraising_progress_card);
         setupDashboardFundraisingCard();
     }
 
 
-    void setupTeamInviteClickListeners(View parentView) {
-        View container = parentView.findViewById(R.id.team_invite_container);
+    void setupChallengeTeamInviteCard(View parentView) {
+        View container = parentView.findViewById(R.id.challenge_team_invite_container);
         View image = container.findViewById(R.id.team_invite_chevron);
-        image.setOnClickListener(onClickListener);
         expandViewHitArea(image, container);
+        image.setOnClickListener(onClickListener);
+
     }
 
     void setupDashboardFundraisingCard() {
@@ -452,5 +454,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     public void showTeamCommitmentBreakdown(){
         Log.d(TAG, "showTeamCommitmentBreakdown");
+        mHostingParent.showTeamCommitmentDetails();
+
     }
 }

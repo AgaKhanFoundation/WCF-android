@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:padding="@dimen/spacing_normal"
+    tools:context="com.android.wcf.home.challenge.TeamDetailsFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/challenge_team_progress_summary_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/team_progress_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:text="@string/challenge_team_progress_label"
+            android:textAppearance="@style/TextAppearance.WCF.Headline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/team_total_distance_walked_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:text="@string/challenge_team_total_distance_walked_label"
+            android:textAppearance="@style/TextAppearance.WCF.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/team_progress_title" />
+
+        <TextView
+            android:id="@+id/team_total_distance_goal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+            app:layout_constraintBaseline_toBaselineOf="@id/team_total_distance_walked_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            tools:text="/1200 miles" />
+
+        <TextView
+            android:id="@+id/team_total_distance_walked"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle1.Primary"
+            android:textSize="20dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/team_total_distance_walked_label"
+            app:layout_constraintEnd_toStartOf="@id/team_total_distance_goal"
+            tools:text="400" />
+
+        <View
+            android:id="@+id/seperator_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:background="@color/color_light_grey_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/team_total_distance_walked_label" />
+
+
+        <TextView
+            android:id="@+id/team_total_fund_raised_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:text="@string/challenge_team_total_fund_raised_label"
+            android:textAppearance="@style/TextAppearance.WCF.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/seperator_1" />
+
+        <TextView
+            android:id="@+id/team_total_funds_raised_amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_tiny"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle1.Primary"
+            android:textSize="20dp"
+            app:layout_constraintBaseline_toBaselineOf="@id/team_total_fund_raised_label"
+            app:layout_constraintStart_toStartOf="@id/team_total_distance_walked"
+            tools:text="$520" />
+
+        <View
+            android:id="@+id/seperator_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:background="@color/color_light_grey_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/team_total_fund_raised_label" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/challenge_team_member_details_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintBottom_toTopOf="@+id/challenge_team_invite_container"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/challenge_team_progress_summary_container">
+
+        <TextView
+            android:id="@+id/team_members_rankings_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/challenge_team_member_rankings_label"
+            android:textAppearance="@style/TextAppearance.WCF.Headline6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/team_members_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/team_members_rankings_title"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/challenge_team_invite_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/challenge_team_member_details_container">
+
+        <TextView
+            android:id="@+id/team_invite_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/color_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Invite 4 new team members" />
+
+        <ImageView
+            android:id="@+id/team_invite_chevron"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:src="@drawable/ic_chevron_right"
+            android:textAppearance="?attr/textAppearanceHeadline6"
+            app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/team_invite_label" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+

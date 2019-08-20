@@ -31,6 +31,7 @@ class HomeActivity : BaseActivity()
         , ChallengeMvp.Host
         , CreateTeamMvp.Host
         , JoinTeamMvp.Host
+        , TeamDetailsMvp.Host
         , LeaderboardMvp.Host
         , NotificationsMvp.Host {
 
@@ -231,6 +232,15 @@ class HomeActivity : BaseActivity()
 
     override fun showJoinTeam() {
         val fragment = JoinTeamFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun showTeamCommitmentDetails() {
+        val fragment = TeamDetailsFragment()
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

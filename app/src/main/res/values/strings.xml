@@ -158,4 +158,11 @@
     <string name="team_miles_commitment_status_template">%1$d/%2$d miles committed</string>
     <string name="team_spots_message_template">%1$d of %2$d spots available</string>
     <string name="no_spots_available_message">No spots available</string>
+    <string name="challenge_team_progress_label">Team Progress</string>
+    <string name="challenge_team_total_distance_walked_label">Total walked</string>
+    <string name="challenge_team_total_fund_raised_label">Total funds raised</string>
+    <string name="challenge_team_member_rankings_label">Team member rankings</string>
+
+    <string name="team_detail_distance_goal_template">/%1$d miles</string>
+
 </resources>
