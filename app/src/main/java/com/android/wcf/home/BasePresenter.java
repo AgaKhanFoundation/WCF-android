@@ -1,5 +1,6 @@
 package com.android.wcf.home;
 
+import android.os.Bundle;
 import android.util.Log;
 
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
@@ -9,6 +10,11 @@ import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
 import com.android.wcf.network.WCFClient;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -111,7 +117,12 @@ public abstract class BasePresenter {
                 .subscribe(new DisposableSingleObserver<Participant>() {
                     @Override
                     public void onSuccess(Participant participant) {
-                        onGetParticipantSuccess(participant);
+                        getParticipantsInfoFromFacebook(participant, new OnFacebookProfileCallback() {
+                            @Override
+                            public void onParticipantProfiieRetrieved(Participant participant) {
+                                onGetParticipantSuccess(participant);
+                            }
+                        });
                     }
 
                     @Override
@@ -270,7 +281,134 @@ public abstract class BasePresenter {
     protected void onGetTeamError(Throwable error) {
         Log.e(TAG, "onGetTeamError: " + error.getMessage());
     }
+    /*
+    public void getTeamParticipantsInfoFromFacebook(String myFbId, final Team team) {
+        //https://graph.facebook.com/?ids=user1,user2,user3
+         List<String> fbIdList = new ArrayList<>();
+         for (Participant participant : team.getParticipants()) {
+             fbIdList.add(participant.getFbId());
+         }
+        if (fbIdList.size() == 0) {
+            onGetTeamParticipantsInfoError(new Error("No participants"));
+        }
+        else {
 
+            GraphRequest request = GraphRequest.newGraphPathRequest(
+                    AccessToken.getCurrentAccessToken(),
+                    "/" + myFbId + "/",
+                    new GraphRequest.Callback() {
+                        @Override
+                        public void onCompleted(GraphResponse response) {
+                            // Insert your code here
+                        }
+                    });
+
+            Bundle parameters = new Bundle();
+            parameters.putString("fields", "id, name, email, picture");
+            request.setParameters(parameters);
+            request.executeAsync();
+
+            GraphRequestBatch batch = new GraphRequestBatch(
+                    GraphRequest.newMeRequest(
+                            AccessToken.getCurrentAccessToken(),
+                            new GraphRequest.GraphJSONObjectCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONObject jsonObject,
+                                        GraphResponse response) {
+                                    // Application code for user
+                                }
+                            }),
+                    GraphRequest.newMyFriendsRequest(
+                            AccessToken.getCurrentAccessToken(),
+                            new GraphRequest.GraphJSONArrayCallback() {
+                                @Override
+                                public void onCompleted(
+                                        JSONArray jsonArray,
+                                        GraphResponse response) {
+                                    // Application code for users friends
+                                }
+                            })
+            );
+            batch.addCallback(new GraphRequestBatch.Callback() {
+                @Override
+                public void onBatchCompleted(GraphRequestBatch graphRequests) {
+                    // Application code for when the batch finishes
+                }
+            });
+            batch.executeAsync();
+        }
+
+        onGetTeamParticipantsInfoSuccess(team);
+        https://graph.facebook.com/?ids=user1,user2,user3
+    }
+    */
+
+
+    public void getParticipantsInfoFromFacebook(final Participant participant, final OnFacebookProfileCallback onFacebookProfileCallback) {
+        GraphRequest request = GraphRequest.newGraphPathRequest(
+                AccessToken.getCurrentAccessToken(),
+                "/" + participant.getFbId() + "/",
+                new GraphRequest.Callback() {
+                    @Override
+                    public void onCompleted(GraphResponse response) {
+                        try {
+                            JSONObject jsonObject = response.getJSONObject();
+                            String userProfileUrl = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url");
+                            participant.setName(jsonObject.getString("name"));
+                            participant.setParticipantProfile(userProfileUrl);
+
+                        } catch (Exception e) {
+                            Log.e(TAG, "Error processing Facebook Login response\n" + e);
+                            e.printStackTrace();
+                        }
+                        if (onFacebookProfileCallback != null) {
+                            onFacebookProfileCallback.onParticipantProfiieRetrieved(participant);
+                        }
+                    }
+                });
+
+        Bundle parameters = new Bundle();
+        parameters.putString("fields", "id, name, email, picture");
+        request.setParameters(parameters);
+        request.executeAsync();
+    }
+
+    public static int facebookRequestCount;
+    public void getTeamParticipantsInfoFromFacebook( final Team team) {
+        //https://graph.facebook.com/?ids=user1,user2,user3
+
+        facebookRequestCount = team.getParticipants().size();
+        Log.d(TAG, "getTeamParticipantsInfoFromFacebook: " + facebookRequestCount);
+        List<String> fbIdList = new ArrayList<>();
+        for (Participant participant : team.getParticipants()) {
+            String fbId = participant.getFbId();
+            fbIdList.add(fbId);
+            getParticipantsInfoFromFacebook(participant, new OnFacebookProfileCallback() {
+                @Override
+                public void onParticipantProfiieRetrieved(Participant participant) {
+                    Log.d(TAG, "onParticipantProfiieRetrieved: " + facebookRequestCount + " name=" + participant.getName());
+                    --facebookRequestCount;
+                    if (facebookRequestCount == 0) {
+                        Log.d(TAG, "onParticipantProfiieRetrieved facebookRequestCount = 0 onGetTeamParticipantsInfoSuccess");
+                        onGetTeamParticipantsInfoSuccess(team);
+                    }
+                }
+            });
+        }
+    }
+
+    public interface OnFacebookProfileCallback {
+        void onParticipantProfiieRetrieved(Participant participant);
+    }
+
+    protected void onGetTeamParticipantsInfoSuccess(Team team) {
+
+    }
+
+    protected void onGetTeamParticipantsInfoError(Throwable error) {
+        Log.e(TAG, "onGetTeamParticipantsInfoError: " + error.getMessage());
+    }
 
     public void getLeaderboard() {
         wcfClient.getTeams()
