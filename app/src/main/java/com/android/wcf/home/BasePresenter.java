@@ -1,8 +1,8 @@
 package com.android.wcf.home;
 
-import android.os.Bundle;
 import android.util.Log;
 
+import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
@@ -10,11 +10,6 @@ import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
 import com.android.wcf.network.WCFClient;
-import com.facebook.AccessToken;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -117,7 +112,7 @@ public abstract class BasePresenter {
                 .subscribe(new DisposableSingleObserver<Participant>() {
                     @Override
                     public void onSuccess(Participant participant) {
-                        getParticipantsInfoFromFacebook(participant, new OnFacebookProfileCallback() {
+                       FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
                             @Override
                             public void onParticipantProfiieRetrieved(Participant participant) {
                                 onGetParticipantSuccess(participant);
@@ -345,35 +340,6 @@ public abstract class BasePresenter {
     */
 
 
-    public void getParticipantsInfoFromFacebook(final Participant participant, final OnFacebookProfileCallback onFacebookProfileCallback) {
-        GraphRequest request = GraphRequest.newGraphPathRequest(
-                AccessToken.getCurrentAccessToken(),
-                "/" + participant.getFbId() + "/",
-                new GraphRequest.Callback() {
-                    @Override
-                    public void onCompleted(GraphResponse response) {
-                        try {
-                            JSONObject jsonObject = response.getJSONObject();
-                            String userProfileUrl = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url");
-                            participant.setName(jsonObject.getString("name"));
-                            participant.setParticipantProfile(userProfileUrl);
-
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error processing Facebook Login response\n" + e);
-                            e.printStackTrace();
-                        }
-                        if (onFacebookProfileCallback != null) {
-                            onFacebookProfileCallback.onParticipantProfiieRetrieved(participant);
-                        }
-                    }
-                });
-
-        Bundle parameters = new Bundle();
-        parameters.putString("fields", "id, name, email, picture");
-        request.setParameters(parameters);
-        request.executeAsync();
-    }
-
     public static int facebookRequestCount;
     public void getTeamParticipantsInfoFromFacebook( final Team team) {
         //https://graph.facebook.com/?ids=user1,user2,user3
@@ -384,7 +350,7 @@ public abstract class BasePresenter {
         for (Participant participant : team.getParticipants()) {
             String fbId = participant.getFbId();
             fbIdList.add(fbId);
-            getParticipantsInfoFromFacebook(participant, new OnFacebookProfileCallback() {
+            FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
                 @Override
                 public void onParticipantProfiieRetrieved(Participant participant) {
                     Log.d(TAG, "onParticipantProfiieRetrieved: " + facebookRequestCount + " name=" + participant.getName());
@@ -396,10 +362,6 @@ public abstract class BasePresenter {
                 }
             });
         }
-    }
-
-    public interface OnFacebookProfileCallback {
-        void onParticipantProfiieRetrieved(Participant participant);
     }
 
     protected void onGetTeamParticipantsInfoSuccess(Team team) {
