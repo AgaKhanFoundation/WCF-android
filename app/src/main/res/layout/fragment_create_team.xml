@@ -51,7 +51,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890 "
                     android:imeOptions="actionNext"
-                    android:inputType="textNoSuggestions"
+                    android:inputType="textNoSuggestions|textCapWords"
                     android:textAppearance="@style/TextAppearance.WCF.Body1" />
 
             </com.google.android.material.textfield.TextInputLayout>
