@@ -234,13 +234,11 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         Team team = getParticipantTeam();
         Participant participant = getParticipant();
         participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
-        boolean teamLead = true; //TODO default to false after API supports team lead's ID
         if (team != null) {
             teamNameTv.setText(team.getName());
-            if (SharedPreferencesUtil.getMyParticipantId().equalsIgnoreCase(team.getLeaderId())) {
-                teamLead = true;
-            }
-            teamLeadLabelTv.setText(teamLead ?
+            boolean isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
+
+            teamLeadLabelTv.setText(isTeamLead ?
                     getResources().getString(R.string.team_lead_label)
                     : getResources().getString(R.string.team_member_label));
 
@@ -269,19 +267,24 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     void setupLeaveTeamClickListeners(View parentView) {
         View container = parentView.findViewById(R.id.leave_team_container);
+        View leaveLabel = container.findViewById(R.id.leave_team_label);
         View image = container.findViewById(R.id.leave_team_icon);
 
+        Team team = getParticipantTeam();
+        boolean isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
+
+        boolean leaveEnabled = false;
         int teamId = SharedPreferencesUtil.getMyTeamId();
-        if (teamId > 0) {
+        if (teamId > 0 && team != null && !isTeamLead) {
+            leaveEnabled = true;
             image.setOnClickListener(onClickListener);
             expandViewHitArea(image, container);
-            image.setEnabled(true);
-            container.setEnabled(true);
         }
         else {
             image.setOnClickListener(null);
-            image.setEnabled(false);
-            container.setEnabled(false);
         }
+        image.setEnabled(leaveEnabled);
+        leaveLabel.setEnabled(leaveEnabled);
+        container.setEnabled(leaveEnabled);
     }
 }

@@ -127,15 +127,12 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
 
         Team team = getParticipantTeam();
-        Participant participant = getParticipant();
         participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
-        boolean teamLead = false;
         if (team != null) {
             teamNameTv.setText(team.getName());
-            if (SharedPreferencesUtil.getMyParticipantId().equalsIgnoreCase(team.getLeaderId())) {
-                teamLead = true;
-            }
-            teamLeadLabelTv.setText(teamLead ?
+            boolean isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
+
+            teamLeadLabelTv.setText(isTeamLead ?
                     getResources().getString(R.string.team_lead_label)
                     : getResources().getString(R.string.team_member_label));
 

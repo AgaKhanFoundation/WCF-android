@@ -141,9 +141,9 @@
     <string name="invite_team_member_template">"Hey! I have created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Change, and I want you on my team!\n"
                 "Download the app here:\n"
         "%3$s\n" </string>
-    <string name="team_invite_more_members_message">Invite %1$d new team members</string>
+    <string name="team_invite_more_members_message">Invite %1$s new team members</string>
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
-    <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$d spots remaining. Invite more friends to join!</string>
+    <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$s remaining. Invite more friends to join!</string>
     <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
     <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
     <string name="participant_committed_miles_label">Your committed miles</string>

@@ -12,4 +12,10 @@
         <item quantity="other">%1$d members</item>
     </plurals>
 
+    <plurals name="team_spots_available">
+        <item quantity="zero">no spot</item>
+        <item quantity="one">%1$d spot</item>
+        <item quantity="other">%1$d spots</item>
+
+    </plurals>
 </resources>
