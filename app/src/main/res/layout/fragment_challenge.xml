@@ -459,7 +459,7 @@
                         android:id="@+id/invite_team_members_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/challenge_invite_team_members_label"
+                        tools:text="@string/challenge_invite_team_members_label"
                         android:textAppearance="@style/TextAppearance.WCF.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/icon_invite_to_team" />
@@ -472,7 +472,7 @@
                         android:contentDescription="@null"
                         android:gravity="start"
                         android:lineSpacingMultiplier="@dimen/body_line_spacing_2"
-                        android:text="@string/challenge_invite_team_members_message"
+                        tools:text="@string/challenge_invite_team_members_message"
                         android:textAppearance="@style/TextAppearance.WCF.Body1"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/invite_team_members_title" />

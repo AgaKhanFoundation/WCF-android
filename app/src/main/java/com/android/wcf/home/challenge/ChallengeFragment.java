@@ -367,14 +367,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public void showInviteTeamMembersCard(int openSlots) {
         challengeTeamInviteCard.setVisibility(View.VISIBLE);
 
-        String openSlotsString = getResources().getQuantityString(R.plurals.team_spots_available, openSlots, openSlots);
-        String openSlotsMembersString = getResources().getQuantityString(R.plurals.team_members_count, openSlots, openSlots);
-
         TextView inviteMessage = challengeTeamInviteCard.findViewById(R.id.invite_team_members_message);
-        inviteMessage.setText(getString(R.string.challenge_invite_team_members_message, openSlotsString));
+        inviteMessage.setText(getResources().getQuantityString(R.plurals.challenge_invite_team_members_message, openSlots, openSlots));
 
         TextView inviteLabel = challengeTeamInviteCard.findViewById(R.id.team_invite_label);
-        inviteLabel.setText(getString(R.string.team_invite_more_members_message, openSlotsMembersString));
+        inviteLabel.setText(getResources().getQuantityString(R.plurals.team_invite_more_members_message, openSlots, openSlots));
     }
 
     @Override

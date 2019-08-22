@@ -18,4 +18,20 @@
         <item quantity="other">%1$d spots</item>
 
     </plurals>
+
+    <plurals name="challenge_invite_team_members_message">
+        <item quantity="zero">Maximize your chances of reaching the team goal. Your team has no spot remaining</item>
+        <item quantity="one">Maximize your chances of reaching the team goal. Your team has %1$d spot remaining. Invite a friend to join!</item>
+        <item quantity="other">Maximize your chances of reaching the team goal. Your team has %1$d spots remaining. Invite more friends to join!</item>
+
+    </plurals>
+
+    <plurals name="team_invite_more_members_message">
+        <item quantity="zero">No spots avaiable</item>
+        <item quantity="one">Invite %1$d new team member</item>
+        <item quantity="other">Invite %1$d new team members</item>
+
+    </plurals>
+
+
 </resources>

@@ -177,7 +177,8 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
                     int openSlots = event.getTeamLimit() - participants.size();
                     if (openSlots > 0) {
                         showTeamInvite = true;
-                        inviteLabel.setText(getString(R.string.team_invite_more_members_message, openSlots));
+                        String openSlotMessage = getResources().getQuantityString(R.plurals.team_invite_more_members_message, openSlots, openSlots);
+                        inviteLabel.setText(openSlotMessage);
                     }
                 }
             }
