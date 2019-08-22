@@ -52,14 +52,13 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     break;
                 case R.id.navigate_to_connect_app_or_device:
                     if (host != null) {
-                        host.showDeviceConnection();
+                        showDeviceConnection();
                     }
                 case R.id.team_view_team_icon:
+                    showTeamMembershipDetail();
                     break;
                 case R.id.btn_signout:
-                    if (host != null) {
-                        host.signout();
-                    }
+                    signout();
                     break;
                 case R.id.leave_team_icon:
                     settingsPresenter.onShowLeaveTeamSelected();
@@ -78,9 +77,8 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (host != null) {
-            host.setToolbarTitle(getString(R.string.settings), true);
-        }
+        setToolbarTitle(getString(R.string.settings), true);
+
         View fragmentView = getView();
         particpantMiles = fragmentView.findViewById(R.id.participant_miles);
         fragmentView.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
@@ -162,12 +160,11 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    public void editParticipantCommitment(){
+    public void editParticipantCommitment() {
         int currentMiles = 0;
         try {
             currentMiles = NumberFormat.getNumberInstance().parse(particpantMiles.getText().toString()).intValue();
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             currentMiles = 0;
         }
         settingsPresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
@@ -200,7 +197,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         leaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                settingsPresenter.removeFromTeam(SharedPreferencesUtil.getMyParticipantId() );
+                settingsPresenter.removeFromTeam(SharedPreferencesUtil.getMyParticipantId());
                 dialogBuilder.dismiss();
             }
         });
@@ -217,8 +214,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             SharedPreferencesUtil.clearMyTeamId();
             setParticipantTeam(null);
             host.restartHomeActivity();
-        }
-        else {  //team lead removed a member, so refresh view
+        } else {  //team lead removed a member, so refresh view
 
         }
     }
@@ -247,8 +243,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     : getResources().getString(R.string.team_member_label));
 
             teamLeadLabelTv.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             teamLeadLabelTv.setVisibility(View.GONE);
         }
 
@@ -283,12 +278,35 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             leaveEnabled = true;
             image.setOnClickListener(onClickListener);
             expandViewHitArea(image, container);
-        }
-        else {
+        } else {
             image.setOnClickListener(null);
         }
         image.setEnabled(leaveEnabled);
         leaveLabel.setEnabled(leaveEnabled);
         container.setEnabled(leaveEnabled);
+        container.setVisibility(leaveEnabled ? View.VISIBLE : View.GONE);
+    }
+
+    public void showTeamMembershipDetail(){
+        Log.d(TAG, "showTeamMembershipDetail");
+        if (host != null) {
+            host.showTeamMembershipDetail();
+        }
+    }
+
+    public void showDeviceConnection() {
+        host.showDeviceConnection();
+    }
+
+    public void setToolbarTitle(String title, boolean homeAffordance) {
+        if (host != null) {
+            host.setToolbarTitle(getString(R.string.settings), true);
+        }
+    }
+
+    public void signout(){
+        if (host != null) {
+            host.signout();
+        }
     }
 }
