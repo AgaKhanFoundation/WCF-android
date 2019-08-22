@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/participant_profile"
+            android:id="@+id/participant_profile_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_white"
@@ -87,10 +87,10 @@
             android:textAppearance="?textAppearanceHeadline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/participant_profile" />
+            app:layout_constraintTop_toBottomOf="@+id/participant_profile_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/participant_settings"
+            android:id="@+id/participant_settings_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal_half"
@@ -242,7 +242,7 @@
             android:textAppearance="?textAppearanceHeadline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/participant_settings" />
+            app:layout_constraintTop_toBottomOf="@+id/participant_settings_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/team_settings_container"
@@ -441,6 +441,5 @@
             tools:text="v0.1.0"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.core.widget.NestedScrollView>

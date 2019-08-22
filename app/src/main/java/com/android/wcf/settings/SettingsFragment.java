@@ -37,11 +37,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     SettingsMvp.Host host;
     SettingsMvp.Presenter settingsPresenter;
 
-    TextView particpantMiles;
-    ImageView participantImage;
-    TextView participantNameTv;
-    TextView teamNameTv;
-    TextView teamLeadLabelTv;
+    View participantProfileContainer;
+    View participantSettingsContainer;
+    View teamSettingsContainer;
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -80,23 +78,14 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         setToolbarTitle(getString(R.string.settings), true);
 
         View fragmentView = getView();
-        particpantMiles = fragmentView.findViewById(R.id.participant_miles);
-        fragmentView.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
-        participantImage = fragmentView.findViewById(R.id.participant_image);
-        participantNameTv = fragmentView.findViewById(R.id.participant_name);
-        teamNameTv = fragmentView.findViewById(R.id.team_name);
-        teamLeadLabelTv = fragmentView.findViewById(R.id.team_lead_label);
+        setupParticipantProfileView(fragmentView);
+        setupParticipantSettingsView(fragmentView);
+        setupTeamSettingsView(fragmentView);
 
-        setupConnectDeviceClickListeners(fragmentView);
-        setupTeamSettingsClickListeners(fragmentView);
-        setupLeaveTeamClickListeners(fragmentView);
         fragmentView.findViewById(R.id.btn_signout).setOnClickListener(onClickListener);
 
         TextView appVersionTv = fragmentView.findViewById(R.id.app_version);
         appVersionTv.setText("v" + BuildConfig.VERSION_NAME);
-
-        showParticipantInfo();
-
     }
 
     @Override
@@ -161,16 +150,17 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     }
 
     public void editParticipantCommitment() {
+        final TextView participantMiles = participantProfileContainer.findViewById(R.id.participant_miles);
         int currentMiles = 0;
         try {
-            currentMiles = NumberFormat.getNumberInstance().parse(particpantMiles.getText().toString()).intValue();
+            currentMiles = NumberFormat.getNumberInstance().parse(participantMiles.getText().toString()).intValue();
         } catch (Exception e) {
             currentMiles = 0;
         }
         settingsPresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
             @Override
             public void onDialogDone(@NotNull String editedValue) {
-                particpantMiles.setText(editedValue);
+                participantMiles.setText(editedValue);
             }
 
             @Override
@@ -221,6 +211,11 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     void showParticipantInfo() {
 
+        ImageView participantImage = participantProfileContainer.findViewById(R.id.participant_image);
+        TextView participantNameTv = participantProfileContainer.findViewById(R.id.participant_name);
+        TextView teamNameTv = participantProfileContainer.findViewById(R.id.team_name);
+        TextView teamLeadLabelTv = participantProfileContainer.findViewById(R.id.team_lead_label);
+
         String profileImageUrl = SharedPreferencesUtil.getUserProfilePhotoUrl();
         if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
             Log.d(TAG, "profileImageUrl=" + profileImageUrl);
@@ -247,6 +242,20 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             teamLeadLabelTv.setVisibility(View.GONE);
         }
 
+    }
+
+    void setupParticipantProfileView(View parentView) {
+        participantProfileContainer = parentView.findViewById(R.id.participant_profile_container);
+
+        showParticipantInfo();
+    }
+
+    void setupParticipantSettingsView(View parentView) {
+        participantSettingsContainer = parentView.findViewById(R.id.participant_settings_container);
+        participantSettingsContainer.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
+        setupConnectDeviceClickListeners(participantSettingsContainer);
+
+        TextView particpantMiles = participantSettingsContainer.findViewById(R.id.participant_miles);
         particpantMiles.setText(SharedPreferencesUtil.getMyMilesCommitted() + "");
     }
 
@@ -257,6 +266,12 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         expandViewHitArea(image, container);
     }
 
+    void setupTeamSettingsView(View parentView) {
+        teamSettingsContainer = parentView.findViewById(R.id.team_settings_container);
+        setupTeamSettingsClickListeners(teamSettingsContainer);
+        setupLeaveTeamClickListeners(teamSettingsContainer);
+    }
+
     void setupTeamSettingsClickListeners(View parentView) {
         View container = parentView.findViewById(R.id.view_team_container);
         View image = container.findViewById(R.id.team_view_team_icon);
@@ -265,9 +280,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     }
 
     void setupLeaveTeamClickListeners(View parentView) {
-        View container = parentView.findViewById(R.id.leave_team_container);
-        View leaveLabel = container.findViewById(R.id.leave_team_label);
-        View image = container.findViewById(R.id.leave_team_icon);
+        View leaveTeamContainer = teamSettingsContainer.findViewById(R.id.leave_team_container);
+        View leaveLabel = leaveTeamContainer.findViewById(R.id.leave_team_label);
+        View image = leaveTeamContainer.findViewById(R.id.leave_team_icon);
 
         Team team = getParticipantTeam();
         boolean isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
@@ -277,14 +292,17 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         if (teamId > 0 && team != null && !isTeamLead) {
             leaveEnabled = true;
             image.setOnClickListener(onClickListener);
-            expandViewHitArea(image, container);
+            expandViewHitArea(image, leaveTeamContainer);
         } else {
             image.setOnClickListener(null);
         }
         image.setEnabled(leaveEnabled);
         leaveLabel.setEnabled(leaveEnabled);
-        container.setEnabled(leaveEnabled);
-        container.setVisibility(leaveEnabled ? View.VISIBLE : View.GONE);
+        leaveTeamContainer.setEnabled(leaveEnabled);
+        leaveTeamContainer.setVisibility(leaveEnabled ? View.VISIBLE : View.GONE);
+
+        View teamVisibiltyContainer = teamSettingsContainer.findViewById(R.id.team_visibilty_container);
+        teamVisibiltyContainer.setVisibility(isTeamLead ? View.VISIBLE : View.GONE);
     }
 
     public void showTeamMembershipDetail(){
