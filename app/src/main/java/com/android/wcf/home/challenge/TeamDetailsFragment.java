@@ -56,7 +56,7 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
             host = (TeamDetailsMvp.Host) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement JoinTeamMvp.Host");
+                    + " must implement TeamDetailsMvp.Host");
         }
     }
 
