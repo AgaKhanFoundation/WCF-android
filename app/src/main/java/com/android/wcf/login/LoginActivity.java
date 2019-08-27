@@ -51,8 +51,13 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
+import java.util.Arrays;
+
 public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
     private static final String TAG = LoginActivity.class.getSimpleName();
+    private static final String PUBLIC_PROFILE = "public_profile";
+    private static final String EMAIL = "email";
+
     private Context mContext;
     private LoginPresenter presenter;
     private CallbackManager callbackManager;
@@ -83,7 +88,8 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
 
     private void setupView() {
         loginButton = findViewById(R.id.login_button);
-        loginButton.setPermissions("public_profile", "email");
+        loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE, EMAIL));
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {

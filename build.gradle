@@ -50,7 +50,7 @@ ext {
     playServicesVersion = '17.0.0'
 
     //Facebook
-    facebookSdkVersion = '5.0.0'
+    facebookSdkVersion = '[5,6)'
 
     //ButterKnife
     butterknifeVersion = '8.8.1'

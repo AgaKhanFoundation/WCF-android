@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Step4Change</string>
+    <string name="app_name">Steps4Change</string>
     <string name="tabLeaderboard">LeaderBoard</string>
     <string name="tabMyProfile">My Profile</string>
     <string name="tabMyTeam">My Team</string>
@@ -22,8 +22,10 @@
         <item>This Event</item>
         <item>Overall</item>
     </string-array>
-    <string name="fb_login_protocol_scheme">fb517692571972108</string>
-    <string name="facebook_app_id">517692571972108</string>
+    <!--<string name="fb_login_protocol_scheme">fb517692571972108</string>-->
+    <!--<string name="facebook_app_id">517692571972108</string>-->
+    <string name="fb_login_protocol_scheme">fb952254615120365</string>
+    <string name="facebook_app_id">952254615120365</string>
     <string name="facebook_steps4change_group_id">466564417434674</string>
 
     <string name="title_activity_home">Home</string>
