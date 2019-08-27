@@ -164,6 +164,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
+    public void onGetEventError(Throwable error) {
+        SharedPreferencesUtil.cleartMyActiveEventId();
+    }
+
+    @Override
     public void onParticipantIdMissing() {
         Toast.makeText(getContext(), "Login Id needed. Please login", Toast.LENGTH_SHORT).show();
         WCFApplication.instance.requestLogin();

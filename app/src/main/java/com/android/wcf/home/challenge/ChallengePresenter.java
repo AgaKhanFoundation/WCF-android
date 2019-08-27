@@ -63,6 +63,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetEventError(Throwable error) {
         super.onGetEventError(error);
+        challengeView.onGetEventError(error);
     }
 
     private void updateTeamSection() {
@@ -143,6 +144,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamSuccess(Team team) {
         super.onGetTeamSuccess(team);
+        challengeView.setParticipantTeam(team);
         getTeamParticipantsInfoFromFacebook(team);
     }
 

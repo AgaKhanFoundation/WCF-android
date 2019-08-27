@@ -122,6 +122,10 @@ public class SharedPreferencesUtil {
         return preferences.getInt(PREF_NAME_MY_ACTIVE_EVENT_ID, DEFAULT_ACTIVE_EVENT_ID);
     }
 
+    public static void cleartMyActiveEventId() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        preferences.edit().remove(PREF_NAME_MY_ACTIVE_EVENT_ID).commit();
+    }
     public static void saveShowOnboardingTutorial(boolean show) {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
         editor.putBoolean(PREF_NAME_SHOW_ONBOARD_TUTORIAL, show);
