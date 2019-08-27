@@ -285,7 +285,10 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         View image = leaveTeamContainer.findViewById(R.id.leave_team_icon);
 
         Team team = getParticipantTeam();
-        boolean isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
+        boolean isTeamLead = false;
+        if (team != null) {
+            isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
+        }
 
         boolean leaveEnabled = false;
         int teamId = SharedPreferencesUtil.getMyTeamId();
