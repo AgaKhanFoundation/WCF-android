@@ -23,23 +23,23 @@ Reference:
 <resources>
 
     <style name="TextAppearance.WCF.Headline1" parent="TextAppearance.MaterialComponents.Headline1">
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="fontFamily">roboto_light</item>
+        <item name="android:fontFamily">roboto_light</item>
     </style>
 
     <style name="TextAppearance.WCF.Headline2" parent="TextAppearance.MaterialComponents.Headline2">
-        <item name="fontFamily">sans-serif-light</item>
-        <item name="android:fontFamily">sans-serif-light</item>
+        <item name="fontFamily">roboto_light</item>
+        <item name="android:fontFamily">roboto_light</item>
     </style>
 
     <style name="TextAppearance.WCF.Headline3" parent="TextAppearance.MaterialComponents.Headline3">
-        <item name="fontFamily">sans-serif-regular</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="fontFamily">roboto_regular</item>
+        <item name="android:fontFamily">roboto_regular</item>
     </style>
 
     <style name="TextAppearance.WCF.Headline4" parent="TextAppearance.MaterialComponents.Headline4">
-        <item name="fontFamily">sans-serif-regular</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="fontFamily">roboto_regular</item>
+        <item name="android:fontFamily">roboto_regular</item>
     </style>
 
     <style name="TextAppearance.WCF.Headline4.Primary">
@@ -47,14 +47,14 @@ Reference:
     </style>
 
     <style name="TextAppearance.WCF.Headline5" parent="TextAppearance.MaterialComponents.Headline5">
-        <item name="fontFamily">sans-serif-regular</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="fontFamily">roboto_regular</item>
+        <item name="android:fontFamily">roboto_regular</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextAppearance.WCF.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">roboto_medium</item>
+        <item name="android:fontFamily">roboto_medium</item>
         <item name="android:textStyle">bold</item>
     </style>
 
@@ -63,14 +63,14 @@ Reference:
     </style>
 
     <style name="TextAppearance.WCF.Subtitle1" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">sans-serif-regular</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="fontFamily">roboto_regular</item>
+        <item name="android:fontFamily">roboto_regular</item>
         <item name="android:textStyle">normal</item>
     </style>
 
     <style name="TextAppearance.WCF.Subtitle1.Medium" parent="TextAppearance.MaterialComponents.Subtitle1">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">roboto_medium</item>
+        <item name="android:fontFamily">roboto_medium</item>
         <item name="android:textStyle">normal</item>
     </style>
 
@@ -79,15 +79,15 @@ Reference:
     </style>
 
     <style name="TextAppearance.WCF.Subtitle2" parent="TextAppearance.MaterialComponents.Subtitle2">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">roboto_medium</item>
+        <item name="android:fontFamily">roboto_medium</item>
         <item name="android:textStyle">bold</item>
     </style>
 
 
     <style name="TextAppearance.WCF.Body1" parent="TextAppearance.MaterialComponents.Body1">
-        <item name="fontFamily">sans-serif-regular</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="fontFamily">roboto_regular</item>
+        <item name="android:fontFamily">roboto_regular</item>
     </style>
 
     <style name="TextAppearance.WCF.Body1.Primary">
@@ -100,8 +100,8 @@ Reference:
 
 
     <style name="TextAppearance.WCF.Body2" parent="TextAppearance.MaterialComponents.Body2">
-        <item name="fontFamily">sans-serif-regular</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="fontFamily">roboto_regular</item>
+        <item name="android:fontFamily">roboto_regular</item>
     </style>
 
     <style name="TextAppearance.WCF.Body2.Primary">
@@ -113,18 +113,18 @@ Reference:
     </style>
 
     <style name="TextAppearance.WCF.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">roboto_medium</item>
+        <item name="android:fontFamily">roboto_medium</item>
     </style>
 
     <style name="TextAppearance.WCF.Caption" parent="TextAppearance.MaterialComponents.Caption">
-        <item name="fontFamily">sans-serif-regular</item>
-        <item name="android:fontFamily">sans-serif-regular</item>
+        <item name="fontFamily">roboto_regular</item>
+        <item name="android:fontFamily">roboto_regular</item>
     </style>
 
     <style name="TextAppearance.WCF.Overline" parent="TextAppearance.MaterialComponents.Overline">
-        <item name="fontFamily">sans-serif-medium</item>
-        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="fontFamily">roboto_medium</item>
+        <item name="android:fontFamily">roboto_medium</item>
         <item name="android:textStyle">bold</item>
     </style>
 
