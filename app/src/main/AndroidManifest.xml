@@ -49,6 +49,9 @@
         <meta-data
             android:name="com.wcf.fitbit.REDIRECT_URL"
             android:value="${fitbit_client_redirect_url}"/>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
         <activity
             android:name=".home.HomeActivity"
