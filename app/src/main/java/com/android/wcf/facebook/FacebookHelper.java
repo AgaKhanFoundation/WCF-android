@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.android.wcf.model.Participant;
 import com.facebook.AccessToken;
+import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
@@ -33,7 +34,7 @@ public  class FacebookHelper {
                             e.printStackTrace();
                         }
                         if (onFacebookProfileCallback != null) {
-                            onFacebookProfileCallback.onParticipantProfiieRetrieved(participant);
+                            onFacebookProfileCallback.onParticipantProfileRetrieved(participant);
                         }
                     }
                 });
@@ -50,6 +51,11 @@ public  class FacebookHelper {
 
 
     public interface OnFacebookProfileCallback {
-        void onParticipantProfiieRetrieved(Participant participant);
+        void onParticipantProfileRetrieved(Participant participant);
+    }
+
+    public void initFacebookLogging() {
+        FacebookSdk.setAutoInitEnabled(true);
+        FacebookSdk.fullyInitialize();
     }
 }
