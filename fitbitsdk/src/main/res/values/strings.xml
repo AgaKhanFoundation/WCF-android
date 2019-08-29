@@ -1,5 +1,4 @@
 <resources>
-    <string name="app_name">fitsk1</string>
     <string name="logging_you_into_fitbit">Logging you into Fitbit&#8230;</string>
     <string name="login_dismissed">Login dismissed</string>
     <string name="missing_scopes_error">permission needed to use this application. Please connect again</string>
