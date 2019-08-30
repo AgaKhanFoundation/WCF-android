@@ -114,7 +114,7 @@ public abstract class BasePresenter {
                     public void onSuccess(Participant participant) {
                        FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
                             @Override
-                            public void onParticipantProfiieRetrieved(Participant participant) {
+                            public void onParticipantProfileRetrieved(Participant participant) {
                                 onGetParticipantSuccess(participant);
                             }
                         });
@@ -352,11 +352,11 @@ public abstract class BasePresenter {
             fbIdList.add(fbId);
             FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
                 @Override
-                public void onParticipantProfiieRetrieved(Participant participant) {
-                    Log.d(TAG, "onParticipantProfiieRetrieved: " + facebookRequestCount + " name=" + participant.getName());
+                public void onParticipantProfileRetrieved(Participant participant) {
+                    Log.d(TAG, "onParticipantProfileRetrieved: " + facebookRequestCount + " name=" + participant.getName());
                     --facebookRequestCount;
                     if (facebookRequestCount == 0) {
-                        Log.d(TAG, "onParticipantProfiieRetrieved facebookRequestCount = 0 onGetTeamParticipantsInfoSuccess");
+                        Log.d(TAG, "onParticipantProfileRetrieved facebookRequestCount = 0 onGetTeamParticipantsInfoSuccess");
                         onGetTeamParticipantsInfoSuccess(team);
                     }
                 }

@@ -469,7 +469,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     public void showTeamCommitmentBreakdown(){
         Log.d(TAG, "showTeamCommitmentBreakdown");
-        mHostingParent.showTeamCommitmentDetails();
-
+        Team team = getParticipantTeam();
+        if (team != null) {
+            mHostingParent.showTeamCommitmentDetails();
+        }
     }
 }
