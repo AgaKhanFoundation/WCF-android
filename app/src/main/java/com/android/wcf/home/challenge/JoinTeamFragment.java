@@ -48,6 +48,7 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
             }
         }
     };
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);

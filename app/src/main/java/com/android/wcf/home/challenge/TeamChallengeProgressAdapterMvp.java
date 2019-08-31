@@ -5,7 +5,7 @@ import com.android.wcf.model.Team;
 
 import java.util.List;
 
-public interface TeamDetailsAdapterMvp {
+public interface TeamChallengeProgressAdapterMvp {
     public interface View {
         void updateParticipantsData(List<Participant> participantList);
         void clearSelectionPosition();

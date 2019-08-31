@@ -2,7 +2,7 @@ package com.android.wcf.home.challenge;
 
 import com.android.wcf.base.BaseMvp;
 
-public interface TeamDetailsMvp extends BaseMvp.BaseView {
+public interface TeamChallengeProgressMvp extends BaseMvp.BaseView {
     interface View extends BaseMvp.BaseView {
     }
 

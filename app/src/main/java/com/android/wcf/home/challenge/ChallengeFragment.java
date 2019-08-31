@@ -164,6 +164,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
+    public void onGetEventError(Throwable error) {
+        SharedPreferencesUtil.cleartMyActiveEventId();
+    }
+
+    @Override
     public void onParticipantIdMissing() {
         Toast.makeText(getContext(), "Login Id needed. Please login", Toast.LENGTH_SHORT).show();
         WCFApplication.instance.requestLogin();
@@ -292,7 +297,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
             if (team != null) {
                 TextView teamNameTv = teamProfileView.findViewById(R.id.team_name);
-                TextView teamLeadLabelTv = teamProfileView.findViewById(R.id.team_lead_label);
                 TextView teamLeadNameTv = teamProfileView.findViewById(R.id.team_lead_name);
                 TextView teamSizeTv = teamProfileView.findViewById(R.id.team_size_label);
                 TextView teamMilesCommitmentStatusLabelTv = teamProfileView.findViewById(R.id.team_miles_commitment_status_label);
@@ -315,7 +319,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 String teamMilesCommitted = formatter.format(teamMiles);
 
                 teamNameTv.setText(team.getName());
-                teamLeadLabelTv.setVisibility(View.VISIBLE);
                 teamLeadNameTv.setText(team.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
                 teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, teamMiles, teamGoal));
@@ -367,14 +370,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public void showInviteTeamMembersCard(int openSlots) {
         challengeTeamInviteCard.setVisibility(View.VISIBLE);
 
-        String openSlotsString = getResources().getQuantityString(R.plurals.team_spots_available, openSlots, openSlots);
-        String openSlotsMembersString = getResources().getQuantityString(R.plurals.team_members_count, openSlots, openSlots);
-
         TextView inviteMessage = challengeTeamInviteCard.findViewById(R.id.invite_team_members_message);
-        inviteMessage.setText(getString(R.string.challenge_invite_team_members_message, openSlotsString));
+        inviteMessage.setText(getResources().getQuantityString(R.plurals.challenge_invite_team_members_message, openSlots, openSlots));
 
         TextView inviteLabel = challengeTeamInviteCard.findViewById(R.id.team_invite_label);
-        inviteLabel.setText(getString(R.string.team_invite_more_members_message, openSlotsMembersString));
+        inviteLabel.setText(getResources().getQuantityString(R.plurals.team_invite_more_members_message, openSlots, openSlots));
     }
 
     @Override
@@ -467,7 +467,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     public void showTeamCommitmentBreakdown(){
         Log.d(TAG, "showTeamCommitmentBreakdown");
-        mHostingParent.showTeamCommitmentDetails();
-
+        Team team = getParticipantTeam();
+        if (team != null) {
+            mHostingParent.showTeamChallengeProgress();
+        }
     }
 }

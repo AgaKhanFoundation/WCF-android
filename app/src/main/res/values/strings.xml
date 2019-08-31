@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Step4Change</string>
+    <string name="app_name">Steps4Impact</string>
     <string name="tabLeaderboard">LeaderBoard</string>
     <string name="tabMyProfile">My Profile</string>
     <string name="tabMyTeam">My Team</string>
@@ -22,8 +22,10 @@
         <item>This Event</item>
         <item>Overall</item>
     </string-array>
-    <string name="fb_login_protocol_scheme">fb517692571972108</string>
-    <string name="facebook_app_id">517692571972108</string>
+    <!--<string name="fb_login_protocol_scheme">fb517692571972108</string>-->
+    <!--<string name="facebook_app_id">517692571972108</string>-->
+    <string name="fb_login_protocol_scheme">fb952254615120365</string>
+    <string name="facebook_app_id">952254615120365</string>
     <string name="facebook_steps4change_group_id">466564417434674</string>
 
     <string name="title_activity_home">Home</string>
@@ -54,7 +56,7 @@
     <string-array name="onboard_tutorial_step_title">
         <item>Create a team or join an existing team</item>
         <item>Complete a challenge while reaching milestones</item>
-        <item>Track your progres using the dashboard </item>
+        <item>Track your progress using the dashboard </item>
     </string-array>
 
     <string-array name="onboard_tutorial_step_button_title">
@@ -90,6 +92,9 @@
     <string name="settings_fitness_device_connect_label">Connect</string>
     <string name="settings_fitness_device_disconnect_label">Disconnect</string>
     <string name="settings_fitness_device_connect_message">Connect your Fitbit to sync your daily steps.</string>
+    <string name="settings_team_membership_title">Team</string>
+
+    <string name="content_description_team_photo">Team photo</string>
 
     <!-- image content description -->
     <string name="content_description_participant_photo">Participant photo</string>
@@ -135,14 +140,14 @@
     <string name="create_team_dont_continue_button_text">Yes, cancel setup</string>
     <string name="join_team_title">Join Team</string>
     <string name="team_created_message">Your team has been created!</string>
-    <string name="team_created_invite_members_message">Next, invite friends to join. You have 10 spots remaining on your team.</string>
+    <string name="team_created_invite_members_message">Next, invite friends to join. You have %1$d spots remaining on your team.</string>
     <string name="invite_members_to_join_label">Invite friends to join</string>
     <string name="team_created_continue_message">Continue</string>
     <string name="invite_team_member_template">"Hey! I have created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Change, and I want you on my team!\n"
                 "Download the app here:\n"
         "%3$s\n" </string>
-    <string name="team_invite_more_members_message">Invite %1$s new team members</string>
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
+    <string name="team_invite_more_members_message">Invite %1$s new team members</string>
     <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$s remaining. Invite more friends to join!</string>
     <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
     <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
@@ -164,5 +169,11 @@
     <string name="challenge_team_member_rankings_label">Team member rankings</string>
 
     <string name="team_detail_distance_goal_template">/%1$d miles</string>
+    <string name="remove_team_member_label">Remove</string>
+    <string name="team_membership_container_label">Team Members</string>
+    <string name="cancel_remove_team_member_button_text">Cancel</string>
+    <string name="remove_team_member_button">Remove</string>
+    <string name="remove_team_member_title">Remove %1$s?</string>
+    <string name="remove_team_member_message">%1$s will be permanently removed from your team</string>
 
 </resources>

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/color_white"
     android:padding="@dimen/spacing_normal"
-    tools:context="com.android.wcf.home.challenge.TeamDetailsFragment">
+    tools:context="com.android.wcf.home.challenge.TeamChallengeProgressFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/challenge_team_progress_summary_container"

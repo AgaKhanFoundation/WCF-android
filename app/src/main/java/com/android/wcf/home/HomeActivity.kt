@@ -31,7 +31,7 @@ class HomeActivity : BaseActivity()
         , ChallengeMvp.Host
         , CreateTeamMvp.Host
         , JoinTeamMvp.Host
-        , TeamDetailsMvp.Host
+        , TeamChallengeProgressMvp.Host
         , LeaderboardMvp.Host
         , NotificationsMvp.Host {
 
@@ -179,7 +179,7 @@ class HomeActivity : BaseActivity()
             homePresenter!!.participantLeaveFromTeam(myParticpantId)
         } else if (participantTeamId != null) {
             myTeamId = participantTeamId.toInt() // team must have been assigned previously
-            SharedPreferencesUtil.saveMyTeamId (myTeamId)
+            SharedPreferencesUtil.saveMyTeamId(myTeamId)
         }
         if (participant.eventId == null || participant.eventId?.toInt() != myActiveEventId) {
             homePresenter!!.updateParticipantEvent(myParticpantId, myActiveEventId)
@@ -239,8 +239,8 @@ class HomeActivity : BaseActivity()
                 .commit()
     }
 
-    override fun showTeamCommitmentDetails() {
-        val fragment = TeamDetailsFragment()
+    override fun showTeamChallengeProgress() {
+        val fragment = TeamChallengeProgressFragment()
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

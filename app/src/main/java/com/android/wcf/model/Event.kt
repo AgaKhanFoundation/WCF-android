@@ -1,6 +1,7 @@
 package com.android.wcf.model
 
 import com.google.gson.annotations.SerializedName
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
@@ -32,30 +33,58 @@ data class Event(
 
     fun daysToStartEvent(): Int {
         startDate?.let {
-            val days = TimeUnit.MILLISECONDS.toDays(it.time - Date().time);
+            val difference = it.time - Date().time
+            if (difference < 0)
+                return -1
+
+            val days = TimeUnit.DAYS.convert(it.time - Date().time, TimeUnit.MILLISECONDS)
+            val days1 = TimeUnit.MILLISECONDS.toDays(it.time - Date().time);
             if (days > 0) {
                 return days.toInt()
             }
+            if (difference > 0) {
+                val sdf = SimpleDateFormat("yyyy-mm-dd")
+                val today = sdf.format(Date())
+                val start = sdf.format(it)
+                if (today.equals(start)) {
+                    return 0
+                }
+                return 1
+            }
         }
-        return 0
+        return -1
     }
 
     fun daysToEndEvent(): Int {
         endDate?.let {
-            val days = TimeUnit.MILLISECONDS.toDays(it.time - Date().time);
+            val difference = it.time - Date().time
+            if (difference < 0)
+                return -1
+
+            val days = TimeUnit.DAYS.convert(it.time - Date().time, TimeUnit.MILLISECONDS)
+            val days1 = TimeUnit.MILLISECONDS.toDays(it.time - Date().time);
             if (days > 0) {
                 return days.toInt()
             }
+            if (difference > 0) {
+                val sdf = SimpleDateFormat("yyyy-mm-dd")
+                val today = sdf.format(Date())
+                val end = sdf.format(it)
+                if (today.equals(end)) {
+                    return 0
+                }
+                return 1
+            }
         }
-        return 0
+        return -1
     }
 
     fun hasChallengeStarted(): Boolean {
-        return daysToStartEvent() <= 0
+        return daysToStartEvent() < 0
     }
 
     fun hasChallengeEnded(): Boolean {
-        return daysToEndEvent() <= 0
+        return daysToEndEvent() < 0
     }
 }
 

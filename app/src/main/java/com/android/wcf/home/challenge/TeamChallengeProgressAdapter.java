@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
-import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Participant;
 import com.bumptech.glide.Glide;
@@ -21,36 +20,38 @@ import com.bumptech.glide.request.RequestOptions;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class TeamDetailsAdapter extends RecyclerView.Adapter<TeamDetailsAdapter.TeamDetailsViewHolder> implements TeamDetailsAdapterMvp.View {
+public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChallengeProgressAdapter.TeamChallengeProgressViewHolder> implements TeamChallengeProgressAdapterMvp.View {
 
-    private static final String TAG = TeamDetailsAdapter.class.getSimpleName();
+    private static final String TAG = TeamChallengeProgressAdapter.class.getSimpleName();
 
-    TeamDetailsAdapterMvp.Presenter teamDetailsAdapterPresenter;
+    TeamChallengeProgressAdapterMvp.Presenter teamDetailsAdapterPresenter;
     int teamSizeLimit;
     String myParticipantId;
     boolean challengeStarted = false;
+
     DecimalFormat decimalFormatter = new DecimalFormat("##,###.##");
 
 
-    public TeamDetailsAdapter(TeamDetailsAdapterMvp.Host host, int teamSizeLimit, String participantId, boolean challengeStarted) {
+    public TeamChallengeProgressAdapter(TeamChallengeProgressAdapterMvp.Host host, int teamSizeLimit, String participantId, boolean challengeStarted) {
         super();
         this.teamSizeLimit = teamSizeLimit;
         this.myParticipantId = participantId;
         this.challengeStarted = challengeStarted;
 
-        teamDetailsAdapterPresenter = new TeamDetailsAdapterPresenter(this, host);
+        teamDetailsAdapterPresenter = new TeamChallengeProgressAdapterPresenter(this, host);
     }
 
     @Override
-    public TeamDetailsAdapter.TeamDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public TeamChallengeProgressAdapter.TeamChallengeProgressViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.view_list_team_details_item, parent, false);
-        return new TeamDetailsViewHolder(view);
+                .inflate(R.layout.view_list_team_details_challenge_progress_item, parent, false);
+        return new TeamChallengeProgressViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull TeamDetailsAdapter.TeamDetailsViewHolder holder, int position) {
-        Participant participant = teamDetailsAdapterPresenter.getParticipant(position);
+    public void onBindViewHolder(@NonNull TeamChallengeProgressAdapter.TeamChallengeProgressViewHolder holder, int position) {
+
+      Participant participant = teamDetailsAdapterPresenter.getParticipant(position);
         Resources res = holder.itemView.getContext().getResources();
 
         holder.participantRank.setText(position + 1 + "");
@@ -68,8 +69,7 @@ public class TeamDetailsAdapter extends RecyclerView.Adapter<TeamDetailsAdapter.
         holder.participantName.setText(participant.getName());
         if (myParticipantId.equals(participant.getParticipantId())) {
             holder.participantName.setTextColor(res.getColor(R.color.color_primary));
-        }
-        else {
+        } else {
             holder.participantName.setTextColor(res.getColor(android.R.color.tab_indicator_text));
         }
 
@@ -87,6 +87,7 @@ public class TeamDetailsAdapter extends RecyclerView.Adapter<TeamDetailsAdapter.
         holder.participantFundsSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
         holder.participantFundsAccrued.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
     }
+
 
     @Override
     public void updateParticipantsData(List<Participant> participantList) {
@@ -108,7 +109,8 @@ public class TeamDetailsAdapter extends RecyclerView.Adapter<TeamDetailsAdapter.
         notifyDataSetChanged();
     }
 
-    static class TeamDetailsViewHolder extends RecyclerView.ViewHolder {
+
+    static class TeamChallengeProgressViewHolder extends  RecyclerView.ViewHolder {
         TextView participantRank;
         ImageView participantImage;
         TextView participantName;
@@ -119,7 +121,7 @@ public class TeamDetailsAdapter extends RecyclerView.Adapter<TeamDetailsAdapter.
         TextView participantFundsAccrued;
         TextView participantFundsSepartor;
 
-        public TeamDetailsViewHolder(@NonNull View itemView) {
+        public TeamChallengeProgressViewHolder(@NonNull View itemView) {
             super(itemView);
             setupView(itemView);
         }
@@ -128,6 +130,7 @@ public class TeamDetailsAdapter extends RecyclerView.Adapter<TeamDetailsAdapter.
             participantRank = view.findViewById(R.id.participant_rank);
             participantImage = view.findViewById(R.id.participant_image);
             participantName = view.findViewById(R.id.participant_name);
+
             participantDistanceSepartor = view.findViewById(R.id.participant_distance_separtor);
             participantDistanceCommitment = view.findViewById(R.id.participant_distance_commitment);
             participantDistanceWalked = view.findViewById(R.id.participant_distance_walked);

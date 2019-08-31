@@ -18,7 +18,7 @@
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/participant_profile"
+            android:id="@+id/participant_profile_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/color_white"
@@ -33,7 +33,7 @@
                 android:layout_height="80dp"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:contentDescription="@string/content_description_participant_photo"
-                android:src="@drawable/sultan_linkedin"
+                tools:src="@drawable/sultan_linkedin"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
@@ -87,10 +87,10 @@
             android:textAppearance="?textAppearanceHeadline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/participant_profile" />
+            app:layout_constraintTop_toBottomOf="@+id/participant_profile_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/participant_settings"
+            android:id="@+id/participant_settings_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal_half"
@@ -242,7 +242,7 @@
             android:textAppearance="?textAppearanceHeadline6"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/participant_settings" />
+            app:layout_constraintTop_toBottomOf="@+id/participant_settings_container" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/team_settings_container"
@@ -426,7 +426,20 @@
             android:textSize="19sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/btn_signout" />
+            app:layout_constraintTop_toBottomOf="@id/btn_signout"
+            app:layout_constraintBottom_toTopOf="@+id/app_version" />
+
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal_half"
+            android:textAppearance="@style/TextAppearance.WCF.Body2.Dim"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="v0.1.0"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.core.widget.NestedScrollView>

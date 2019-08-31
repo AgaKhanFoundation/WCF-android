@@ -26,5 +26,7 @@ public interface SettingsMvp {
         void signout();
 
         void restartHomeActivity();
+
+        void showTeamMembershipDetail();
     }
 }

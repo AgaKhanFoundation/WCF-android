@@ -109,7 +109,7 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
         //later we will provide UI to allow users to select from a list
 
         int currentEventId = SharedPreferencesUtil.getMyActiveEventId();
-        if (currentEventId == SharedPreferencesUtil.DEFAULT_ACTIVE_EVENT_ID) {
+        if (currentEventId == SharedPreferencesUtil.DEFAULT_ACTIVE_EVENT_ID || currentEventId != event.getId()) {
             SharedPreferencesUtil.saveMyActiveEvent(event.getId());
         }
 

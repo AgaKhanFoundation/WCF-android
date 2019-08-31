@@ -39,6 +39,8 @@ public interface ChallengeMvp {
         void showFundraisingInvite();
 
         void showMilesEditDialog( int currentMiles, final EditTextDialogListener editTextDialogListener);
+
+        void onGetEventError(Throwable error);
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -72,7 +74,7 @@ public interface ChallengeMvp {
 
         void showJoinTeam();
 
-        void showTeamCommitmentDetails();
+        void showTeamChallengeProgress();
 
     }
 }

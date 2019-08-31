@@ -45,7 +45,7 @@ public class DateStringTypeConverter implements JsonDeserializer<Date>, JsonSeri
                 String dateString = jsonElement.getAsString();
                 SimpleDateFormat formatter = new SimpleDateFormat(format);
                 //input date is UTC. If we do not set timeZone to UTC, SimpleDateFormat parser will treat the string to represent local time
-                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+                formatter.setTimeZone(TimeZone.getDefault());
                 return formatter.parse(dateString);
             } catch (ParseException e) {
                 Log.e("DateParser", "error: " + e.getMessage());

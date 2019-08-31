@@ -14,7 +14,7 @@ import com.android.wcf.base.BaseActivity;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 
-public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
+public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, TeamMembershipMvp.Host {
 
     private Toolbar toolbar;
 
@@ -67,4 +67,13 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host {
         setSupportActionBar(toolbar);
     }
 
+    @Override
+    public void showTeamMembershipDetail() {
+        Fragment fragment = new TeamMembershipFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 }

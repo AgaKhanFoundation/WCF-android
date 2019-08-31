@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -45,6 +47,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     private TextInputEditText teamNameEditText = null;
     private SwitchCompat teamVisibiltySwitch = null;
 
+    private TextView teamInviteMessageTv = null;
     private Button inviteMembersButton = null;
     private View teamCreatedContinueView = null;
 
@@ -233,6 +236,9 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     }
 
     void setupTeamCreatedCardView(View view) {
+        teamInviteMessageTv = view.findViewById(R.id.team_invite_message);
+        Event event = getEvent();
+        teamInviteMessageTv.setText(getString(R.string.team_created_invite_members_message, event.getTeamLimit() - 1));
         inviteMembersButton = view.findViewById(R.id.btn_invite_members);
         teamCreatedContinueView = view.findViewById(R.id.team_created_continue);
         inviteMembersButton.setOnClickListener(onClickListener);

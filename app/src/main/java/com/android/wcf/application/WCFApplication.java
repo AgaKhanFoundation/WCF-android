@@ -34,8 +34,6 @@ import android.content.Intent;
 import com.android.wcf.R;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
-import com.android.wcf.model.Participant;
-import com.android.wcf.model.Team;
 
 import androidx.preference.PreferenceManager;
 
@@ -50,6 +48,7 @@ public class WCFApplication extends Application {
         super.onCreate();
         PreferenceManager.setDefaultValues(this, R.xml.settings_preferences_root, false);
         instance = this;
+
     }
 
     public Application getInstance() {
