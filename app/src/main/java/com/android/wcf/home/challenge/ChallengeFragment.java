@@ -310,8 +310,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
                 DecimalFormat formatter = new DecimalFormat("#,###,###");
                 int currentTeamSize = team.getParticipants().size();
-                int teamMiles = currentTeamSize * Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT;
-                int teamGoal = event.getTeamLimit() * Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT;
+                int teamMiles = currentTeamSize * event.getDefaultParticipantCommitment();
+                int teamGoal = event.getTeamLimit() * event.getDefaultParticipantCommitment();;
                 int remainingTeamGoalMiles = teamGoal - teamMiles;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 
