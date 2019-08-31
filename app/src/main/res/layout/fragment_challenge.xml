@@ -215,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/team_name"
@@ -225,26 +225,29 @@
                         android:textAppearance="?textAppearanceHeadline6"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        android:text="World walkers" />
+                        tools:text="World walkers" />
 
                     <TextView
                         android:id="@+id/team_lead_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="@dimen/spacing_normal"
                         android:text="Team Lead"
-                        app:layout_constraintStart_toStartOf="parent"
+                        android:visibility="visible"
+                        app:layout_constraintStart_toStartOf="@id/team_name"
                         app:layout_constraintTop_toBottomOf="@id/team_name" />
 
                     <TextView
                         android:id="@+id/team_lead_name"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:gravity="start"
                         android:layout_marginStart="@dimen/spacing_small"
                         android:layout_marginEnd="@dimen/spacing_normal"
                         tools:text="Sarah Bhamani"
+                        android:visibility="visible"
                         app:layout_constraintStart_toEndOf="@id/team_lead_label"
-                        app:layout_constraintBaseline_toBaselineOf="@id/team_lead_label" />
+                        app:layout_constraintTop_toBottomOf="@id/team_name"
+                        app:layout_constraintBaseline_toBaselineOf="@id/team_lead_label"/>
 
                     <TextView
                         android:id="@+id/team_size_label"
@@ -263,7 +266,7 @@
                         android:textAppearance="?textAppearanceSubtitle2"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/team_size_label"
-                        android:text="3500/5000 miles committed"/>
+                        tools:text="3500/5000 miles committed"/>
 
                     <ProgressBar
                         android:id="@+id/team_miles_commitment_status_graph"
@@ -349,7 +352,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textAppearance="?textAppearanceSubtitle2"
-                        android:text="25000"
+                        tools:text="25000"
                         app:layout_constraintEnd_toEndOf="@id/participant_committed_miles"
                         app:layout_constraintBaseline_toBaselineOf="@id/team_committed_miles_label" />
 
@@ -379,7 +382,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textAppearance="?textAppearanceSubtitle2"
-                        android:text="55000"
+                        tools:text="55000"
                         app:layout_constraintEnd_toEndOf="@id/participant_committed_miles"
                         app:layout_constraintBaseline_toBaselineOf="@id/remaining_goal_miles_label" />
 

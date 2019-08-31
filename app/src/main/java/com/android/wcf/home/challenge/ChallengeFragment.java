@@ -297,7 +297,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
             if (team != null) {
                 TextView teamNameTv = teamProfileView.findViewById(R.id.team_name);
-                TextView teamLeadLabelTv = teamProfileView.findViewById(R.id.team_lead_label);
                 TextView teamLeadNameTv = teamProfileView.findViewById(R.id.team_lead_name);
                 TextView teamSizeTv = teamProfileView.findViewById(R.id.team_size_label);
                 TextView teamMilesCommitmentStatusLabelTv = teamProfileView.findViewById(R.id.team_miles_commitment_status_label);
@@ -320,7 +319,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 String teamMilesCommitted = formatter.format(teamMiles);
 
                 teamNameTv.setText(team.getName());
-                teamLeadLabelTv.setVisibility(View.VISIBLE);
                 teamLeadNameTv.setText(team.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
                 teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, teamMiles, teamGoal));
@@ -471,7 +469,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         Log.d(TAG, "showTeamCommitmentBreakdown");
         Team team = getParticipantTeam();
         if (team != null) {
-            mHostingParent.showTeamCommitmentDetails();
+            mHostingParent.showTeamChallengeProgress();
         }
     }
 }

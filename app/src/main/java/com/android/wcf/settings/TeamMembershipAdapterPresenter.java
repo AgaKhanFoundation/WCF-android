@@ -1,4 +1,4 @@
-package com.android.wcf.home.challenge;
+package com.android.wcf.settings;
 
 import androidx.annotation.NonNull;
 
@@ -7,13 +7,13 @@ import com.android.wcf.model.Participant;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamDetailsAdapterPresenter implements TeamDetailsAdapterMvp.Presenter {
+public class TeamMembershipAdapterPresenter implements TeamMembershipAdapterMvp.Presenter {
 
-    TeamDetailsAdapterMvp.View view;
+    TeamMembershipAdapterMvp.View view;
     List<Participant> participants = new ArrayList<>();
-    TeamDetailsAdapterMvp.Host host;
+    TeamMembershipAdapterMvp.Host host;
 
-    public TeamDetailsAdapterPresenter(@NonNull TeamDetailsAdapterMvp.View view, @NonNull TeamDetailsAdapterMvp.Host host) {
+    public TeamMembershipAdapterPresenter(@NonNull TeamMembershipAdapterMvp.View view, @NonNull TeamMembershipAdapterMvp.Host host) {
         this.view = view;
         this.host = host;
     }
@@ -33,5 +33,11 @@ public class TeamDetailsAdapterPresenter implements TeamDetailsAdapterMvp.Presen
     @Override
     public Participant getParticipant(int position) {
         return participants.get(position);
+    }
+
+    @Override
+    public void removeMemberFromTeam(int pos) {
+        Participant participant = getParticipant(pos);
+        host.removeMemberFromTeam(participant.getName(), participant.getParticipantId());
     }
 }

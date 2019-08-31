@@ -13,10 +13,8 @@ import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseActivity;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.home.challenge.TeamDetailsFragment;
-import com.android.wcf.home.challenge.TeamDetailsMvp;
 
-public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, TeamDetailsMvp.Host {
+public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, TeamMembershipMvp.Host {
 
     private Toolbar toolbar;
 
@@ -71,7 +69,7 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
 
     @Override
     public void showTeamMembershipDetail() {
-        Fragment fragment = new TeamDetailsFragment();
+        Fragment fragment = new TeamMembershipFragment();
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

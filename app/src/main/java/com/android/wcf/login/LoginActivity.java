@@ -109,6 +109,12 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
                                     userEmail = object.getString("email");
                                     userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
 
+                                    String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
+                                    if (!userId.equals(savedParticipantId)){
+                                        SharedPreferencesUtil.clearMyTeamId();
+                                        setParticipantTeam(null);
+                                    }
+
                                     SharedPreferencesUtil.saveMyAuthenticationMethodAsFacebook();
                                     SharedPreferencesUtil.saveMyFacebookId(userId);
                                     SharedPreferencesUtil.saveMyParticipantId(userId);

@@ -74,7 +74,7 @@ public interface ChallengeMvp {
 
         void showJoinTeam();
 
-        void showTeamCommitmentDetails();
+        void showTeamChallengeProgress();
 
     }
 }

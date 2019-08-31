@@ -198,11 +198,11 @@
                 android:layout_marginTop="@dimen/spacing_large"
                 android:gravity="center"
                 android:lineSpacingMultiplier="@dimen/body_line_spacing_2"
-                android:text="@string/team_created_invite_members_message"
                 android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/team_created_message" />
+                app:layout_constraintTop_toBottomOf="@id/team_created_message"
+                tools:text="@string/team_created_invite_members_message"/>
 
             <Button
                 android:id="@+id/btn_invite_members"

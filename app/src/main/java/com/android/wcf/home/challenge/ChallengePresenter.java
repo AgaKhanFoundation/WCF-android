@@ -72,12 +72,12 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             Team team = challengeView.getParticipantTeam();
             if (team == null) {
                 if (eventRetrieved && event != null) {
-                    if (event.daysToStartEvent() > 0 && !event.hasTeamBuildingEnded()) {
+                    if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
                         challengeView.hideParticipantTeamProfileView();
                         challengeView.showCreateOrJoinTeamView();
                     } else {
                         challengeView.hideCreateOrJoinTeamView();
-                        challengeView.showParticipantTeamProfileView();
+                        challengeView.hideParticipantTeamProfileView();
                     }
                     challengeView.hideInviteTeamMembersCard();
                     challengeView.showFundraisingInvite();
@@ -89,7 +89,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
                 boolean showTeamInvite = false;
                 if (eventRetrieved && event != null) {
-                    if (event.daysToStartEvent() > 0 && !event.hasTeamBuildingEnded()) {
+                    if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
                         List<Participant> participants = team.getParticipants();
                         if (participants != null) {
                             int openSlots = event.getTeamLimit() - participants.size();
@@ -113,7 +113,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             Team team = challengeView.getParticipantTeam();
 
             if (event != null) {
-                if (event.daysToStartEvent() > 0) {
+                if (event.daysToStartEvent() >= 0) {
                     challengeView.hideJourneyActiveView();
 
                     if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {

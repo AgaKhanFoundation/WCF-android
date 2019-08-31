@@ -41,6 +41,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     View participantSettingsContainer;
     View teamSettingsContainer;
 
+    boolean isTeamLead = false;
+    Team team;
+
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -86,6 +89,11 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
         TextView appVersionTv = fragmentView.findViewById(R.id.app_version);
         appVersionTv.setText("v" + BuildConfig.VERSION_NAME);
+
+        team = getParticipantTeam();
+        if (team != null) {
+            isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
+        }
     }
 
     @Override
@@ -204,8 +212,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             SharedPreferencesUtil.clearMyTeamId();
             setParticipantTeam(null);
             host.restartHomeActivity();
-        } else {  //team lead removed a member, so refresh view
-
         }
     }
 
@@ -226,8 +232,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     .into(participantImage);
         }
 
-        Team team = getParticipantTeam();
-        Participant participant = getParticipant();
         participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
         if (team != null) {
             teamNameTv.setText(team.getName());
@@ -284,12 +288,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         View leaveLabel = leaveTeamContainer.findViewById(R.id.leave_team_label);
         View image = leaveTeamContainer.findViewById(R.id.leave_team_icon);
 
-        Team team = getParticipantTeam();
-        boolean isTeamLead = false;
-        if (team != null) {
-            isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
-        }
-
         boolean leaveEnabled = false;
         int teamId = SharedPreferencesUtil.getMyTeamId();
         if (teamId > 0 && team != null && !isTeamLead) {
@@ -310,7 +308,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     public void showTeamMembershipDetail(){
         Log.d(TAG, "showTeamMembershipDetail");
-        if (host != null) {
+        if (team != null) {
             host.showTeamMembershipDetail();
         }
     }

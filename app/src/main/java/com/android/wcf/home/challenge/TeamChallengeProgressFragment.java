@@ -26,17 +26,18 @@ import com.android.wcf.model.Team;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.View, TeamDetailsAdapterMvp.Host {
+public class TeamChallengeProgressFragment extends BaseFragment implements TeamChallengeProgressMvp.View, TeamChallengeProgressAdapterMvp.Host {
 
-    private TeamDetailsMvp.Host host;
+    private TeamChallengeProgressMvp.Host host;
     private Team team;
     private Event event;
 
     private RecyclerView participantRecyclerView = null;
-    private TeamDetailsAdapter teamDetailsAdapter = null;
+    private TeamChallengeProgressAdapter teamChallengeProgressAdapter = null;
     private View challengeTeamProgressSummaryContainer;
     private View challengeTeamMemberDetailsContainer;
     private View challengeTeamInviteContainer;
+
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -52,11 +53,11 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof TeamDetailsMvp.Host) {
-            host = (TeamDetailsMvp.Host) context;
+        if (context instanceof TeamChallengeProgressMvp.Host) {
+            host = (TeamChallengeProgressMvp.Host) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement TeamDetailsMvp.Host");
+                    + " must implement TeamChallengeProgressMvp.Host");
         }
     }
 
@@ -75,7 +76,7 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragmentView = inflater.inflate(R.layout.fragment_team_details, container, false);
+        View fragmentView = inflater.inflate(R.layout.fragment_team_challenge_progress, container, false);
         return fragmentView;
     }
 
@@ -112,9 +113,9 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
 
     void refreshTeamParticipantsList() {
 
-        teamDetailsAdapter.clearSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
+        teamChallengeProgressAdapter.clearSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
         participantRecyclerView.scrollToPosition(0);
-        teamDetailsAdapter.updateParticipantsData(team.getParticipants());
+        teamChallengeProgressAdapter.updateParticipantsData(team.getParticipants());
     }
 
     void setupView(View fragmentView) {
@@ -129,13 +130,13 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
     }
 
     void setupChallengeTeamProgressSummaryContainer(View container) {
-        TextView distanceGoalTv =  container.findViewById(R.id.team_total_distance_goal);
+        TextView distanceGoalTv = container.findViewById(R.id.team_total_distance_goal);
         TextView distanceWalkedTv = container.findViewById(R.id.team_total_distance_walked);
         TextView fundsRaisedTv = container.findViewById(R.id.team_total_funds_raised_amount);
         distanceWalkedTv.setText(getTeamTotalDistanceWalked() + "");
-        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template,event.getTeamLimit() * Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT)) ;
+        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, event.getTeamLimit() * Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT));
 
-       double fundRaiseAccrued = getTeamTotalFundRaiseAccrued();
+        double fundRaiseAccrued = getTeamTotalFundRaiseAccrued();
         DecimalFormat formatter = new DecimalFormat("$###,###.##");
         fundsRaisedTv.setText(formatter.format(fundRaiseAccrued));
     }
@@ -149,11 +150,12 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
     }
 
     void setupChallengeTeamMemberDetailsContainer(View container) {
-        if (teamDetailsAdapter == null) {
-            teamDetailsAdapter = new TeamDetailsAdapter(this,
-                    ((Event) event).getTeamLimit(),
+        if (teamChallengeProgressAdapter == null) {
+            teamChallengeProgressAdapter = new TeamChallengeProgressAdapter(this,
+                    event.getTeamLimit(),
                     SharedPreferencesUtil.getMyParticipantId(),
-                    event.hasChallengeStarted());
+                    event.hasChallengeStarted()
+            );
         }
 
         participantRecyclerView = container.findViewById(R.id.team_members_list);
@@ -163,15 +165,15 @@ public class TeamDetailsFragment extends BaseFragment implements TeamDetailsMvp.
 
         participantRecyclerView.addItemDecoration(new ListPaddingDecoration(getContext()));
 
-        participantRecyclerView.setAdapter(teamDetailsAdapter);
+        participantRecyclerView.setAdapter(teamChallengeProgressAdapter);
 
     }
 
     void setupChallengeTeamInviteContainer(View container) {
         TextView inviteLabel = container.findViewById(R.id.team_invite_label);
         boolean showTeamInvite = false;
-        if ( event != null) {
-            if (event.daysToStartEvent() > 0 && !event.hasTeamBuildingEnded()) {
+        if (event != null) {
+            if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
                 List<Participant> participants = team.getParticipants();
                 if (participants != null) {
                     int openSlots = event.getTeamLimit() - participants.size();
