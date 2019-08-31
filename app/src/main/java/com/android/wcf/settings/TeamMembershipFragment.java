@@ -28,6 +28,7 @@ import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
+import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
@@ -131,18 +132,23 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         settingsTeamMembershipContainer = fragmentView.findViewById(R.id.settings_team_membership_container);
         settingsTeamInviteContainer = fragmentView.findViewById(R.id.settings_team_invite_container);
 
-        setupSettingsTeamProfileContainer(settingsTeamMembershipContainer);
+        setupSettingsTeamProfileContainer(settingsTeamProfileContainer);
         setupSettingsTeamMembershipContainer(settingsTeamMembershipContainer);
         setupChallengeTeamInviteContainer(settingsTeamInviteContainer);
     }
 
     void setupSettingsTeamProfileContainer(View container) {
-        ImageView teamProfileImage = settingsTeamProfileContainer.findViewById(R.id.team_image);
-        TextView teamNameTv = settingsTeamProfileContainer.findViewById(R.id.team_name);
-        TextView challengeNameTv = settingsTeamProfileContainer.findViewById(R.id.challenge_name);
+        ImageView teamProfileImage = container.findViewById(R.id.team_image);
+        TextView teamNameTv = container.findViewById(R.id.team_name);
+        TextView challengeNameTv = container.findViewById(R.id.challenge_name);
+        TextView challengeDatesTv = container.findViewById(R.id.challenge_dates);
 
         Event event = getEvent();
         challengeNameTv.setText(event.getName());
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String startDate = sdf.format(event.getStartDate());
+        String endDate = sdf.format(event.getEndDate());
+        challengeDatesTv.setText(startDate + " to " + endDate);
 
         Team team = getParticipantTeam();
         teamNameTv.setText(team.getName());

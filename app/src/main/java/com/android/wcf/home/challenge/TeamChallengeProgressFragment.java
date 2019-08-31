@@ -18,7 +18,6 @@ import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
-import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -134,7 +133,7 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
         TextView distanceWalkedTv = container.findViewById(R.id.team_total_distance_walked);
         TextView fundsRaisedTv = container.findViewById(R.id.team_total_funds_raised_amount);
         distanceWalkedTv.setText(getTeamTotalDistanceWalked() + "");
-        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, event.getTeamLimit() * Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT));
+        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, event.getTeamDistanceGoal() ) );
 
         double fundRaiseAccrued = getTeamTotalFundRaiseAccrued();
         DecimalFormat formatter = new DecimalFormat("$###,###.##");

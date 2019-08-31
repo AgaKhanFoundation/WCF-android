@@ -131,7 +131,7 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
             participantImage = view.findViewById(R.id.participant_image);
             participantName = view.findViewById(R.id.participant_name);
 
-            participantDistanceSepartor = view.findViewById(R.id.participant_distance_separtor);
+            participantDistanceSepartor = view.findViewById(R.id.participant_distance_separator);
             participantDistanceCommitment = view.findViewById(R.id.participant_distance_commitment);
             participantDistanceWalked = view.findViewById(R.id.participant_distance_walked);
 

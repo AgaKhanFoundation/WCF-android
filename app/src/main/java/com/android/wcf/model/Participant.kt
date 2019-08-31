@@ -27,7 +27,7 @@ data class Participant(
             get() = this.fbId
         var participantProfile:String? = ""
         var name:String?  = ""
-        var commitmentMiles = Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT
+        var commitmentMiles = 0
         var completedSteps:Int = 0
         var fundsCommitted:Double = 0.0
         var fundsAccrued:Double = 0.0

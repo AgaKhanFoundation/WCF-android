@@ -36,25 +36,33 @@
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:textAppearance="?textAppearanceHeadline6"
-            app:layout_constraintBottom_toTopOf="@+id/challenge_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/team_image"
+            app:layout_constraintTop_toTopOf="@id/team_image"
             tools:text="New York Champs" />
 
         <TextView
             android:id="@+id/challenge_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
-            android:layout_marginBottom="@dimen/spacing_normal"
-            app:layout_constraintBottom_toBottomOf="@+id/team_image"
+            android:gravity="start"
+            app:layout_constraintTop_toBottomOf="@id/team_name"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/team_image"
-            app:layout_constraintTop_toTopOf="@+id/team_image"
+            app:layout_constraintStart_toStartOf="@id/team_name"
             tools:text="Walk for Schools" />
 
+        <TextView
+            android:id="@+id/challenge_dates"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:gravity="start"
+            style="?textAppearanceCaption"
+            app:layout_constraintTop_toBottomOf="@id/challenge_name"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@id/challenge_name"
+            tools:text="9/1/2019 9 9/15/2019" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -90,7 +98,7 @@
         android:id="@+id/settings_team_invite_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginBottom="@dimen/spacing_normal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

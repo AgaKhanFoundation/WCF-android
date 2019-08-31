@@ -158,7 +158,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     }
 
     public void editParticipantCommitment() {
-        final TextView participantMiles = participantProfileContainer.findViewById(R.id.participant_miles);
+        final TextView participantMiles = participantSettingsContainer.findViewById(R.id.participant_miles);
         int currentMiles = 0;
         try {
             currentMiles = NumberFormat.getNumberInstance().parse(participantMiles.getText().toString()).intValue();

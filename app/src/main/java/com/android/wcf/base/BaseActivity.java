@@ -22,6 +22,7 @@ import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.fitbit.FitbitHelper;
 import com.android.wcf.googlefit.GoogleFitHelper;
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -157,6 +158,11 @@ abstract public class BaseActivity extends AppCompatActivity
     @Override
     public void setParticipant(Participant participant) {
         DataHolder.setParticipant(participant);
+        Event event = DataHolder.getEvent();
+        if (event != null && participant.getCommitmentMiles() == 0) {
+            participant.setCommitmentMiles(event.getDefaultParticipantCommitment());
+            SharedPreferencesUtil.savetMyMilesCommitted(event.getDefaultParticipantCommitment());
+        }
     }
 
     @Override

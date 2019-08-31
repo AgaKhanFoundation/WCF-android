@@ -43,9 +43,9 @@ data class Event(
                 return days.toInt()
             }
             if (difference > 0) {
-                val sdf = SimpleDateFormat("yyyy-mm-dd")
-                val today = sdf.format(Date())
-                val start = sdf.format(it)
+                val sdf = SimpleDateFormat("yyyy-MM-dd")
+                val today = sdf.format(Date().time)
+                val start = sdf.format(it.time)
                 if (today.equals(start)) {
                     return 0
                 }
@@ -85,6 +85,40 @@ data class Event(
 
     fun hasChallengeEnded(): Boolean {
         return daysToEndEvent() < 0
+    }
+
+    fun getDefaultParticipantCommitment(): Int {
+
+        val days = geDaysInChallenge()
+        if (days > 0) {
+            return (days * Constants.PARTICIPANT_COMMITMENT_MILES_PER_DAY)
+        }
+
+        return Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT
+    }
+
+    fun geDaysInChallenge():Int {
+        startDate?.let { startDate ->
+            endDate?.let { endDate ->
+                val daysInChallenge = TimeUnit.DAYS.convert(endDate.time - startDate.time, TimeUnit.MILLISECONDS) + 1
+                return daysInChallenge.toInt()
+            }
+        }
+        return 0
+    }
+
+    fun getTeamDistanceGoal():Int {
+        return teamLimit * getDefaultParticipantCommitment()
+    }
+
+    fun calculateTime(timeIn: Long?): String {
+        val day = TimeUnit.MILLISECONDS.toDays(timeIn!!).toInt()
+        val hours = TimeUnit.MILLISECONDS.toHours(timeIn) - day * 24
+        val minutes = TimeUnit.MILLISECONDS.toMinutes(timeIn) - TimeUnit.MILLISECONDS.toHours(timeIn) * 60
+        val seconds = TimeUnit.MILLISECONDS.toSeconds(timeIn) - TimeUnit.MILLISECONDS.toMinutes(timeIn) * 60
+
+        return day.toString() + " Days " + hours.toString() + " Hours " +
+                minutes.toString() + " Minutes " + seconds.toString() + " Seconds."
     }
 }
 
