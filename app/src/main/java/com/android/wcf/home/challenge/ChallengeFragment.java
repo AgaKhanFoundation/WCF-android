@@ -184,6 +184,10 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void showJourneyBeforeStartView(Event event) {
+        if (isDetached()) {
+            return;
+        }
+
         View journeyBeforeStartView = mainContentView.findViewById(R.id.journey_before_start_view);
         if (journeyBeforeStartView != null) {
 
