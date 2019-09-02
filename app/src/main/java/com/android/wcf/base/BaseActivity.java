@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
@@ -136,6 +137,13 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
+    public void popBackStack(String tag) {
+        FragmentManager fm = getSupportFragmentManager();
+        // Pop off everything up to and including the current tab
+        fm.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
     public void setEvent(Event event) {
         DataHolder.setEvent(event);
     }
@@ -242,7 +250,6 @@ abstract public class BaseActivity extends AppCompatActivity
 
     }
 
-
     @Override
     public void closeKeyboard() {
         View view = view = findViewById(android.R.id.content);
@@ -251,7 +258,6 @@ abstract public class BaseActivity extends AppCompatActivity
             imm.hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
         }
     }
-
 
     @Override
     public void showDeviceConnection() {
@@ -262,7 +268,6 @@ abstract public class BaseActivity extends AppCompatActivity
                 .addToBackStack(null)
                 .commit();
     }
-
 
     /************* Fitbit related methods   ****************/
 

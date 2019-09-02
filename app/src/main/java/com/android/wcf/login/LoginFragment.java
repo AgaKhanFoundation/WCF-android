@@ -1,6 +1,7 @@
 package com.android.wcf.login;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,13 +16,10 @@ import androidx.annotation.Nullable;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.onboard.OnboardActivity;
-import com.android.wcf.web.WebViewActivity;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
@@ -31,7 +29,7 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-public class LoginFragment extends BaseFragment implements LoginMvp.LoginView {
+public class LoginFragment extends BaseFragment implements LoginMvp.View {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
     private static final String PUBLIC_PROFILE = "public_profile";
@@ -41,6 +39,18 @@ public class LoginFragment extends BaseFragment implements LoginMvp.LoginView {
     LoginMvp.Presenter loginPesenter;
     private CallbackManager callbackManager;
     LoginButton loginButton;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof LoginMvp.Host) {
+            host = (LoginMvp.Host) context;
+        }
+        else {
+            throw new RuntimeException(context.toString()
+                    + " must implement LoginMvp.Host");
+        }
+    }
 
     @Nullable
     @Override
@@ -106,6 +116,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.LoginView {
                                     SharedPreferencesUtil.saveUserEmail(userEmail);
                                     SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
                                     joinFBGroup(userId);
+
                                     loginPesenter.onLoginSuccess();
 
                                 } catch (Exception e) {
@@ -134,7 +145,6 @@ public class LoginFragment extends BaseFragment implements LoginMvp.LoginView {
             }
         });
     }
-
 
     void joinFBGroup( String userId) {
 
@@ -173,21 +183,9 @@ public class LoginFragment extends BaseFragment implements LoginMvp.LoginView {
     }
 
     @Override
-    public boolean isOnboardingComplete() {
-        return !SharedPreferencesUtil.getShowOnboardingTutorial();
-    }
+    public void loginComplete() {
+        host.loginComplete();
 
-    @Override
-    public void showHomeActivity() {
-        Intent intent = WebViewActivity.createIntent(getActivity());
-        this.startActivity(intent);
     }
-
-    @Override
-    public void showOnboarding() {
-        Intent intent = OnboardActivity.createIntent(getActivity());
-        this.startActivity(intent);
-    }
-
 }
 

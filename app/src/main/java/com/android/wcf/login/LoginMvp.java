@@ -3,23 +3,18 @@ package com.android.wcf.login;
 import com.android.wcf.base.BaseMvp;
 
 public interface LoginMvp {
-    interface LoginView extends BaseMvp.BaseView {
-
-        void showHomeActivity();
-
-        void showOnboarding();
-
-        boolean isOnboardingComplete();
-
+    interface View extends BaseMvp.BaseView {
+        void loginComplete();
     }
 
-    interface Presenter {
+    interface Presenter extends BaseMvp.Presenter {
         void onLoginSuccess();
 
         void onLoginError(String message);
     }
 
     interface Host {
-
+        void setToolbarTitle(String title, boolean homeAffordance);
+        void loginComplete();
     }
 }

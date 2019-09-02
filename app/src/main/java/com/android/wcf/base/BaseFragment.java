@@ -238,4 +238,5 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
     }
+
 }

@@ -20,6 +20,7 @@ import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.login.AKFParticipantProfileMvp;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -54,6 +55,12 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     if (host != null) {
                         showDeviceConnection();
                     }
+                    break;
+                case R.id.navigate_to_akf_create_profile_label:
+                    if (host != null) {
+                        showCreateAKFProfile();
+                    }
+                    break;
                 case R.id.team_view_team_icon:
                     showTeamMembershipDetail();
                     break;
@@ -261,11 +268,19 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         participantSettingsContainer = parentView.findViewById(R.id.participant_settings_container);
         participantSettingsContainer.findViewById(R.id.participant_miles_setting).setOnClickListener(onClickListener);
         setupConnectDeviceClickListeners(participantSettingsContainer);
+        setupAKFProfileCreateClickListeners(participantSettingsContainer);
     }
 
     void setupConnectDeviceClickListeners(View parentView) {
         View container = parentView.findViewById(R.id.connect_device_container);
         View image = container.findViewById(R.id.navigate_to_connect_app_or_device);
+        image.setOnClickListener(onClickListener);
+        expandViewHitArea(image, container);
+    }
+
+    void setupAKFProfileCreateClickListeners(View parentView) {
+        View container = parentView.findViewById(R.id.akf_create_profile_container);
+        View image = container.findViewById(R.id.navigate_to_akf_create_profile_label);
         image.setOnClickListener(onClickListener);
         expandViewHitArea(image, container);
     }
@@ -316,6 +331,10 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         host.showDeviceConnection();
     }
 
+    public void showCreateAKFProfile() {
+        host.showAKFProfileView();
+    }
+
     public void setToolbarTitle(String title, boolean homeAffordance) {
         if (host != null) {
             host.setToolbarTitle(getString(R.string.settings), true);
@@ -327,4 +346,5 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             host.signout();
         }
     }
+
 }

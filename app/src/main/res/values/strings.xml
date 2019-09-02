@@ -79,6 +79,7 @@
     <string name="settings_section_team">Team</string>
     <string name="settings_team_public_visibility_on_message">Your team is discoverable. Any participant can find and join your team.</string>
     <string name="settings_team_public_visibility_off_message">Your team is invite-only. Turn on team visibility to allow anyone to find and join your team.</string>
+    <string name="settings_participant_akf_create_profile_label">Create Aga Khan Foundation Profile</string>
 
     <!--device connection -->
     <string name="settings_connect_device_title">Connected Apps &amp; Devices</string>

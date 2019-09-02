@@ -32,13 +32,21 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseActivity;
+import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.home.HomeActivity;
+import com.android.wcf.onboard.OnboardActivity;
+import com.android.wcf.web.WebViewActivity;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements LoginActivityMvp.View, LoginMvp.Host, AKFParticipantProfileMvp.Host {
     private static final String TAG = LoginActivity.class.getSimpleName();
+
+    private Toolbar toolbar;
+    LoginActivityMvp.Presenter loginPesenter;
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -50,12 +58,73 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        loginPesenter = new LoginActivityPresenter(this);
+
+        setupView();
+
+        showLoginView();
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.login_fragment);
-        fragment.onActivityResult(requestCode, resultCode, data);
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        if (fragment instanceof LoginFragment) {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    private void setupView() {
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+    }
+
+    @Override
+    public void showLoginView() {
+        Fragment fragment = new LoginFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void showAKFProfileView() {
+        Fragment fragment = new AKFParticipantProfileFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public boolean isOnboardingComplete() {
+        return !SharedPreferencesUtil.getShowOnboardingTutorial();
+    }
+
+    @Override
+    public void showHomeActivity() {
+        Intent intent = HomeActivity.Companion.createIntent(this);
+        this.startActivity(intent);
+    }
+
+    @Override
+    public void showOnboarding() {
+        Intent intent = OnboardActivity.createIntent(this);
+        this.startActivity(intent);
+    }
+
+    @Override
+    public void loginComplete() {
+        showAKFProfileView();
+    }
+
+    @Override
+    public void akfProfileCreationComplete() {
+        loginPesenter.akfProfileCreationComplete();
     }
 }
