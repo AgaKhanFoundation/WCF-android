@@ -28,5 +28,7 @@ public interface SettingsMvp {
         void restartHomeActivity();
 
         void showTeamMembershipDetail();
+
+        void showAKFProfileView();
     }
 }

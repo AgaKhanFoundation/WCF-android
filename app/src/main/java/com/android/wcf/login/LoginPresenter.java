@@ -1,25 +1,16 @@
 package com.android.wcf.login;
 
-import android.util.Log;
-
-public class LoginPresenter extends WCFActivityPresenter<LoginMvp.LoginView> {
+public class LoginPresenter implements LoginMvp.Presenter {
     private static final String TAG = LoginPresenter.class.getSimpleName();
 
-    private LoginMvp.LoginView view;
+    private LoginMvp.View view;
 
-    public LoginPresenter(LoginMvp.LoginView LoginView) {
-        this.view = LoginView;
+    public LoginPresenter(LoginMvp.View loginView) {
+        this.view = loginView;
     }
 
     public void onLoginSuccess() {
-        if (view.isOnboardingComplete()) {
-            Log.d(TAG, "Login Success: Showing HomeActivity");
-            view.showHomeActivity();
-        } else {
-            Log.d(TAG, "Login Success: Showing Onboarding");
-            view.showOnboarding();
-
-        }
+        view.loginComplete();
     }
 
     public void onLoginError(String message) {
@@ -27,6 +18,11 @@ public class LoginPresenter extends WCFActivityPresenter<LoginMvp.LoginView> {
             view.showMessage(message);
         else
             view.showMessage("Something went wrong. Please try again!");
+    }
+
+    @Override
+    public String getTag() {
+        return null;
     }
 }
 

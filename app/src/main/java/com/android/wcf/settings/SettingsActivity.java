@@ -13,8 +13,10 @@ import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseActivity;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.login.AKFParticipantProfileFragment;
+import com.android.wcf.login.AKFParticipantProfileMvp;
 
-public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, TeamMembershipMvp.Host {
+public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, TeamMembershipMvp.Host, AKFParticipantProfileMvp.Host {
 
     private Toolbar toolbar;
 
@@ -75,5 +77,20 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
+    }
+
+    @Override
+    public void showAKFProfileView() {
+        Fragment fragment = new AKFParticipantProfileFragment();
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void akfProfileCreationComplete() {
+        super.onBackPressed();
     }
 }

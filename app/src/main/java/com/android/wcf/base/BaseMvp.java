@@ -63,5 +63,7 @@ public interface BaseMvp {
 
         void setToolbarTitle(String title, boolean homeAffordance);
 
+        void popBackStack(String tag);
+
     }
 }
