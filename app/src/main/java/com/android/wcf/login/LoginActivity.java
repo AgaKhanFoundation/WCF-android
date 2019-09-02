@@ -28,41 +28,17 @@ package com.android.wcf.login;
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  **/
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+
+import androidx.fragment.app.Fragment;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseActivity;
-import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.home.HomeActivity;
-import com.android.wcf.onboard.OnboardActivity;
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.GraphRequest;
-import com.facebook.GraphResponse;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONObject;
-
-import java.util.Arrays;
-
-public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
+public class LoginActivity extends BaseActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private static final String PUBLIC_PROFILE = "public_profile";
-    private static final String EMAIL = "email";
-
-    private Context mContext;
-    private LoginPresenter presenter;
-    private CallbackManager callbackManager;
-
-    LoginButton loginButton;
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -74,141 +50,12 @@ public class LoginActivity extends BaseActivity implements LoginMvp.LoginView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        mContext = this;
-        callbackManager = CallbackManager.Factory.create();
-        presenter = new LoginPresenter(this);
-        setupView();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void setupView() {
-        loginButton = findViewById(R.id.login_button);
-        loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE, EMAIL));
-
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                Log.d("LoginPresenter", "onSuccess called");
-                GraphRequest request = GraphRequest.newMeRequest(loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback() {
-                            @Override
-                            public void onCompleted(JSONObject object, GraphResponse response) {
-
-                                String userName = "", userId = "", userEmail = "", userGender = "", userProfileUrl = "";
-                                try {
-                                    AccessToken token = AccessToken.getCurrentAccessToken();
-                                    Log.d("access only Token is", String.valueOf(token.getToken()));
-
-                                    userId = object.getString("id");
-                                    userName = object.getString("name");
-                                    userEmail = object.getString("email");
-                                    userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
-
-                                    String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
-                                    if (!userId.equals(savedParticipantId)){
-                                        SharedPreferencesUtil.clearMyTeamId();
-                                        setParticipantTeam(null);
-                                    }
-
-                                    SharedPreferencesUtil.saveMyAuthenticationMethodAsFacebook();
-                                    SharedPreferencesUtil.saveMyFacebookId(userId);
-                                    SharedPreferencesUtil.saveMyParticipantId(userId);
-                                    SharedPreferencesUtil.saveUserLoggedIn(true);
-                                    SharedPreferencesUtil.saveUserFullName(userName);
-                                    SharedPreferencesUtil.saveUserEmail(userEmail);
-                                    SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
-                                    joinFBGroup(userId);
-                                    presenter.onLoginSuccess();
-
-                                } catch (Exception e) {
-                                    Log.e(TAG, "Error processing Facebook Login response\n" + e);
-                                    e.printStackTrace();
-                                    presenter.onLoginError(null);
-                                }
-                            }
-                        });
-
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,birthday,cover,picture.type(large)");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "onCancel called");
-            }
-
-            @Override
-            public void onError(FacebookException error) {
-                Log.e(TAG, "Facebook Login error: " + error.getMessage());
-                presenter.onLoginError(error.getMessage());
-            }
-        });
-    }
-
-
-    void joinFBGroup( String userId) {
-
-        //THIS IS NO LONGER SUPPORTED BY FB
-
-//        new GraphRequest(
-//                AccessToken.getCurrentAccessToken(),
-//                "/466564417434674/members/"+ userId,
-//                null,
-//                HttpMethod.POST,
-//                new GraphRequest.Callback() {
-//                    public void onCompleted(GraphResponse response) {
-//                        if (response.getError() == null) {
-//                            Log.d(TAG, "Facebook Group join response" + response.toString());
-//                        } else {
-//                            Log.e(TAG, "Facebook Group join error: " + response.getError().getException().getMessage());
-//                        }
-//                    }
-//                }
-//        ).executeAsync();
-
-    }
-
-    @Override
-    public void showMessage(String message) {
-        AlertDialog alertDialog = new AlertDialog.Builder(mContext).create();
-        alertDialog.setTitle("Alert");
-        alertDialog.setMessage(message);
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-        alertDialog.show();
-    }
-
-    @Override
-    public boolean isOnboardingComplete() {
-        return !SharedPreferencesUtil.getShowOnboardingTutorial();
-    }
-
-    @Override
-    public void showHomeActivity() {
-        Intent intent = HomeActivity.Companion.createIntent(this);
-        this.startActivity(intent);
-    }
-
-    @Override
-    public void showOnboarding() {
-        Intent intent = OnboardActivity.createIntent(this);
-        this.startActivity(intent);
-    }
-
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.login_fragment);
+        fragment.onActivityResult(requestCode, resultCode, data);
     }
 }
-

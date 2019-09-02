@@ -2,7 +2,7 @@ package com.android.wcf.login;
 
 import android.util.Log;
 
-public class LoginPresenter extends WCFActivityPresenter<LoginMvp.LoginView> {
+public class LoginPresenter implements LoginMvp.Presenter {
     private static final String TAG = LoginPresenter.class.getSimpleName();
 
     private LoginMvp.LoginView view;

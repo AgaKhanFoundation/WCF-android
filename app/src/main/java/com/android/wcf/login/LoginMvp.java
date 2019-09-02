@@ -5,11 +5,21 @@ import com.android.wcf.base.BaseMvp;
 public interface LoginMvp {
     interface LoginView extends BaseMvp.BaseView {
 
-         void showHomeActivity();
+        void showHomeActivity();
 
-         void showOnboarding();
+        void showOnboarding();
 
-         boolean isOnboardingComplete();
+        boolean isOnboardingComplete();
+
+    }
+
+    interface Presenter {
+        void onLoginSuccess();
+
+        void onLoginError(String message);
+    }
+
+    interface Host {
 
     }
 }
