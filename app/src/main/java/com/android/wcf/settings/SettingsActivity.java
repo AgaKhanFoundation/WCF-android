@@ -84,14 +84,13 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
         Fragment fragment = new AKFParticipantProfileFragment();
         getSupportFragmentManager()
                 .beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void akfProfileCreationComplete() {
-        popBackStack(null);
-
+        super.onBackPressed();
     }
 }

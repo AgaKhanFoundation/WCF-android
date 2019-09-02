@@ -84,7 +84,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setToolbarTitle(getString(R.string.settings), true);
 
         setupParticipantProfileView(view);
         setupParticipantSettingsView(view);
@@ -122,6 +121,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     @Override
     public void onStart() {
         super.onStart();
+        setToolbarTitle(getString(R.string.settings), true);
 
         isTeamLead = false;
         team = getParticipantTeam();
