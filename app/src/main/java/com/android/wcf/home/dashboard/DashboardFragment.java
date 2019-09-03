@@ -51,6 +51,11 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
                     }
                     break;
 
+                case R.id.fundraising_invite_button:
+                    showSupportersInvite();
+                    break;
+
+
             }
         }
     };
@@ -200,5 +205,15 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     void setupDashboardFundraisingCard(View fragmentView) {
         View fundraisingProgressCard = fragmentView.findViewById(R.id.dashboard_fundraising_progress_card);
         fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before);
+
+        View container = fundraisingProgressCard.findViewById(R.id.fundraising_invite_container);
+        View image = container.findViewById(R.id.fundraising_invite_button);
+        expandViewHitArea(image, container);
+        image.setOnClickListener(onClickListener);
+
+    }
+
+    void showSupportersInvite() {
+        mFragmentHost.showSupportersInvite();
     }
 }

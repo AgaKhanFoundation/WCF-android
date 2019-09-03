@@ -76,5 +76,7 @@ public interface ChallengeMvp {
 
         void showTeamChallengeProgress();
 
+        void showSupportersInvite();
+
     }
 }

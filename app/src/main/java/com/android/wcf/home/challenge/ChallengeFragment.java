@@ -20,7 +20,6 @@ import com.android.wcf.R;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -74,6 +73,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     break;
                 case R.id.team_invite_chevron:
                     inviteTeamMembers();
+                    break;
+                case R.id.fundraising_invite_button:
+                    showSupportersInvite();
                     break;
                 case R.id.participant_committed_miles_edit:
                     editParticipantCommitment();
@@ -294,6 +296,10 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void showParticipantTeamSummaryCard(Team team) {
+        if (isDetached()) {
+            return;
+        }
+
         if (participantTeamSummaryCard != null) {
             Participant participant = getParticipant();
             Event event = getEvent();
@@ -329,7 +335,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 teamCommittedMilesTv.setText(teamMilesCommitted);
                 participantCommittedMilesTv.setText(participantMiles);
                 remainingGoalMilesTv.setText(formatter.format( remainingTeamGoalMiles));
-
 
                 if (teamProfileView.getVisibility() != View.VISIBLE){
                     teamProfileView.setVisibility(View.VISIBLE);
@@ -422,8 +427,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
         challengeTeamInviteCard = mainView.findViewById(R.id.challenge_team_invite_card);
         setupChallengeTeamInviteCard(challengeTeamInviteCard);
+
         challengeFundraisingProgressCard = mainView.findViewById(R.id.challenge_fundraising_progress_card);
-        setupDashboardFundraisingCard();
+        setupChallengeFundraisingCard(challengeFundraisingProgressCard);
     }
 
     void setupChallengeTeamInviteCard(View parentView) {
@@ -433,7 +439,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         image.setOnClickListener(onClickListener);
     }
 
-    void setupDashboardFundraisingCard() {
+    void setupChallengeFundraisingCard(View parentView) {
+        View container = parentView.findViewById(R.id.fundraising_invite_container);
+        View image = container.findViewById(R.id.fundraising_invite_button);
+        expandViewHitArea(image, container);
+        image.setOnClickListener(onClickListener);
     }
 
     @Override
@@ -475,5 +485,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         if (team != null) {
             mHostingParent.showTeamChallengeProgress();
         }
+    }
+
+     void showSupportersInvite() {
+        mHostingParent.showSupportersInvite();
     }
 }

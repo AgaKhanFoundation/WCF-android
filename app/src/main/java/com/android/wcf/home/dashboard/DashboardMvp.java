@@ -19,5 +19,8 @@ public interface DashboardMvp {
 
     interface Host extends BaseMvp.Host {
         void showDeviceConnection();
+
+        void showSupportersInvite();
+
     }
 }
