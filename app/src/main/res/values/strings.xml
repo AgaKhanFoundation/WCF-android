@@ -26,7 +26,7 @@
     <!--<string name="facebook_app_id">517692571972108</string>-->
     <string name="fb_login_protocol_scheme">fb952254615120365</string>
     <string name="facebook_app_id">952254615120365</string>
-    <string name="facebook_steps4change_group_id">466564417434674</string>
+    <string name="facebook_Steps4Impact_group_id">466564417434674</string>
 
     <string name="title_activity_home">Home</string>
     <string name="nav_dashboard">Dashboard</string>
@@ -123,6 +123,13 @@
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
+    <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
+    <string name="invite_supporters_message">Get sponsored by your friends. When your friends sign up to support you, you will raise money for every mile you move. Proceeds will be donated to AKF.</string>
+    <string name="invite_supporter_template">Want to join me in supporting a good cause? I am participating in Aga Khan Foundation (AKF)\'s Steps4Impact challenge. You can support me by pledging [link]. All proceeds will be donated to AKF.  Learn about AKF https://www.akfusa.org/ Thank you for your support.</string>
+    <string name="invite_supporters_to_pledge_label">Invite Supporters to Pledge</string>
+    <string name="supporters_invite_title">Invite Supporters</string>
+
+
     <string name="leave_team_title">Leave Team?</string>
     <string name="leave_team_message">This will remove all your data linked to the team. You will not be able to participate in the challenge.</string>
     <string name="cancel_leave_team_button_text">Cancel</string>
@@ -144,14 +151,13 @@
     <string name="team_created_invite_members_message">Next, invite friends to join. You have %1$d spots remaining on your team.</string>
     <string name="invite_members_to_join_label">Invite friends to join</string>
     <string name="team_created_continue_message">Continue</string>
-    <string name="invite_team_member_template">"Hey! I have created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Change, and I want you on my team!\n"
+    <string name="invite_team_member_template">"Hey! I have created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Impact, and I want you on my team!\n"
                 "Download the app here:\n"
         "%3$s\n" </string>
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
     <string name="team_invite_more_members_message">Invite %1$s new team members</string>
     <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$s remaining. Invite more friends to join!</string>
     <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
-    <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
     <string name="participant_committed_miles_label">Your committed miles</string>
     <string name="team_committed_miles_label">Team\'s committed miles</string>
     <string name="remaining_goal_miles_label">Uncommitted miles</string>

@@ -177,7 +177,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             Intent shareIntent = intentBuilder
                     .setType("text/plain")
                     .setText(shareMessage)
-                    .setSubject("Join my team '" + teamName + "' on Steps4Change")
+                    .setSubject("Join my team '" + teamName + "' on Steps4Impact")
                     .setChooserTitle("Share Via")
                     .createChooserIntent();
 
@@ -186,6 +186,31 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             }
         } catch (Exception e) {
             Log.e(getTag(), "Team invitation share error: " + e.getMessage());
+        }
+    }
+
+    public void inviteSupporters() {
+
+        String eventName = getEvent().getName();
+        String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
+
+        String shareMessage = getString(R.string.invite_supporter_template);
+
+        try {
+
+            ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());
+            Intent shareIntent = intentBuilder
+                    .setType("text/plain")
+                    .setText(shareMessage)
+                    .setSubject("Support me for '" + eventName + "")
+                    .setChooserTitle("Share Via")
+                    .createChooserIntent();
+
+            if (shareIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivity(shareIntent);
+            }
+        } catch (Exception e) {
+            Log.e(getTag(), "Supporter invitation share error: " + e.getMessage());
         }
     }
 
