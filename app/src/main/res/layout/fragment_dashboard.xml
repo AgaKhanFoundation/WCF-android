@@ -21,26 +21,28 @@
             android:id="@+id/dashboard_participant_profile_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:layout_marginTop="@dimen/spacing_normal"
             app:cardBackgroundColor="@color/color_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/participant_profile"
+                android:id="@+id/participant_profile_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_normal"
+                android:paddingStart="@dimen/spacing_normal"
+                android:paddingEnd="@dimen/spacing_normal"
+                android:paddingBottom="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintTop_toTopOf="parent">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/participant_image"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginStart="@dimen/spacing_normal"
                     android:contentDescription="@string/content_description_participant_photo"
-                    android:src="@drawable/sultan_linkedin"
+                    tools:src="@drawable/sultan_linkedin"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintVertical_bias="0.0" />
@@ -49,10 +51,10 @@
                     android:id="@+id/participant_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
                     android:textAppearance="?textAppearanceHeadline6"
-                    app:layout_constraintBottom_toTopOf="@+id/team_name"
+                    android:layout_marginStart="@dimen/spacing_normal_half"
+                    android:layout_marginEnd="@dimen/spacing_normal_half"
+                    app:layout_constraintTop_toTopOf="@id/participant_image"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/participant_image"
                     tools:text="Sultan Keshwani" />
@@ -61,26 +63,35 @@
                     android:id="@+id/team_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
-                    android:layout_marginBottom="@dimen/spacing_normal"
-                    app:layout_constraintBottom_toBottomOf="@+id/participant_image"
+                    android:gravity="start"
+                    android:textAppearance="?textAppearanceSubtitle1"
+                    app:layout_constraintTop_toBottomOf="@+id/participant_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/participant_image"
-                    app:layout_constraintTop_toTopOf="@+id/participant_image"
+                    app:layout_constraintStart_toStartOf="@id/participant_name"
                     tools:text="World Walkers" />
 
                 <TextView
-                    android:id="@+id/team_lead_label"
+                    android:id="@+id/challenge_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/spacing_normal"
-                    android:layout_marginEnd="@dimen/spacing_normal"
-                    android:text="Team Lead"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:textAppearance="?textAppearanceHeadline6"
+                    android:gravity="start"
+                    app:layout_constraintTop_toBottomOf="@id/team_name"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/participant_image"
-                    app:layout_constraintTop_toBottomOf="@+id/team_name" />
+                    app:layout_constraintStart_toStartOf="@id/team_name"
+                    tools:text="Walk for Schools" />
+
+                <TextView
+                    android:id="@+id/challenge_dates"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    style="?textAppearanceCaption"
+                    app:layout_constraintTop_toBottomOf="@id/challenge_name"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@id/challenge_name"
+                    tools:text="Sep 1, 2019 to Sep 15, 2019" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -98,10 +109,11 @@
             app:layout_constraintTop_toBottomOf="@id/dashboard_participant_profile_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/dashboard_activity_device_connection"
+                android:id="@+id/dashboard_activity_device_connection_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_normal">
+                android:padding="@dimen/spacing_normal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/dashboard_activity_card_label"
@@ -155,9 +167,9 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/dashboard_activity_tracked_info"
+                android:id="@+id/dashboard_activity_tracked_info_view"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="350dp"
                 android:padding="@dimen/spacing_normal">
 
                 <TextView
@@ -169,6 +181,25 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <com.google.android.material.tabs.TabLayout
+                    android:id="@+id/tracked_info_tabs"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/dashboard_activity_card_label_2"
+                    app:tabGravity="fill"
+                    app:tabMode="fixed"
+                    app:tabTextColor="@color/color_black"/>
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/tracked_info_viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tracked_info_tabs"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -186,7 +217,7 @@
             app:layout_constraintTop_toBottomOf="@id/dashboard_activity_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/dashboard_challenge_progress_card_before"
+                android:id="@+id/dashboard_challenge_progress_card_before_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal">
@@ -229,7 +260,7 @@
             app:layout_constraintTop_toBottomOf="@id/dashboard_challenge_progress_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/fundraising_progress_card_before"
+                android:id="@+id/fundraising_progress_card_before_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal">
@@ -288,7 +319,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:src="@drawable/ic_chevron_right"
+                        android:src="@drawable/ic_chevron_right_blue"
                         android:textAppearance="?attr/textAppearanceHeadline6"
                         app:layout_constraintBottom_toBottomOf="@id/fundraising_invite_label"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -299,7 +330,6 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

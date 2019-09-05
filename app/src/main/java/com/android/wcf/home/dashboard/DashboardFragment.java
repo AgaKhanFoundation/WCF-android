@@ -13,16 +13,20 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.fitbit.FitbitHelper;
 import com.android.wcf.googlefit.GoogleFitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.model.Participant;
+import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.tabs.TabLayout;
+
+import java.text.SimpleDateFormat;
 
 
 public class DashboardFragment extends BaseFragment implements DashboardMvp.DashboardView {
@@ -38,7 +42,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     ImageView participantImage;
     TextView participantNameTv;
     TextView teamNameTv;
-    TextView teamLeadLabelTv;
+    TextView challengeNameTv;
+    TextView challengeDatesTv;
 
     private DashboardMvp.Presenter dashboardPresenter = new DashboardPresenter(this);
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -54,7 +59,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
                 case R.id.fundraising_invite_button:
                     showSupportersInvite();
                     break;
-
 
             }
         }
@@ -94,11 +98,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        View fragmentView = getView();
-        setupDashboardParticipantProfileCard(fragmentView);
-        setupDashboardActivityCard(fragmentView);
-        setupDashboardChallengeProgressCard(fragmentView);
-        setupDashboardFundraisingCard(fragmentView);
+        setupDashboardParticipantProfileCard(view);
+        setupDashboardActivityCard(view);
+        setupDashboardChallengeProgressCard(view);
+        setupDashboardFundraisingCard(view);
     }
 
     @Override
@@ -131,20 +134,24 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
                     .into(participantImage);
         }
 
+        Event event = getEvent();
         Team team = getParticipantTeam();
+
         participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
         if (team != null) {
             teamNameTv.setText(team.getName());
-            boolean isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
-
-            teamLeadLabelTv.setText(isTeamLead ?
-                    getResources().getString(R.string.team_lead_label)
-                    : getResources().getString(R.string.team_member_label));
-
-            teamLeadLabelTv.setVisibility(View.VISIBLE);
-        } else {
-            teamLeadLabelTv.setVisibility(View.GONE);
         }
+
+        if (event != null) {
+            SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
+            String startDate = sdf.format(event.getStartDate());
+            String endDate = sdf.format(event.getEndDate());
+
+            challengeNameTv.setText(event.getName());
+            challengeDatesTv.setText(startDate + " to " + endDate);
+        }
+
+        //TODO: add "Show badges"
     }
 
     void showDashboardActivityInfo() {
@@ -167,7 +174,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     void showChallengeProgress() {
         boolean challengeStarted = false;
-
     }
 
     void showFundRaisingInfo() {
@@ -181,30 +187,53 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     void setupDashboardParticipantProfileCard(View fragmentView) {
         View profileCard = fragmentView.findViewById(R.id.dashboard_participant_profile_card);
-        participantImage = profileCard.findViewById(R.id.participant_image);
-        participantNameTv = profileCard.findViewById(R.id.participant_name);
-        teamNameTv = profileCard.findViewById(R.id.team_name);
-        teamLeadLabelTv = profileCard.findViewById(R.id.team_lead_label);
+        View participantProfileView = profileCard.findViewById(R.id.participant_profile_view);
+        participantImage = participantProfileView.findViewById(R.id.participant_image);
+        participantNameTv = participantProfileView.findViewById(R.id.participant_name);
+        teamNameTv = participantProfileView.findViewById(R.id.team_name);
+
+        challengeNameTv = participantProfileView.findViewById(R.id.challenge_name);
+        challengeDatesTv = participantProfileView.findViewById(R.id.challenge_dates);
+
     }
 
     void setupDashboardActivityCard(View fragmentView) {
         View activityCard = fragmentView.findViewById(R.id.dashboard_activity_card);
+        setupDeviceConnectionView(activityCard);
 
-        deviceConnectionView = activityCard.findViewById(R.id.dashboard_activity_device_connection);
-        activityTrackedInfoView = activityCard.findViewById(R.id.dashboard_activity_tracked_info);
+        setupTrackedInfoView(activityCard);
+    }
 
+    void setupDeviceConnectionView(View activityCard) {
+        deviceConnectionView = activityCard.findViewById(R.id.dashboard_activity_device_connection_view);
         Button connectNavButton = deviceConnectionView.findViewById(R.id.navigate_to_connect_app_or_device);
         connectNavButton.setOnClickListener(onClickListener);
     }
 
+    void setupTrackedInfoView(View activityCard) {
+        activityTrackedInfoView = activityCard.findViewById(R.id.dashboard_activity_tracked_info_view);
+        TabLayout tabs = activityTrackedInfoView.findViewById(R.id.tracked_info_tabs);
+        ViewPager viewPager = activityTrackedInfoView.findViewById(R.id.tracked_info_viewPager);
+
+        TrackedInfoViewPagerAdapter adapter = new TrackedInfoViewPagerAdapter(getFragmentManager());
+        ParticipantActivityFragment dailyFrag =  ParticipantActivityFragment.Companion.instanceDaily();
+        ParticipantActivityFragment weeklyFrag = ParticipantActivityFragment.Companion.instanceWeekly();
+
+        adapter.addFragment(dailyFrag, getString(R.string.tracked_info_tab_daily_label));
+        adapter.addFragment(weeklyFrag, getString(R.string.tracked_info_tab_weekly_label));
+
+        viewPager.setAdapter(adapter);
+        tabs.setupWithViewPager(viewPager);
+    }
+
     void setupDashboardChallengeProgressCard(View fragmentView) {
         View challengeProgressCard = fragmentView.findViewById(R.id.dashboard_challenge_progress_card);
-        challengeProgressBeforeStart = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_card_before);
+        challengeProgressBeforeStart = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_card_before_view);
     }
 
     void setupDashboardFundraisingCard(View fragmentView) {
         View fundraisingProgressCard = fragmentView.findViewById(R.id.dashboard_fundraising_progress_card);
-        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before);
+        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before_view);
 
         View container = fundraisingProgressCard.findViewById(R.id.fundraising_invite_container);
         View image = container.findViewById(R.id.fundraising_invite_button);

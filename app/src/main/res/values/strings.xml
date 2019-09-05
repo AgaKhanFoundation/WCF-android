@@ -182,5 +182,7 @@
     <string name="remove_team_member_button">Remove</string>
     <string name="remove_team_member_title">Remove %1$s?</string>
     <string name="remove_team_member_message">%1$s will be permanently removed from your team</string>
+    <string name="tracked_info_tab_daily_label">Daily</string>
+    <string name="tracked_info_tab_weekly_label">Weekly</string>
 
 </resources>
