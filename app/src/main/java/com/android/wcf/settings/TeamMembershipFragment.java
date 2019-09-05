@@ -145,7 +145,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
 
         Event event = getEvent();
         challengeNameTv.setText(event.getName());
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM d, yyyy");
         String startDate = sdf.format(event.getStartDate());
         String endDate = sdf.format(event.getEndDate());
         challengeDatesTv.setText(startDate + " to " + endDate);

@@ -62,7 +62,7 @@
             app:layout_constraintTop_toBottomOf="@id/challenge_name"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/challenge_name"
-            tools:text="9/1/2019 9 9/15/2019" />
+            tools:text="Sep 1, 2019 to Sep 15, 2019" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,7 +120,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:src="@drawable/ic_chevron_right"
+            android:src="@drawable/ic_chevron_right_blue"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
             app:layout_constraintEnd_toEndOf="parent"

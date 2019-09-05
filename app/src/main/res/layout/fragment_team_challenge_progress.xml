@@ -152,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:src="@drawable/ic_chevron_right"
+            android:src="@drawable/ic_chevron_right_blue"
             android:textAppearance="?attr/textAppearanceHeadline6"
             app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
             app:layout_constraintEnd_toEndOf="parent"

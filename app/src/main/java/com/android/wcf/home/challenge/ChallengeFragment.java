@@ -388,7 +388,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void showFundraisingInvite() {
-        View fundraisingBeforeChallengeStartView = challengeFundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before);
+        View fundraisingBeforeChallengeStartView = challengeFundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before_view);
         boolean challengeStarted = false;
         if (!challengeStarted) {
             fundraisingBeforeChallengeStartView.setVisibility(View.VISIBLE);

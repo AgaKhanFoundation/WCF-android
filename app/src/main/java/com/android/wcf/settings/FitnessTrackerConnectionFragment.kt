@@ -59,10 +59,10 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             R.id.iv_device_message_expand ->
                 if (other_device_message_long.visibility == View.VISIBLE) {
                     other_device_message_long.visibility = View.GONE
-                    iv_device_message_expand.setImageResource(R.drawable.ic_chevron_down)
+                    iv_device_message_expand.setImageResource(R.drawable.ic_chevron_down_blue)
                 } else {
                     other_device_message_long.visibility = View.VISIBLE
-                    iv_device_message_expand.setImageResource(R.drawable.ic_chevron_up)
+                    iv_device_message_expand.setImageResource(R.drawable.ic_chevron_up_blue)
                 }
             R.id.btn_connect_to_fitness_app -> {
                 Log.i(TAG, "btn_connect_to_fitness_app")
