@@ -1,9 +1,12 @@
 package com.android.wcf.home.dashboard
 
+import android.annotation.SuppressLint
+import android.os.Parcelable
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
 
+@SuppressLint("WrongConstant")
 class TrackedInfoViewPagerAdapter(supportFragmentManager: FragmentManager)
         : FragmentStatePagerAdapter(supportFragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
@@ -25,5 +28,9 @@ class TrackedInfoViewPagerAdapter(supportFragmentManager: FragmentManager)
     fun addFragment(fragment: Fragment, title: String) {
         mFragmentList.add(fragment)
         mFragmentTitleList.add(title)
+    }
+
+    override fun saveState(): Parcelable? {
+        return null
     }
 }

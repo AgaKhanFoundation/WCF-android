@@ -215,7 +215,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         TabLayout tabs = activityTrackedInfoView.findViewById(R.id.tracked_info_tabs);
         ViewPager viewPager = activityTrackedInfoView.findViewById(R.id.tracked_info_viewPager);
 
-        TrackedInfoViewPagerAdapter adapter = new TrackedInfoViewPagerAdapter(getFragmentManager());
+        TrackedInfoViewPagerAdapter adapter = new TrackedInfoViewPagerAdapter(getChildFragmentManager());
         ParticipantActivityFragment dailyFrag =  ParticipantActivityFragment.Companion.instanceDaily();
         ParticipantActivityFragment weeklyFrag = ParticipantActivityFragment.Companion.instanceWeekly();
 
