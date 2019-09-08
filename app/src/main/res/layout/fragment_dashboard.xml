@@ -28,71 +28,117 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/participant_profile_view"
+                android:id="@+id/participant_profile_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/spacing_normal"
                 android:paddingEnd="@dimen/spacing_normal"
                 android:paddingBottom="@dimen/spacing_normal"
-                android:layout_marginTop="@dimen/spacing_normal"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginTop="@dimen/spacing_normal">
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/participant_image"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:contentDescription="@string/content_description_participant_photo"
-                    tools:src="@drawable/sultan_linkedin"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/participant_profile_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/participant_image"
+                        android:layout_width="80dp"
+                        android:layout_height="80dp"
+                        android:contentDescription="@string/content_description_participant_photo"
+                        tools:src="@drawable/sultan_linkedin"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.0" />
+
+                    <TextView
+                        android:id="@+id/participant_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?textAppearanceHeadline6"
+                        android:layout_marginStart="@dimen/spacing_normal_half"
+                        android:layout_marginEnd="@dimen/spacing_normal_half"
+                        app:layout_constraintTop_toTopOf="@id/participant_image"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toEndOf="@+id/participant_image"
+                        tools:text="Sultan Keshwani" />
+
+                    <TextView
+                        android:id="@+id/team_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        app:layout_constraintTop_toBottomOf="@+id/participant_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/participant_name"
+                        tools:text="World Walkers" />
+
+                    <TextView
+                        android:id="@+id/challenge_name"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:textAppearance="?textAppearanceHeadline6"
+                        android:gravity="start"
+                        app:layout_constraintTop_toBottomOf="@id/team_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/team_name"
+                        tools:text="Walk for Schools" />
+
+                    <TextView
+                        android:id="@+id/challenge_dates"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="start"
+                        style="?textAppearanceCaption"
+                        app:layout_constraintTop_toBottomOf="@id/challenge_name"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@id/challenge_name"
+                        tools:text="Sep 1, 2019 to Sep 15, 2019" />
+
+                    <View
+                        android:id="@+id/participator_seperator_1"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        android:background="@color/color_light_grey_3"
+                        app:layout_constraintTop_toBottomOf="@id/challenge_dates" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/dashboard_badges_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal_half"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.0" />
+                    app:layout_constraintTop_toBottomOf="@id/participant_profile_view">
 
-                <TextView
-                    android:id="@+id/participant_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?textAppearanceHeadline6"
-                    android:layout_marginStart="@dimen/spacing_normal_half"
-                    android:layout_marginEnd="@dimen/spacing_normal_half"
-                    app:layout_constraintTop_toTopOf="@id/participant_image"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/participant_image"
-                    tools:text="Sultan Keshwani" />
+                    <TextView
+                        android:id="@+id/view_badges_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        android:text="@string/dashboard_badges_label"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="@color/color_blue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/team_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    android:textAppearance="?textAppearanceSubtitle1"
-                    app:layout_constraintTop_toBottomOf="@+id/participant_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/participant_name"
-                    tools:text="World Walkers" />
+                    <ImageView
+                        android:id="@+id/view_badge_chevron"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:src="@drawable/ic_chevron_right_blue"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintBottom_toBottomOf="@id/view_badges_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/view_badges_label" />
 
-                <TextView
-                    android:id="@+id/challenge_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:textAppearance="?textAppearanceHeadline6"
-                    android:gravity="start"
-                    app:layout_constraintTop_toBottomOf="@id/team_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/team_name"
-                    tools:text="Walk for Schools" />
-
-                <TextView
-                    android:id="@+id/challenge_dates"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="start"
-                    style="?textAppearanceCaption"
-                    app:layout_constraintTop_toBottomOf="@id/challenge_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@id/challenge_name"
-                    tools:text="Sep 1, 2019 to Sep 15, 2019" />
-
+            </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -113,7 +159,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/dashboard_activity_card_label"
@@ -170,7 +216,8 @@
                 android:id="@+id/dashboard_activity_tracked_info_view"
                 android:layout_width="match_parent"
                 android:layout_height="350dp"
-                android:padding="@dimen/spacing_normal">
+                android:padding="@dimen/spacing_normal"
+                android:visibility="visible">
 
                 <TextView
                     android:id="@+id/dashboard_activity_card_label_2"
@@ -217,22 +264,23 @@
             app:layout_constraintTop_toBottomOf="@id/dashboard_activity_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/dashboard_challenge_progress_card_before_view"
+                android:id="@+id/dashboard_challenge_progress_before_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_normal">
+                android:padding="@dimen/spacing_normal"
+                android:visibility="visible">
 
                 <TextView
-                    android:id="@+id/challenge_progress_card_label"
+                    android:id="@+id/challenge_progress_view_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/challenge_progress_card_label"
+                    android:text="@string/challenge_progress_view_label"
                     android:textAppearance="@style/TextAppearance.WCF.Headline6"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/challenge_progess_card_message_before_start"
+                    android:id="@+id/challenge_progess_view_before_start_message"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_small"
@@ -242,7 +290,112 @@
                     android:text="@string/challenge_progress_before_start_message"
                     android:textAppearance="@style/TextAppearance.WCF.Body1"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/challenge_progress_card_label" />
+                    app:layout_constraintTop_toBottomOf="@id/challenge_progress_view_label" />
+
+                <View
+                    android:id="@+id/seperator_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    android:background="@color/color_light_grey_3"
+                    app:layout_constraintTop_toBottomOf="@id/challenge_progess_view_before_start_message" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/challenge_team_invite_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/seperator_3">
+
+                    <TextView
+                        android:id="@+id/team_invite_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        android:text="Invite 4 new team members"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="@color/color_blue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/team_invite_chevron"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:src="@drawable/ic_chevron_right_blue"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/team_invite_label" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/dashboard_challenge_progress_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_normal"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/challenge_progress_view_label_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/challenge_progress_view_label"
+                    android:textAppearance="@style/TextAppearance.WCF.Headline6"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/team_activity_completed"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:gravity="start"
+                    android:text="3,000"
+                    android:textAppearance="?textAppearanceSubtitle1"
+                    android:textColor="@color/color_primary"
+                    app:layout_constraintTop_toBottomOf="@id/challenge_progress_view_label_2"
+                    app:layout_constraintStart_toStartOf="parent"/>
+
+                <TextView
+                    android:id="@+id/team_activity_goal"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="start"
+                    android:text="/5,000 miles completed"
+                    android:textAppearance="?textAppearanceSubtitle1"
+                    app:layout_constraintBaseline_toBaselineOf="@id/team_activity_completed"
+                    app:layout_constraintStart_toEndOf="@id/team_activity_completed"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ProgressBar
+                    android:id="@+id/team_activity_status_graph"
+                    style="@style/wcf_progressbar_horizontal_style"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/progressbar_height"
+                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/team_activity_goal"
+                    android:progress="60"
+                    android:max="100" />
+
+                <TextView
+                    android:id="@+id/challenge_days_remaining_message"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    android:gravity="start"
+                    android:text="@string/dashboard_challenge_remaining_days_template"
+                    android:textAppearance="?textAppearanceSubtitle1"
+                    app:layout_constraintTop_toBottomOf="@id/team_activity_status_graph"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    tools:text="You have 9 days remaining!" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -260,48 +413,147 @@
             app:layout_constraintTop_toBottomOf="@id/dashboard_challenge_progress_card">
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/fundraising_progress_card_before_view"
+                android:id="@+id/fundraising_progress_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/spacing_normal">
 
-                <TextView
-                    android:id="@+id/fundraising_progress_card_label"
-                    android:layout_width="wrap_content"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fundraising_progress_before_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/dashboard_fundraising_progress_card_label"
-                    android:textAppearance="@style/TextAppearance.WCF.Headline6"
+                    android:layout_marginBottom="@dimen/spacing_normal_half"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@id/view_supporters_container"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:visibility="visible">
 
-                <TextView
-                    android:id="@+id/fundraising_message_before_start"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/fundraising_progress_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dashboard_fundraising_progress_card_label"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/fundraising_message_before_start"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:contentDescription="@null"
+                        android:gravity="start"
+                        android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
+                        android:text="@string/dashboard_fundraising_progress_before_start_message"
+                        android:textAppearance="@style/TextAppearance.WCF.Body1"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/fundraising_progress_label" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/fundraising_progress_view"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal"
-                    android:contentDescription="@null"
-                    android:gravity="start"
-                    android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
-                    android:text="@string/dashboard_fundraising_progress_before_start_message"
-                    android:textAppearance="@style/TextAppearance.WCF.Body1"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/view_supporters_container"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/fundraising_progress_card_label" />
+                    android:visibility="visible">
+
+                    <TextView
+                        android:id="@+id/fundraising_progress_label_2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/dashboard_fundraising_progress_card_label"
+                        android:textAppearance="@style/TextAppearance.WCF.Headline6"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/team_funds_accrued"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:gravity="start"
+                        android:text="$1,000"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        android:textColor="@color/color_primary"
+                        app:layout_constraintTop_toBottomOf="@id/fundraising_progress_label_2"
+                        app:layout_constraintStart_toStartOf="parent"/>
+
+                    <TextView
+                        android:id="@+id/team_fundraising_target"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:gravity="start"
+                        android:text="/$2,000"
+                        android:textAppearance="?textAppearanceSubtitle1"
+                        app:layout_constraintBaseline_toBaselineOf="@id/team_funds_accrued"
+                        app:layout_constraintStart_toEndOf="@id/team_funds_accrued"
+                        app:layout_constraintEnd_toEndOf="parent"/>
+
+                    <ProgressBar
+                        android:id="@+id/team_fundraising_status_graph"
+                        style="@style/wcf_progressbar_horizontal_style"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/progressbar_height"
+                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/team_funds_accrued"
+                        android:progress="60"
+                        android:max="100" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/view_supporters_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_normal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toTopOf="@+id/seperator_2">
+
+                    <TextView
+                        android:id="@+id/view_supporters_label"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View list of supporters"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="@color/color_blue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <ImageView
+                        android:id="@+id/view_supporters_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:src="@drawable/ic_chevron_right_blue"
+                        app:layout_constraintBottom_toBottomOf="@id/view_supporters_label"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/view_supporters_label" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <View
                     android:id="@+id/seperator_2"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    android:layout_marginBottom="@dimen/spacing_normal_half"
                     android:background="@color/color_light_grey_3"
-                    app:layout_constraintTop_toBottomOf="@id/fundraising_message_before_start" />
+                    app:layout_constraintBottom_toTopOf="@+id/fundraising_invite_container"/>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/fundraising_invite_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    android:layout_marginBottom="@dimen/spacing_normal_half"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/seperator_2">
+                    app:layout_constraintBottom_toBottomOf="parent">
 
                     <TextView
                         android:id="@+id/fundraising_invite_label"

@@ -21,12 +21,17 @@ import com.android.wcf.fitbit.FitbitHelper;
 import com.android.wcf.googlefit.GoogleFitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.fitbitsdk.service.models.ActivitySteps;
 import com.google.android.material.tabs.TabLayout;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 
 public class DashboardFragment extends BaseFragment implements DashboardMvp.DashboardView {
@@ -34,10 +39,26 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     SharedPreferences deviceSharedPreferences = null;
     private DashboardMvp.Host mFragmentHost;
 
+    ParticipantActivityFragment dailyFrag;
+    ParticipantActivityFragment weeklyFrag;
+
+    Event event = null;
+    Team team = null;
+    Participant participant = null;
+
+    boolean challengeStarted = false;
+    boolean challengeEnded = false;
+    boolean teamFormationStarted = true;
+    boolean fitnessDeviceLoggedIn = false;
+    boolean fitnessAppLoggedIn = false;
+
+    View participantProfileView = null;
     View deviceConnectionView = null;
     View activityTrackedInfoView = null;
-    View challengeProgressBeforeStart = null;
+    View challengeProgressBeforeStartView = null;
+    View challengeProgressView = null;
     View fundraisingBeforeChallengeStartView = null;
+    View fundraisingView = null;
 
     ImageView participantImage;
     TextView participantNameTv;
@@ -55,17 +76,41 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
                         mFragmentHost.showDeviceConnection();
                     }
                     break;
+                case R.id.view_badge_chevron:
+                    showParticipantBadgesEarned();
+                    break;
 
                 case R.id.fundraising_invite_button:
                     showSupportersInvite();
+                    break;
+
+                case R.id.view_supporters_icon:
+                    showSupportersList();
                     break;
 
             }
         }
     };
 
-    public DashboardFragment() {
-    }
+    private FitbitHelper.FitbitStepsResponseCallback fitbitCallback = new FitbitHelper.FitbitStepsResponseCallback() {
+        @Override
+        public void onFitbitStepsError(@NotNull Throwable t) {
+            activityTrackedInfoView.setVisibility(View.GONE);
+        }
+
+        @Override
+        public void onFitbitStepsRetrieved(@NotNull ActivitySteps data) {
+            dailyFrag.setDaysInChallenge(event.getDaysInChallenge());
+            dailyFrag.setDistanceGoal(participant.getCommitmentMiles());
+            dailyFrag.setStepsData(data);
+
+            weeklyFrag.setDaysInChallenge(event.getDaysInChallenge());
+            weeklyFrag.setDistanceGoal(participant.getCommitmentMiles());
+            weeklyFrag.setStepsData(data);
+
+            activityTrackedInfoView.setVisibility(View.VISIBLE);
+        }
+    };
 
     public static DashboardFragment newInstance() {
         DashboardFragment fragment = new DashboardFragment();
@@ -75,18 +120,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void onStart() {
-        Log.d(TAG, "onStart");
-        super.onStart();
-        mFragmentHost.setToolbarTitle(getString(R.string.nav_dashboard), false);
-
-        showParticipantInfo();
-        showDashboardActivityInfo();
-        showChallengeProgress();
-        showFundRaisingInfo();
     }
 
     @Override
@@ -102,6 +135,34 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         setupDashboardActivityCard(view);
         setupDashboardChallengeProgressCard(view);
         setupDashboardFundraisingCard(view);
+    }
+
+    @Override
+    public void onStart() {
+        Log.d(TAG, "onStart");
+        super.onStart();
+        mFragmentHost.setToolbarTitle(getString(R.string.nav_dashboard), false);
+
+        event = getEvent();
+        team = getParticipantTeam();
+        participant = getParticipant();
+
+        challengeStarted = false;
+        if (event != null) {
+            challengeStarted = event.hasChallengeStarted();
+            challengeEnded = event.hasChallengeEnded();
+        }
+
+        showParticipantInfo();
+        showDashboardActivityInfo();
+        showChallengeProgress();
+        showFundRaisingInfo();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getTrackedStepsData();
     }
 
     @Override
@@ -155,39 +216,81 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     }
 
     void showDashboardActivityInfo() {
-        boolean teamFormationStarted = true;
-        boolean fitnessDeviceLoggedIn = false;
-        boolean fitnessAppLoggedIn = false;
 
         if (deviceSharedPreferences != null) {
             fitnessDeviceLoggedIn = deviceSharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false);
             fitnessAppLoggedIn = deviceSharedPreferences.getBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false);
         }
         if (fitnessDeviceLoggedIn || fitnessAppLoggedIn) {
-            deviceConnectionView.setVisibility(View.GONE);
             activityTrackedInfoView.setVisibility(View.VISIBLE);
+            deviceConnectionView.setVisibility(View.GONE);
         } else {
             deviceConnectionView.setVisibility(View.VISIBLE);
             activityTrackedInfoView.setVisibility(View.GONE);
         }
     }
 
+    void getTrackedStepsData() {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String startDate = "";
+        String endDate = "";
+
+        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+        Date today = new Date();
+        Date weekAgo = new Date(today.getTime() - (7 * DAY_IN_MS));
+
+        if (event != null) {
+            if (event.getTeamBuildingStart() != null) {
+                startDate = sdf.format(event.getTeamBuildingStart());
+            }
+            else {
+                startDate = sdf.format(weekAgo);
+            }
+
+            if (event.getEndDate() != null) {
+                if (event.hasChallengeEnded()) {
+                    endDate = sdf.format(event.getEndDate());
+                }
+                else {
+                    endDate = sdf.format( new Date());
+                }
+            }
+            else {
+                endDate = sdf.format(today);
+            }
+        }
+
+        if (fitnessDeviceLoggedIn) {
+            FitbitHelper.Companion.getSteps(getActivity(), startDate, endDate, fitbitCallback);
+        }
+    }
+
     void showChallengeProgress() {
-        boolean challengeStarted = false;
+        if (!challengeStarted) {
+            challengeProgressView.setVisibility(View.GONE);
+            challengeProgressBeforeStartView.setVisibility(View.VISIBLE);
+        }
+        else {
+            challengeProgressBeforeStartView.setVisibility(View.GONE);
+            challengeProgressView.setVisibility(View.VISIBLE);
+        }
     }
 
     void showFundRaisingInfo() {
-        boolean challengeStarted = false;
+
         if (!challengeStarted) {
+            fundraisingView.setVisibility(View.GONE);
             fundraisingBeforeChallengeStartView.setVisibility(View.VISIBLE);
         } else {
             fundraisingBeforeChallengeStartView.setVisibility(View.GONE);
+            fundraisingView.setVisibility(View.VISIBLE);
         }
     }
 
     void setupDashboardParticipantProfileCard(View fragmentView) {
         View profileCard = fragmentView.findViewById(R.id.dashboard_participant_profile_card);
-        View participantProfileView = profileCard.findViewById(R.id.participant_profile_view);
+        participantProfileView = profileCard.findViewById(R.id.participant_profile_view);
         participantImage = participantProfileView.findViewById(R.id.participant_image);
         participantNameTv = participantProfileView.findViewById(R.id.participant_name);
         teamNameTv = participantProfileView.findViewById(R.id.team_name);
@@ -195,12 +298,16 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         challengeNameTv = participantProfileView.findViewById(R.id.challenge_name);
         challengeDatesTv = participantProfileView.findViewById(R.id.challenge_dates);
 
+        View viewBadgesContainer = profileCard.findViewById(R.id.dashboard_badges_container);
+        View viewBadgesImage = profileCard.findViewById(R.id.view_badge_chevron);
+        expandViewHitArea(viewBadgesImage, viewBadgesContainer);
+        viewBadgesImage.setOnClickListener(onClickListener);
+
     }
 
     void setupDashboardActivityCard(View fragmentView) {
         View activityCard = fragmentView.findViewById(R.id.dashboard_activity_card);
         setupDeviceConnectionView(activityCard);
-
         setupTrackedInfoView(activityCard);
     }
 
@@ -216,8 +323,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         ViewPager viewPager = activityTrackedInfoView.findViewById(R.id.tracked_info_viewPager);
 
         TrackedInfoViewPagerAdapter adapter = new TrackedInfoViewPagerAdapter(getChildFragmentManager());
-        ParticipantActivityFragment dailyFrag =  ParticipantActivityFragment.Companion.instanceDaily();
-        ParticipantActivityFragment weeklyFrag = ParticipantActivityFragment.Companion.instanceWeekly();
+        dailyFrag = ParticipantActivityFragment.Companion.instanceDaily();
+        weeklyFrag = ParticipantActivityFragment.Companion.instanceWeekly();
 
         adapter.addFragment(dailyFrag, getString(R.string.tracked_info_tab_daily_label));
         adapter.addFragment(weeklyFrag, getString(R.string.tracked_info_tab_weekly_label));
@@ -228,21 +335,36 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     void setupDashboardChallengeProgressCard(View fragmentView) {
         View challengeProgressCard = fragmentView.findViewById(R.id.dashboard_challenge_progress_card);
-        challengeProgressBeforeStart = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_card_before_view);
+        challengeProgressBeforeStartView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_before_view);
+        challengeProgressView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_view);
     }
 
     void setupDashboardFundraisingCard(View fragmentView) {
         View fundraisingProgressCard = fragmentView.findViewById(R.id.dashboard_fundraising_progress_card);
-        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_card_before_view);
+        fundraisingBeforeChallengeStartView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_before_view);
+        fundraisingView = fundraisingProgressCard.findViewById(R.id.fundraising_progress_view);
 
-        View container = fundraisingProgressCard.findViewById(R.id.fundraising_invite_container);
-        View image = container.findViewById(R.id.fundraising_invite_button);
-        expandViewHitArea(image, container);
+        View supporterListContainer = fundraisingProgressCard.findViewById(R.id.view_supporters_container);
+        View supportersListimage = supporterListContainer.findViewById(R.id.view_supporters_icon);
+        expandViewHitArea(supportersListimage, supporterListContainer);
+        supportersListimage.setOnClickListener(onClickListener);
+
+        View inviteContainer = fundraisingProgressCard.findViewById(R.id.fundraising_invite_container);
+        View image = inviteContainer.findViewById(R.id.fundraising_invite_button);
+        expandViewHitArea(image, inviteContainer);
         image.setOnClickListener(onClickListener);
 
     }
 
+    void  showParticipantBadgesEarned() {
+        mFragmentHost.showParticipantBadgesEarned();
+
+    }
     void showSupportersInvite() {
         mFragmentHost.showSupportersInvite();
+    }
+
+    void showSupportersList() {
+        mFragmentHost.showSupportersList();
     }
 }

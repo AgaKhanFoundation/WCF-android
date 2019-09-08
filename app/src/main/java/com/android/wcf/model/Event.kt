@@ -89,7 +89,7 @@ data class Event(
 
     fun getDefaultParticipantCommitment(): Int {
 
-        val days = geDaysInChallenge()
+        val days = getDaysInChallenge()
         if (days > 0) {
             return (days * Constants.PARTICIPANT_COMMITMENT_MILES_PER_DAY)
         }
@@ -97,7 +97,7 @@ data class Event(
         return Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT
     }
 
-    fun geDaysInChallenge():Int {
+    fun getDaysInChallenge():Int {
         startDate?.let { startDate ->
             endDate?.let { endDate ->
                 val daysInChallenge = TimeUnit.DAYS.convert(endDate.time - startDate.time, TimeUnit.MILLISECONDS) + 1
@@ -109,6 +109,10 @@ data class Event(
 
     fun getTeamDistanceGoal():Int {
         return teamLimit * getDefaultParticipantCommitment()
+    }
+
+    fun getTeamStepsGoal():Int {
+        return teamLimit * getDefaultParticipantCommitment() * Constants.STEPS_IN_A_MILE
     }
 
     fun calculateTime(timeIn: Long?): String {

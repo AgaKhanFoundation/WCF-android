@@ -36,7 +36,6 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
         setHasOptionsMenu(true)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         host?.setToolbarTitle(null, true)

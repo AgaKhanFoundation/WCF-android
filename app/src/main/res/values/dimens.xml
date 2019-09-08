@@ -27,5 +27,7 @@
     <dimen name="card_image_size">135dp</dimen>
     <dimen name="progressbar_height">19dp</dimen>
     <dimen name="progressbar_radius">13dp</dimen>
+    <dimen name="progressbar_vertical_height">140dp</dimen>
+    <dimen name="progressbar_vertical_width">19dp</dimen>
 
 </resources>

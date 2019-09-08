@@ -19,6 +19,7 @@ import com.fitbitsdk.service.models.UserProfile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.util.*
 
 class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
 
@@ -62,8 +63,6 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
         fService.getUserService().profile().enqueue(object : Callback<UserProfile> {
             override fun onResponse(call: Call<UserProfile>?, response: Response<UserProfile>?) {
                 Log.d(TAG, "Response: " + response?.body()?.user?.dateOfBirth)
-                //getSteps()
-                getActivities()
             }
 
             override fun onFailure(call: Call<UserProfile>?, t: Throwable?) {
@@ -71,40 +70,6 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
             }
 
         })
-    }
-
-    fun getSteps() {
-        val sharedPreferences = getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
-        val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
-        fService.getActivityService().getActivityStepsForDateRange("2018-08-01", "2018-08-15")
-                .enqueue(object : Callback<ActivitySteps> {
-                    override fun onResponse(call: Call<ActivitySteps>, response: Response<ActivitySteps>) {
-                        val s = response.body()
-                        Log.d(TAG, "activity")
-                    }
-
-                    override fun onFailure(call: Call<ActivitySteps>, t: Throwable) {
-                        Log.e(TAG, "activity error")
-
-                    }
-                })
-    }
-
-    fun getActivities() {
-        val sharedPreferences = getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
-        val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
-        fService.getActivityService().getDailyActivitySummary( "2018-08-10")
-                .enqueue(object : Callback<DailyActivitySummary> {
-                    override fun onResponse(call: Call<DailyActivitySummary>, response: Response<DailyActivitySummary>) {
-                        val s = response.body()
-                        Log.d(TAG, "activity")
-                    }
-
-                    override fun onFailure(call: Call<DailyActivitySummary>, t: Throwable) {
-                        Log.e(TAG, "activity error")
-
-                    }
-                })
     }
 
     private fun displayAuthError(authenticationResult: AuthenticationResult) {

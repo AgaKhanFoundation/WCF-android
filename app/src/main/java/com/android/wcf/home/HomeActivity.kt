@@ -258,6 +258,14 @@ class HomeActivity : BaseActivity()
                 .commit()
     }
 
+    override fun showSupportersList() {
+        //TODO: create and show the supporters fragment
+    }
+
+    override fun showParticipantBadgesEarned() {
+        // TODO:  create and show participant badges fragment
+    }
+
     companion object {
 
         private val TAG = HomeActivity::class.java.simpleName
