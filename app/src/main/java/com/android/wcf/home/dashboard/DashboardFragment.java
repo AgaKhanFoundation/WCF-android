@@ -66,6 +66,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     TextView challengeNameTv;
     TextView challengeDatesTv;
 
+    TextView challengeDaysRemainingMessage = null;
+
     private DashboardMvp.Presenter dashboardPresenter = new DashboardPresenter(this);
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -272,6 +274,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             challengeProgressBeforeStartView.setVisibility(View.VISIBLE);
         }
         else {
+            int daysRemaining = event.daysToEndEvent();
+            challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
+            challengeDaysRemainingMessage.setVisibility(View.VISIBLE);
+
             challengeProgressBeforeStartView.setVisibility(View.GONE);
             challengeProgressView.setVisibility(View.VISIBLE);
         }
@@ -337,6 +343,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         View challengeProgressCard = fragmentView.findViewById(R.id.dashboard_challenge_progress_card);
         challengeProgressBeforeStartView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_before_view);
         challengeProgressView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_view);
+        challengeDaysRemainingMessage = challengeProgressView.findViewById(R.id.challenge_days_remaining_message);
     }
 
     void setupDashboardFundraisingCard(View fragmentView) {

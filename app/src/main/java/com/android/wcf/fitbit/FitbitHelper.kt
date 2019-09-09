@@ -73,7 +73,7 @@ class FitbitHelper {
                                     callback.onFitbitStepsRetrieved(stepsData)
                                 }
                             } else {
-                                Log.d(TAG, "fitbit steps error:\n" + response.errorBody())
+                                Log.d(TAG, "fitbit steps error:\n" + response.code() + "- " + response.errorBody())
                                 if (callback != null) {
                                     val error = Throwable(response.message())
                                     callback.onFitbitStepsError(error)

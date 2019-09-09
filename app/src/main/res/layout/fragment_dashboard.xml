@@ -215,7 +215,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dashboard_activity_tracked_info_view"
                 android:layout_width="match_parent"
-                android:layout_height="350dp"
+                android:layout_height="390dp"
                 android:padding="@dimen/spacing_normal"
                 android:visibility="visible">
 
@@ -356,7 +356,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:gravity="start"
-                    android:text="3,000"
+                    tools:text="3,000"
                     android:textAppearance="?textAppearanceSubtitle1"
                     android:textColor="@color/color_primary"
                     app:layout_constraintTop_toBottomOf="@id/challenge_progress_view_label_2"
@@ -367,7 +367,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="start"
-                    android:text="/5,000 miles completed"
+                    tools:text="/5,000 miles completed"
                     android:textAppearance="?textAppearanceSubtitle1"
                     app:layout_constraintBaseline_toBaselineOf="@id/team_activity_completed"
                     app:layout_constraintStart_toEndOf="@id/team_activity_completed"
@@ -381,7 +381,7 @@
                     android:layout_marginTop="@dimen/spacing_normal_half"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/team_activity_goal"
-                    android:progress="60"
+                    tools:progress="60"
                     android:max="100" />
 
                 <TextView
@@ -390,7 +390,6 @@
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/spacing_normal_half"
                     android:gravity="start"
-                    android:text="@string/dashboard_challenge_remaining_days_template"
                     android:textAppearance="?textAppearanceSubtitle1"
                     app:layout_constraintTop_toBottomOf="@id/team_activity_status_graph"
                     app:layout_constraintStart_toStartOf="parent"

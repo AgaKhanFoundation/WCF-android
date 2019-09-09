@@ -33,7 +33,6 @@
 
     </plurals>
 
-    <string name="dashboard_challenge_remaining_days_template">You have %1$d days remaining!</string>
 
     <plurals name="dashboard_challenge_remaining_days_template">
         <item quantity="zero">Challenge completed</item>
