@@ -127,16 +127,25 @@ class HomeActivity : BaseActivity()
 
     override fun onBackPressed() {
         val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
-        if (navigation.getSelectedItemId() == R.id.nav_challenge) {
+        if (supportFragmentManager.getBackStackEntryCount() > 0) {
+            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            if (fragment is DashboardFragment
+                    || fragment is LeaderboardFragment
+                    || fragment is NotificationsFragment) {
+                navigation.setSelectedItemId(R.id.nav_challenge);
+            } else if (fragment is ChallengeFragment) {
+                finish();
+            }
+            else {
+                super.onBackPressed();
+            }
+        }
+        else {
             super.onBackPressed();
-            finish();
-        } else {
-            navigation.setSelectedItemId(R.id.nav_challenge);
         }
     }
-    
+
     private fun setupView() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
