@@ -15,6 +15,7 @@ import com.fitbitsdk.service.models.ActivitySteps
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.math.roundToInt
 
 
 class ParticipantActivityFragment : BaseFragment() {
@@ -272,6 +273,7 @@ class ParticipantActivityFragment : BaseFragment() {
                 if (dayIdx >= 0 && dayIdx < it.size) {
                     val steps = it.get(dayIdx);
                     milesComplete = steps.value / Constants.STEPS_IN_A_MILE * 1.0
+
                     progress = (milesComplete / stepsBarMaxMiles) * 100
 
                     if (knownDateIdx == -1){
@@ -304,31 +306,31 @@ class ParticipantActivityFragment : BaseFragment() {
         when (idx) {
             0 -> {
                 activityMonTv.text = numberFormatter.format(milesComplete)
-                activityMonPb.progress = progress
+                showWeekDayProgress(activityMonPb, progress)
             }
             1 -> {
                 activityTueTv.text = numberFormatter.format(milesComplete)
-                activityTuePb.progress = progress
+                showWeekDayProgress(activityTuePb, progress)
             }
             2 -> {
                 activityWedTv.text = numberFormatter.format(milesComplete)
-                activityWedPb.progress = progress
+                showWeekDayProgress(activityWedPb, progress)
             }
             3 -> {
                 activityThuTv.text = numberFormatter.format(milesComplete)
-                activityThuPb.progress = progress
+                showWeekDayProgress(activityThuPb, progress)
             }
             4 -> {
                 activityFriTv.text = numberFormatter.format(milesComplete)
-                activityFriPb.progress = progress
+                showWeekDayProgress(activityFriPb, progress)
             }
             5 -> {
                 activitySatTv.text = numberFormatter.format(milesComplete)
-                activitySatPb.progress = progress
+                showWeekDayProgress(activitySatPb, progress)
             }
             6 -> {
                 activitySunTv.text = numberFormatter.format(milesComplete)
-                activitySunPb.progress = progress
+                showWeekDayProgress(activitySunPb, progress)
             }
             else -> {
             }
@@ -336,6 +338,21 @@ class ParticipantActivityFragment : BaseFragment() {
         }
     }
 
+    fun showWeekDayProgress(pb:ProgressBar, progress: Int) {
+        if (progress <= 0) {
+            pb.visibility = View.GONE
+        }
+        else {
+            pb.visibility = View.VISIBLE
+
+            val layoutParams = pb.layoutParams
+            var newHeightFraction: Double = progress / 100.0
+            if (newHeightFraction > 1.1) newHeightFraction = 1.1
+            layoutParams.height = (getResources().getDimensionPixelSize(R.dimen.progressbar_vertical_height_weekly) * newHeightFraction).toInt()
+            pb.layoutParams = layoutParams
+            pb.progress = 100
+        }
+    }
     fun findStartOfWeekIndex():Int {
         stepsInfo?.steps?.let {
             val steps = it.get(0)
