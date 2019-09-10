@@ -12,6 +12,8 @@ import com.fitbitsdk.service.models.DailyActivitySummary
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.concurrent.TimeUnit
 
 
@@ -60,10 +62,17 @@ class FitbitHelper {
         @JvmField
         var authenticationConfiguration: AuthenticationConfiguration? = null
 
-        fun getSteps(context: Context, startDate: String, endDate: String, callback: FitbitStepsResponseCallback) {
+        fun getSteps(context: Context, startDate: Date, endDate: Date, callback: FitbitStepsResponseCallback) {
+
+            val sdf = SimpleDateFormat("yyyy-MM-dd")
+
+            var startDateString =  sdf.format(startDate)
+
+            var endDateString = sdf.format(endDate)
+
             val sharedPreferences = context.getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
             val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
-            fService.getActivityService().getActivityStepsForDateRange(startDate, endDate)
+            fService.getActivityService().getActivityStepsForDateRange(startDateString, endDateString)
                     .enqueue(object : Callback<ActivitySteps> {
                         override fun onResponse(call: Call<ActivitySteps>, response: Response<ActivitySteps>) {
                             if (response.isSuccessful) {

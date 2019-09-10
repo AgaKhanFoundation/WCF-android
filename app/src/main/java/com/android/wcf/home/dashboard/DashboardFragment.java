@@ -234,10 +234,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     }
 
     void getTrackedStepsData() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        String startDate = "";
-        String endDate = "";
+        Date startDate = null;
+        Date endDate = null;
 
         long DAY_IN_MS = 1000 * 60 * 60 * 24;
         Date today = new Date();
@@ -245,22 +244,22 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
         if (event != null) {
             if (event.getTeamBuildingStart() != null) {
-                startDate = sdf.format(event.getTeamBuildingStart());
+                startDate = event.getTeamBuildingStart();
             }
             else {
-                startDate = sdf.format(weekAgo);
+                startDate = weekAgo;
             }
 
             if (event.getEndDate() != null) {
                 if (event.hasChallengeEnded()) {
-                    endDate = sdf.format(event.getEndDate());
+                    endDate = event.getEndDate();
                 }
                 else {
-                    endDate = sdf.format( new Date());
+                    endDate = new Date();
                 }
             }
             else {
-                endDate = sdf.format(today);
+                endDate = today;
             }
         }
 
