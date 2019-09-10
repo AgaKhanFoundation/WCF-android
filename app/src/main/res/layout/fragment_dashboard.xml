@@ -215,7 +215,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dashboard_activity_tracked_info_view"
                 android:layout_width="match_parent"
-                android:layout_height="390dp"
+                android:layout_height="350dp"
                 android:padding="@dimen/spacing_normal"
                 android:visibility="visible">
 
@@ -242,8 +242,7 @@
                 <androidx.viewpager.widget.ViewPager
                     android:id="@+id/tracked_info_viewPager"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tracked_info_tabs"/>

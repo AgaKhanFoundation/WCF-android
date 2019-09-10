@@ -28,8 +28,8 @@
     <dimen name="card_image_size">135dp</dimen>
     <dimen name="progressbar_height">19dp</dimen>
     <dimen name="progressbar_radius">13dp</dimen>
-    <dimen name="progressbar_vertical_height_164">164dp</dimen>
-    <dimen name="progressbar_vertical_width">19dp</dimen>
-    <dimen name="graph_vertical_marker_distance">20dp</dimen>
+    <dimen name="progressbar_vertical_width">14dp</dimen>
+    <dimen name="progressbar_vertical_height_164">140dp</dimen>  <!-- by trails-error 140:14 and 164:20 seems to fit well -->
+    <dimen name="graph_vertical_marker_distance">14dp</dimen>
 
 </resources>

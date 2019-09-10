@@ -300,34 +300,39 @@ class ParticipantActivityFragment : BaseFragment() {
         navNext.setEnabled(moreRecentWeekData())
     }
 
-    fun updateWeekDayInfo(idx:Int, milesComplete:Double, progress:Int){
-        if (idx == 0){
-            activityMonTv.text = numberFormatter.format(milesComplete)
-            activityMonPb.progress = progress
-        }
-        else if (idx == 1){
-            activityTueTv.text = numberFormatter.format(milesComplete)
-            activityTuePb.progress = progress
-        }
-        else if (idx == 2){
-            activityWedTv.text = numberFormatter.format(milesComplete)
-            activityWedPb.progress = progress
-        }
-        else if (idx == 3){
-            activityThuTv.text = numberFormatter.format(milesComplete)
-            activityThuPb.progress = progress
-        }
-        else if (idx == 4){
-            activityFriTv.text = numberFormatter.format(milesComplete)
-            activityFriPb.progress = progress
-        }
-        else if (idx == 5){
-            activitySatTv.text = numberFormatter.format(milesComplete)
-            activitySatPb.progress = progress
-        }
-        else if (idx == 6){
-            activitySunTv.text = numberFormatter.format(milesComplete)
-            activitySunPb.progress = progress
+    fun updateWeekDayInfo(idx: Int, milesComplete: Double, progress: Int) {
+        when (idx) {
+            0 -> {
+                activityMonTv.text = numberFormatter.format(milesComplete)
+                activityMonPb.progress = progress
+            }
+            1 -> {
+                activityTueTv.text = numberFormatter.format(milesComplete)
+                activityTuePb.progress = progress
+            }
+            2 -> {
+                activityWedTv.text = numberFormatter.format(milesComplete)
+                activityWedPb.progress = progress
+            }
+            3 -> {
+                activityThuTv.text = numberFormatter.format(milesComplete)
+                activityThuPb.progress = progress
+            }
+            4 -> {
+                activityFriTv.text = numberFormatter.format(milesComplete)
+                activityFriPb.progress = progress
+            }
+            5 -> {
+                activitySatTv.text = numberFormatter.format(milesComplete)
+                activitySatPb.progress = progress
+            }
+            6 -> {
+                activitySunTv.text = numberFormatter.format(milesComplete)
+                activitySunPb.progress = progress
+            }
+            else -> {
+            }
+
         }
     }
 
