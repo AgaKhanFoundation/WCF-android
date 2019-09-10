@@ -1,14 +1,13 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion compileSdkVer
+    buildToolsVersion buildToolsVer
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion minSdkVer
+        targetSdkVersion targetSdkVer
+
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
@@ -25,8 +24,8 @@ dependencies {
     repositories {
         maven { url "https://maven.google.com" }
     }
-    implementation 'androidx.annotation:annotation:1.0.0'
-    implementation 'androidx.core:core:1.0.0'
+    implementation "androidx.annotation:annotation:${supportLibVersion}"
+    implementation "androidx.core:core-ktx:${versions_core_ktx}"
     implementation 'androidx.viewpager:viewpager:1.0.0'
 }
 

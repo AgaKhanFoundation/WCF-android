@@ -61,6 +61,7 @@ ext {
     //Retrofit
     retrofitVersion = '2.5.0'
     retrofitLoggingInterceptorVersion = '3.12.1'
+    okHttpVersion = '3.12.1'
 
     //RxJava
     rxJavaVersion = '2.2.5'
