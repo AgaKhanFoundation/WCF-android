@@ -18,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.fitbit.FitbitHelper;
+import com.android.wcf.fitbit.FitbitStepsResponseCallback;
 import com.android.wcf.googlefit.GoogleFitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
@@ -94,7 +95,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
     };
 
-    private FitbitHelper.FitbitStepsResponseCallback fitbitCallback = new FitbitHelper.FitbitStepsResponseCallback() {
+    private FitbitStepsResponseCallback fitbitCallback = new FitbitStepsResponseCallback() {
         @Override
         public void onFitbitStepsError(@NotNull Throwable t) {
             activityTrackedInfoView.setVisibility(View.GONE);

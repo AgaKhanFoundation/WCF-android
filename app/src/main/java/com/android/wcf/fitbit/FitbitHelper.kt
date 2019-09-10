@@ -127,15 +127,4 @@ class FitbitHelper {
 
     }
 
-     interface FitbitStepsResponseCallback {
-        fun onFitbitStepsRetrieved(data: ActivitySteps)
-
-        fun onFitbitStepsError(t: Throwable)
-    }
-
-    interface FitbitActivityResponseCallback {
-        fun onFitbitActivityRetrieved(data: DailyActivitySummary)
-
-        fun onFitbitActivityError(t: Throwable)
-    }
 }
