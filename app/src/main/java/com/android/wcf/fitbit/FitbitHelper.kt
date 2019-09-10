@@ -73,7 +73,10 @@ class FitbitHelper {
                                     callback.onFitbitStepsRetrieved(stepsData)
                                 }
                             } else {
-                                Log.d(TAG, "fitbit steps error:\n" + response.code() + "- " + response.errorBody())
+                                Log.d(TAG, "fitbit steps error:" + response.code() + "- " + response.message())
+                                if (response.code() == 401) {
+                                    //TODO: ensure Interceptor is refreshing the expired token when errorcode is 401...
+                                }
                                 if (callback != null) {
                                     val error = Throwable(response.message())
                                     callback.onFitbitStepsError(error)
@@ -82,7 +85,7 @@ class FitbitHelper {
                         }
 
                         override fun onFailure(call: Call<ActivitySteps>, t: Throwable) {
-                            Log.e(TAG, "fitbit steps error: " + t.message)
+                            Log.e(TAG, "fitbit steps failure: " + t.message)
                             if (callback != null) {
                                 callback.onFitbitStepsError(t)
                             }
