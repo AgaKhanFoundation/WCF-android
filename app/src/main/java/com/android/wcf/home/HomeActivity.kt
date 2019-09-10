@@ -125,6 +125,18 @@ class HomeActivity : BaseActivity()
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+        if (navigation.getSelectedItemId() == R.id.nav_challenge) {
+            super.onBackPressed();
+            finish();
+        } else {
+            navigation.setSelectedItemId(R.id.nav_challenge);
+        }
+    }
+    
     private fun setupView() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
