@@ -17,9 +17,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.fitbit.FitbitHelper;
-import com.android.wcf.fitbit.FitbitStepsResponseCallback;
-import com.android.wcf.googlefit.GoogleFitHelper;
+import com.android.wcf.tracker.fitbit.FitbitHelper;
+import com.android.wcf.tracker.TrackerStepsCallback;
+import com.android.wcf.tracker.googlefit.GoogleFitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -95,14 +95,14 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
     };
 
-    private FitbitStepsResponseCallback fitbitCallback = new FitbitStepsResponseCallback() {
+    private TrackerStepsCallback trackerStepsCallback = new TrackerStepsCallback() {
         @Override
-        public void onFitbitStepsError(@NotNull Throwable t) {
+        public void onTrackerStepsError(@NotNull Throwable t) {
             activityTrackedInfoView.setVisibility(View.GONE);
         }
 
         @Override
-        public void onFitbitStepsRetrieved(@NotNull ActivitySteps data) {
+        public void onTrackerStepsRetrieved(@NotNull ActivitySteps data) {
             dailyFrag.setDaysInChallenge(event.getDaysInChallenge());
             dailyFrag.setDistanceGoal(participant.getCommitmentMiles());
             dailyFrag.setStepsData(data);
@@ -264,7 +264,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
 
         if (fitnessDeviceLoggedIn) {
-            FitbitHelper.Companion.getSteps(getActivity(), startDate, endDate, fitbitCallback);
+            FitbitHelper.Companion.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
+        }
+        else if (fitnessAppLoggedIn) {
+            GoogleFitHelper.Companion.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
         }
     }
 

@@ -1,13 +1,13 @@
-package com.android.wcf.fitbit
+package com.android.wcf.tracker
 
 import com.fitbitsdk.service.models.ActivitySteps
 import com.fitbitsdk.service.models.DailyActivitySummary
 
 
-interface FitbitStepsResponseCallback {
-    fun onFitbitStepsRetrieved(data: ActivitySteps)
+interface TrackerStepsCallback {
+    fun onTrackerStepsRetrieved(data: ActivitySteps)
 
-    fun onFitbitStepsError(t: Throwable)
+    fun onTrackerStepsError(t: Throwable)
 }
 
 interface FitbitActivityResponseCallback {
@@ -15,3 +15,4 @@ interface FitbitActivityResponseCallback {
 
     fun onFitbitActivityError(t: Throwable)
 }
+

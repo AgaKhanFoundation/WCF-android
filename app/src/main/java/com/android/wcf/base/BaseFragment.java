@@ -19,15 +19,11 @@ import androidx.fragment.app.Fragment;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
-import com.android.wcf.fitbit.FitbitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
-import com.fitbitsdk.service.models.ActivitySteps;
-
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 

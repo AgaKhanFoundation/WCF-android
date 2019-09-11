@@ -1,10 +1,12 @@
-package com.android.wcf.fitbit
+package com.android.wcf.tracker.fitbit
 
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.util.Log
+import com.android.wcf.tracker.FitbitActivityResponseCallback
+import com.android.wcf.tracker.TrackerStepsCallback
 import com.fitbitsdk.authentication.*
 import com.fitbitsdk.service.FitbitService
 import com.fitbitsdk.service.models.ActivitySteps
@@ -62,7 +64,7 @@ class FitbitHelper {
         @JvmField
         var authenticationConfiguration: AuthenticationConfiguration? = null
 
-        fun getSteps(context: Context, startDate: Date, endDate: Date, callback: FitbitStepsResponseCallback) {
+        fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback) {
 
             val sdf = SimpleDateFormat("yyyy-MM-dd")
 
@@ -79,7 +81,7 @@ class FitbitHelper {
                                 Log.d(TAG, "fitbit steps success")
                                 val stepsData: ActivitySteps = response.body() ?: ActivitySteps()
                                 if (callback != null) {
-                                    callback.onFitbitStepsRetrieved(stepsData)
+                                    callback.onTrackerStepsRetrieved(stepsData)
                                 }
                             } else {
                                 Log.d(TAG, "fitbit steps error:" + response.code() + "- " + response.message())
@@ -88,7 +90,7 @@ class FitbitHelper {
                                 }
                                 if (callback != null) {
                                     val error = Throwable(response.message())
-                                    callback.onFitbitStepsError(error)
+                                    callback.onTrackerStepsError(error)
                                 }
                             }
                         }
@@ -96,7 +98,7 @@ class FitbitHelper {
                         override fun onFailure(call: Call<ActivitySteps>, t: Throwable) {
                             Log.e(TAG, "fitbit steps failure: " + t.message)
                             if (callback != null) {
-                                callback.onFitbitStepsError(t)
+                                callback.onTrackerStepsError(t)
                             }
                         }
                     })

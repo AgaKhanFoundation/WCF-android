@@ -1,4 +1,4 @@
-package com.android.wcf.fitbit
+package com.android.wcf.tracker.fitbit
 
 import android.content.Context
 import android.content.DialogInterface
@@ -13,13 +13,10 @@ import com.fitbitsdk.authentication.AuthenticationHandler
 import com.fitbitsdk.authentication.AuthenticationManager
 import com.fitbitsdk.authentication.AuthenticationResult
 import com.fitbitsdk.service.FitbitService
-import com.fitbitsdk.service.models.ActivitySteps
-import com.fitbitsdk.service.models.DailyActivitySummary
 import com.fitbitsdk.service.models.UserProfile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.util.*
 
 class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
 

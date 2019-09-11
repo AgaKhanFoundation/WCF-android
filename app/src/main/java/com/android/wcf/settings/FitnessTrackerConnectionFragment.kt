@@ -19,8 +19,8 @@ import android.widget.TextView
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.base.RequestCodes
-import com.android.wcf.fitbit.FitbitHelper
-import com.android.wcf.googlefit.GoogleFitHelper
+import com.android.wcf.tracker.fitbit.FitbitHelper
+import com.android.wcf.tracker.googlefit.GoogleFitHelper
 import com.fitbitsdk.authentication.AuthenticationManager
 import com.fitbitsdk.authentication.LogoutTaskCompletionHandler
 import com.fitbitsdk.service.FitbitService
