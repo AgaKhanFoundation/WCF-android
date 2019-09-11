@@ -38,7 +38,7 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        host?.setToolbarTitle(null, true)
+        host?.setToolbarTitle(getString(R.string.akf_profileview_title), true)
         host?.showToolbar()
     }
 

@@ -35,6 +35,8 @@
     <string name="nav_leaderboard">Leaderboard</string>
     <string name="nav_notifications">Notifications</string>
 
+    <string name="akf_profileview_title">AKF Profile</string>
+
     <string name="team_card_my_team_label_text_view_text">My Team</string>
     <string name="team_card_join_team_mesage_text_view_text">Participating in a challenge is always more fun with friends! </string>
     <string name="team_card_show_teams_to_join_button_text">Join an Existing Team</string>
