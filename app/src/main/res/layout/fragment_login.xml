@@ -19,11 +19,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_gravity="center" />
 
-    <ImageView
+    <TextView
         android:id="@+id/app_name"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/steps4change_logo"
+        android:text="@string/app_name_title"
+        android:textAppearance="@style/TextAppearance.WCF.AppTitle"
         android:layout_marginTop="@dimen/spacing_normal_half"
         android:layout_marginStart="@dimen/spacing_extra_large"
         android:layout_marginEnd="@dimen/spacing_extra_large"
@@ -49,12 +50,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="@dimen/spacing_extra_large"
+        android:layout_marginBottom="@dimen/spacing_big"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/welcome_image"/>
+        app:layout_constraintTop_toBottomOf="@id/welcome_image"
+    app:layout_constraintBottom_toTopOf="@+id/term_conditions"/>
 
     <TextView
+        android:id="@+id/term_conditions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Terms and Conditions"
