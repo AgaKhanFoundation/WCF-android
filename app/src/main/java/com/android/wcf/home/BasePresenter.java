@@ -7,6 +7,7 @@ import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
 import com.android.wcf.network.WCFClient;
@@ -112,7 +113,7 @@ public abstract class BasePresenter {
                 .subscribe(new DisposableSingleObserver<Participant>() {
                     @Override
                     public void onSuccess(Participant participant) {
-                       FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
+                        FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
                             @Override
                             public void onParticipantProfileRetrieved(Participant participant) {
                                 onGetParticipantSuccess(participant);
@@ -206,8 +207,7 @@ public abstract class BasePresenter {
                     public void onError(Throwable error) {
                         if (error.getMessage().startsWith("HTTP 409")) {
                             onCreateTeamConstraintError();
-                        }
-                        else {
+                        } else {
                             onCreateTeamError(error);
                         }
                     }
@@ -341,7 +341,8 @@ public abstract class BasePresenter {
 
 
     public static int facebookRequestCount;
-    public void getTeamParticipantsInfoFromFacebook( final Team team) {
+
+    public void getTeamParticipantsInfoFromFacebook(final Team team) {
         //https://graph.facebook.com/?ids=user1,user2,user3
 
         facebookRequestCount = team.getParticipants().size();
@@ -519,7 +520,7 @@ public abstract class BasePresenter {
 
     /***** PARTICPANT TO TEAM API ******/
     public void assignParticipantToTeam(final String participantId, final int teamId) {
-            wcfClient.updateParticipant(participantId, null, teamId, 0, 0, 0)
+        wcfClient.updateParticipant(participantId, null, teamId, 0, 0, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<List<Integer>>() {
@@ -571,7 +572,7 @@ public abstract class BasePresenter {
 
 
     /***** PARTICPANT TO Event API ******/
-    public void assignParticipantToEvent(final String participantId, final int eventId, final int causeId, final int localityId ) {
+    public void assignParticipantToEvent(final String participantId, final int eventId, final int causeId, final int localityId) {
         wcfClient.updateParticipant(participantId, null, 0, 0, 0, eventId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -595,6 +596,42 @@ public abstract class BasePresenter {
 
     protected void onAssignParticipantToEventError(Throwable error, String participantId, final int eventId, final int causeId, final int localityId) {
         Log.e(TAG, "onAssignParticipantToEventError(participantId, eventId, causeId, localityId) Error: " + error.getMessage());
+    }
+
+    /***** tracking sources *****/
+
+
+    public void getTrackingSources() {
+        wcfClient.getTrackingSources()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Source>>() {
+                    @Override
+                    public void onSuccess(List<Source> sources) {
+                        onGetTrackingSourcesListSuccess(sources);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        Log.e(TAG, "getTrackingSources: " + error.getMessage());
+
+                        onGetTrackingSourcesListError(error);
+
+                    }
+                });
+    }
+
+    protected void onGetTrackingSourcesListSuccess(List<Source> sources) {
+
+    }
+
+    protected void onGetTrackingSourcesListError(Throwable error) {
+
+    }
+
+    /***** tracked steps *******/
+    public void saveTrackedSteps(final String participantId, final String trackerSource, final int steps) {
+
     }
 }
 

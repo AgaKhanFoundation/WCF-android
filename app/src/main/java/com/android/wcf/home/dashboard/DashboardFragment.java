@@ -17,6 +17,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.tracker.TrackingHelper;
 import com.android.wcf.tracker.fitbit.FitbitHelper;
 import com.android.wcf.tracker.TrackerStepsCallback;
 import com.android.wcf.tracker.googlefit.GoogleFitHelper;
@@ -112,6 +113,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             weeklyFrag.setStepsData(data);
 
             activityTrackedInfoView.setVisibility(View.VISIBLE);
+
+            dashboardPresenter.saveStepsData(data);
         }
     };
 
@@ -177,7 +180,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             throw new RuntimeException(context.toString()
                     + " must implement DashboardMvp.Host");
         }
-        deviceSharedPreferences = getActivity().getSharedPreferences(FitbitHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        deviceSharedPreferences = getActivity().getSharedPreferences(TrackingHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -221,8 +224,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     void showDashboardActivityInfo() {
 
         if (deviceSharedPreferences != null) {
-            fitnessDeviceLoggedIn = deviceSharedPreferences.getBoolean(FitbitHelper.FITBIT_DEVICE_LOGGED_IN, false);
-            fitnessAppLoggedIn = deviceSharedPreferences.getBoolean(GoogleFitHelper.GOOGLE_FIT_APP_LOGGED_IN, false);
+            fitnessDeviceLoggedIn = deviceSharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false);
+            fitnessAppLoggedIn = deviceSharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false);
         }
         if (fitnessDeviceLoggedIn || fitnessAppLoggedIn) {
             activityTrackedInfoView.setVisibility(View.VISIBLE);
@@ -377,4 +380,5 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     void showSupportersList() {
         mFragmentHost.showSupportersList();
     }
+
 }

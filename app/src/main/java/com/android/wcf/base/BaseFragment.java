@@ -177,7 +177,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             Intent shareIntent = intentBuilder
                     .setType("text/plain")
                     .setText(shareMessage)
-                    .setSubject("Join my team '" + teamName + "' on Steps4Impact")
+                    .setSubject("Join my team '" + teamName + "' on Steps 4 Impact")
                     .setChooserTitle("Share Via")
                     .createChooserIntent();
 

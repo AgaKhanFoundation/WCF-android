@@ -55,12 +55,6 @@ class FitbitHelper {
             }
         }
 
-        const val FITBIT_SHARED_PREF_NAME = AuthenticationManager.FITBIT_SHARED_PREFERENCE_NAME
-        const val FITBIT_DEVICE_SELECTED = "fitbit_device_selected"
-        const val FITBIT_DEVICE_LOGGED_IN = "fitbit_device_logged_in"
-        const val FITBIT_DEVICE_INFO = "fitbit_device_info"
-        const val FITBIT_USER_DISPLAY_NAME = "fitbit_user_display_name"
-
         @JvmField
         var authenticationConfiguration: AuthenticationConfiguration? = null
 

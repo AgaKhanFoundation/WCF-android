@@ -7,6 +7,7 @@ import com.android.wcf.helper.typeadapters.DateStringLongConverter;
 import com.android.wcf.helper.typeadapters.DateStringTypeConverter;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
 import com.google.gson.Gson;
@@ -188,5 +189,9 @@ public class WCFClient {
 
     public Single<Integer> deleteParticipant(String participantId) {
         return wcfApi.deleteParticipant(participantId);
+    }
+
+    public Single<List<Source>> getTrackingSources() {
+        return wcfApi.getSources();
     }
 }
