@@ -1,12 +1,14 @@
 package com.android.wcf.network;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.helper.typeadapters.DateStringLongConverter;
 import com.android.wcf.helper.typeadapters.DateStringTypeConverter;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.Record;
 import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -29,6 +31,7 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
+import okio.Buffer;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -52,7 +55,7 @@ public class WCFClient {
     private WCFClient() {
 
         HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
-        loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.BASIC);
+        loggingInterceptor.setLevel(BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.BODY);
 
         Interceptor requestInterceptor = new Interceptor() {
             @Override
@@ -193,5 +196,20 @@ public class WCFClient {
 
     public Single<List<Source>> getTrackingSources() {
         return wcfApi.getSources();
+    }
+
+
+
+    public Single<Record> recordSteps(int participantId, int trackerSourceId, String trackedDate, long stepsCount) {
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put(Record.RECORD_ATTRIBUTE_PARTICIPANT_ID, participantId);
+        jsonParams.put(Record.RECORD_ATTRIBUTE_SOURCE_ID, trackerSourceId);
+        jsonParams.put(Record.RECORD_ATTRIBUTE_DATE_ID, trackedDate);
+        jsonParams.put(Record.RECORD_ATTRIBUTE_DISTANCE_ID, stepsCount);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.recordSteps(requestBody);
     }
 }

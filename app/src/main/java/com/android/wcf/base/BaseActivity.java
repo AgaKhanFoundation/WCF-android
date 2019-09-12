@@ -23,7 +23,6 @@ import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.tracker.TrackingHelper;
 import com.android.wcf.tracker.fitbit.FitbitHelper;
-import com.android.wcf.tracker.googlefit.GoogleFitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -97,7 +96,7 @@ abstract public class BaseActivity extends AppCompatActivity
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences(TrackingHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         AuthenticationConfiguration fitbitAuthenticationConfiguration =
                 FitbitHelper.generateAuthenticationConfiguration(this, null);
@@ -331,7 +330,7 @@ abstract public class BaseActivity extends AppCompatActivity
 
     private void getDeviceProfile() {
         Log.i(TAG, "getDeviceProfile");
-        final SharedPreferences sharedPreferences = getSharedPreferences(TrackingHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        final SharedPreferences sharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
         FitbitService fService = new FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().getClientCredentials());
         fService.getDeviceService().devices().enqueue(new Callback<Device[]>() {
             @Override

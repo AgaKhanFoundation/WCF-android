@@ -20,8 +20,6 @@ import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.base.RequestCodes
 import com.android.wcf.tracker.TrackingHelper
-import com.android.wcf.tracker.fitbit.FitbitHelper
-import com.android.wcf.tracker.googlefit.GoogleFitHelper
 import com.fitbitsdk.authentication.AuthenticationManager
 import com.fitbitsdk.authentication.LogoutTaskCompletionHandler
 import com.fitbitsdk.service.FitbitService
@@ -86,7 +84,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        sharedPreferences = activity?.getSharedPreferences(TrackingHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        sharedPreferences = activity?.getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
         val fragmentView = inflater.inflate(R.layout.fragment_device_connection, container, false)
 
         val expandImage: ImageView = fragmentView.findViewById(R.id.iv_device_message_expand)

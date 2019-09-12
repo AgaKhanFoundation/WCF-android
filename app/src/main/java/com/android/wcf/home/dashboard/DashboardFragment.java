@@ -43,6 +43,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     ParticipantActivityFragment dailyFrag;
     ParticipantActivityFragment weeklyFrag;
+    int trackerSourceId = 0;
 
     Event event = null;
     Team team = null;
@@ -114,7 +115,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
             activityTrackedInfoView.setVisibility(View.VISIBLE);
 
-            dashboardPresenter.saveStepsData(data);
+            if (TrackingHelper.Companion.isTimeToSave(getContext())) {
+                dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data);
+            }
         }
     };
 
@@ -180,7 +183,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             throw new RuntimeException(context.toString()
                     + " must implement DashboardMvp.Host");
         }
-        deviceSharedPreferences = getActivity().getSharedPreferences(TrackingHelper.FITBIT_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        deviceSharedPreferences = getActivity().getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -227,6 +230,13 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             fitnessDeviceLoggedIn = deviceSharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false);
             fitnessAppLoggedIn = deviceSharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false);
         }
+        if (fitnessDeviceLoggedIn) {
+            trackerSourceId = TrackingHelper.FITBIT_TRACKING_SOURCE_ID;
+        }
+        else {
+            trackerSourceId = TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID;
+        }
+
         if (fitnessDeviceLoggedIn || fitnessAppLoggedIn) {
             activityTrackedInfoView.setVisibility(View.VISIBLE);
             deviceConnectionView.setVisibility(View.GONE);
@@ -381,4 +391,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         mFragmentHost.showSupportersList();
     }
 
+
+    @Override
+    public void stepsRecorded() {
+        TrackingHelper.Companion.trackerDataSaved(getContext());
+        dashboardPresenter.getParticipantStats(participant.getParticipantId());
+    }
 }

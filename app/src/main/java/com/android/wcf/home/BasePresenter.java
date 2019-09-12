@@ -7,6 +7,7 @@ import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.Record;
 import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -622,17 +623,45 @@ public abstract class BasePresenter {
     }
 
     protected void onGetTrackingSourcesListSuccess(List<Source> sources) {
+        Log.d(TAG, "onGetTrackingSourcesListSuccess success: ");
 
     }
 
     protected void onGetTrackingSourcesListError(Throwable error) {
-
+        Log.e(TAG, "onGetTrackingSourcesListError(Error: " + error.getMessage());
     }
 
     /***** tracked steps *******/
-    public void saveTrackedSteps(final String participantId, final String trackerSource, final int steps) {
 
+
+    public void saveTrackedSteps(final int participantId, final int trackerSourceId, final String stepsDate, final long stepsCount) {
+        wcfClient.recordSteps(participantId, trackerSourceId, stepsDate, stepsCount)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<Record>() {
+                    @Override
+                    public void onSuccess(Record stepsRecord) {
+                        onStepsRecordSuccess(stepsRecord);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        Log.e(TAG, "saveTrackedSteps: " + error.getMessage());
+                        onStepsRecordError(error, participantId, trackerSourceId, stepsDate, stepsCount);
+                    }
+                });
+    }
+
+    protected void onStepsRecordSuccess(Record stepsRecord) {
+        Log.d(TAG, "onStepsRecordSuccess success: " + stepsRecord);
+    }
+
+    protected void onStepsRecordError(Throwable error, final int participantId, final int trackerSourceId, final String stepsDate, final long stepsCount) {
+        Log.e(TAG, "onStepsRecordError(Error: " + error.getMessage()
+                + " participantId=" + participantId
+                + " sourceId=" + trackerSourceId
+                + " stepsDate=" + stepsDate
+                + " stepsCount=" + stepsCount
+        );
     }
 }
-
-
