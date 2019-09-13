@@ -3,6 +3,8 @@ package com.android.wcf.home.dashboard;
 import com.android.wcf.base.BaseMvp;
 import com.fitbitsdk.service.models.ActivitySteps;
 
+import java.util.Date;
+
 public interface DashboardMvp {
 
     interface DashboardView extends BaseMvp.BaseView {
@@ -18,7 +20,7 @@ public interface DashboardMvp {
 
         void getParticipantStats(String participantId);
 
-        void saveStepsData(int participantId, int trackingSourceId, ActivitySteps data, String lastSavedDate);
+        void saveStepsData(int participantId, int trackingSourceId, ActivitySteps data, Date eventStartDate, Date eventEndDate, String lastSavedDate);
 
         }
 

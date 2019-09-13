@@ -83,7 +83,7 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
     }
 
     @Override
-    public void saveStepsData(int participantId, int trackingSourceId, ActivitySteps data, String lastSavedDate) {
+    public void saveStepsData(int participantId, int trackingSourceId, ActivitySteps data, Date startDate, Date endDate, String lastSavedDate) {
 
         totalDaysTracked = 0;
         savedDates.clear();
@@ -105,15 +105,28 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
             String stepsDateString = steps.getDate();
             try {
                 stepsDate = sdf.parse(steps.getDate()); //ensure valid date. parse will fail if incorrect format and we will skip it
-                if (today.compareTo(stepsDateString) <= 0) { //dont save for today or future date. Save only for past date
+
+                if (stepsDate.getTime() < startDate.getTime() || stepsDate.getTime() > endDate.getTime() ) {
+                    //only save when the steps are for date when challenge is in progress
                     totalDaysTracked--;
                     continue;
                 }
-                if (lastSavedDate.compareTo(stepsDateString) > 0) { //step date earlier than lastSaved; must have previously saved so skip
+                if (today.compareTo(stepsDateString) <= 0) {
+                    //don't save for today or future date. Save only for past date.
+                    //this is a workaround for the API limitation:
+                    // 1) avoid 409 constraint violation
+                    // 2) preventing steps from double counting when this method is run multiple times
+
+                    totalDaysTracked--;
+                    continue;
+                }
+                if (lastSavedDate.compareTo(stepsDateString) > 0) {
+                    //step date earlier than lastSaved; must have previously saved it, so skip in this run
                     totalDaysTracked--;
                     continue;
                 }
                 if (steps.getValue() == 0) {
+                    //no need to save 0 steps
                     totalDaysTracked--;
                     continue;
                 }

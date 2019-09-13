@@ -13,7 +13,7 @@ android {
         targetSdkVersion targetSdkVer
         applicationId "org.akf.steps4change"
         versionCode 1
-        versionName "0.1.7"
+        versionName "0.1.8"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

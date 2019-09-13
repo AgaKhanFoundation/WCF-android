@@ -117,7 +117,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
             if (TrackingHelper.Companion.isTimeToSave(getContext())) {
                 String lastSavedDate = TrackingHelper.Companion.lastTrackerDataSavedDate(getContext());
-                dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data, lastSavedDate);
+                dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data, event.getStartDate(), event.getEndDate(), lastSavedDate);
             }
         }
     };
