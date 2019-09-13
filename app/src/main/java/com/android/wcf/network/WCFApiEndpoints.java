@@ -3,6 +3,8 @@ package com.android.wcf.network;
 
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.Record;
+import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
 
@@ -59,5 +61,13 @@ public interface WCFApiEndpoints {
 
     @DELETE("teams/{id}")
     Single<Integer> deleteTeam(@Path("id") int id);
+
+    /*********** SOURCES **********/
+    @GET("sources/")
+    Single<List<Source>> getSources();
+
+    /********* RECORDS  ************/
+    @POST("records/")
+    Single<Record> recordSteps(@Body RequestBody params);
 
 }

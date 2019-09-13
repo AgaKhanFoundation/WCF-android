@@ -125,6 +125,27 @@ class HomeActivity : BaseActivity()
         return super.onOptionsItemSelected(item)
     }
 
+    override fun onBackPressed() {
+        val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
+
+        if (supportFragmentManager.getBackStackEntryCount() > 0) {
+            val fragment = supportFragmentManager.findFragmentById(R.id.fragment_container)
+            if (fragment is DashboardFragment
+                    || fragment is LeaderboardFragment
+                    || fragment is NotificationsFragment) {
+                navigation.setSelectedItemId(R.id.nav_challenge);
+            } else if (fragment is ChallengeFragment) {
+                finish();
+            }
+            else {
+                super.onBackPressed();
+            }
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
+
     private fun setupView() {
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
@@ -256,6 +277,14 @@ class HomeActivity : BaseActivity()
                 .replace(R.id.fragment_container, fragment)
                 .addToBackStack(null)
                 .commit()
+    }
+
+    override fun showSupportersList() {
+        //TODO: create and show the supporters fragment
+    }
+
+    override fun showParticipantBadgesEarned() {
+        // TODO:  create and show participant badges fragment
     }
 
     companion object {

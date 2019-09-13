@@ -15,6 +15,9 @@ public interface LoginMvp {
 
     interface Host {
         void setToolbarTitle(String title, boolean homeAffordance);
+        void showToolbar();
+        void hideToolbar();
+
         void loginComplete();
     }
 }

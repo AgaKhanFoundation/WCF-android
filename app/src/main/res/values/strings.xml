@@ -1,5 +1,6 @@
 <resources>
     <string name="app_name">Steps4Impact</string>
+    <string name="app_name_title">Steps 4 Impact</string>
     <string name="tabLeaderboard">LeaderBoard</string>
     <string name="tabMyProfile">My Profile</string>
     <string name="tabMyTeam">My Team</string>
@@ -33,6 +34,8 @@
     <string name="nav_challenge">Challenge</string>
     <string name="nav_leaderboard">Leaderboard</string>
     <string name="nav_notifications">Notifications</string>
+
+    <string name="akf_profileview_title">AKF Profile</string>
 
     <string name="team_card_my_team_label_text_view_text">My Team</string>
     <string name="team_card_join_team_mesage_text_view_text">Participating in a challenge is always more fun with friends! </string>
@@ -117,11 +120,14 @@
     <string name="connect_device_or_app_message">No activity yet. You will need to connect a fitness tracker to track your miles.</string>
     <string name="connect_device_app_button_text">Connect an App or a Device</string>
     <string name="dashboard_activity_card_label">Activity</string>
-    <string name="challenge_progress_card_label">Challenge Progress</string>
+    <string name="challenge_progress_view_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
+
+    <string name="dashboard_distance_goal_template">/%1$s mi</string>
 
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
+
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
     <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
     <string name="invite_supporters_message">Get sponsored by your friends. When your friends sign up to support you, you will raise money for every mile you move. Proceeds will be donated to AKF.</string>
@@ -182,5 +188,8 @@
     <string name="remove_team_member_button">Remove</string>
     <string name="remove_team_member_title">Remove %1$s?</string>
     <string name="remove_team_member_message">%1$s will be permanently removed from your team</string>
+    <string name="tracked_info_tab_daily_label">Daily</string>
+    <string name="tracked_info_tab_weekly_label">Weekly</string>
+    <string name="dashboard_badges_label">View Badges</string>
 
 </resources>

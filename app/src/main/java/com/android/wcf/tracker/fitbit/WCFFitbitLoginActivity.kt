@@ -1,4 +1,4 @@
-package com.android.wcf.fitbit
+package com.android.wcf.tracker.fitbit
 
 import android.content.Context
 import android.content.DialogInterface
@@ -13,8 +13,6 @@ import com.fitbitsdk.authentication.AuthenticationHandler
 import com.fitbitsdk.authentication.AuthenticationManager
 import com.fitbitsdk.authentication.AuthenticationResult
 import com.fitbitsdk.service.FitbitService
-import com.fitbitsdk.service.models.ActivitySteps
-import com.fitbitsdk.service.models.DailyActivitySummary
 import com.fitbitsdk.service.models.UserProfile
 import retrofit2.Call
 import retrofit2.Callback
@@ -62,8 +60,6 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
         fService.getUserService().profile().enqueue(object : Callback<UserProfile> {
             override fun onResponse(call: Call<UserProfile>?, response: Response<UserProfile>?) {
                 Log.d(TAG, "Response: " + response?.body()?.user?.dateOfBirth)
-                //getSteps()
-                getActivities()
             }
 
             override fun onFailure(call: Call<UserProfile>?, t: Throwable?) {
@@ -71,40 +67,6 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
             }
 
         })
-    }
-
-    fun getSteps() {
-        val sharedPreferences = getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
-        val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
-        fService.getActivityService().getActivityStepsForDateRange("2018-08-01", "2018-08-15")
-                .enqueue(object : Callback<ActivitySteps> {
-                    override fun onResponse(call: Call<ActivitySteps>, response: Response<ActivitySteps>) {
-                        val s = response.body()
-                        Log.d(TAG, "activity")
-                    }
-
-                    override fun onFailure(call: Call<ActivitySteps>, t: Throwable) {
-                        Log.e(TAG, "activity error")
-
-                    }
-                })
-    }
-
-    fun getActivities() {
-        val sharedPreferences = getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
-        val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
-        fService.getActivityService().getDailyActivitySummary( "2018-08-10")
-                .enqueue(object : Callback<DailyActivitySummary> {
-                    override fun onResponse(call: Call<DailyActivitySummary>, response: Response<DailyActivitySummary>) {
-                        val s = response.body()
-                        Log.d(TAG, "activity")
-                    }
-
-                    override fun onFailure(call: Call<DailyActivitySummary>, t: Throwable) {
-                        Log.e(TAG, "activity error")
-
-                    }
-                })
     }
 
     private fun displayAuthError(authenticationResult: AuthenticationResult) {

@@ -215,7 +215,7 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <TextView
                         android:id="@+id/team_name"
@@ -418,8 +418,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:src="@drawable/ic_chevron_right"
-                            android:textAppearance="?attr/textAppearanceHeadline6"
+                            android:src="@drawable/ic_chevron_right_blue"
                             app:layout_constraintBottom_toBottomOf="@id/team_commitment_label"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="@id/team_commitment_label" />
@@ -512,7 +511,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:src="@drawable/ic_chevron_right"
+                            android:src="@drawable/ic_chevron_right_blue"
                             android:textAppearance="?attr/textAppearanceHeadline6"
                             app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
                             app:layout_constraintEnd_toEndOf="parent"
@@ -536,7 +535,7 @@
                 app:layout_constraintTop_toBottomOf="@id/challenge_team_invite_card">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/fundraising_progress_card_before"
+                    android:id="@+id/fundraising_progress_before_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal">
@@ -553,7 +552,7 @@
                         app:srcCompat="@drawable/ic_art_fundraise" />
 
                     <TextView
-                        android:id="@+id/fundraising_progress_card_label"
+                        android:id="@+id/fundraising_progress_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/challenge_fundraising_progress_card_label"
@@ -572,7 +571,7 @@
                         android:text="@string/challenge_fundraising_progress_before_start_message"
                         android:textAppearance="@style/TextAppearance.WCF.Body1"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/fundraising_progress_card_label" />
+                        app:layout_constraintTop_toBottomOf="@id/fundraising_progress_label" />
 
                     <View
                         android:id="@+id/seperator_3"
@@ -606,7 +605,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:gravity="right"
-                            android:src="@drawable/ic_chevron_right"
+                            android:src="@drawable/ic_chevron_right_blue"
                             android:textAppearance="?attr/textAppearanceHeadline6"
                             app:layout_constraintBottom_toBottomOf="@id/fundraising_invite_label"
                             app:layout_constraintEnd_toEndOf="parent"

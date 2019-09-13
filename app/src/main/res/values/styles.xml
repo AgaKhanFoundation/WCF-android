@@ -97,7 +97,7 @@
     </style>
 
     <style name="wcf_progressbar_horizontal_style" parent="@style/Base.Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:progressDrawable">@drawable/progressbar_bg</item>
+        <item name="android:progressDrawable">@drawable/bg_progressbar</item>
         <item name="android:paddingTop">0dp</item>
         <item name="android:paddingBottom">0dp</item>
     </style>

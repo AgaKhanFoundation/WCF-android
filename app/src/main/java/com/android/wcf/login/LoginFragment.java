@@ -79,9 +79,15 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        host.hideToolbar();
+    }
+
     private void setupView(View view) {
         loginButton = view.findViewById(R.id.login_button);
-        loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE, EMAIL));
+        loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -92,14 +98,13 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
 
-                                String userName = "", userId = "", userEmail = "", userGender = "", userProfileUrl = "";
+                                String userName = "", userId = "", userGender = "", userProfileUrl = "";
                                 try {
                                     AccessToken token = AccessToken.getCurrentAccessToken();
                                     Log.d("access only Token is", String.valueOf(token.getToken()));
 
                                     userId = object.getString("id");
                                     userName = object.getString("name");
-                                    userEmail = object.getString("email");
                                     userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
 
                                     String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
@@ -113,7 +118,6 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                                     SharedPreferencesUtil.saveMyParticipantId(userId);
                                     SharedPreferencesUtil.saveUserLoggedIn(true);
                                     SharedPreferencesUtil.saveUserFullName(userName);
-                                    SharedPreferencesUtil.saveUserEmail(userEmail);
                                     SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
                                     joinFBGroup(userId);
 

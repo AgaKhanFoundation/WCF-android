@@ -36,10 +36,10 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
         setHasOptionsMenu(true)
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        host?.setToolbarTitle(null, true)
+        host?.setToolbarTitle(getString(R.string.akf_profileview_title), true)
+        host?.showToolbar()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -75,17 +75,17 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
             host?.setToolbarTitle(title, true)
             mWebView?.setWebChromeClient(WebChromeClient())
         } else {
-            mWebView?.setWebChromeClient(object : WebChromeClient() {
-                override fun onReceivedTitle(view: WebView, title: String?) {
-                    super.onReceivedTitle(view, title)
-                    if (title != null && title.length > 0) {
-                        host?.setToolbarTitle(null, true)
-
-                    } else {
-                        host?.setToolbarTitle(null, true)
-                    }
-                }
-            })
+//            mWebView?.setWebChromeClient(object : WebChromeClient() {
+//                override fun onReceivedTitle(view: WebView, title: String?) {
+//                    super.onReceivedTitle(view, title)
+//                    if (title != null && title.length > 0) {
+//                        host?.setToolbarTitle(null, true)
+//
+//                    } else {
+//                        host?.setToolbarTitle(null, true)
+//                    }
+//                }
+//            })
         }
 
         if (extras != null && extras.containsKey(KEY_URL_USER_NAME) && extras.containsKey(KEY_URL_PWD)) {
