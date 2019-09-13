@@ -641,7 +641,7 @@ public abstract class BasePresenter {
                 .subscribe(new DisposableSingleObserver<Record>() {
                     @Override
                     public void onSuccess(Record stepsRecord) {
-                        onStepsRecordSuccess(stepsRecord);
+                        onStepsRecordSuccess(stepsRecord, stepsDate);
                     }
 
                     @Override
@@ -652,7 +652,7 @@ public abstract class BasePresenter {
                 });
     }
 
-    protected void onStepsRecordSuccess(Record stepsRecord) {
+    protected void onStepsRecordSuccess(Record stepsRecord, String stepDate) {
         Log.d(TAG, "onStepsRecordSuccess success: " + stepsRecord);
     }
 

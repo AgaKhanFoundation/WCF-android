@@ -17,14 +17,14 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.tracker.TrackingHelper;
-import com.android.wcf.tracker.fitbit.FitbitHelper;
-import com.android.wcf.tracker.TrackerStepsCallback;
-import com.android.wcf.tracker.googlefit.GoogleFitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
+import com.android.wcf.tracker.TrackerStepsCallback;
+import com.android.wcf.tracker.TrackingHelper;
+import com.android.wcf.tracker.fitbit.FitbitHelper;
+import com.android.wcf.tracker.googlefit.GoogleFitHelper;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.fitbitsdk.service.models.ActivitySteps;
@@ -116,7 +116,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             activityTrackedInfoView.setVisibility(View.VISIBLE);
 
             if (TrackingHelper.Companion.isTimeToSave(getContext())) {
-                dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data);
+                String lastSavedDate = TrackingHelper.Companion.lastTrackerDataSavedDate(getContext());
+                dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data, lastSavedDate);
             }
         }
     };
@@ -232,8 +233,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
         if (fitnessDeviceLoggedIn) {
             trackerSourceId = TrackingHelper.FITBIT_TRACKING_SOURCE_ID;
-        }
-        else {
+        } else {
             trackerSourceId = TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID;
         }
 
@@ -258,28 +258,24 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         if (event != null) {
             if (event.getTeamBuildingStart() != null) {
                 startDate = event.getTeamBuildingStart();
-            }
-            else {
+            } else {
                 startDate = weekAgo;
             }
 
             if (event.getEndDate() != null) {
                 if (event.hasChallengeEnded()) {
                     endDate = event.getEndDate();
-                }
-                else {
+                } else {
                     endDate = new Date();
                 }
-            }
-            else {
+            } else {
                 endDate = today;
             }
         }
 
         if (fitnessDeviceLoggedIn) {
             FitbitHelper.Companion.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
-        }
-        else if (fitnessAppLoggedIn) {
+        } else if (fitnessAppLoggedIn) {
             GoogleFitHelper.Companion.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
         }
     }
@@ -288,8 +284,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         if (!challengeStarted) {
             challengeProgressView.setVisibility(View.GONE);
             challengeProgressBeforeStartView.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             int daysRemaining = event.daysToEndEvent();
             challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
             challengeDaysRemainingMessage.setVisibility(View.VISIBLE);
@@ -379,10 +374,11 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     }
 
-    void  showParticipantBadgesEarned() {
+    void showParticipantBadgesEarned() {
         mFragmentHost.showParticipantBadgesEarned();
 
     }
+
     void showSupportersInvite() {
         mFragmentHost.showSupportersInvite();
     }
@@ -393,8 +389,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
 
     @Override
-    public void stepsRecorded() {
-        TrackingHelper.Companion.trackerDataSaved(getContext());
+    public void stepsRecorded(String lastSavedDate) {
+        TrackingHelper.Companion.trackerDataSaved(getContext(), lastSavedDate);
         dashboardPresenter.getParticipantStats(participant.getParticipantId());
     }
 }

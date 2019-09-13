@@ -6,7 +6,7 @@ import com.fitbitsdk.service.models.ActivitySteps;
 public interface DashboardMvp {
 
     interface DashboardView extends BaseMvp.BaseView {
-        void stepsRecorded();
+        void stepsRecorded(String lastSavedDate);
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -18,7 +18,7 @@ public interface DashboardMvp {
 
         void getParticipantStats(String participantId);
 
-        void saveStepsData(int participantId, int trackingSourceId, ActivitySteps data);
+        void saveStepsData(int participantId, int trackingSourceId, ActivitySteps data, String lastSavedDate);
 
         }
 

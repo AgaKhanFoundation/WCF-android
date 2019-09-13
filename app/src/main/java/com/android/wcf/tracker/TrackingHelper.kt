@@ -2,12 +2,14 @@ package com.android.wcf.tracker
 
 import android.content.Context
 import com.fitbitsdk.authentication.AuthenticationManager
+import java.text.SimpleDateFormat
 import java.util.*
 
 class TrackingHelper {
 
     companion object {
         public const val TRACKER_DATA_LAST_SAVED_AT_TIME = "tracking_saved_at_time"
+        public const val TRACKER_DATA_LAST_SAVED_DATE = "tracking_last_saved_date"
         const val SAVE_AFTER_MINUTES = 30
 
         const val SELECTED_TRACKING_SOURCE_ID = "tracking_source_id"
@@ -36,11 +38,21 @@ class TrackingHelper {
             return true
         }
 
-        fun trackerDataSaved(context: Context) {
+        fun trackerDataSaved(context: Context,  lastSavedStepDate:String) {
             val deviceSharedPreferences = context.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
             deviceSharedPreferences.let {
                 deviceSharedPreferences.edit().putLong(TRACKER_DATA_LAST_SAVED_AT_TIME, Date().time).commit()
+                deviceSharedPreferences.edit().putString(TRACKER_DATA_LAST_SAVED_DATE,lastSavedStepDate).commit()
+
             }
+        }
+
+        fun lastTrackerDataSavedDate(context: Context):String {
+            val deviceSharedPreferences = context.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            deviceSharedPreferences.let {
+               return deviceSharedPreferences.getString(TRACKER_DATA_LAST_SAVED_DATE, "");
+            }
+            return ""
         }
     }
 }
