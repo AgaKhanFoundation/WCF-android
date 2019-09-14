@@ -78,6 +78,12 @@ Reference:
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="TextAppearance.WCF.Subtitle1.Medium.Bold" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="fontFamily">roboto_medium</item>
+        <item name="android:fontFamily">roboto_medium</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.WCF.Subtitle1.Primary">
         <item name="android:textColor">@color/color_primary</item>
     </style>
@@ -117,8 +123,12 @@ Reference:
     </style>
 
     <style name="TextAppearance.WCF.Button" parent="TextAppearance.MaterialComponents.Button">
-        <item name="fontFamily">roboto_medium</item>
-        <item name="android:fontFamily">roboto_medium</item>
+        <item name="fontFamily">roboto_bold</item>
+        <item name="android:fontFamily">roboto_bold</item>
+    </style>
+
+    <style name="TextAppearance.WCF.Button.Primary">
+        <item name="android:textColor">@color/color_primary</item>
     </style>
 
     <style name="TextAppearance.WCF.Caption" parent="TextAppearance.MaterialComponents.Caption">
@@ -138,9 +148,9 @@ Reference:
         <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
-    <style name="TextAppearance.WCF.AppTitle" parent="TextAppearance.MaterialComponents.Headline4">
+    <style name="TextAppearance.WCF.AppTitle" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">@font/roboto_bold</item>
-        <item name="android:fontFamily">roboto_black</item>
+        <item name="android:fontFamily">roboto_bold</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:textColor">@color/color_primary</item>
