@@ -75,7 +75,7 @@
 
     <Button
         android:id="@+id/tutorial_step_button"
-        style="@style/Widget.WCF.Button.Secondary"
+        style="@style/Widget.WCF.Button.Primary"
         android:visibility="visible"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
