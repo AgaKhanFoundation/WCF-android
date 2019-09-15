@@ -116,6 +116,19 @@ repositories {
 }
 
 dependencies {
+
+    // Firebase
+    // Add the Firebase SDK for Google Analytics
+    implementation 'com.google.firebase:firebase-analytics:17.2.0'
+
+    // Add the SDKs for any other Firebase products you want to use in your app
+    // For example, to use Firebase Authentication and Cloud Firestore
+    implementation 'com.google.firebase:firebase-auth:19.0.0'
+    implementation 'com.google.firebase:firebase-firestore:21.1.1'
+    implementation 'com.google.firebase:firebase-messaging:20.0.0'
+    implementation 'com.google.firebase:firebase-inappmessaging:19.0.0'
+    implementation 'com.google.firebase:firebase-functions:19.0.1'
+
     // jars
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':pageindicatorview')
@@ -221,3 +234,5 @@ dependencies {
 
 
 }
+
+apply plugin: 'com.google.gms.google-services'  // Google Play services Gradle plugin

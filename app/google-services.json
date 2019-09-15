@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "637306203424",
+    "firebase_url": "https://akf-app.firebaseio.com",
+    "project_id": "akf-app",
+    "storage_bucket": "akf-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637306203424:android:8d98167fa77f5263e43b45",
+        "android_client_info": {
+          "package_name": "org.akf.steps4change"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "637306203424-3sgv08vqgmeqfu00vqn4hk6s12pds9fu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXg9oGAbv3cRvLtb9zQR6ixYgO3EJ6JV8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "637306203424-3sgv08vqgmeqfu00vqn4hk6s12pds9fu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
