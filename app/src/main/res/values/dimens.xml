@@ -31,5 +31,6 @@
     <dimen name="progressbar_vertical_width">14dp</dimen>
     <dimen name="progressbar_vertical_height_weekly">140dp</dimen>  <!-- by trails-error 140:14 and 164:20 seems to fit well -->
     <dimen name="graph_vertical_marker_distance">14dp</dimen>
+    <dimen name="leaderboard_medal_vertical_offset">67dp</dimen>
 
 </resources>

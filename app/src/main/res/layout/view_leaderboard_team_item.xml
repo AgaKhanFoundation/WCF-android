@@ -5,26 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/color_white"
-    android:paddingStart="24dp"
-    android:paddingBottom="4dp"
-    android:paddingEnd="24dp">
+    android:paddingStart="@dimen/spacing_normal"
+    android:paddingEnd="@dimen/spacing_normal"
+    android:paddingBottom="@dimen/spacing_extra_small">
 
     <TextView
         android:id="@+id/team_rank"
-        android:layout_width="20dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="left"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:gravity="end"
         android:textAppearance="@style/TextAppearance.WCF.Body1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="1"/>
+        tools:text="100"/>
 
     <TextView
         android:id="@+id/team_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
+        android:layout_marginStart="@dimen/spacing_normal_half"
         android:textAppearance="@style/TextAppearance.WCF.Body1"
         app:layout_constraintBaseline_toBaselineOf="@id/team_rank"
         app:layout_constraintStart_toEndOf="@id/team_rank"

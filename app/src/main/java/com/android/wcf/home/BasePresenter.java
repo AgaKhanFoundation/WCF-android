@@ -425,27 +425,32 @@ public abstract class BasePresenter {
             return null;
         }
 
-        int participantsCount = 0, rank = 0, spotsAvailable = 0, stepsPledged = 0, stepsCompleted = 0, distancePledged = 0, distanceCompleted = 0;
+        int participantsCount = 0, rank = 0;
 
+        int teamStepsPledged = 0, teamStepsCompleted = 0;
+        double teamDistancePledged = 0.0, teamdistanceCompleted = 0.0;
+        double teamAmountPledged = 0.0, teamAmountAccrued = 0.0;
 
-        float amountPledged, amountAccrued;
-
-        float avgPledgePer10kSteps;
-
-        participantsCount = team.getParticipants().size();
-        spotsAvailable = participantsCount < Constants.TEAM_MAX_SIZE ? Constants.TEAM_MAX_SIZE - participantsCount : 0;
         for (Participant participant : team.getParticipants()) {
-            //TODO: compute appropriate steps to amount based on highest pledged support
-        }
-        stepsPledged = (int) (Math.random() * (100000 - 10000)) + 10000;
-        stepsCompleted = (int) (stepsPledged * Math.random());
-        distancePledged = Math.round(stepsPledged / Constants.STEPS_IN_A_MILE);
-        distanceCompleted = Math.round(stepsCompleted / Constants.STEPS_IN_A_MILE);
-        avgPledgePer10kSteps = ((int) (Math.random() * (1000 - 100)) + 100) / 100;
-        amountPledged = (stepsPledged / Constants.STEPS_PER_UNIT_OF_DONATION) * avgPledgePer10kSteps;
-        amountAccrued = (stepsCompleted / Constants.STEPS_PER_UNIT_OF_DONATION) * avgPledgePer10kSteps;
+            double participantDistancePledged = participant.getCommitmentMiles();
+            if (participantDistancePledged == 0) {
+                participantDistancePledged = Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT;
+            }
+            int participantCompletedSteps = participant.getCompletedSteps();
+            double participantCompletedDistance = participantCompletedSteps / Constants.STEPS_IN_A_MILE;
 
-        rank = (int) (Math.random() * 15);
+            double participantAvgSupportPledgePerUnitDistance = 0.0;  //TODO get the pledge avg rate for this participant from AKF
+            teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
+            teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
+
+            teamStepsPledged +=  participantDistancePledged * Constants.STEPS_IN_A_MILE;
+            teamStepsCompleted += participantCompletedSteps;
+
+        }
+        teamDistancePledged = Math.round(teamStepsPledged / Constants.STEPS_IN_A_MILE);
+        teamdistanceCompleted = Math.round(teamStepsCompleted / Constants.STEPS_IN_A_MILE);
+
+       // rank = (int) (Math.random() * 15);
 
         LeaderboardTeam leaderboardTeam = new LeaderboardTeam(
                 rank
@@ -455,13 +460,12 @@ public abstract class BasePresenter {
                 , team.getLeaderId()
                 , team.getLeaderName()
                 , participantsCount
-                , spotsAvailable
-                , stepsPledged
-                , stepsCompleted
-                , distancePledged
-                , distanceCompleted
-                , amountPledged
-                , amountAccrued
+                , teamStepsPledged
+                , teamStepsCompleted
+                , teamDistancePledged
+                , teamdistanceCompleted
+                , teamAmountPledged
+                , teamAmountAccrued
         );
         return leaderboardTeam;
     }

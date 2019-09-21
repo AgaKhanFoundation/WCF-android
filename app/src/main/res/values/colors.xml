@@ -46,6 +46,8 @@
     <color name="color_primary_alpha_mask_1">#3300a85d</color>
     <color name="color_secondary_alpha_mask_1">#33000000</color>
     <color name="color_secondary_alpha_mask_2">#10000000</color>
+    <color name="color_bronze">#c86831</color>
+    <color name="color_silver">#50000000</color>
 
     <!--
 #F1F1F1

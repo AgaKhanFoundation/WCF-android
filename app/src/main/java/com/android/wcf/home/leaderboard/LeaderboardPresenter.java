@@ -4,15 +4,23 @@ import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Constants;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class LeaderboardPresenter extends BasePresenter implements LeaderboardMvp.Presenter {
     private static final String TAG = LeaderboardPresenter.class.getSimpleName();
+
     LeaderboardMvp.LeaderboardView leaderboardView;
     private List<LeaderboardTeam> leaderboard;
+    private int myTeamId = 0;
+    boolean challengeStarted = true;
 
-    private String currentSortColumn = LeaderboardTeam.SORT_COLUMN_AMOUNT_ACCRUED;
+    private LeaderboardTeam teamGold;
+    private LeaderboardTeam teamSilver;
+    private LeaderboardTeam teamBronze;
+
+    private String currentSortColumn = LeaderboardTeam.SORT_COLUMN_DISTANCE_COMPLETED;
     private int currentSortMode = Constants.SORT_MODE_ASCENDING;
 
     public LeaderboardPresenter(LeaderboardMvp.LeaderboardView view) {
@@ -25,9 +33,27 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     }
 
     @Override
+    public void setMyTeamId(int myTeamId) {
+        this.myTeamId = myTeamId;
+    }
+
+    @Override
+    public void setChallengeStarted(boolean challengeStarted) {
+        this.challengeStarted = challengeStarted;
+        this.challengeStarted = true;
+    }
+
+    @Override
     protected void onGetLeaderboardSuccess(List<LeaderboardTeam> leaderboard) {
         super.onGetLeaderboardSuccess(leaderboard);
         this.leaderboard = leaderboard;
+        getMedalWinners();
+        if (challengeStarted && teamGold != null) {
+            currentSortColumn = LeaderboardTeam.SORT_COLUMN_DISTANCE_COMPLETED;
+        }
+        else {
+            currentSortColumn = LeaderboardTeam.SORT_COLUMN_NAME;
+        }
         sortTeamsBy(currentSortColumn);
     }
 
@@ -67,6 +93,13 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             }
         }
 
+        if (challengeStarted) {
+            leaderboardView.showMedalWinners(teamGold, teamSilver, teamBronze);
+        }
+        else {
+            leaderboardView.showMedalWinners(null, null, null);
+        }
+
         leaderboardView.showLeaderboard(leaderboard);
     }
 
@@ -75,4 +108,60 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
         currentSortMode = (sortOrder == Constants.SORT_MODE_ASCENDING ? Constants.SORT_MODE_ASCENDING : Constants.SORT_MODE_DESCENDING);
         sortTeamsBy(sortColumn);
     }
+
+    private void getMedalWinners() {
+        if (challengeStarted) {
+            List<LeaderboardTeam> sortedByDistance = new ArrayList<>(leaderboard);
+
+//            Collections.sort(sortedByDistance, LeaderboardTeam.SORT_BY_STEPS_COMPLETED);
+//            int rank = 1;
+//            for (LeaderboardTeam team: sortedByDistance) {
+//                team.setRank(rank++);
+//            }
+
+            LeaderboardTeam team = null;
+
+            if (sortedByDistance.size() > 0) {
+                team = sortedByDistance.get(0);
+
+                if (team.getDistanceCompleted() == 0) {
+                    teamGold = null;
+                    teamSilver = null;
+                    teamBronze = null;
+                    return;
+                }
+                teamGold = team;
+            }
+            if (sortedByDistance.size() > 1) {
+                team = sortedByDistance.get(1);
+
+                if (team.getDistanceCompleted() == 0) {
+                    teamSilver = null;
+                    teamBronze = null;
+                    return;
+                }
+                teamSilver = team;
+
+            }
+            if (sortedByDistance.size() > 2) {
+                team = sortedByDistance.get(2);
+
+                if (team.getDistanceCompleted() == 0) {
+                    teamBronze = null;
+                    return;
+                }
+                teamBronze = team;
+            }
+        }
+        else {
+            teamGold = null;
+            teamSilver = null;
+            teamBronze = null;
+        }
+    }
+
+    public int getMyTeamId() {
+        return myTeamId;
+    }
+
 }

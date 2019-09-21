@@ -48,6 +48,7 @@ ext {
 
     //Google Play Services
     playServicesVersion = '17.0.0'
+    playServicesCoreVersion = '1.6.3'
 
     //Facebook
     facebookSdkVersion = '[5,6)'

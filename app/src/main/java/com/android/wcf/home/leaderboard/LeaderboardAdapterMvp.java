@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface LeaderboardAdapterMvp {
     public interface View {
+        void updateLeaderboardData(List<LeaderboardTeam> leaderBoard);
         void leaderboardDataUpdated();
     }
 
@@ -15,8 +16,12 @@ public interface LeaderboardAdapterMvp {
         LeaderboardTeam getTeam(int pos);
 
         int getViewType(int pos);
+
+        int getMyTeamId();
     }
 
     public interface Host {
+        void showLeaderboardIsEmpty();
+        void hideEmptyLeaderboardView();
     }
 }

@@ -23,22 +23,28 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
+import com.android.wcf.model.Event;
+import com.android.wcf.model.Participant;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 
 public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.LeaderboardView, LeaderboardAdapterMvp.Host {
     private static final String TAG = LeaderboardFragment.class.getSimpleName();
 
-    private int myTeamId;
+    private int myTeamId = 0;
 
     private LeaderboardMvp.Host mFragmentHost;
     private LeaderboardMvp.Presenter leaderboardPresenter;
 
+    View leaderboardMainContainer;
     View emptyLeaderboardView;
+    View medalwinnersContainer;
+    View leaderboardListContainer;
+
     Button refreshLeaderboardButton;
 
     View myTeamLeaderboardContainer;
@@ -51,6 +57,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     Spinner leaderboardSortSelector;
     private RecyclerView leaderboardRecyclerView = null;
     private LeaderboardAdapter leaderboardAdapter = null;
+    private Event event;
 
     public LeaderboardFragment() {
     }
@@ -65,6 +72,11 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        if (leaderboardPresenter == null) {
+            leaderboardPresenter = new LeaderboardPresenter(this );
+        }
+
     }
 
     @Override
@@ -83,7 +95,13 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        myTeamId = SharedPreferencesUtil.getMyTeamId();
+        Participant participant = getParticipant();
+        if (participant != null && participant.getTeamId() != null) {
+            myTeamId = participant.getTeamId();
+        }
+        else {
+            myTeamId = 0;
+        }
         setupView(view);
     }
 
@@ -93,11 +111,11 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         super.onStart();
         mFragmentHost.setToolbarTitle(getString(R.string.nav_leaderboard), false);
 
-        if (leaderboardPresenter == null) {
-            leaderboardPresenter = new LeaderboardPresenter(this);
-        }
-        leaderboardPresenter.getLeaderboard();
+        event = getEvent();
+        leaderboardPresenter.setChallengeStarted(event.hasChallengeStarted());
+        leaderboardPresenter.setMyTeamId(myTeamId);
 
+        leaderboardPresenter.getLeaderboard();
     }
 
     @Override
@@ -146,67 +164,102 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     }
 
     @Override
-    public void showLeaderboard(List<LeaderboardTeam> leaderboard) {
-        if (leaderboardAdapter == null) {
-            leaderboardAdapter = new LeaderboardAdapter(this);
-        }
-        emptyLeaderboardView.setVisibility(View.GONE);
+    public void showMedalWinners(LeaderboardTeam goldTeam, LeaderboardTeam silverTeam, LeaderboardTeam bronzeTeam) {
+        DecimalFormat decimalFormatter = new DecimalFormat("##,###.##");
 
-        LeaderboardTeam myLeaderboardTeam = getMyTeamData(leaderboard);
-        if (myLeaderboardTeam == null) {
-            myTeamLeaderboardContainer.setVisibility(View.GONE);
+        View bronzeContainer = medalwinnersContainer.findViewById(R.id.bronze_team_container);
+        TextView teamNameTv = bronzeContainer.findViewById(R.id.bronze_team_name);
+        TextView teamMiles = bronzeContainer.findViewById(R.id.bronze_team_miles_completed);
+        if (bronzeTeam != null){
+           teamNameTv.setText(bronzeTeam.getName());
+           double miles = bronzeTeam.getDistanceCompleted() / Constants.STEPS_IN_A_MILE * 1.0;
+            teamMiles.setText(decimalFormatter.format(miles) );
         }
         else {
-            myTeamLeaderboardContainer.setVisibility(View.VISIBLE);
-            myTeamRankTextView.setText(myLeaderboardTeam.getRank() + "");
-            myTeamNameTextView.setText(myLeaderboardTeam.getName());
-            myTeamDistanceCompleted.setText(String.format("%,6d", (int) myLeaderboardTeam.getDistanceCompleted()));
-            myTeamAmountRaised.setText(String.format("$%,.02f", myLeaderboardTeam.getAmountAccrued()));
+            teamNameTv.setText("");
+            teamMiles.setText("");
         }
 
-        leaderboardRecyclerView.setAdapter(leaderboardAdapter);
-        leaderboardAdapter.getPresenter().updateLeaderboardData(leaderboard);
-        leaderboardRecyclerView.scrollToPosition(0);
+        View silverContainer = medalwinnersContainer.findViewById(R.id.silver_team_container);
+        teamNameTv = silverContainer.findViewById(R.id.silver_team_name);
+        teamMiles = silverContainer.findViewById(R.id.silver_team_miles_completed);
+
+        if (silverTeam != null){
+            teamNameTv.setText(silverTeam.getName());
+            double miles = bronzeTeam.getDistanceCompleted() / Constants.STEPS_IN_A_MILE * 1.0;
+            teamMiles.setText(decimalFormatter.format(miles) );
+        }
+        else {
+            teamNameTv.setText("");
+            teamMiles.setText("");
+        }
+
+
+        View goldContainer = medalwinnersContainer.findViewById(R.id.gold_team_container);
+        teamNameTv = goldContainer.findViewById(R.id.gold_team_name);
+        teamMiles = goldContainer.findViewById(R.id.gold_team_miles_completed);
+
+        if (goldTeam != null) {
+            teamNameTv.setText(goldTeam.getName());
+
+            double miles = bronzeTeam.getDistanceCompleted() / Constants.STEPS_IN_A_MILE * 1.0;
+            teamMiles.setText(decimalFormatter.format(miles));
+        }
+        else {
+            teamNameTv.setText("");
+            teamMiles.setText("");
+        }
+        medalwinnersContainer.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void noMedalWinners() {
+        showMedalWinners(null, null, null);
+    }
+
+    @Override
+    public void showLeaderboard(List<LeaderboardTeam> leaderboard) {
+        leaderboardAdapter.updateLeaderboardData(leaderboard);
     }
 
     private void setupView(View view) {
 
         emptyLeaderboardView = view.findViewById(R.id.empty_view_container);
-        refreshLeaderboardButton = emptyLeaderboardView.findViewById(R.id.refresh_leaderboard);
-        refreshLeaderboardButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                leaderboardPresenter.getLeaderboard();
-            }
-        });
-        emptyLeaderboardView.setVisibility(View.GONE);
+        emptyLeaderboardView.setVisibility(View.VISIBLE);
 
-        myTeamLeaderboardContainer = view.findViewById(R.id.my_team_leaderboard_container);
-        myTeamLeaderboardItem = myTeamLeaderboardContainer.findViewById(R.id.my_team_leaderboard_item);
-        myTeamRankTextView = myTeamLeaderboardItem.findViewById(R.id.team_rank);
-        myTeamNameTextView = myTeamLeaderboardItem.findViewById(R.id.team_name);
-        myTeamDistanceCompleted = myTeamLeaderboardItem.findViewById(R.id.team_distance_completed);
-        myTeamAmountRaised = myTeamLeaderboardItem.findViewById(R.id.team_amount_raised);
+        leaderboardMainContainer = view.findViewById(R.id.leaderboard_main_container);
+        leaderboardMainContainer.setVisibility(View.GONE);
 
+        medalwinnersContainer = view.findViewById(R.id.leaderboard_medal_winners_container);
+        medalwinnersContainer.setVisibility(View.GONE);
+
+        leaderboardListContainer = view.findViewById(R.id.leaderboard_list_container);
+        leaderboardListContainer.setVisibility(View.VISIBLE);
+
+        setupLeaderboardMyTeam(view);
+        setupLeaderboardSorting(view);
+        setupLeaderboardList(view);
+
+    }
+
+    private void setupLeaderboardMyTeam(View view) {
+//        myTeamLeaderboardContainer = view.findViewById(R.id.my_team_leaderboard_container);
+//        myTeamLeaderboardContainer.setVisibility(View.GONE);
+//        myTeamLeaderboardItem = myTeamLeaderboardContainer.findViewById(R.id.my_team_leaderboard_item);
+//        myTeamRankTextView = myTeamLeaderboardItem.findViewById(R.id.team_rank);
+//        myTeamNameTextView = myTeamLeaderboardItem.findViewById(R.id.team_name);
+//        myTeamDistanceCompleted = myTeamLeaderboardItem.findViewById(R.id.team_distance_completed);
+//        myTeamAmountRaised = myTeamLeaderboardItem.findViewById(R.id.team_amount_raised);
+    }
+
+    private void setupLeaderboardSorting(View view) {
         leaderboardSortSelector = view.findViewById(R.id.leaderboard_sort_selector_spinner);
-        leaderboardRecyclerView = view.findViewById(R.id.leaderboard_team_list);
-        leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-        leaderboardRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
-                DividerItemDecoration.VERTICAL));
-
-        leaderboardRecyclerView.addItemDecoration(new ListPaddingDecoration(getContext()));
-
-        if (leaderboardAdapter == null) {
-            leaderboardAdapter = new LeaderboardAdapter(this);
-        }
-
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getContext(),
                 R.array.leaderboard_sort_types,
                 android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         leaderboardSortSelector.setAdapter(adapter);
-
 
         leaderboardSortSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -234,6 +287,31 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         });
     }
 
+
+    private void setupLeaderboardList(View view) {
+
+        leaderboardAdapter = new LeaderboardAdapter(this, myTeamId);
+        leaderboardRecyclerView = view.findViewById(R.id.leaderboard_team_list);
+        leaderboardRecyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        leaderboardRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+                DividerItemDecoration.VERTICAL));
+
+        leaderboardRecyclerView.addItemDecoration(new ListPaddingDecoration(getContext()));
+        leaderboardRecyclerView.setAdapter(leaderboardAdapter);
+    }
+
+    @Override
+    public void showLeaderboardIsEmpty() {
+        emptyLeaderboardView.setVisibility(View.VISIBLE);
+        leaderboardMainContainer.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void hideEmptyLeaderboardView() {
+        emptyLeaderboardView.setVisibility(View.GONE);
+        leaderboardMainContainer.setVisibility(View.VISIBLE);
+    }
+
     private LeaderboardTeam getMyTeamData(List<LeaderboardTeam> leaderboard) {
         for (LeaderboardTeam team : leaderboard) {
             if (team.getId() == myTeamId) {
@@ -241,11 +319,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
             }
         }
         return null;
-    }
-
-    @Override
-    public void showLeaderboardIsEmpty() {
-        emptyLeaderboardView.setVisibility(View.VISIBLE);
     }
 
 }

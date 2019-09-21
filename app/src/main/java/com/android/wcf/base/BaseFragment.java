@@ -192,7 +192,6 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     public void inviteSupporters() {
 
         String eventName = getEvent().getName();
-        String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
 
         String shareMessage = getString(R.string.invite_supporter_template);
 

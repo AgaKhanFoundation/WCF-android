@@ -7,9 +7,11 @@ public class LeaderboardAdapterPresenter implements LeaderboardAdapterMvp.Presen
 
     private LeaderboardAdapterMvp.View mView;
     List<LeaderboardTeam> mLeaderboard = new ArrayList<>();
+    private int myTeamId = 0;
 
-    public LeaderboardAdapterPresenter(LeaderboardAdapterMvp.View view) {
+    public LeaderboardAdapterPresenter(LeaderboardAdapterMvp.View view, int myTeamId) {
         this.mView = view;
+        this.myTeamId = myTeamId;
     }
 
     @Override
@@ -35,5 +37,10 @@ public class LeaderboardAdapterPresenter implements LeaderboardAdapterMvp.Presen
             return mLeaderboard.get(pos);
         }
         return null;
+    }
+
+    @Override
+    public int getMyTeamId() {
+        return myTeamId;
     }
 }
