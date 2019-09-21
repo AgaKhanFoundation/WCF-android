@@ -33,7 +33,6 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
 
     private static final String TAG = LoginFragment.class.getSimpleName();
     private static final String PUBLIC_PROFILE = "public_profile";
-    private static final String EMAIL = "email";
 
     LoginMvp.Host host;
     LoginMvp.Presenter loginPesenter;
@@ -98,7 +97,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                             @Override
                             public void onCompleted(JSONObject object, GraphResponse response) {
 
-                                String userName = "", userId = "", userGender = "", userProfileUrl = "";
+                                String userName = "", userId = "", userProfileUrl = "";
                                 try {
                                     AccessToken token = AccessToken.getCurrentAccessToken();
                                     Log.d("access only Token is", String.valueOf(token.getToken()));
@@ -132,7 +131,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                         });
 
                 Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,birthday,cover,picture.type(large)");
+                parameters.putString("fields", "id,name,picture.type(large)");
                 request.setParameters(parameters);
                 request.executeAsync();
             }

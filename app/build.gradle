@@ -11,18 +11,13 @@ android {
     defaultConfig {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
-        applicationId "org.akf.steps4change"
+        applicationId "org.akf.steps4impact"
         versionCode 1
-        versionName "0.1.8"
+        versionName "0.2.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
-        
-        manifestPlaceholders = [
-                fitbit_client_id: "22CZ2W",
-                fitbit_client_secret: "ffe6f7749d28e4ec79416771d0698749",
-                fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
-        ]
+
     }
 
     signingConfigs {
@@ -45,8 +40,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.releaseConfig
+
+            //fitbit app in steps4impactapp@gmail.com fitbit acc
+            manifestPlaceholders = [
+                    fitbit_client_id: "22B4MM",
+                    fitbit_client_secret: "c2daab8d7565ffc888cc269ad1a9dff9",
+                    fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
+            ]
+
         }
         debug {
             minifyEnabled false
@@ -56,11 +59,13 @@ android {
             debuggable true
             signingConfig signingConfigs.debugConfig
 
+            //fitbit test app in keshaniz@gmail.com fitbit acc
             manifestPlaceholders = [
                     fitbit_client_id: "22CZ2W",
                     fitbit_client_secret: "ffe6f7749d28e4ec79416771d0698749",
                     fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
             ]
+
         }
     }
 
@@ -151,6 +156,8 @@ dependencies {
     //Google Play Services
     implementation "com.google.android.gms:play-services-gcm:${playServicesVersion}"
     implementation "com.google.android.gms:play-services-auth:${playServicesVersion}"
+
+    implementation "com.google.android.play:core:${playServicesCoreVersion}"
 
     //Facebook
     implementation("com.facebook.android:facebook-android-sdk:${facebookSdkVersion}") {

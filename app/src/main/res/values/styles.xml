@@ -96,6 +96,11 @@
         <item name="android:dropDownSelector">@android:color/transparent</item>
     </style>
 
+    <style name="wcf_spinner_style"
+        parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/TextAppearance.WCF.Subtitle1.Medium.Bold</item>
+    </style>
+
     <style name="wcf_progressbar_horizontal_style" parent="@style/Base.Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:progressDrawable">@drawable/bg_progressbar</item>
         <item name="android:paddingTop">0dp</item>

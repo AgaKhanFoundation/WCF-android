@@ -10,13 +10,12 @@ data internal class LeaderboardTeam(
         var leaderId: String? = null,
         var leaderName: String? = null,
         var participantsCount: Int = 0,
-        var spotsAvailable: Int = 0,
         var stepsPledged: Int = 0,
         var stepsCompleted: Int = 0,
-        var distancePledged: Int,
-        var distanceCompleted: Int,
-        var amountPledged: Float,
-        var amountAccrued: Float
+        var distancePledged: Double = 0.0,
+        var distanceCompleted: Double = 0.0,
+        var amountPledged: Double = 0.0,
+        var amountAccrued: Double = 0.0
 ) {
 
 
