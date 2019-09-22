@@ -24,6 +24,11 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
        participantLeaveFromTeam(participantId);
     }
 
+    @Override
+    public void updateTeamPublicVisibility(boolean isChecked) {
+
+    }
+
     public SettingsPresenter(SettingsMvp.View settingsView) {
         this.settingsView = settingsView;
     }
@@ -36,6 +41,12 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
     @Override
     protected void onParticipantLeaveFromTeamError(Throwable error, String participantId) {
         super.onParticipantLeaveFromTeamError(error, participantId);
+    }
+
+    @Override
+    protected void onTeamPublicVisibilityUpdateError(Throwable error){
+        super.onTeamPublicVisibilityUpdateError(error);
+        settingsView.teamPublicVisibilityUpdateError(error);
     }
 
     @Override

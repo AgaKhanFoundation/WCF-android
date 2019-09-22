@@ -9,6 +9,8 @@ public interface SettingsMvp {
         void confirmToLeaveTeam();
 
         void participantRemovedFromTeam(String participantId);
+
+        void teamPublicVisibilityUpdateError(Throwable error);
     }
 
     interface Presenter extends BaseMvp.Presenter{
@@ -17,6 +19,8 @@ public interface SettingsMvp {
         void onShowLeaveTeamSelected();
 
         void removeFromTeam(String participantId);
+
+        void updateTeamPublicVisibility(boolean isChecked);
     }
 
     interface Host extends BaseMvp.Host {

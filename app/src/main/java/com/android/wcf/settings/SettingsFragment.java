@@ -10,11 +10,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
@@ -41,8 +45,29 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     View participantSettingsContainer;
     View teamSettingsContainer;
 
+
     boolean isTeamLead = false;
     Team team;
+
+    SwitchCompat.OnCheckedChangeListener onCheckedChangeListener = new SwitchCompat.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            switch (buttonView.getId()) {
+                case R.id.team_public_visibility_enabled:
+                    View teamVisibilityContainer = teamSettingsContainer.findViewById(R.id.team_visibilty_container);
+                    TextView teamVisibilityMessageTv = teamVisibilityContainer.findViewById(R.id.team_visibility_message);
+                    if (isChecked) {
+                        teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_on_message));
+                    }
+                    else {
+                        teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_off_message));
+                    }
+                    settingsPresenter.updateTeamPublicVisibility(isChecked);
+                    break;
+            }
+        }
+    };
+
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -229,6 +254,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         particpantMiles.setText(SharedPreferencesUtil.getMyMilesCommitted() + "");
 
         setupLeaveTeamClickListeners();
+        setupTeamPublicVisibility();
     }
 
     void showParticipantInfo() {
@@ -295,6 +321,36 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         View image = container.findViewById(R.id.team_view_team_icon);
         image.setOnClickListener(onClickListener);
         expandViewHitArea(image, container);
+
+    }
+
+    void setupTeamPublicVisibility() {
+        View teamVisibilityContainer = teamSettingsContainer.findViewById(R.id.team_visibilty_container);
+        SwitchCompat teamVisibiltySwitch = teamVisibilityContainer.findViewById(R.id.team_public_visibility_enabled);
+        TextView teamVisibilityMessageTv = teamVisibilityContainer.findViewById(R.id.team_visibility_message);
+
+        if (isTeamLead) {
+            teamVisibiltySwitch.setEnabled(true);
+            teamVisibiltySwitch.setOnCheckedChangeListener(onCheckedChangeListener);
+        }else {
+            teamVisibiltySwitch.setEnabled(false);
+            teamVisibiltySwitch.setOnCheckedChangeListener(null);
+        }
+        if (team != null && !team.getVisibility()) {
+            teamVisibiltySwitch.setChecked(false);
+            teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_off_message));
+        }
+        else {
+            teamVisibiltySwitch.setChecked(true);
+            teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_on_message));
+        }
+    }
+
+    @Override
+    public void teamPublicVisibilityUpdateError(Throwable error) {
+        View teamVisibilityContainer = teamSettingsContainer.findViewById(R.id.team_visibilty_container);
+        SwitchCompat teamVisibiltySwitch = teamVisibilityContainer.findViewById(R.id.team_public_visibility_enabled);
+        teamVisibiltySwitch.setChecked(!teamVisibiltySwitch.isChecked());
     }
 
     void setupLeaveTeamClickListeners() {
