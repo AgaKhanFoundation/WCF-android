@@ -74,7 +74,7 @@ public interface ChallengeMvp {
 
         void showJoinTeam();
 
-        void showTeamChallengeProgress();
+        void showTeamChallengeProgress(boolean isTeamLead);
 
         void showSupportersInvite();
 

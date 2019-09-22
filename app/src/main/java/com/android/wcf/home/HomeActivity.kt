@@ -265,8 +265,8 @@ class HomeActivity : BaseActivity()
                 .commit()
     }
 
-    override fun showTeamChallengeProgress() {
-        val fragment = TeamChallengeProgressFragment()
+    override fun showTeamChallengeProgress(isTeamLead:Boolean) {
+        val fragment = TeamChallengeProgressFragment.getInstance(isTeamLead)
         supportFragmentManager
                 .beginTransaction()
                 .replace(R.id.fragment_container, fragment)

@@ -88,18 +88,25 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
                 challengeView.showParticipantTeamSummaryCard(team);
 
                 boolean showTeamInvite = false;
+                int openSlots = 0;
                 if (eventRetrieved && event != null) {
-                    if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
-                        List<Participant> participants = team.getParticipants();
-                        if (participants != null) {
-                            int openSlots = event.getTeamLimit() - participants.size();
-                            if (openSlots > 0) {
-                                showTeamInvite = true;
-                                challengeView.showInviteTeamMembersCard(openSlots);
+                    Participant participant = challengeView.getParticipant();
+                    if (participant != null) {
+                        if (team.isTeamLeader(participant.getParticipantId())) {
+                            if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
+                                List<Participant> participants = team.getParticipants();
+                                if (participants != null) {
+                                    openSlots = event.getTeamLimit() - participants.size();
+                                    if (openSlots > 0) {
+                                        showTeamInvite = true;
+                                    }
+                                }
                             }
                         }
                     }
-                    if (!showTeamInvite) {
+                    if (showTeamInvite && openSlots > 0) {
+                        challengeView.showInviteTeamMembersCard(openSlots);
+                    } else {
                         challengeView.hideInviteTeamMembersCard();
                     }
                 }
