@@ -34,6 +34,18 @@
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_challenge">Challenge</string>
     <string name="nav_leaderboard">Leaderboard</string>
+
+    <string name="leaderboard_empty_message">Check back for global team rankings</string>
+    <string name="gold_medal_label">Gold</string>
+    <string name="silver_medal_label">Silver</string>
+    <string name="bronze_medal_label">Bronze</string>
+    <string-array name="leaderboard_sort_types">
+        <item>Miles</item>
+        <item>Money Raised</item>
+        <item>Alphabetic(A-Z)</item>
+        <item>Alphabetic(Z-A)</item>
+    </string-array>
+
     <string name="nav_notifications">Notifications</string>
 
     <string name="akf_profileview_title">AKF Profile</string>
@@ -49,13 +61,6 @@
     <string name="onboard_welcome_start">Tap continue for a quick tour of the app.</string>
     <string name="button_continue_label">Continue</string>
     <string name="onboard_welcome_skip">Skip</string>
-
-    <string-array name="leaderboard_sort_types">
-        <item>Miles</item>
-        <item>Money Raised</item>
-        <item>Alphabetic(A-Z)</item>
-        <item>Alphabetic(Z-A)</item>
-    </string-array>
 
     <string-array name="onboard_tutorial_step_title">
         <item>Create a team or join an existing team</item>
@@ -192,7 +197,6 @@
     <string name="tracked_info_tab_daily_label">Daily</string>
     <string name="tracked_info_tab_weekly_label">Weekly</string>
     <string name="dashboard_badges_label">View Badges</string>
-    <string name="leaderboard_empty_message">Check back for global team rankings</string>
 
     <string name="applink_ios">http://rebrand.ly/steps4impact-iphone</string>
     <string name="applink_android">http://rebrand.ly/steps4impact-android</string>
