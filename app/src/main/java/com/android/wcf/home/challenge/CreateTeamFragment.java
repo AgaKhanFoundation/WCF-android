@@ -247,12 +247,12 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
     void showCreateTeamView() {
         createTeamCard.setVisibility(View.VISIBLE);
-        teamCreatedCard.setVisibility(View.GONE);
+        teamCreatedCard.setVisibility(View.INVISIBLE);
     }
 
     void showTeamCreatedView() {
-        createTeamCard.setVisibility(View.GONE);
         teamCreatedCard.setVisibility(View.VISIBLE);
+        createTeamCard.setVisibility(View.INVISIBLE);
     }
 
     void enableCreateTeamButton() {
