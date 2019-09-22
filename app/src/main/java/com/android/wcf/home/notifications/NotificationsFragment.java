@@ -58,6 +58,12 @@ public class NotificationsFragment extends BaseFragment implements Notifications
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        notificationPresenter.onStop();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mFragmentHost = null;

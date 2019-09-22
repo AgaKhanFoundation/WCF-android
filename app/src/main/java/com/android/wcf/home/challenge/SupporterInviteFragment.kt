@@ -63,6 +63,11 @@ class SupporterInviteFragment : BaseFragment(), SupportsInviteMvp.View {
         host = null
     }
 
+    override fun onStop() {
+        super.onStop()
+        presenter?.onStop()
+    }
+
     fun setupView(fragmentView: View) {
         val supporterInviteButton: Button = fragmentView.findViewById(R.id.btn_invite_supporters)
         supporterInviteButton.setOnClickListener(onClickListener)

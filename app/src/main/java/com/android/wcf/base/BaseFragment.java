@@ -154,6 +154,11 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
+    public boolean isAttached() {
+        return !isDetached();
+    }
+
+    @Override
     public void closeKeyboard() {
         View view = view = getView();
         if (view != null) {

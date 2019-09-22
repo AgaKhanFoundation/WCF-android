@@ -24,5 +24,10 @@ public class LoginPresenter implements LoginMvp.Presenter {
     public String getTag() {
         return null;
     }
+
+    @Override
+    public void onStop() {
+
+    }
 }
 

@@ -114,6 +114,10 @@ class HomeActivity : BaseActivity()
         homePresenter!!.getParticipant(myParticpantId!!)
     }
 
+    override fun isAttached(): Boolean {
+        return isDestroyed && !isFinishing
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
         if (id == R.id.settings) {

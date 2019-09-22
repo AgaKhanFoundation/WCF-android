@@ -158,9 +158,10 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetTeamParticipantsInfoSuccess(Team team){
         challengeView.setParticipantTeam(team);
         teamRetrieved = true;
-        updateJourneySection();
-        updateTeamSection();
-
+        if (challengeView.isAttached()) {
+            updateJourneySection();
+            updateTeamSection();
+        }
     }
 
     @Override

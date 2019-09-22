@@ -84,6 +84,12 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         host.hideToolbar();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        loginPesenter.onStop();
+    }
+
     private void setupView(View view) {
         loginButton = view.findViewById(R.id.login_button);
         loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));

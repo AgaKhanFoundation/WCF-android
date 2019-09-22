@@ -143,6 +143,12 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        challengePresenter.onStop();
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater);
         menuInflater.inflate(R.menu.menu_home, menu);
@@ -483,7 +489,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         Log.d(TAG, "showTeamCommitmentBreakdown");
         Team team = getParticipantTeam();
         if (team != null) {
-            mHostingParent.showTeamChallengeProgress();
+            boolean isTeamLead = team.isTeamLeader(participantId);
+            mHostingParent.showTeamChallengeProgress(isTeamLead);
         }
     }
 

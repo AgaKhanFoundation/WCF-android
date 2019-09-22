@@ -130,6 +130,12 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        leaderboardPresenter.onStop();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mFragmentHost = null;

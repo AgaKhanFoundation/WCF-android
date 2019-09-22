@@ -18,8 +18,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 
@@ -28,9 +30,16 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     private static final String TAG = BasePresenter.class.getSimpleName();
     private WCFClient wcfClient = WCFClient.getInstance();
 
+    CompositeDisposable disposables = new CompositeDisposable();
+
     @Override
     public String getTag() {
         return BasePresenter.class.getSimpleName();
+    }
+
+    @Override
+    public void onStop() {
+        disposables.clear();
     }
 
     /******* EVENT API ***********/
@@ -39,7 +48,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getEvents()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Event>>() {
+                .subscribe(new SingleObserver<List<Event>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(List<Event> events) {
                         onGetEventsListSuccess(events);
@@ -64,7 +78,11 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getEvent(eventId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Event>() {
+                .subscribe(new SingleObserver<Event>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
 
                     @Override
                     public void onSuccess(Event event) {
@@ -92,7 +110,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.createParticipant(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Participant>() {
+                .subscribe(new SingleObserver<Participant>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Participant participant) {
                         onCreateParticipantSuccess(participant);
@@ -118,7 +141,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getParticipant(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Participant>() {
+                .subscribe(new SingleObserver<Participant>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Participant participant) {
                         FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
@@ -150,7 +178,11 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getParticipantStat(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Stats>() {
+                .subscribe(new SingleObserver<Stats>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
                     @Override
                     public void onSuccess(Stats stats) {
                         onGetParticipantStatsSuccess(stats);
@@ -176,7 +208,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.deleteParticipant(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Integer>() {
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Integer count) {
                         onDeleteParticipantSuccess(count);
@@ -205,7 +242,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.createTeam(teamName, teamLeadParticipantId, teamVisibility)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Team>() {
+                .subscribe(new SingleObserver<Team>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Team team) {
                         onCreateTeamSuccess(team);
@@ -226,7 +268,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.updateTeamVisibility(teamId, isVisible)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Integer>() {
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Integer integer) {
 
@@ -264,7 +311,11 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getTeams()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Team>>() {
+                .subscribe(new SingleObserver<List<Team>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
                     @Override
                     public void onSuccess(List<Team> teams) {
                         onGetTeamListSuccess(teams);
@@ -289,7 +340,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getTeam(id)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Team>() {
+                .subscribe(new SingleObserver<Team>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Team team) {
                         onGetTeamSuccess(team);
@@ -411,7 +467,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getTeams()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Team>>() {
+                .subscribe(new SingleObserver<List<Team>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(List<Team> teams) {
                         List<LeaderboardTeam> leaderboard = extractTeamStats(teams);
@@ -507,7 +568,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getTeamStats(teamId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Stats>() {
+                .subscribe(new SingleObserver<Stats>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Stats stats) {
                         onGetTeamStatsSuccess(stats);
@@ -533,7 +599,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.deleteTeam(teamId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Integer>() {
+                .subscribe(new SingleObserver<Integer>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Integer count) {
                         onDeleteTeamSuccess(count);
@@ -561,7 +632,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.updateParticipant(participantId, null, teamId, 0, 0, 0)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Integer>>() {
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(List<Integer> results) {
                         onAssignParticipantToTeamSuccess(results, participantId, teamId);
@@ -587,7 +663,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.updateParticipantLeaveTeam(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Integer>>() {
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(List<Integer> results) {
                         onParticipantLeaveFromTeamSuccess(results, participantId);
@@ -614,7 +695,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.updateParticipant(participantId, null, 0, 0, 0, eventId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Integer>>() {
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(List<Integer> results) {
                         onAssignParticipantToEventSuccess(results, participantId, eventId, causeId, localityId);
@@ -643,7 +729,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.getTrackingSources()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Source>>() {
+                .subscribe(new SingleObserver<List<Source>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(List<Source> sources) {
                         onGetTrackingSourcesListSuccess(sources);
@@ -675,7 +766,12 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.recordSteps(participantId, trackerSourceId, stepsDate, stepsCount)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<Record>() {
+                .subscribe(new SingleObserver<Record>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
                     @Override
                     public void onSuccess(Record stepsRecord) {
                         onStepsRecordSuccess(stepsRecord, stepsDate);

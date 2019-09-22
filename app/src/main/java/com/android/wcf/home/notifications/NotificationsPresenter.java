@@ -17,4 +17,8 @@ public class NotificationsPresenter implements NotificationsMvp.Presenter {
         return TAG;
     }
 
+    @Override
+    public void onStop() {
+
+    }
 }

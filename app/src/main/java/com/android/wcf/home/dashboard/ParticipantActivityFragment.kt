@@ -154,7 +154,8 @@ class ParticipantActivityFragment : BaseFragment() {
 
     override fun onStop() {
         super.onStop()
-        Log.d(TAG, "onStop")
+      //  presenter.onStop()
+
     }
 
     fun setStepsData(data: ActivitySteps) {

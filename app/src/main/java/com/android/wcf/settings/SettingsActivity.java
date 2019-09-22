@@ -45,6 +45,11 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public boolean isAttached() {
+        return !isDestroyed() && !isFinishing();
+    }
+
     private void showSettingsConfiguration() {
         Fragment fragment = new SettingsFragment();
         getSupportFragmentManager()

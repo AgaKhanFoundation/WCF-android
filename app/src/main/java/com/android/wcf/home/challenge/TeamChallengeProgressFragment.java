@@ -110,6 +110,13 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
         refreshTeamParticipantsList();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+      //  presenter.onStop();
+    }
+
+
     void refreshTeamParticipantsList() {
 
         teamChallengeProgressAdapter.clearSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that

@@ -188,6 +188,12 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        dashboardPresenter.onStop();
+    }
+
+    @Override
     public void onDetach() {
         super.onDetach();
         mFragmentHost = null;
