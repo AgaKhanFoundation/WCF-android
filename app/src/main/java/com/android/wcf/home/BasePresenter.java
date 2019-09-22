@@ -2,6 +2,7 @@ package com.android.wcf.home;
 
 import android.util.Log;
 
+import com.android.wcf.base.BaseMvp;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Constants;
@@ -22,10 +23,15 @@ import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
 
-public abstract class BasePresenter {
+public abstract class BasePresenter implements BaseMvp.Presenter {
 
     private static final String TAG = BasePresenter.class.getSimpleName();
     private WCFClient wcfClient = WCFClient.getInstance();
+
+    @Override
+    public String getTag() {
+        return BasePresenter.class.getSimpleName();
+    }
 
     /******* EVENT API ***********/
 
@@ -59,6 +65,7 @@ public abstract class BasePresenter {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new DisposableSingleObserver<Event>() {
+
                     @Override
                     public void onSuccess(Event event) {
                         onGetEventSuccess(event);
@@ -213,6 +220,32 @@ public abstract class BasePresenter {
                         }
                     }
                 });
+    }
+
+    public void updateTeamPublicVisibility(int teamId, boolean isVisible) {
+        wcfClient.updateTeamVisibility(teamId, isVisible)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<Integer>() {
+                    @Override
+                    public void onSuccess(Integer integer) {
+
+                        onTeamPublicVisibilityUpdateSuccess();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        onTeamPublicVisibilityUpdateError(e);
+                    }
+                });
+    }
+
+    protected void onTeamPublicVisibilityUpdateSuccess() {
+        Log.d(TAG, "onTeamPublicVisibilityUpdateSuccess");
+    }
+
+    protected void onTeamPublicVisibilityUpdateError(Throwable error) {
+        Log.e(TAG, "onTeamPublicVisibilityUpdateError " + error.getMessage());
     }
 
     protected void onCreateTeamSuccess(Team team) {
@@ -443,14 +476,14 @@ public abstract class BasePresenter {
             teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
             teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
 
-            teamStepsPledged +=  participantDistancePledged * Constants.STEPS_IN_A_MILE;
+            teamStepsPledged += participantDistancePledged * Constants.STEPS_IN_A_MILE;
             teamStepsCompleted += participantCompletedSteps;
 
         }
         teamDistancePledged = Math.round(teamStepsPledged / Constants.STEPS_IN_A_MILE);
         teamdistanceCompleted = Math.round(teamStepsCompleted / Constants.STEPS_IN_A_MILE);
 
-       // rank = (int) (Math.random() * 15);
+        // rank = (int) (Math.random() * 15);
 
         LeaderboardTeam leaderboardTeam = new LeaderboardTeam(
                 rank
