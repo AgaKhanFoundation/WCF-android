@@ -70,18 +70,27 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     private void updateTeamSection() {
         if (eventRetrieved && teamRetrieved && participantRetrieved) {
             Event event = challengeView.getEvent();
+
+            if (!event.hasChallengeEnded()) {
+                challengeView.showFundraisingInvite();
+            }
+            else {
+                challengeView.hideFundraisingInvite();
+            }
+
+            boolean teamBuildingEnded = event.hasTeamBuildingEnded();
+
             Team team = challengeView.getParticipantTeam();
             if (team == null) {
                 if (eventRetrieved && event != null) {
-                    if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
-                        challengeView.hideParticipantTeamProfileView();
+                    if (!teamBuildingEnded) {
                         challengeView.showCreateOrJoinTeamView();
                     } else {
                         challengeView.hideCreateOrJoinTeamView();
-                        challengeView.hideParticipantTeamProfileView();
                     }
                     challengeView.hideInviteTeamMembersCard();
-                    challengeView.showFundraisingInvite();
+                    challengeView.hideParticipantTeamProfileView();
+                    challengeView.showParticipantTeamSummaryCard(team);
                 }
             } else {
                 challengeView.hideCreateOrJoinTeamView();
@@ -94,7 +103,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
                     Participant participant = challengeView.getParticipant();
                     if (participant != null) {
                         if (team.isTeamLeader(participant.getParticipantId())) {
-                            if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
+                            if (!teamBuildingEnded) {
                                 List<Participant> participants = team.getParticipants();
                                 if (participants != null) {
                                     openSlots = event.getTeamLimit() - participants.size();

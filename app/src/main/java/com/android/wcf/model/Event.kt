@@ -25,8 +25,8 @@ data class Event(
     }
 
     fun hasTeamBuildingEnded(): Boolean {
-        teamBuildingEnd?.let {
-            return (TimeUnit.MILLISECONDS.toDays(Date().time - it.time)).toInt() > 0;
+        endDate?.let { //join team allowed to 1 day before challenge end
+            return (TimeUnit.MILLISECONDS.toDays(Date().time - it.time)).toInt() > 1;
         }
         return false
     }

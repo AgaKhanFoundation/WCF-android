@@ -40,6 +40,8 @@ public interface ChallengeMvp {
 
         void showFundraisingInvite();
 
+        void hideFundraisingInvite();
+
         void showMilesEditDialog( int currentMiles, final EditTextDialogListener editTextDialogListener);
 
         void onGetEventError(Throwable error);

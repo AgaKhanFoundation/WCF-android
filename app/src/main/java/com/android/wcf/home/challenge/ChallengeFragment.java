@@ -203,8 +203,11 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         if (isDetached()) {
             return;
         }
+        if (journeyCard == null) {
+            return;
+        }
 
-        View journeyBeforeStartView = mainContentView.findViewById(R.id.journey_before_start_view);
+        View journeyBeforeStartView = journeyCard.findViewById(R.id.journey_before_start_view);
         if (journeyBeforeStartView != null) {
 
             if (event != null) {
@@ -403,12 +406,13 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void showFundraisingInvite() {
         View fundraisingBeforeChallengeStartView = challengeFundraisingProgressCard.findViewById(R.id.fundraising_progress_before_view);
-        boolean challengeStarted = false;
-        if (!challengeStarted) {
-            fundraisingBeforeChallengeStartView.setVisibility(View.VISIBLE);
-        } else {
-            fundraisingBeforeChallengeStartView.setVisibility(View.GONE);
-        }
+        fundraisingBeforeChallengeStartView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideFundraisingInvite() {
+        View fundraisingBeforeChallengeStartView = challengeFundraisingProgressCard.findViewById(R.id.fundraising_progress_before_view);
+        fundraisingBeforeChallengeStartView.setVisibility(View.GONE);
     }
 
     void setupView(View fragmentView) {
@@ -423,9 +427,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private void setupViewForMainContent(View mainView) {
 
         journeyCard = mainView.findViewById(R.id.challenge_journey_card);
-        View journeyBeforeStartView = journeyCard.findViewById(R.id.journey_before_start_view);
-        View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
-
         participantTeamSummaryCard = mainView.findViewById(R.id.challenge_participant_team_card);
         View createOrJoinTeamView = participantTeamSummaryCard.findViewById(R.id.challenge_create_or_join_team_view);
         if (createOrJoinTeamView != null) {
