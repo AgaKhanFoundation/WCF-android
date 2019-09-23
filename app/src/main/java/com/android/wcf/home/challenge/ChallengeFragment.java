@@ -302,7 +302,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void showParticipantTeamSummaryCard(Team team) {
-        if (isDetached()) {
+        if (!isAttached()) {
             return;
         }
 

@@ -123,7 +123,7 @@ abstract public class BaseActivity extends AppCompatActivity
 
             }
             default:
-                Log.e(TAG, "Unhandled Request Code " + requestCode);
+                Log.i(TAG, "Unhandled Request Code " + requestCode);
         }
     }
 

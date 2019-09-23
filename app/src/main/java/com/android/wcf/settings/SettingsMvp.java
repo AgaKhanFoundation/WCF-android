@@ -31,7 +31,7 @@ public interface SettingsMvp {
 
         void restartHomeActivity();
 
-        void showTeamMembershipDetail();
+        void showTeamMembershipDetail(boolean isTeamLead);
 
         void showAKFProfileView();
     }

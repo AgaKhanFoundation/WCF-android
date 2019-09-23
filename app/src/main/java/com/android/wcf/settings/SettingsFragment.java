@@ -379,7 +379,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     public void showTeamMembershipDetail(){
         Log.d(TAG, "showTeamMembershipDetail");
         if (team != null) {
-            host.showTeamMembershipDetail();
+            host.showTeamMembershipDetail(isTeamLead);
         }
     }
 
