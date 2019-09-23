@@ -42,6 +42,7 @@ import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.web.WebViewActivity;
+import com.android.wcf.web.WebViewFragment;
 
 public class LoginActivity extends BaseActivity implements LoginActivityMvp.View, LoginMvp.Host, AKFParticipantProfileMvp.Host {
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -97,6 +98,16 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
         setSupportActionBar(toolbar);
     }
 
+
+    @Override
+    public void showTermsAndConditions() {
+        Fragment fragment = WebViewFragment.getInstance(getString(R.string.terms_url), getString(R.string.term_title));
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
     @Override
     public void showLoginView() {

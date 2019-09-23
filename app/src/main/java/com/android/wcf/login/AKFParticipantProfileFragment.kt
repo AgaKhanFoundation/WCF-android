@@ -2,7 +2,6 @@ package com.android.wcf.login
 
 import android.content.Context
 import android.os.Bundle
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.webkit.HttpAuthHandler
@@ -62,13 +61,13 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
     }
 
     override fun setupWebView(): String? {
-        val extras = arguments
+        val args = arguments
 
         var title: String? = null
         var url = AKF_PROFILE_URL
-        if (extras != null) {
-            url = extras.getString(WEB_URL_KEY, AKF_PROFILE_URL)
-            title = extras.getString(TITLE_OVERRIDE_KEY, null)
+        if (args != null) {
+            url = args.getString(WEB_URL_KEY, AKF_PROFILE_URL)
+            title = args.getString(TITLE_OVERRIDE_KEY, null)
         }
 
         if (title != null) {
@@ -88,13 +87,13 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
 //            })
         }
 
-        if (extras != null && extras.containsKey(KEY_URL_USER_NAME) && extras.containsKey(KEY_URL_PWD)) {
+        if (args != null && args.containsKey(KEY_URL_USER_NAME) && args.containsKey(KEY_URL_PWD)) {
             mWebView?.setWebViewClient(object : WebViewClient() {
                 override fun onReceivedHttpAuthRequest(view: WebView,
                                                        handler: HttpAuthHandler,
                                                        host: String, realm: String) {
-                    val userName = extras.getString(KEY_URL_USER_NAME, "")
-                    val pwd = extras.getString(KEY_URL_PWD, "")
+                    val userName = args.getString(KEY_URL_USER_NAME, "")
+                    val pwd = args.getString(KEY_URL_PWD, "")
                     handler.proceed(userName, pwd)
                 }
             })

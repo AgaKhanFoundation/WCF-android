@@ -38,6 +38,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
     LoginMvp.Presenter loginPesenter;
     private CallbackManager callbackManager;
     LoginButton loginButton;
+    View termsTv;
 
     @Override
     public void onAttach(Context context) {
@@ -92,6 +93,14 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
 
     private void setupView(View view) {
         loginButton = view.findViewById(R.id.login_button);
+        termsTv = view.findViewById(R.id.term_conditions);
+        termsTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                host.showTermsAndConditions();
+            }
+        });
+
         loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
