@@ -63,38 +63,7 @@
         <item name="backgroundTint">@null</item>
     </style>
 
-    <style name="Widget.WCF.Compound.Switch" parent="@style/Widget.AppCompat.CompoundButton.Switch">
-        <item name="android:textColorPrimaryDisableOnly">@color/primary_text_color_disabled</item>
-        <item name="android:colorControlActivated">#1b5e20</item>
-        <item name="android:colorForeground">@color/color_white</item>
-        <item name="android:track">@color/color_primary</item>
-        <item name="android:textAppearance">@style/TextAppearance.AppCompat</item>
-
-    </style>
-
     <!--<item name="switchStyle">@style/Widget.MaterialComponents.CompoundButton.Switch</item>-->
-
-
-    <!--legacy code-->
-
-    <style name="CustomTheme" parent="android:Theme.Light">
-        <item name="android:windowBackground">@color/color_overlay_color</item>
-        <item name="android:colorBackground">@color/color_overlay_color</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowIsTranslucent">true</item>
-
-    </style>
-
-    <style name="spinner_style">
-        <item name="android:paddingLeft">0dp</item>
-        <item name="android:dropDownWidth">150dp</item>
-        <item name="android:dividerHeight">0.5dp</item>
-        <item name="android:dropDownHeight">wrap_content</item>
-        <item name="android:scrollbarAlwaysDrawVerticalTrack">true</item>
-        <item name="android:dropDownSelector">@android:color/transparent</item>
-    </style>
 
     <style name="wcf_spinner_style"
         parent="@android:style/Widget.TextView.SpinnerItem">

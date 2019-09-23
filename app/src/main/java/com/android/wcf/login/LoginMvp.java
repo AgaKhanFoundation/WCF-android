@@ -11,6 +11,7 @@ public interface LoginMvp {
         void onLoginSuccess();
 
         void onLoginError(String message);
+
     }
 
     interface Host {
@@ -18,6 +19,9 @@ public interface LoginMvp {
         void showToolbar();
         void hideToolbar();
 
+        void showTermsAndConditions();
+
         void loginComplete();
+
     }
 }

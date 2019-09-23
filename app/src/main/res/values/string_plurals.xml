@@ -20,7 +20,7 @@
     </plurals>
 
     <plurals name="challenge_invite_team_members_message">
-        <item quantity="zero">Maximize your chances of reaching the team goal. Your team has no spot remaining</item>
+        <item quantity="zero">Maximize your chances of reaching the team goal.</item>
         <item quantity="one">Maximize your chances of reaching the team goal. Your team has %1$d spot remaining. Invite a friend to join!</item>
         <item quantity="other">Maximize your chances of reaching the team goal. Your team has %1$d spots remaining. Invite more friends to join!</item>
 
@@ -32,7 +32,6 @@
         <item quantity="other">Invite %1$d new team members</item>
 
     </plurals>
-
 
     <plurals name="dashboard_challenge_remaining_days_template">
         <item quantity="zero">Challenge completed</item>

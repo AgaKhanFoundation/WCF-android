@@ -171,12 +171,11 @@
                         android:layout_marginTop="@dimen/spacing_normal"
                         android:gravity="start"
                         android:lineSpacingMultiplier="@dimen/body_line_spacing_2"
-                        android:text="Participating in a challenge is always more fun with friends"
+                        android:text="@string/team_card_join_create_team_mesage"
                         android:textAppearance="@style/TextAppearance.WCF.Body1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/my_team_label"
-                        tools:text="Participating in a challenge is always more fun with friends" />
+                        app:layout_constraintTop_toBottomOf="@id/my_team_label"/>
 
                     <Button
                         android:id="@+id/show_create_team_button"

@@ -28,6 +28,17 @@ public class WebViewFragment extends BaseFragment implements WebViewMvp.View {
     WebViewMvp.Host host;
     protected WebView mWebView;
 
+    public static WebViewFragment getInstance(String url, String title) {
+        WebViewFragment fragment = new WebViewFragment();
+        if (url != null) {
+            Bundle args = new Bundle();
+            args.putString(WEB_URL_KEY, url);
+            args.putString(TITLE_OVERRIDE_KEY, title);
+            fragment.setArguments(args);
+        }
+        return fragment;
+    }
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
