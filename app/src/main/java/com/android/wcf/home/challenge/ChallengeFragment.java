@@ -177,6 +177,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
+    public void onGetTeamError(Throwable error) {
+        showError(R.string.teams_manager_error, error.getMessage());
+        setParticipantTeam(null);
+        SharedPreferencesUtil.clearMyTeamId();
+        teamId = SharedPreferencesUtil.getMyTeamId();
+    }
+
+    @Override
     public void onParticipantIdMissing() {
         Toast.makeText(getContext(), "Login Id needed. Please login", Toast.LENGTH_SHORT).show();
         WCFApplication.instance.requestLogin();

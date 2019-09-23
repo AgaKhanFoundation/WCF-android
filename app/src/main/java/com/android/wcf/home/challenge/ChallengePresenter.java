@@ -9,6 +9,7 @@ import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Presenter {
 
@@ -158,7 +159,12 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamError(Throwable error) {
         super.onGetTeamError(error);
-        challengeView.showError(R.string.teams_manager_error, error.getMessage());
+        if (error instanceof NoSuchElementException) {
+            challengeView.onGetTeamError(error);
+            teamRetrieved = true;
+            updateJourneySection();
+            updateTeamSection();
+        }
     }
 
     @Override

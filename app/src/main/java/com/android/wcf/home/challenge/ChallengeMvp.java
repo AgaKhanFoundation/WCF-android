@@ -29,6 +29,8 @@ public interface ChallengeMvp {
         void showCreateNewTeamView();
         void showJoinTeamView();
 
+        void onGetTeamError(Throwable error);
+
         void hideParticipantTeamProfileView();
         void showParticipantTeamProfileView();
 
