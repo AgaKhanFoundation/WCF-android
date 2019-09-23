@@ -1,28 +1,6 @@
 <resources>
     <string name="app_name">Steps4Impact</string>
     <string name="app_name_title">Steps 4 Impact</string>
-    <string name="tabLeaderboard">LeaderBoard</string>
-    <string name="tabMyProfile">My Profile</string>
-    <string name="tabMyTeam">My Team</string>
-    <string name="back">Back</string>
-    <string name="alert">Alert</string>
-    <string name="exitMessage">Are you sure you want to exit?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="leaderboard">Leaderboard</string>
-    <string name="currentsupporters">Current Supporters</string>
-    <string name="pastevents">Past Events</string>
-    <string name="myprofileheadertext">AKF Walk Challenge</string>
-    <string name="supporters">Supporters and Sponsers</string>
-    <string name="corporatesponsors">Corporate Sponsors</string>
-    <string name="thankscorporatesponsors">Thanks to the following corporate sponsors, you\'ve raised an additional $22.50!</string>
-    <string name="settings">Settings</string>
-    <string-array name="sorting">
-        <item>This Week</item>
-        <item>This Month</item>
-        <item>This Event</item>
-        <item>Overall</item>
-    </string-array>
 
     <!-- 952254615120365 created under sultan.keshwani@gmail.com -->
     <string name="fb_login_protocol_scheme">fb952254615120365</string>
@@ -30,7 +8,6 @@
 
     <string name="facebook_Steps4Impact_group_id">466564417434674</string>
 
-    <string name="title_activity_home">Home</string>
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_challenge">Challenge</string>
     <string name="nav_leaderboard">Leaderboard</string>
@@ -50,8 +27,7 @@
 
     <string name="akf_profileview_title">AKF Profile</string>
 
-    <string name="team_card_my_team_label_text_view_text">My Team</string>
-    <string name="team_card_join_team_mesage_text_view_text">Participating in a challenge is always more fun with friends! </string>
+    <string name="team_card_join_create_team_mesage">Participating in a challenge is always more fun with friends! </string>
     <string name="team_card_show_teams_to_join_button_text">Join an Existing Team</string>
     <string name="team_card_create_team_button_text">Create a New Team</string>
     <string name="team_card_join_team_button_text">Join Team</string>
@@ -120,7 +96,6 @@
     <string name="participants_manager_error">Participants Manager Error</string>
     <string name="participant_team_join_error">Unable to assign to team</string>
     <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
-
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
     <string name="connecting_to_fitness_device">Connecting the app to your Fitbit Account</string>
     <string name="connect_device_or_app_message">No activity yet. You will need to connect a fitness tracker to track your miles.</string>
@@ -167,17 +142,11 @@
         "iPhone:  http://rebrand.ly/steps4impact-iphone\n"
         "Android: http://rebrand.ly/steps4impact-android</string>
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
-    <string name="team_invite_more_members_message">Invite %1$s new team members</string>
     <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$s remaining. Invite more friends to join!</string>
     <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
     <string name="participant_committed_miles_label">Your committed miles</string>
     <string name="team_committed_miles_label">Team\'s committed miles</string>
     <string name="remaining_goal_miles_label">Uncommitted miles</string>
-    <!--"In the app, please select %4$s from the team list and join me!\n" </string>-->
-    <!--
-    "Use this link to join my team:\n"
-     "%4$s";</string>
-                     +-->
 
     <string name="team_miles_commitment_status_template">%1$d/%2$d miles committed</string>
     <string name="team_spots_message_template">%1$d of %2$d spots available</string>
@@ -200,5 +169,7 @@
 
     <string name="applink_ios">http://rebrand.ly/steps4impact-iphone</string>
     <string name="applink_android">http://rebrand.ly/steps4impact-android</string>
+    <string name="terms_url">https://www.akfusa.org/website-private-policy/</string>
+    <string name="term_title">Terms and Conditions</string>
 
 </resources>

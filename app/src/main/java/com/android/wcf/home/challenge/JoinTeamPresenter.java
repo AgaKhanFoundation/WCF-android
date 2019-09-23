@@ -24,7 +24,7 @@ public class JoinTeamPresenter extends BasePresenter implements JoinTeamMvp.Pres
         if (results != null && results.size() == 1) {
             view.participantJoinedTeam(participantId, teamId);
         } else {
-            view.showError("Unable to assign to team. Please try again");
+            view.participantJoinTeamError(participantId, teamId);
         }
     }
 }

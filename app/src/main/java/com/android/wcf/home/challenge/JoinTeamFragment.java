@@ -175,4 +175,9 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
         SharedPreferencesUtil.saveMyTeamId(teamId);
         closeView();
     }
+
+    @Override
+    public void participantJoinTeamError(String participantId, int teamId) {
+        showMessage(getString(R.string.participant_team_join_error));
+    }
 }

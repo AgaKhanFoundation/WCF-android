@@ -146,7 +146,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     @Override
     public void onStart() {
         super.onStart();
-        setToolbarTitle(getString(R.string.settings), true);
+        setToolbarTitle(getString(R.string.settings_title), true);
 
         isTeamLead = false;
         team = getParticipantTeam();
@@ -393,7 +393,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     public void setToolbarTitle(String title, boolean homeAffordance) {
         if (host != null) {
-            host.setToolbarTitle(getString(R.string.settings), true);
+            host.setToolbarTitle(getString(R.string.settings_title), true);
         }
     }
 

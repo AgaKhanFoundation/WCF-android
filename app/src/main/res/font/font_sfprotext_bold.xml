@@ -1,8 +1,0 @@
-<font-family
-	xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:app="http://schemas.android.com/apk/res-auto">
-
-	<font
-		android:font="@font/sf_pro_text_bold"
-		app:font="@font/sf_pro_text_bold"/>
-</font-family>
