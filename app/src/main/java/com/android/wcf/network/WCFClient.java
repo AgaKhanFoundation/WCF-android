@@ -40,7 +40,7 @@ public class WCFClient {
 
     //    private final static String AKF_WCF_BACKEND_URL = "http://40.121.10.181:80/";
     private final static String AKF_WCF_BACKEND_URL = "https://step4change.org";
-//    private final static String AKF_WCF_BACKEND_URL = "http://13.82.223.25";
+//    private final static String AKF_WCF_BACKEND_URL = "https://akf-causes.subshell.org";
 
     private static WCFClient instance;
     private WCFApiEndpoints wcfApi;
