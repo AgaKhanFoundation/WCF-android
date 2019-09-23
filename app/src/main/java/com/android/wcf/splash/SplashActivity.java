@@ -77,6 +77,11 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
     }
 
     @Override
+    public boolean isAttached() {
+        return !isDestroyed() && !isFinishing();
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         try {
             switch (requestCode) {

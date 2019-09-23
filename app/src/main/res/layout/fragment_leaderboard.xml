@@ -37,12 +37,24 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent">
 
+                <TextView
+                    android:id="@+id/gold_medal_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                    android:gravity="center|top"
+                    android:text="@string/gold_medal_label"
+                    android:textColor="@color/color_gold"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
                 <View
                     android:id="@+id/gold_medal"
                     android:layout_width="68dp"
                     android:layout_height="68dp"
                     android:background="@drawable/bg_medal_gold"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gold_medal_label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -81,12 +93,24 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent">
 
+                <TextView
+                    android:id="@+id/silver_medal_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                    android:gravity="center|top"
+                    android:text="@string/silver_medal_label"
+                    android:textColor="@color/color_silver"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
                 <View
                     android:id="@+id/silver_medal"
                     android:layout_width="68dp"
                     android:layout_height="68dp"
                     android:background="@drawable/bg_medal_silver"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/silver_medal_label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -101,7 +125,7 @@
                     app:layout_constraintTop_toBottomOf="@id/silver_medal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="Silver Stars"/>
+                    tools:text="CA Stars"/>
 
                 <TextView
                     android:id="@+id/silver_team_miles_completed"
@@ -124,12 +148,24 @@
                 app:layout_constraintTop_toTopOf="@id/silver_team_container"
                 app:layout_constraintEnd_toEndOf="parent">
 
+                <TextView
+                    android:id="@+id/bronze_medal_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.WCF.Subtitle1"
+                    android:textColor="@color/color_bronze"
+                    android:gravity="center|top"
+                    android:text="@string/bronze_medal_label"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
                 <View
                     android:id="@+id/bronze_medal"
                     android:layout_width="68dp"
                     android:layout_height="68dp"
                     android:background="@drawable/bg_medal_bronze"
-                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/bronze_medal_label"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -144,7 +180,7 @@
                     app:layout_constraintTop_toBottomOf="@id/bronze_medal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    tools:text="bronze Stars"/>
+                    tools:text="USA Stars"/>
 
                 <TextView
                     android:id="@+id/bronze_team_miles_completed"

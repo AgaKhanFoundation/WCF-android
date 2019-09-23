@@ -43,4 +43,14 @@ public class LeaderboardAdapterPresenter implements LeaderboardAdapterMvp.Presen
     public int getMyTeamId() {
         return myTeamId;
     }
+
+    @Override
+    public String getTag() {
+        return null;
+    }
+
+    @Override
+    public void onStop() {
+
+    }
 }

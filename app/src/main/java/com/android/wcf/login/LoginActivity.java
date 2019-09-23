@@ -78,6 +78,11 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     }
 
     @Override
+    public boolean isAttached() {
+        return !isDestroyed() && !isFinishing();
+    }
+
+    @Override
     public void showToolbar() {
         toolbar.setVisibility(View.VISIBLE);
     }

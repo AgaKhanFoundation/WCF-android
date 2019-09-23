@@ -40,7 +40,7 @@ public class WCFClient {
 
     //    private final static String AKF_WCF_BACKEND_URL = "http://40.121.10.181:80/";
     private final static String AKF_WCF_BACKEND_URL = "https://step4change.org";
-//    private final static String AKF_WCF_BACKEND_URL = "http://13.82.223.25";
+//    private final static String AKF_WCF_BACKEND_URL = "https://akf-causes.subshell.org";
 
     private static WCFClient instance;
     private WCFApiEndpoints wcfApi;
@@ -120,6 +120,19 @@ public class WCFClient {
 
         return wcfApi.createTeam(requestBody);
     }
+
+
+    public Single<Integer> updateTeamVisibility(int teamId, boolean teamVisibility) {
+
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put(Team.TEAM_VISIBILITY_ATTRIBUTE_NAME, teamVisibility);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.updateTeam(teamId, requestBody);
+    }
+
 
     public Single<List<Team>> getTeams() {
         return wcfApi.getTeams();

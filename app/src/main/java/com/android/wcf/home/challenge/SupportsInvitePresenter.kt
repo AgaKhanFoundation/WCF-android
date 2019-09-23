@@ -1,5 +1,6 @@
 package com.android.wcf.home.challenge
 
+
 class SupportsInvitePresenter(val view:SupportsInviteMvp.View): SupportsInviteMvp.Presenter {
 
     companion object {
@@ -12,5 +13,8 @@ class SupportsInvitePresenter(val view:SupportsInviteMvp.View): SupportsInviteMv
 
     override fun getTag(): String {
         return TAG
+    }
+
+    override fun onStop() {
     }
 }

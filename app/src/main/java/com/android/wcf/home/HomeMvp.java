@@ -19,7 +19,7 @@ public interface HomeMvp {
         void onAssignedParticipantToEvent(String participantId, int eventId);
     }
 
-    interface HomePresenter {
+    interface HomePresenter extends BaseMvp.Presenter {
         void getParticipant(String participantId);
 
         void createParticipant(String participantId);

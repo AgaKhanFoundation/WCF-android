@@ -9,6 +9,7 @@ import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Presenter {
 
@@ -88,18 +89,25 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
                 challengeView.showParticipantTeamSummaryCard(team);
 
                 boolean showTeamInvite = false;
+                int openSlots = 0;
                 if (eventRetrieved && event != null) {
-                    if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
-                        List<Participant> participants = team.getParticipants();
-                        if (participants != null) {
-                            int openSlots = event.getTeamLimit() - participants.size();
-                            if (openSlots > 0) {
-                                showTeamInvite = true;
-                                challengeView.showInviteTeamMembersCard(openSlots);
+                    Participant participant = challengeView.getParticipant();
+                    if (participant != null) {
+                        if (team.isTeamLeader(participant.getParticipantId())) {
+                            if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
+                                List<Participant> participants = team.getParticipants();
+                                if (participants != null) {
+                                    openSlots = event.getTeamLimit() - participants.size();
+                                    if (openSlots > 0) {
+                                        showTeamInvite = true;
+                                    }
+                                }
                             }
                         }
                     }
-                    if (!showTeamInvite) {
+                    if (showTeamInvite && openSlots > 0) {
+                        challengeView.showInviteTeamMembersCard(openSlots);
+                    } else {
                         challengeView.hideInviteTeamMembersCard();
                     }
                 }
@@ -151,16 +159,22 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamError(Throwable error) {
         super.onGetTeamError(error);
-        challengeView.showError(R.string.teams_manager_error, error.getMessage());
+        if (error instanceof NoSuchElementException) {
+            challengeView.onGetTeamError(error);
+            teamRetrieved = true;
+            updateJourneySection();
+            updateTeamSection();
+        }
     }
 
     @Override
     protected void onGetTeamParticipantsInfoSuccess(Team team){
         challengeView.setParticipantTeam(team);
         teamRetrieved = true;
-        updateJourneySection();
-        updateTeamSection();
-
+        if (challengeView.isAttached()) {
+            updateJourneySection();
+            updateTeamSection();
+        }
     }
 
     @Override

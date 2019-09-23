@@ -143,6 +143,12 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        challengePresenter.onStop();
+    }
+
+    @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
         super.onCreateOptionsMenu(menu, menuInflater);
         menuInflater.inflate(R.menu.menu_home, menu);
@@ -168,6 +174,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void onGetEventError(Throwable error) {
         SharedPreferencesUtil.cleartMyActiveEventId();
+    }
+
+    @Override
+    public void onGetTeamError(Throwable error) {
+        showError(R.string.teams_manager_error, error.getMessage());
+        setParticipantTeam(null);
+        SharedPreferencesUtil.clearMyTeamId();
+        teamId = SharedPreferencesUtil.getMyTeamId();
     }
 
     @Override
@@ -296,7 +310,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void showParticipantTeamSummaryCard(Team team) {
-        if (isDetached()) {
+        if (!isAttached()) {
             return;
         }
 
@@ -483,7 +497,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         Log.d(TAG, "showTeamCommitmentBreakdown");
         Team team = getParticipantTeam();
         if (team != null) {
-            mHostingParent.showTeamChallengeProgress();
+            boolean isTeamLead = team.isTeamLeader(participantId);
+            mHostingParent.showTeamChallengeProgress(isTeamLead);
         }
     }
 

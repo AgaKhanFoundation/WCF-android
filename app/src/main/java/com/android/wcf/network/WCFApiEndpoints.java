@@ -62,6 +62,10 @@ public interface WCFApiEndpoints {
     @DELETE("teams/{id}")
     Single<Integer> deleteTeam(@Path("id") int id);
 
+    @PATCH("teams/{id}")
+    Single<Integer> updateTeam(@Path("id") int teamId, @Body RequestBody params);
+
+
     /*********** SOURCES **********/
     @GET("sources/")
     Single<List<Source>> getSources();

@@ -35,10 +35,12 @@ import java.util.List;
 public class TeamMembershipFragment extends BaseFragment implements TeamMembershipMvp.View, TeamMembershipAdapterMvp.Host {
 
     private static final String TAG = TeamMembershipFragment.class.getSimpleName();
+    private static final String IS_TEAM_LEAD_ARG = "is_team_lead";
 
     private TeamMembershipMvp.Host host;
     private Team team;
     private Event event;
+    private boolean isTeamLead = false;
 
     private TeamMembershipPresenter presenter;
     private RecyclerView teamMembershipRecyclerView = null;
@@ -57,6 +59,15 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
             }
         }
     };
+
+    public static TeamMembershipFragment getInstance(boolean isTeamLead) {
+        TeamMembershipFragment fragment = new TeamMembershipFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(IS_TEAM_LEAD_ARG, isTeamLead);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
 
     @Override
     public void onAttach(Context context) {
@@ -84,6 +95,12 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isTeamLead = bundle.getBoolean(IS_TEAM_LEAD_ARG);
+        }
+
         View fragmentView = inflater.inflate(R.layout.fragment_team_membership, container, false);
         return fragmentView;
     }
@@ -192,7 +209,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     void setupChallengeTeamInviteContainer(View container) {
         TextView inviteLabel = container.findViewById(R.id.team_invite_label);
         boolean showTeamInvite = false;
-        if (event != null) {
+        if (isTeamLead && event != null) {
             if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
                 List<Participant> participants = team.getParticipants();
                 if (participants != null) {
@@ -204,13 +221,13 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
                     }
                 }
             }
-            if (showTeamInvite) {
-                View image = container.findViewById(R.id.team_invite_chevron);
-                expandViewHitArea(image, container);
-                image.setOnClickListener(onClickListener);
-            }
-            container.setVisibility(showTeamInvite ? View.VISIBLE : View.GONE);
         }
+        if (showTeamInvite) {
+            View image = container.findViewById(R.id.team_invite_chevron);
+            expandViewHitArea(image, container);
+            image.setOnClickListener(onClickListener);
+        }
+        container.setVisibility(showTeamInvite ? View.VISIBLE : View.GONE);
     }
 
     void closeView() {

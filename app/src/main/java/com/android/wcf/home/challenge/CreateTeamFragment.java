@@ -2,13 +2,9 @@ package com.android.wcf.home.challenge;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.Html;
-import android.text.Spanned;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,9 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
-import androidx.core.app.ShareCompat;
 
-import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
@@ -138,6 +132,12 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     }
 
     @Override
+    public void onStop() {
+        super.onStop();
+        presenter.onStop();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -247,12 +247,12 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
     void showCreateTeamView() {
         createTeamCard.setVisibility(View.VISIBLE);
-        teamCreatedCard.setVisibility(View.GONE);
+        teamCreatedCard.setVisibility(View.INVISIBLE);
     }
 
     void showTeamCreatedView() {
-        createTeamCard.setVisibility(View.GONE);
         teamCreatedCard.setVisibility(View.VISIBLE);
+        createTeamCard.setVisibility(View.INVISIBLE);
     }
 
     void enableCreateTeamButton() {

@@ -8,7 +8,7 @@ data class Team(
         @SerializedName("id") var id: Int = 0,
         @SerializedName("name") var name: String = "",
         @SerializedName("image") var image: String = "",
-        @SerializedName("leaderId") var leaderId: String = "",
+        @SerializedName("creator_id") var leaderId: String = "",
         @SerializedName("visibilty") var visibility: Boolean = true,
         @SerializedName("participants") var participants: List<Participant> = arrayListOf(),
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
@@ -22,6 +22,7 @@ data class Team(
         return ""
     }
 
+    //TODO: refactor to use the attribute leaderId (creator_id) instead of participants[0]
     fun getLeaderParticipantId():String? {
         this.participants?.let {
             if (it.size > 0) {

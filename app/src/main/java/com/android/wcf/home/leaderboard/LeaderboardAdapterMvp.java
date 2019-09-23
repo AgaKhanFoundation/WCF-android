@@ -1,5 +1,7 @@
 package com.android.wcf.home.leaderboard;
 
+import com.android.wcf.base.BaseMvp;
+
 import java.util.List;
 
 public interface LeaderboardAdapterMvp {
@@ -8,7 +10,7 @@ public interface LeaderboardAdapterMvp {
         void leaderboardDataUpdated();
     }
 
-    public interface Presenter {
+    public interface Presenter extends BaseMvp.Presenter {
         void updateLeaderboardData(List<LeaderboardTeam> leaderboard);
 
         int getTeamsCount();

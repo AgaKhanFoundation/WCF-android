@@ -111,6 +111,12 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
         refreshTeamList();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.onStop();
+    }
+
     void refreshTeamList() {
         List<Team> teams = getTeamList();
         joinTeamButton.setEnabled((teams == null || teams.size() == 0) ? false : true);

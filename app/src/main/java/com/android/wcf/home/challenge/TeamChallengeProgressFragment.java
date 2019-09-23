@@ -27,16 +27,18 @@ import java.util.List;
 
 public class TeamChallengeProgressFragment extends BaseFragment implements TeamChallengeProgressMvp.View, TeamChallengeProgressAdapterMvp.Host {
 
+    private static final String IS_TEAM_LEAD_ARG = "is_team_lead";
     private TeamChallengeProgressMvp.Host host;
     private Team team;
     private Event event;
+
+    private boolean isTeamLead = false;
 
     private RecyclerView participantRecyclerView = null;
     private TeamChallengeProgressAdapter teamChallengeProgressAdapter = null;
     private View challengeTeamProgressSummaryContainer;
     private View challengeTeamMemberDetailsContainer;
     private View challengeTeamInviteContainer;
-
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -48,6 +50,14 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
             }
         }
     };
+
+    public static TeamChallengeProgressFragment getInstance(boolean isTeamLead) {
+        TeamChallengeProgressFragment fragment = new TeamChallengeProgressFragment();
+        Bundle args = new Bundle();
+        args.putBoolean(IS_TEAM_LEAD_ARG, isTeamLead);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -75,6 +85,12 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            isTeamLead = bundle.getBoolean(IS_TEAM_LEAD_ARG);
+        }
+
         View fragmentView = inflater.inflate(R.layout.fragment_team_challenge_progress, container, false);
         return fragmentView;
     }
@@ -109,6 +125,13 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
         super.onStart();
         refreshTeamParticipantsList();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        //  presenter.onStop();
+    }
+
 
     void refreshTeamParticipantsList() {
 
@@ -171,7 +194,7 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
     void setupChallengeTeamInviteContainer(View container) {
         TextView inviteLabel = container.findViewById(R.id.team_invite_label);
         boolean showTeamInvite = false;
-        if (event != null) {
+        if (isTeamLead && event != null) {
             if (event.daysToStartEvent() >= 0 && !event.hasTeamBuildingEnded()) {
                 List<Participant> participants = team.getParticipants();
                 if (participants != null) {
@@ -183,13 +206,13 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
                     }
                 }
             }
-            if (showTeamInvite) {
-                View image = container.findViewById(R.id.team_invite_chevron);
-                expandViewHitArea(image, container);
-                image.setOnClickListener(onClickListener);
-            }
-            container.setVisibility(showTeamInvite ? View.VISIBLE : View.GONE);
         }
+        if (showTeamInvite) {
+            View image = container.findViewById(R.id.team_invite_chevron);
+            expandViewHitArea(image, container);
+            image.setOnClickListener(onClickListener);
+        }
+        container.setVisibility(showTeamInvite ? View.VISIBLE : View.GONE);
     }
 
     void closeView() {

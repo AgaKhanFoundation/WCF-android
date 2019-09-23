@@ -52,10 +52,13 @@ public interface BaseMvp {
         void setTeamList(List<Team> teams);
 
         List<Team> getTeamList();
+
+        boolean isAttached();
     }
 
     interface Presenter {
         String getTag();
+        void onStop();
     }
 
     interface Host {
