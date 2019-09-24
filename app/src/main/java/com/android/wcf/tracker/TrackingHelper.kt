@@ -35,7 +35,6 @@ class TrackingHelper {
 
                 return Date().time - lastSaveAtTime > SAVE_AFTER_MINUTES * 60 * 1000
             }
-            return true
         }
 
         fun trackerDataSaved(context: Context,  lastSavedStepDate:String) {
@@ -50,7 +49,10 @@ class TrackingHelper {
         fun lastTrackerDataSavedDate(context: Context):String {
             val deviceSharedPreferences = context.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
             deviceSharedPreferences.let {
-               return deviceSharedPreferences.getString(TRACKER_DATA_LAST_SAVED_DATE, "");
+               var lastSaved:String? = it.getString(TRACKER_DATA_LAST_SAVED_DATE, "");
+                lastSaved?.let {
+                    return it
+                }
             }
             return ""
         }

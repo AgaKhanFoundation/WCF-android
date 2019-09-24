@@ -1,6 +1,7 @@
 package com.android.wcf.base;
 
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
+import java.text.SimpleDateFormat;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -174,7 +177,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
         String teamLink = getParticipantTeam().getName();
 
-        String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName, appLink);
+        String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName);
 
         try {
 
@@ -196,9 +199,23 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
 
     public void inviteSupporters() {
 
-        String eventName = getEvent().getName();
+        Event event = getEvent();
+        Participant participant = getParticipant();
+        int milesCommitted = 0;
 
-        String shareMessage = getString(R.string.invite_supporter_template);
+        if (event == null || participant == null ) {
+            //TODO: show message that committed mile have to valid
+            return;
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+        String startDate = sdf.format(event.getStartDate());
+        String endDate = sdf.format(event.getEndDate());
+        String eventName = event.getName();
+        milesCommitted = participant.getCommitmentMiles();
+        int weeks = event.getWeeksInChallenge();
+
+        String shareMessage = getString(R.string.invite_supporter_template_2, startDate, endDate, eventName, milesCommitted, weeks);
 
         try {
 
@@ -206,7 +223,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             Intent shareIntent = intentBuilder
                     .setType("text/plain")
                     .setText(shareMessage)
-                    .setSubject("Support me for '" + eventName + "")
+                    .setSubject("Support my \"Steps\" 4 \"Impact\"")
                     .setChooserTitle("Share Via")
                     .createChooserIntent();
 

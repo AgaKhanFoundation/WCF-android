@@ -112,10 +112,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         mFragmentHost.setToolbarTitle(getString(R.string.nav_leaderboard), false);
 
         event = getEvent();
-        leaderboardPresenter.setChallengeStarted(event.hasChallengeStarted());
-        leaderboardPresenter.setMyTeamId(myTeamId);
-
-        leaderboardPresenter.getLeaderboard();
+        leaderboardPresenter.getLeaderboard(event, myTeamId);
     }
 
     @Override
@@ -148,7 +145,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
             switch (item.getItemId()) {
                 case R.id.menu_item_refresh:
                     handled = true;
-                    leaderboardPresenter.getLeaderboard();
+                    leaderboardPresenter.refreshLeaderboard(event);
             }
         }
         return handled;

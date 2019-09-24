@@ -1,6 +1,8 @@
 package com.android.wcf.home.leaderboard;
 
 import com.android.wcf.base.BaseMvp;
+import com.android.wcf.model.Event;
+import com.android.wcf.model.Team;
 
 import java.util.List;
 
@@ -20,7 +22,8 @@ public interface LeaderboardMvp {
 
         void setChallengeStarted(boolean challengeStarted);
 
-        void getLeaderboard();
+        void getLeaderboard(Event event, int myTeamId);
+        void refreshLeaderboard(Event event);
 
         void toggleSortMode();
 

@@ -4,7 +4,7 @@ package com.android.wcf.home.challenge
 class SupportsInvitePresenter(val view:SupportsInviteMvp.View): SupportsInviteMvp.Presenter {
 
     companion object {
-        val TAG = SupportsInvitePresenter.javaClass.simpleName
+        val TAG = SupportsInvitePresenter::class.java.simpleName
     }
 
     override fun onSupportersInviteClicked() {

@@ -13,9 +13,10 @@
     <string name="nav_leaderboard">Leaderboard</string>
 
     <string name="leaderboard_empty_message">Check back for global team rankings</string>
-    <string name="gold_medal_label">Gold</string>
-    <string name="silver_medal_label">Silver</string>
-    <string name="bronze_medal_label">Bronze</string>
+    <string name="gold_medal_label">1</string>
+    <string name="silver_medal_label">2</string>
+    <string name="bronze_medal_label">3</string>
+
     <string-array name="leaderboard_sort_types">
         <item>Miles</item>
         <item>Money Raised</item>
@@ -64,7 +65,7 @@
     <string name="settings_section_team">Team</string>
     <string name="settings_team_public_visibility_on_message">Your team is discoverable. Any participant can find and join your team.</string>
     <string name="settings_team_public_visibility_off_message">Your team is invite-only. Turn on team visibility to allow anyone to find and join your team.</string>
-    <string name="settings_participant_akf_create_profile_label">Create Aga Khan Foundation Profile</string>
+    <string name="settings_participant_akf_create_profile_label">Create Aga Khan Foundation \(AKF\) Profile</string>
 
     <!--device connection -->
     <string name="settings_connect_device_title">Connected Apps &amp; Devices</string>
@@ -112,7 +113,17 @@
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
     <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
     <string name="invite_supporters_message">Get sponsored by your friends. When your friends sign up to support you, you will raise money for every mile you move. Proceeds will be donated to AKF.</string>
-    <string name="invite_supporter_template">Want to join me in supporting a good cause? I am participating in Aga Khan Foundation (AKF)\'s Steps4Impact challenge. You can support me by pledging at http://www.akfusa.org/steps4impactpledge\nAll proceeds will be donated to AKF.  Learn about AKF https://www.akfusa.org/ Thank you for your support.</string>
+
+    <string name="invite_supporter_template_1">Want to join me in supporting a good cause? I am participating in Aga Khan Foundation \(AKF\)\'s Steps4Impact challenge. You can support me by pledging at http://www.akfusa.org/steps4impactpledge\nAll proceeds will be donated to AKF.  Learn about AKF https://www.akfusa.org/ Thank you for your support.</string>
+
+    <string name="invite_supporter_template_2">
+        From %1$s to %2$s, I will be embarking on %3$s with help of Aga Khan Foundation \(AKF\) Steps 4 Impact Challenge.
+        I have set the goal to walk %4$d miles in %5$d weeks.
+        I need your support for a worthy cause by pledging at http://www.akfusa.org/steps4impactpledge
+        and make the donation at the end of challenge only when I achieve the goals.
+        All proceeds will be donated to AKF.  Learn about AKF https://www.akfusa.org Thank you for your support.
+    </string>
+
     <string name="invite_supporters_to_pledge_label">Invite Supporters to Pledge</string>
     <string name="supporters_invite_title">Invite Supporters</string>
 
@@ -137,10 +148,10 @@
     <string name="team_created_invite_members_message">Next, invite friends to join. You have %1$d spots remaining on your team.</string>
     <string name="invite_members_to_join_label">Invite friends to join</string>
     <string name="team_created_continue_message">Continue</string>
-    <string name="invite_team_member_template">"Hey! I have created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Impact, and I want you on my team!\n"
-                "Download the app here:\n"
-        "iPhone:  http://rebrand.ly/steps4impact-iphone\n"
-        "Android: http://rebrand.ly/steps4impact-android</string>
+    <string name="invite_team_member_template">Hey! I have created a team named \'%1$s\' for the \'%2$s\' Challenge on the new Aga Khan Foundation \(AKF\) app, Steps4Impact, and I want you on my team!\n
+                Download the app here:\n
+        iPhone:  http://rebrand.ly/steps4impact-iphone\n
+        Android: http://rebrand.ly/steps4impact-android</string>
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
     <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$s remaining. Invite more friends to join!</string>
     <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>

@@ -17,7 +17,9 @@ class AuthenticationInterceptor(val oAuthDataService: OAuthDataService) : Interc
         //Check token validity
         val token = oAuthDataService.token ?: return noTokenResponse(chain.request())
         //If valid, attach as Header to request, continue in the chain
-        if(!token.needsRefresh()) {
+        val tokenNeedsRefreshed:Boolean = token.needsRefresh()
+
+        if(!tokenNeedsRefreshed) {
             return proceedInChain(chain, token)
         } else {
             //All active Threads will pause here

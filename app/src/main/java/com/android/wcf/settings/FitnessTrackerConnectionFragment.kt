@@ -260,7 +260,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                         sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false).commit()
                         sharedPreferences.edit().putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID).commit()
 
-                        btnFitnessApp.setEnabled(isChecked)
+                        buttonView.setEnabled(isChecked)
                         btnFitnessDevice.setEnabled(!isChecked)
                         rbFitnessDevice.setChecked(!isChecked)
                     }
@@ -271,7 +271,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                         sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, true).commit()
                         sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false).commit()
                         sharedPreferences.edit().putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, TrackingHelper.FITBIT_TRACKING_SOURCE_ID).commit()
-                        btnFitnessDevice.setEnabled(isChecked)
+                        buttonView.setEnabled(isChecked)
                         btnFitnessApp.setEnabled(!isChecked)
                         rbFitnessApp.setChecked(!isChecked)
                     }
@@ -313,7 +313,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     }
 
     protected fun onFitbitLogoutError(message: String) {
-        Log.i(TAG, "onFitbitLogoutError")
+        Log.i(TAG, "onFitbitLogoutError $message")
         sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
         sharedPreferences?.edit()?.putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, 0)?.commit()
         updateConnectionInfoView()
@@ -354,8 +354,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
                     val stringBuilder = StringBuilder()
 
-                    devices?.let { devices ->
-                        for (device in devices!!) {
+                    devices?.let {
+                        for (device in it) {
 
                             Log.i(TAG, "Device Response: " +
                                     "Type: " + device.type + "\n" +

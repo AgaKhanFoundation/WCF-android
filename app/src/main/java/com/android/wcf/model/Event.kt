@@ -97,6 +97,11 @@ data class Event(
         return Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT
     }
 
+    fun getWeeksInChallenge():Int {
+        val days = getDaysInChallenge();
+        return days/7
+    }
+
     fun getDaysInChallenge():Int {
         startDate?.let { startDate ->
             endDate?.let { endDate ->

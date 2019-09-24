@@ -48,6 +48,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     Event event = null;
     Team team = null;
     Participant participant = null;
+    boolean isTeamLead = false;
+    int openSlots = 0;
 
     boolean challengeStarted = false;
     boolean challengeEnded = false;
@@ -83,6 +85,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
                     break;
                 case R.id.view_badge_chevron:
                     showParticipantBadgesEarned();
+                    break;
+
+                case R.id.team_invite_chevron:
+                    inviteTeamMembers();
                     break;
 
                 case R.id.fundraising_invite_button:
@@ -156,6 +162,15 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         event = getEvent();
         team = getParticipantTeam();
         participant = getParticipant();
+
+        if (event != null && team != null) {
+            openSlots = event.getTeamLimit() - team.getParticipants().size();
+            if (openSlots < 0) openSlots = 0;
+        }
+
+        if (team != null && participant != null) {
+            isTeamLead = team.isTeamLeader(participant.getParticipantId());
+        }
 
         challengeStarted = false;
         if (event != null) {
@@ -289,7 +304,18 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     void showChallengeProgress() {
         if (!challengeStarted) {
             challengeProgressView.setVisibility(View.GONE);
+            View teamInviteContainer = challengeProgressBeforeStartView.findViewById(R.id.challenge_team_invite_container);
+            if (isTeamLead && openSlots > 0) {
+                TextView teamLnviteLabel = teamInviteContainer.findViewById(R.id.team_invite_label);
+                String openSlotMessage = getResources().getQuantityString(R.plurals.team_invite_more_members_message, openSlots, openSlots);
+                teamLnviteLabel.setText(openSlotMessage);
+                teamInviteContainer.setVisibility(View.VISIBLE);
+            }
+            else {
+                teamInviteContainer.setVisibility(View.GONE);
+            }
             challengeProgressBeforeStartView.setVisibility(View.VISIBLE);
+
         } else {
             int daysRemaining = event.daysToEndEvent();
             challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
@@ -361,6 +387,15 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         challengeProgressBeforeStartView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_before_view);
         challengeProgressView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_view);
         challengeDaysRemainingMessage = challengeProgressView.findViewById(R.id.challenge_days_remaining_message);
+
+        setupChallengeTeamInviteCard(challengeProgressBeforeStartView);
+    }
+
+    void setupChallengeTeamInviteCard(View parentView) {
+        View container = parentView.findViewById(R.id.challenge_team_invite_container);
+        View image = container.findViewById(R.id.team_invite_chevron);
+        expandViewHitArea(image, container);
+        image.setOnClickListener(onClickListener);
     }
 
     void setupDashboardFundraisingCard(View fragmentView) {

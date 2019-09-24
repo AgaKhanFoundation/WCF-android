@@ -58,7 +58,7 @@ class FitbitHelper {
         @JvmField
         var authenticationConfiguration: AuthenticationConfiguration? = null
 
-        fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback) {
+        fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {
 
             val sdf = SimpleDateFormat("yyyy-MM-dd")
 
@@ -98,7 +98,7 @@ class FitbitHelper {
                     })
         }
 
-        fun getActivities(context: Context, day: String, callback: FitbitActivityResponseCallback) {
+        fun getActivities(context: Context, day: String, callback: FitbitActivityResponseCallback?) {
             val sharedPreferences = context.getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
             val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
             fService.getActivityService().getDailyActivitySummary(day)
