@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@android:id/background"
+        android:gravity="center_vertical|fill_horizontal">
+        <shape
+            android:shape="rectangle"
+            android:tint="@color/color_progress_bg">
+            <corners android:radius="@dimen/progressbar_radius" />
+            <size android:height="@dimen/progressbar_height" />
+        </shape>
+    </item>
+    <item
+        android:id="@android:id/secondaryProgress"
+        android:gravity="center_vertical|fill_horizontal">
+        <scale android:scaleWidth="100%">
+            <shape
+                android:shape="rectangle"
+                android:tint="@color/color_progress_secondary">
+                <corners android:topLeftRadius="@dimen/progressbar_radius" android:topRightRadius="0dp" android:bottomLeftRadius="@dimen/progressbar_radius" android:bottomRightRadius="0dp"/>
+                <size android:height="@dimen/progressbar_height" />
+            </shape>
+        </scale>
+    </item>
+    <item
+        android:id="@android:id/progress"
+        android:gravity="center_vertical|fill_horizontal">
+        <scale android:scaleWidth="100%">
+            <shape
+                android:shape="rectangle"
+                android:tint="@color/color_progress_primary">
+                <corners android:topLeftRadius="@dimen/progressbar_radius" android:topRightRadius="0dp" android:bottomLeftRadius="@dimen/progressbar_radius" android:bottomRightRadius="0dp"/>
+                <size android:height="@dimen/progressbar_height" />
+            </shape>
+        </scale>
+    </item>
+</layer-list>

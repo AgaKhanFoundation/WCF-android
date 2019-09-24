@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="days_to_event_start">
+        <item quantity="zero">Your journey starts today</item>
+        <item quantity="one">Your journey starts tommorrow</item>
+        <item quantity="other">Your journey starts in %1$d days on %2$s</item>
+    </plurals>
+
+    <plurals name="team_members_count">
+        <item quantity="zero">None</item>
+        <item quantity="one">%1$d member</item>
+        <item quantity="other">%1$d members</item>
+    </plurals>
+
+    <plurals name="team_spots_available">
+        <item quantity="zero">no spot</item>
+        <item quantity="one">%1$d spot</item>
+        <item quantity="other">%1$d spots</item>
+
+    </plurals>
+
+    <plurals name="challenge_invite_team_members_message">
+        <item quantity="zero">Maximize your chances of reaching the team goal.</item>
+        <item quantity="one">Maximize your chances of reaching the team goal. Your team has %1$d spot remaining. Invite a friend to join!</item>
+        <item quantity="other">Maximize your chances of reaching the team goal. Your team has %1$d spots remaining. Invite more friends to join!</item>
+
+    </plurals>
+
+    <plurals name="team_invite_more_members_message">
+        <item quantity="zero">No spots avaiable</item>
+        <item quantity="one">Invite %1$d new team member</item>
+        <item quantity="other">Invite %1$d new team members</item>
+
+    </plurals>
+
+    <plurals name="dashboard_challenge_remaining_days_template">
+        <item quantity="zero">Challenge completed</item>
+        <item quantity="one">You have 1 day remaining!</item>
+        <item quantity="other">You have %1$d days remaining!</item>
+
+    </plurals>
+
+</resources>

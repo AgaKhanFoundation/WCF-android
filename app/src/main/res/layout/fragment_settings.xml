@@ -1,301 +1,485 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/activity_main"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#DCDCDC">
+    android:background="@color/color_white_1"
+    android:fillViewport="true"
+    tools:context="com.android.wcf.settings.SettingsFragment">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_marginStart="@dimen/spacing_normal_half"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginEnd="@dimen/spacing_normal_half"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/relativeMainSettings"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/participant_profile_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="15dp"
-            android:layout_marginStart="15dp">
+            android:background="@color/color_white"
+            android:paddingTop="@dimen/spacing_normal_half"
+            android:paddingBottom="@dimen/spacing_normal_half"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".settings.SettingsActivity">
 
-            <RelativeLayout
-                android:id="@+id/relativeDevice"
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/participant_image"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:contentDescription="@string/content_description_participant_photo"
+                tools:src="@drawable/sultan_linkedin"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/participant_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:textAppearance="?textAppearanceHeadline6"
+                app:layout_constraintBottom_toTopOf="@+id/team_name"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/participant_image"
+                tools:text="Sultan Keshwani" />
+
+            <TextView
+                android:id="@+id/team_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginTop="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:layout_marginBottom="@dimen/spacing_normal"
+                app:layout_constraintBottom_toBottomOf="@+id/participant_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/participant_image"
+                app:layout_constraintTop_toTopOf="@+id/participant_image"
+                tools:text="World Walkers" />
+
+            <TextView
+                android:id="@+id/team_lead_label"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginEnd="@dimen/spacing_normal"
+                android:text="@string/team_lead_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/participant_image"
+                app:layout_constraintTop_toBottomOf="@+id/team_name" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/participant_settings_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:paddingStart="@dimen/spacing_normal"
+            android:text="@string/settings_section_personal"
+            android:textAppearance="?textAppearanceHeadline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/participant_profile_container" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/participant_settings_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/spacing_normal"
+            android:paddingTop="@dimen/spacing_normal_half"
+            android:paddingEnd="@dimen/spacing_normal"
+            android:textAppearance="@style/TextAppearance.WCF.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/participant_settings_header"
+            tools:context=".settings.SettingsActivity">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/participant_miles_setting"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
-                    android:id="@+id/textDevice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
-                    android:text="DEVICE" />
-
-                <RelativeLayout
-                    android:id="@+id/layout_device_name"
+                    android:id="@+id/participant_miles_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textDevice"
-                    android:background="@android:color/white"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:id="@+id/imageFitbit"
-                        android:layout_width="80dp"
-                        android:layout_height="80dp"
-                        android:layout_alignParentStart="true"
-                        android:src="@drawable/fitbit" />
-
-                    <TextView
-                        android:id="@+id/textDeviceName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentTop="true"
-                        android:layout_toRightOf="@+id/imageFitbit"
-                        android:paddingLeft="10dp"
-                        android:text="Fitbit Alta HR"
-                        android:textColor="@android:color/black"
-                        android:textSize="20sp" />
-
-
-                    <TextView
-                        android:id="@+id/text_device_subtitle"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_below="@+id/textDeviceName"
-                        android:layout_toRightOf="@id/imageFitbit"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:paddingLeft="10dp"
-                        android:text="Device details here (possibly product number/ID)"
-                        android:textColor="@color/grey"
-                        android:textSize="15sp" />
-
-                </RelativeLayout>
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativeAccountSettings"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeDevice"
-                android:layout_marginTop="15dp">
+                    android:text="@string/settings_participant_miles_label"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textAccountSettings"
+                    android:id="@+id/participant_miles"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:foreground="?selectableItemBackground"
+                    android:gravity="right"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/participant_miles_label"
+                    app:layout_constraintEnd_toStartOf="@+id/participant_miles_units"
+                    app:layout_constraintStart_toEndOf="@id/participant_miles_label"
+                    tools:text="500" />
+
+                <TextView
+                    android:id="@+id/participant_miles_units"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/settings_participant_miles_units_label"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintBaseline_toBaselineOf="@id/participant_miles_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@id/participant_miles" />
+
+                <TextView
+                    android:id="@+id/participant_miles_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/settings_participant_miles_message"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintEnd_toEndOf="@id/participant_miles_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/participant_miles_label" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/seperator_1_1"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                android:background="@color/color_light_grey_3"
+                app:layout_constraintTop_toBottomOf="@id/participant_miles_setting" />
+
+            <TextView
+                android:id="@+id/push_notification_enabled_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                android:text="@string/settings_participant_push_enabled_label"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seperator_1_1" />
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/push_notifications_enabled"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:checked="true"
+                app:layout_constraintBaseline_toBaselineOf="@+id/push_notification_enabled_label"
+                app:layout_constraintBottom_toBottomOf="@+id/push_notification_enabled_label"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/push_notification_enabled_label" />
+
+            <View
+                android:id="@+id/seperator_1_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                android:background="@color/color_light_grey_3"
+                app:layout_constraintTop_toBottomOf="@id/push_notification_enabled_label" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/connect_device_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seperator_1_2">
+
+                <TextView
+                    android:id="@+id/connect_app_device_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:text="ACCOUNT SETTINGS" />
+                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    android:text="@string/settings_participant_connect_app_device_label"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <RelativeLayout
-                    android:id="@+id/layout_editprof"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textAccountSettings"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/white">
-
-                    <TextView
-                        android:id="@+id/text_edit"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Edit Profile"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_edit"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-
-                <RelativeLayout
-                    android:id="@+id/layout_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_editprof"
-                    android:background="@android:color/white">
-
-                    <TextView
-                        android:id="@+id/text_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Change Email Address"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_email"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layout_notification"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/layout_email"
-                    android:background="@android:color/white">
-
-                    <TextView
-                        android:id="@+id/text_notify"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Notification and Reminders"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_notify"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-
-            </RelativeLayout>
-
-
-            <RelativeLayout
-                android:id="@+id/relativeTeams"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeAccountSettings">
-
-                <TextView
-                    android:id="@+id/textTeams"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="15dp"
-                    android:text="TEAMS" />
-
-                <RelativeLayout
-                    android:id="@+id/layout_switchteam"
+                <ImageView
+                    android:id="@+id/navigate_to_connect_app_or_device"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textTeams"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/white">
+                    android:gravity="right"
+                    android:src="@drawable/ic_chevron_right_blue"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    app:layout_constraintBottom_toBottomOf="@id/connect_app_device_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/connect_app_device_label" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <View
+                android:id="@+id/seperator_1_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                android:background="@color/color_light_grey_3"
+                app:layout_constraintTop_toBottomOf="@id/connect_device_container" />
 
 
-                    <TextView
-                        android:id="@+id/text_team"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Switch Team"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_team"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:id="@+id/relativeHelpandSupport"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/akf_create_profile_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/relativeTeams">
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/seperator_1_3">
 
                 <TextView
-                    android:id="@+id/textHelpandSupport"
-                    android:layout_width="match_parent"
+                    android:id="@+id/akf_create_profile_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="15dp"
-                    android:text="HELP AND SUPPORT" />
+                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    android:text="@string/settings_participant_akf_create_profile_label"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-                <RelativeLayout
-                    android:id="@+id/layout_faq"
-                    android:layout_width="match_parent"
+                <ImageView
+                    android:id="@+id/navigate_to_akf_create_profile_label"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/textHelpandSupport"
-                    android:layout_marginTop="5dp"
-                    android:background="@android:color/white">
+                    android:gravity="right"
+                    android:src="@drawable/ic_chevron_right_blue"
+                    android:textAppearance="?attr/textAppearanceHeadline6"
+                    app:layout_constraintBottom_toBottomOf="@id/akf_create_profile_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/akf_create_profile_label" />
 
-                    <TextView
-                        android:id="@+id/text_faq"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="FAQs"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_faq"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/layout_support"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/layout_faq"
-                    android:background="@android:color/white">
-
-                    <TextView
-                        android:id="@+id/text_contact"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:drawableRight="@drawable/right_arrow"
-                        android:gravity="left|center_vertical"
-                        android:padding="10dp"
-                        android:text="Contact Us"
-                        android:textColor="@android:color/black"
-                        android:textSize="18sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_below="@id/text_contact"
-                        android:background="@android:color/black" />
-                </RelativeLayout>
-
-            </RelativeLayout>
-
-            <Button
-                android:id="@+id/btnLogout"
+            <View
+                android:id="@+id/seperator_1_4"
                 android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:layout_below="@+id/relativeHelpandSupport"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="30dp"
-                android:background="@color/grey"
-                android:text="Log Out"
-                android:textColor="@android:color/white" />
-        </RelativeLayout>
-    </ScrollView>
-</RelativeLayout>
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                android:background="@color/color_light_grey_3"
+                app:layout_constraintTop_toBottomOf="@id/akf_create_profile_container" />
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/team_settings_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:paddingStart="@dimen/spacing_normal"
+            android:text="@string/settings_section_team"
+            android:textAppearance="?textAppearanceHeadline6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/participant_settings_container" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/team_settings_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:background="@color/color_white"
+            android:paddingStart="@dimen/spacing_normal"
+            android:paddingTop="@dimen/spacing_normal_half"
+            android:paddingEnd="@dimen/spacing_normal"
+            android:textAppearance="@style/TextAppearance.WCF.Body1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/team_settings_header"
+            tools:context=".settings.SettingsActivity">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/view_team_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/view_team_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="View Team"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/team_view_team_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:src="@drawable/ic_chevron_right_blue"
+                    app:layout_constraintBottom_toBottomOf="@id/view_team_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/view_team_label" />
+
+                <View
+                    android:id="@+id/seperator_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_normal_half"
+                    android:background="@color/color_light_grey_3"
+                    app:layout_constraintTop_toBottomOf="@id/team_view_team_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/team_visibilty_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal_half"
+                android:layout_marginBottom="@dimen/spacing_normal_half"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/view_team_container">
+
+                <TextView
+                    android:id="@+id/team_visibilty_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="left"
+                    android:text="Team visibility"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/team_visibility_public_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/spacing_normal_half"
+                    android:text="Public"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintBaseline_toBaselineOf="@id/team_visibilty_label"
+                    app:layout_constraintBottom_toBottomOf="@id/team_visibilty_label"
+                    app:layout_constraintEnd_toStartOf="@id/team_public_visibility_enabled"
+                    app:layout_constraintTop_toTopOf="@id/team_visibilty_label" />
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/team_public_visibility_enabled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:checked="true"
+                    app:layout_constraintBaseline_toBaselineOf="@id/team_visibilty_label"
+                    app:layout_constraintBottom_toBottomOf="@id/team_visibilty_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/team_visibilty_label" />
+
+                <TextView
+                    android:id="@+id/team_visibility_message"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/spacing_normal_half"
+                    android:text="@string/settings_team_public_visibility_on_message"
+                    android:textAppearance="?attr/textAppearanceCaption"
+                    app:layout_constraintEnd_toStartOf="@id/team_visibility_public_label"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/team_visibilty_label" />
+
+                <View
+                    android:id="@+id/seperator_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_light_grey_3"
+                    app:layout_constraintTop_toBottomOf="@id/team_visibility_message" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/leave_team_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_normal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/team_visibilty_container">
+
+                <TextView
+                    android:id="@+id/leave_team_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/spacing_normal_half"
+                    android:text="Leave Team"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/leave_team_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:src="@drawable/ic_chevron_right_blue"
+                    app:layout_constraintBottom_toBottomOf="@id/leave_team_label"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/leave_team_label" />
+
+                <View
+                    android:id="@+id/seperator_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/spacing_normal"
+                    android:background="@color/color_light_grey_3"
+                    app:layout_constraintTop_toBottomOf="@id/leave_team_icon" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <Button
+            android:id="@+id/btn_signout"
+            style="@style/Widget.WCF.Button.Primary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:gravity="center"
+            android:text="@string/signout"
+            android:textAppearance="?attr/textAppearanceButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/team_settings_container" />
+
+        <TextView
+            android:id="@+id/delete_account"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:enabled="false"
+            android:text="Delete Account"
+            android:textColor="@color/color_blue"
+            android:textSize="19sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_signout"
+            app:layout_constraintBottom_toTopOf="@+id/app_version" />
+
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_normal_half"
+            android:textAppearance="@style/TextAppearance.WCF.Body2.Dim"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:text="v0.1.0"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.core.widget.NestedScrollView>

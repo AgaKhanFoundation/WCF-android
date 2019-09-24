@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="onboard_tutorial_step_images">
+        <item>@drawable/onboard_join_team</item>
+        <item>@drawable/onboard_challenge_milestone</item>
+        <item>@drawable/onboard_dashboard</item>
+    </integer-array>
+
+    <integer name="step_tag_key">1</integer>
+
+</resources>

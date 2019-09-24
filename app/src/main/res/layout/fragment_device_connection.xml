@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_white"
+    android:orientation="vertical">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/connection_fitness_app_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/btn_connect_to_fitness_app"
+            style="@style/Widget.WCF.Button.Primary"
+            android:layout_width="@dimen/button_width_medium"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@string/settings_fitness_app_connect_label"
+            android:textAppearance="?textAppearanceButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/rb_connect_to_fitness_app"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <RadioButton
+            android:id="@+id/rb_connect_to_fitness_app"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:textAppearance="?textAppearanceSubtitle2"
+            android:text="@string/settings_connect_label_fitness_app"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_fitness_app_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:text="@string/settings_fitness_app_connect_message"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toStartOf="@+id/btn_connect_to_fitness_app"
+            app:layout_constraintStart_toStartOf="@id/rb_connect_to_fitness_app"
+            app:layout_constraintTop_toBottomOf="@+id/rb_connect_to_fitness_app" />
+
+        <View
+            android:id="@+id/seperator_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@color/color_light_grey_3"
+            app:layout_constraintTop_toBottomOf="@id/tv_fitness_app_message" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/connection_fitness_device_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@id/connection_fitness_app_container">
+
+        <Button
+            android:id="@+id/btn_connect_to_fitness_device"
+            style="@style/Widget.WCF.Button.Primary"
+            android:layout_width="@dimen/button_width_medium"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:text="@string/settings_fitness_device_connect_label"
+            android:textAppearance="?textAppearanceButton"
+            app:layout_constraintTop_toTopOf="@+id/rb_connect_to_fitness_device"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent" />
+
+        <RadioButton
+            android:id="@+id/rb_connect_to_fitness_device"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:text="@string/settings_connect_label_fitness_device"
+            android:textAppearance="?textAppearanceSubtitle2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_fitness_device_info"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="0dp"
+            android:text="@string/settings_fitness_device_connect_message"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:maxLines="4"
+            app:layout_constraintEnd_toStartOf="@+id/btn_connect_to_fitness_device"
+            app:layout_constraintStart_toStartOf="@id/rb_connect_to_fitness_device"
+            app:layout_constraintTop_toBottomOf="@+id/rb_connect_to_fitness_device" />
+
+        <TextView
+            android:id="@+id/tv_fitness_device_user"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginTop="0dp"
+            android:text="@string/settings_fitness_device_connect_message"
+            android:textAppearance="?attr/textAppearanceCaption"
+            app:layout_constraintEnd_toStartOf="@+id/btn_connect_to_fitness_device"
+            app:layout_constraintStart_toStartOf="@id/rb_connect_to_fitness_device"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fitness_device_info" />
+
+        <View
+            android:id="@+id/seperator_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="@dimen/spacing_normal"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@color/color_light_grey_3"
+            app:layout_constraintTop_toBottomOf="@id/tv_fitness_device_user" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/iv_device_message_expand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:src="@drawable/ic_chevron_down_blue"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/connection_fitness_device_container"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginEnd="@dimen/spacing_normal" />
+
+    <TextView
+        android:id="@+id/other_device_message_short"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        app:layout_constraintTop_toTopOf="@id/iv_device_message_expand"
+        android:text="Can't see your device on the list?"
+        android:lineSpacingMultiplier="@dimen/body_line_spacing_3"
+        android:textColor="@color/color_light_grey_7"
+        android:textSize="12sp"/>
+
+    <TextView
+        android:id="@+id/other_device_message_long"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        app:layout_constraintTop_toBottomOf="@id/other_device_message_short"
+        android:text="Fitness trackers such as Jawbone, Garmin, etc. connect to your phone’s fitness app. Use the Fitness app feature above to track your steps. "
+        android:lineSpacingMultiplier="@dimen/body_line_spacing_3"
+        android:visibility="gone"
+        android:textAppearance="?attr/textAppearanceCaption"
+        android:textColor="@color/color_light_grey_7"
+        android:textSize="12sp"/>
+
+    <View
+        android:id="@+id/seperator_3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:layout_constraintTop_toBottomOf="@id/other_device_message_long"
+        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginEnd="@dimen/spacing_normal"
+        android:background="@color/color_light_grey_3" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

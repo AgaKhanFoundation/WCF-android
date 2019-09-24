@@ -1,27 +1,175 @@
 <resources>
-    <string name="app_name">WCF</string>
-    <string name="tabLeaderboard">LeaderBoard</string>
-    <string name="tabMyProfile">My Profile</string>
-    <string name="tabMyTeam">My Team</string>
-    <string name="back">Back</string>
-    <string name="alert">Alert</string>
-    <string name="exitMessage">Are you sure you want to exit?</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="leaderboard">Leaderboard</string>
-    <string name="currentsupporters">Current Supporters</string>
-    <string name="pastevents">Past Events</string>
-    <string name="myprofileheadertext">AKF Walk Challenge</string>
-    <string name="supporters">Supporters and Sponsers</string>
-    <string name="corporatesponsors">Corporate Sponsors</string>
-    <string name="thankscorporatesponsors">Thanks to the following corporate sponsors, you\'ve raised an additional $22.50!</string>
-    <string name="settings">Settings</string>
-    <string-array name="sorting">
-        <item>This Week</item>
-        <item>This Month</item>
-        <item>This Event</item>
-        <item>Overall</item>
+    <string name="app_name">Steps4Impact</string>
+    <string name="app_name_title">Steps 4 Impact</string>
+
+    <!-- 952254615120365 created under sultan.keshwani@gmail.com -->
+    <string name="fb_login_protocol_scheme">fb952254615120365</string>
+    <string name="facebook_app_id">952254615120365</string>
+
+    <string name="facebook_Steps4Impact_group_id">466564417434674</string>
+
+    <string name="nav_dashboard">Dashboard</string>
+    <string name="nav_challenge">Challenge</string>
+    <string name="nav_leaderboard">Leaderboard</string>
+
+    <string name="leaderboard_empty_message">Check back for global team rankings</string>
+    <string name="gold_medal_label">Gold</string>
+    <string name="silver_medal_label">Silver</string>
+    <string name="bronze_medal_label">Bronze</string>
+    <string-array name="leaderboard_sort_types">
+        <item>Miles</item>
+        <item>Money Raised</item>
+        <item>Alphabetic(A-Z)</item>
+        <item>Alphabetic(Z-A)</item>
     </string-array>
-    <string name="fb_login_protocol_scheme">fb[1963876463835347]</string>
-    <string name="facebook_app_id">1963876463835347</string>
+
+    <string name="nav_notifications">Notifications</string>
+
+    <string name="akf_profileview_title">AKF Profile</string>
+
+    <string name="team_card_join_create_team_mesage">Participating in a challenge is always more fun with friends! </string>
+    <string name="team_card_show_teams_to_join_button_text">Join an Existing Team</string>
+    <string name="team_card_create_team_button_text">Create a New Team</string>
+    <string name="team_card_join_team_button_text">Join Team</string>
+    <string name="team_card_cancel_button_text">Cancel</string>
+    <string name="onboard_welcome_headline">Welcome to</string>
+    <string name="onboard_welcome_byline">Thanks for registering!</string>
+    <string name="onboard_welcome_start">Tap continue for a quick tour of the app.</string>
+    <string name="button_continue_label">Continue</string>
+    <string name="onboard_welcome_skip">Skip</string>
+
+    <string-array name="onboard_tutorial_step_title">
+        <item>Create a team or join an existing team</item>
+        <item>Complete a challenge while reaching milestones</item>
+        <item>Track your progress using the dashboard </item>
+    </string-array>
+
+    <string-array name="onboard_tutorial_step_button_title">
+        <item>Continue</item>
+        <item>Continue</item>
+        <item>Lets Begin!</item>
+    </string-array>
+
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+
+    <!--Settings -->
+    <string name="settings_title">Settings</string>
+    <string name="settings_participant_miles_label">Personal mile commitment</string>
+    <string name="settings_participant_miles_units_label">miles</string>
+    <string name="settings_participant_miles_message">Mile commitment cannot be changed once the challenge has started.</string>
+    <string name="settings_participant_push_enabled_label">Push notifications</string>
+    <string name="settings_participant_connect_app_device_label">Connected app or device</string>
+    <string name="settings_section_personal">Personal</string>
+    <string name="settings_section_team">Team</string>
+    <string name="settings_team_public_visibility_on_message">Your team is discoverable. Any participant can find and join your team.</string>
+    <string name="settings_team_public_visibility_off_message">Your team is invite-only. Turn on team visibility to allow anyone to find and join your team.</string>
+    <string name="settings_participant_akf_create_profile_label">Create Aga Khan Foundation Profile</string>
+
+    <!--device connection -->
+    <string name="settings_connect_device_title">Connected Apps &amp; Devices</string>
+
+    <string name="settings_connect_label_fitness_app">Fitness App</string>
+    <string name="settings_fitness_app_connect_label">Connect</string>
+    <string name="settings_fitness_app_disconnect_label">Disconnect</string>
+    <string name="settings_fitness_app_connect_message">Connect a fitness app to track your daily steps.</string>
+
+    <string name="settings_connect_label_fitness_device">Fitbit</string>
+    <string name="settings_fitness_device_connect_label">Connect</string>
+    <string name="settings_fitness_device_disconnect_label">Disconnect</string>
+    <string name="settings_fitness_device_connect_message">Connect your Fitbit to sync your daily steps.</string>
+    <string name="settings_team_membership_title">Team</string>
+
+    <string name="content_description_team_photo">Team photo</string>
+
+    <!-- image content description -->
+    <string name="content_description_participant_photo">Participant photo</string>
+    <string name="signout">Logout</string>
+
+    <!--Error messaging -->
+    <string name="data_error">Data retrieval error</string>
+    <string name="events_list_retrieval_error">Could not retrieve events data. Please check network and try again later</string>
+    <string name="events_list_not_setup_error">Server data has not been setup yet. Please try again later</string>
+    <string name="events_not_selected_error">Event not selected. Please try again later</string>
+
+    <string name="teams_manager_error">Teams Manager Error</string>
+    <string name="participants_manager_error">Participants Manager Error</string>
+    <string name="participant_team_join_error">Unable to assign to team</string>
+    <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
+    <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
+    <string name="connecting_to_fitness_device">Connecting the app to your Fitbit Account</string>
+    <string name="connect_device_or_app_message">No activity yet. You will need to connect a fitness tracker to track your miles.</string>
+    <string name="connect_device_app_button_text">Connect an App or a Device</string>
+    <string name="dashboard_activity_card_label">Activity</string>
+    <string name="challenge_progress_view_label">Challenge Progress</string>
+    <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
+
+    <string name="dashboard_distance_goal_template">/%1$s mi</string>
+
+    <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
+    <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
+
+    <string name="fundraising_invite_label">Invite supporters to pledge</string>
+    <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
+    <string name="invite_supporters_message">Get sponsored by your friends. When your friends sign up to support you, you will raise money for every mile you move. Proceeds will be donated to AKF.</string>
+    <string name="invite_supporter_template">Want to join me in supporting a good cause? I am participating in Aga Khan Foundation (AKF)\'s Steps4Impact challenge. You can support me by pledging at http://www.akfusa.org/steps4impactpledge\nAll proceeds will be donated to AKF.  Learn about AKF https://www.akfusa.org/ Thank you for your support.</string>
+    <string name="invite_supporters_to_pledge_label">Invite Supporters to Pledge</string>
+    <string name="supporters_invite_title">Invite Supporters</string>
+
+    <string name="leave_team_title">Leave Team?</string>
+    <string name="leave_team_message">This will remove all your data linked to the team. You will not be able to participate in the challenge.</string>
+    <string name="cancel_leave_team_button_text">Cancel</string>
+    <string name="leave_team_button">Leave</string>
+    <string name="team_lead_label">Team Lead</string>
+    <string name="team_member_label">Team Member</string>
+
+    <string name="create_team_title">Create Team</string>
+    <string name="team_name_hint_text">Name your team (required)</string>
+    <string name="create_team_button_text">Create Team</string>
+    <string name="team_name_constraint_hint">Minimum length 6 characters</string>
+    <string name="duplicate_team_name_error">Team name is taken. Select a different team name.</string>
+    <string name="cancel_team_creation_title">Cancel Team Setup?</string>
+    <string name="cancel_team_creation_message">If you choose to cancel setup, your team will be deleted and any changes you made will not be saved.</string>
+    <string name="create_team_continue_button_text">No, keep editing</string>
+    <string name="create_team_dont_continue_button_text">Yes, cancel setup</string>
+    <string name="join_team_title">Join Team</string>
+    <string name="team_created_message">Your team has been created!</string>
+    <string name="team_created_invite_members_message">Next, invite friends to join. You have %1$d spots remaining on your team.</string>
+    <string name="invite_members_to_join_label">Invite friends to join</string>
+    <string name="team_created_continue_message">Continue</string>
+    <string name="invite_team_member_template">"Hey! I have created a team named '%1$s' for the '%2$s' Challenge on the new Aga Khan Foundation app, Steps4Impact, and I want you on my team!\n"
+                "Download the app here:\n"
+        "iPhone:  http://rebrand.ly/steps4impact-iphone\n"
+        "Android: http://rebrand.ly/steps4impact-android</string>
+    <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
+    <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$s remaining. Invite more friends to join!</string>
+    <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
+    <string name="participant_committed_miles_label">Your committed miles</string>
+    <string name="team_committed_miles_label">Team\'s committed miles</string>
+    <string name="remaining_goal_miles_label">Uncommitted miles</string>
+
+    <string name="team_miles_commitment_status_template">%1$d/%2$d miles committed</string>
+    <string name="team_spots_message_template">%1$d of %2$d spots available</string>
+    <string name="no_spots_available_message">No spots available</string>
+    <string name="challenge_team_progress_label">Team Progress</string>
+    <string name="challenge_team_total_distance_walked_label">Total walked</string>
+    <string name="challenge_team_total_fund_raised_label">Total funds raised</string>
+    <string name="challenge_team_member_rankings_label">Team member rankings</string>
+
+    <string name="team_detail_distance_goal_template">/%1$d miles</string>
+    <string name="remove_team_member_label">Remove</string>
+    <string name="team_membership_container_label">Team Members</string>
+    <string name="cancel_remove_team_member_button_text">Cancel</string>
+    <string name="remove_team_member_button">Remove</string>
+    <string name="remove_team_member_title">Remove %1$s?</string>
+    <string name="remove_team_member_message">%1$s will be permanently removed from your team</string>
+    <string name="tracked_info_tab_daily_label">Daily</string>
+    <string name="tracked_info_tab_weekly_label">Weekly</string>
+    <string name="dashboard_badges_label">View Badges</string>
+
+    <string name="applink_ios">http://rebrand.ly/steps4impact-iphone</string>
+    <string name="applink_android">http://rebrand.ly/steps4impact-android</string>
+    <string name="terms_url">https://www.akfusa.org/website-private-policy/</string>
+    <string name="term_title">Terms and Conditions</string>
+
 </resources>

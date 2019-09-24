@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@android:id/background"
+        android:drawable="@android:color/transparent" />
+
+    <item android:id="@android:id/progress">
+        <scale
+            android:scaleWidth="0%"
+            android:scaleHeight="100%"
+            android:scaleGravity="bottom">
+            <shape>
+                <solid android:color="@color/color_progress_primary" />
+                <corners
+                    android:topLeftRadius="@dimen/progressbar_radius"
+                    android:topRightRadius="@dimen/progressbar_radius" />
+            </shape>
+        </scale>
+    </item>
+</layer-list>
