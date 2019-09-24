@@ -291,13 +291,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/challenge_progress_view_label" />
 
-                <View
-                    android:id="@+id/seperator_3"
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
-                    android:background="@color/color_light_grey_3"
-                    app:layout_constraintTop_toBottomOf="@id/challenge_progess_view_before_start_message" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/challenge_team_invite_container"
@@ -305,7 +298,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal_half"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/seperator_3">
+                    app:layout_constraintTop_toBottomOf="@id/challenge_progess_view_before_start_message">
+
+                    <View
+                        android:id="@+id/seperator_3"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:background="@color/color_light_grey_3"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/team_invite_label"
@@ -316,7 +316,7 @@
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         android:textColor="@color/color_blue"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="@id/seperator_3" />
 
                     <ImageView
                         android:id="@+id/team_invite_chevron"

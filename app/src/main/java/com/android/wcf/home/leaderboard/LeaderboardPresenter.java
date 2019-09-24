@@ -3,6 +3,7 @@ package com.android.wcf.home.leaderboard;
 import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Constants;
+import com.android.wcf.model.Event;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -33,6 +34,27 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     }
 
     @Override
+    public void getLeaderboard(Event event, int myTeamId) {
+        setChallengeStarted(event.hasChallengeStarted());
+        if (!challengeStarted) {
+            leaderboardView.showLeaderboardIsEmpty();
+            return;
+        }
+        setMyTeamId(myTeamId);
+        super.getLeaderboard();
+    }
+
+    @Override
+    public void refreshLeaderboard(Event event) {
+        setChallengeStarted(event.hasChallengeStarted());
+        if (!challengeStarted) {
+            leaderboardView.showLeaderboardIsEmpty();
+            return;
+        }
+        super.getLeaderboard();
+    }
+
+    @Override
     public void setMyTeamId(int myTeamId) {
         this.myTeamId = myTeamId;
     }
@@ -40,7 +62,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     @Override
     public void setChallengeStarted(boolean challengeStarted) {
         this.challengeStarted = challengeStarted;
-        this.challengeStarted = true;
+        //this.challengeStarted = true; //enable for testing
     }
 
     @Override
