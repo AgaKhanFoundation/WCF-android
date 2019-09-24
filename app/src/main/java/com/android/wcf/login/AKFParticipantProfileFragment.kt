@@ -44,7 +44,7 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         var handled = super.onOptionsItemSelected(item)
         if (!handled) {
-            when (item!!.itemId) {
+            when (item.itemId) {
                 android.R.id.home -> {
                     closeView()
                     handled = true

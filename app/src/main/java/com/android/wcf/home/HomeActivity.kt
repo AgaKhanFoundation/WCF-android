@@ -160,7 +160,6 @@ class HomeActivity : BaseActivity()
     }
 
     private fun loadFragment(fragment: Fragment?, navItemId: Int) {
-        val fm = supportFragmentManager
         // Pop off everything up to and including the current tab
         val fragmentManager = supportFragmentManager
         fragmentManager.popBackStack(BACK_STACK_ROOT_TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE)

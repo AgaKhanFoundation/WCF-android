@@ -8,6 +8,7 @@ import com.android.wcf.model.Event;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class LeaderboardPresenter extends BasePresenter implements LeaderboardMvp.Presenter {
     private static final String TAG = LeaderboardPresenter.class.getSimpleName();
@@ -15,7 +16,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     LeaderboardMvp.LeaderboardView leaderboardView;
     private List<LeaderboardTeam> leaderboard;
     private int myTeamId = 0;
-    boolean challengeStarted = true;
+    boolean challengeStarted = false;
 
     private LeaderboardTeam teamGold;
     private LeaderboardTeam teamSilver;
@@ -62,7 +63,8 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     @Override
     public void setChallengeStarted(boolean challengeStarted) {
         this.challengeStarted = challengeStarted;
-        //this.challengeStarted = true; //enable for testing
+        int rand = new Random().nextInt(2);
+        //this.challengeStarted = (rand == 0 ? false : true); //enable for testing
     }
 
     @Override

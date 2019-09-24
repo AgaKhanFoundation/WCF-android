@@ -14,7 +14,7 @@ data class Team(
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
 
     fun getLeaderName():String? {
-        this.participants?.let {
+        this.participants.let {
             if (it.size > 0) {
                 return it.get(0).name
             }
@@ -24,7 +24,7 @@ data class Team(
 
     //TODO: refactor to use the attribute leaderId (creator_id) instead of participants[0]
     fun getLeaderParticipantId():String? {
-        this.participants?.let {
+        this.participants.let {
             if (it.size > 0) {
                 return it.get(0).participantId
             }

@@ -22,7 +22,7 @@ class GoogleFitHelper {
         const val GOOGLE_FIT_SHARED_PREF_NAME = "GoogleFit"
         const val GOOGLE_FIT_APP_INFO = "googlefit_app_info"
 
-        fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback) {
+        fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {
 
             val readRequest = DataReadRequest.Builder()
                     .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
@@ -77,7 +77,7 @@ class GoogleFitHelper {
     }
 }
 //
-//        fun getSteps2(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback) {
+//        fun getSteps2(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {
 //
 //            GoogleSignIn.getLastSignedInAccount(context)?.let {googleAccount ->
 //

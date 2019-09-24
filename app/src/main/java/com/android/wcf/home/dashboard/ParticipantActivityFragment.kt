@@ -21,7 +21,7 @@ import kotlin.math.roundToInt
 class ParticipantActivityFragment : BaseFragment() {
 
     companion object {
-        val TAG = ParticipantActivityFragment.javaClass.simpleName
+        val TAG = ParticipantActivityFragment::class.java.simpleName
         val ACTIVITY_TYPE_ARG = "activity_type"
 
         val ACTIVITY_TYPE_DAILY = 0

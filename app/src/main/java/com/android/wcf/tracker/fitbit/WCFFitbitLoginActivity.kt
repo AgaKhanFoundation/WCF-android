@@ -80,6 +80,9 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
                 val missingScopesText = TextUtils.join(", ", missingScopes)
                 message = getString(R.string.missing_scopes_error) + missingScopesText
             }
+            else -> {
+                Log.i(TAG, "unknown authenticationResult.status=$authenticationResult.status")
+            }
         }
 
         AlertDialog.Builder(this)

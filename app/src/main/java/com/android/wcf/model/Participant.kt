@@ -15,9 +15,9 @@ import java.util.ArrayList
 data class Participant(
         @SerializedName("id") var id: Int = 0,
         @SerializedName("fbid") var fbId: String? = "",
-        @SerializedName("team_id") var teamId: Integer? = null,
-        @SerializedName("event_id") var eventId: Integer? = null,
-        @SerializedName("cause_id") var causeId: Integer? = null,
+        @SerializedName("team_id") var teamId: Int? = null,
+        @SerializedName("event_id") var eventId: Int? = null,
+        @SerializedName("cause_id") var causeId: Int? = null,
         @SerializedName("source_id") var sourceId: Int = 0,
         @SerializedName("team") var team: Team? = Team(),
         @SerializedName("cause") var cause: Cause? = Cause(),
