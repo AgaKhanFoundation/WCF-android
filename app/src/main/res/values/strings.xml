@@ -148,7 +148,7 @@
     <string name="team_created_invite_members_message">Next, invite friends to join. You have %1$d spots remaining on your team.</string>
     <string name="invite_members_to_join_label">Invite friends to join</string>
     <string name="team_created_continue_message">Continue</string>
-    <string name="invite_team_member_template">Hey! I have created a team named \'%1$s\' for the \'%2$s\' Challenge on the new Aga Khan Foundation \(AKF\) app, Steps4Impact, and I want you on my team!\n
+    <string name="invite_team_member_template">Hey! I have created a team named \'%1$s\' for the \'%2$s\' on the new Aga Khan Foundation \(AKF\) app, Steps4Impact, and I want you on my team!\n
                 Download the app here:\n
         iPhone:  http://rebrand.ly/steps4impact-iphone\n
         Android: http://rebrand.ly/steps4impact-android</string>

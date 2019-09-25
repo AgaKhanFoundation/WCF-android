@@ -24,10 +24,6 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
        participantLeaveFromTeam(participantId);
     }
 
-    @Override
-    public void updateTeamPublicVisibility(boolean isChecked) {
-
-    }
 
     public SettingsPresenter(SettingsMvp.View settingsView) {
         this.settingsView = settingsView;

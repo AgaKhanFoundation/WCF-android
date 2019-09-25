@@ -26,6 +26,8 @@ public interface JoinTeamAdapterMvp {
         Team getSelectedTeam();
 
         void teamRowSelected(int pos);
+
+        boolean isTeamSelectable(int pos);
     }
 
     public interface Host {

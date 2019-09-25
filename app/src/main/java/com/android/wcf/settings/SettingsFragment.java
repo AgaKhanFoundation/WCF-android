@@ -62,7 +62,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     else {
                         teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_off_message));
                     }
-                    settingsPresenter.updateTeamPublicVisibility(isChecked);
+                    settingsPresenter.updateTeamPublicVisibility(team.getId(), isChecked);
                     break;
             }
         }
@@ -350,7 +350,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     public void teamPublicVisibilityUpdateError(Throwable error) {
         View teamVisibilityContainer = teamSettingsContainer.findViewById(R.id.team_visibilty_container);
         SwitchCompat teamVisibiltySwitch = teamVisibilityContainer.findViewById(R.id.team_public_visibility_enabled);
+        teamVisibiltySwitch.setOnCheckedChangeListener(null);
         teamVisibiltySwitch.setChecked(!teamVisibiltySwitch.isChecked());
+        teamVisibiltySwitch.setOnCheckedChangeListener(onCheckedChangeListener);
     }
 
     void setupLeaveTeamClickListeners() {

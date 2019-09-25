@@ -276,7 +276,6 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onSuccess(Integer integer) {
-
                         onTeamPublicVisibilityUpdateSuccess();
                     }
 

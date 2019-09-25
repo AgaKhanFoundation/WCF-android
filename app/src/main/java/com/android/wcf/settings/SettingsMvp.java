@@ -20,7 +20,7 @@ public interface SettingsMvp {
 
         void removeFromTeam(String participantId);
 
-        void updateTeamPublicVisibility(boolean isChecked);
+        void updateTeamPublicVisibility(int teamId, boolean isChecked);
     }
 
     interface Host extends BaseMvp.Host {

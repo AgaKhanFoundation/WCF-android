@@ -1,5 +1,6 @@
 package com.android.wcf.home.challenge;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,7 +40,7 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
 
     @Override
     public Team getSelectedTeam() {
-      return teamsAdapterPresenter.getSelectedTeam();
+        return teamsAdapterPresenter.getSelectedTeam();
     }
 
     @Override
@@ -64,31 +65,44 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
         if (teamLeadName != null && !teamLeadName.isEmpty()) {
             teamViewHolder.teamLeadName.setText(team.getLeaderName());
             teamViewHolder.teamLeadName.setVisibility(View.VISIBLE);
-        }
-        else {
+        } else {
             teamViewHolder.teamLeadName.setVisibility(View.GONE);
         }
 
-        int participants = team.getParticipants() != null ? team.getParticipants().size() : 0;
+        int participantsCount = team.getParticipants() != null ? team.getParticipants().size() : 0;
 
-        Resources res = teamViewHolder.itemView.getContext().getResources();
+        Context context = teamViewHolder.itemView.getContext();
+        Resources res = context.getResources();
         String spotsMessage = "";
-        if (participants < teamSizeLimit) {
-            spotsMessage = res.getString(R.string.team_spots_message_template, teamSizeLimit - participants, teamSizeLimit);
-        }
-        else {
+
+        int spotAvailable = teamSizeLimit - participantsCount;
+        if (spotAvailable > 0) {
+            spotsMessage = res.getString(R.string.team_spots_message_template, teamSizeLimit - participantsCount, teamSizeLimit);
+        } else {
             spotsMessage = res.getString(R.string.no_spots_available_message);
         }
-        teamViewHolder.teamSpotsMessage.setText(spotsMessage);
-        teamViewHolder.rbTeamSelected.setChecked(teamsAdapterPresenter.getSelectedTeamPosition() == pos);
-        teamViewHolder.itemView.setSelected(teamsAdapterPresenter.getSelectedTeamPosition() == pos);
 
-        View.OnClickListener onClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                teamsAdapterPresenter.onTeamSelected(pos);
-            }
-        };
+        teamViewHolder.teamSpotsMessage.setText(spotsMessage);
+        boolean rowSelected = (teamsAdapterPresenter.getSelectedTeamPosition() == pos);
+        teamViewHolder.rbTeamSelected.setChecked(rowSelected);
+        teamViewHolder.itemView.setSelected(rowSelected);
+        boolean teamSelectable = teamsAdapterPresenter.isTeamSelectable(pos);
+        boolean rowSelectable = teamSelectable && spotAvailable > 0;
+
+        teamViewHolder.rbTeamSelected.setEnabled(rowSelectable);
+        View.OnClickListener onClickListener = null;
+        if (rowSelectable) {
+
+            onClickListener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    teamsAdapterPresenter.onTeamSelected(pos);
+                }
+            };
+        }
+
+        teamViewHolder.teamName.setEnabled(rowSelectable);
+        teamViewHolder.teamSpotsMessage.setEnabled(rowSelectable);
 
         teamViewHolder.itemView.setOnClickListener(onClickListener);
         teamViewHolder.rbTeamSelected.setOnClickListener(onClickListener);

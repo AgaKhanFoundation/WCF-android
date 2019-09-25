@@ -36,7 +36,7 @@
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/min_button_height"
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/spacing_big"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,8 +47,9 @@
     <TextView
         android:id="@+id/term_conditions"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Terms and Conditions"
+        android:layout_height="@dimen/min_button_height"
+        android:gravity="center"
+        android:text="Terms and conditions apply"
         android:layout_marginBottom="@dimen/spacing_large"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
