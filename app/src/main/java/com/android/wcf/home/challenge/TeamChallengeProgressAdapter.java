@@ -73,7 +73,7 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
             holder.participantName.setTextColor(res.getColor(android.R.color.tab_indicator_text));
         }
 
-        holder.participantDistanceCommitment.setText(participant.getCommitmentMiles() + " mi");
+        holder.participantDistanceCommitment.setText(participant.getCommitmentDistance() + " mi");
         holder.participantFundsCommitted.setText("$" + decimalFormatter.format(participant.getFundsCommitted()));
 
         if (challengeStarted) {

@@ -21,6 +21,7 @@ import com.android.wcf.home.leaderboard.LeaderboardMvp
 import com.android.wcf.home.notifications.NotificationsFragment
 import com.android.wcf.home.notifications.NotificationsMvp
 import com.android.wcf.login.LoginActivity
+import com.android.wcf.model.Constants
 import com.android.wcf.model.Participant
 import com.android.wcf.settings.SettingsActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -36,7 +37,6 @@ class HomeActivity : BaseActivity()
         , LeaderboardMvp.Host
         , NotificationsMvp.Host {
 
-    private val SPLASH_TIMER = 3000
 
     private var homePresenter: HomePresenter? = null
     private var dashboardFragment: DashboardFragment? = null
@@ -191,13 +191,17 @@ class HomeActivity : BaseActivity()
 
     override fun showErrorAndCloseApp(@StringRes messageId: Int) {
         showError(messageId)
-        Handler().postDelayed({ finish() }, SPLASH_TIMER.toLong())
+        Handler().postDelayed({ finish() }, Constants.SPLASH_TIMER.toLong())
     }
 
     override fun onGetParticipant(participant: Participant?) {
         if (participant == null) {
             return
         }
+        if (participant.eventId != null) {
+            setEvent(participant.event)
+        }
+
         val participantTeamId = participant.teamId
         if (participantTeamId == null && myTeamId > 0) {
             myTeamId = 0

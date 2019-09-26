@@ -1,5 +1,6 @@
 package com.android.wcf.model
 
+import com.android.wcf.helper.DistanceConverter
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
 import java.util.*
@@ -88,13 +89,12 @@ data class Event(
     }
 
     fun getDefaultParticipantCommitment(): Int {
-
         val days = getDaysInChallenge()
         if (days > 0) {
-            return (days * Constants.PARTICIPANT_COMMITMENT_MILES_PER_DAY)
+            return (days * Constants.PARTICIPANT_COMMITMENT_STEPS_PER_DAY_DEFAULT)
         }
 
-        return Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT
+        return Constants.PARTICIPANT_COMMITMENT_STEPS_PER_DAY_DEFAULT
     }
 
     fun getWeeksInChallenge():Int {
@@ -113,11 +113,11 @@ data class Event(
     }
 
     fun getTeamDistanceGoal():Int {
-        return teamLimit * getDefaultParticipantCommitment()
+        return DistanceConverter.distance(getTeamStepsGoal()).toInt();
     }
 
     fun getTeamStepsGoal():Int {
-        return teamLimit * getDefaultParticipantCommitment() * Constants.STEPS_IN_A_MILE
+        return teamLimit * getDefaultParticipantCommitment()
     }
 
     fun calculateTime(timeIn: Long?): String {

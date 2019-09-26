@@ -305,7 +305,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:textAppearance="?textAppearanceSubtitle2"
-                        android:text="5000"
+                        tools:text="5,000"
                         app:layout_constraintStart_toEndOf="@id/participant_committed_miles_label"
                         app:layout_constraintEnd_toStartOf="@id/participant_committed_miles_edit"
                         android:layout_marginStart="@dimen/spacing_normal_half"

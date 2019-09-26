@@ -525,9 +525,9 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         double teamAmountPledged = 0.0, teamAmountAccrued = 0.0;
 
         for (Participant participant : team.getParticipants()) {
-            double participantDistancePledged = participant.getCommitmentMiles();
+            double participantDistancePledged = participant.getCommitmentDistance();
             if (participantDistancePledged == 0) {
-                participantDistancePledged = Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT;
+                participantDistancePledged = Constants.PARTICIPANT_COMMITMENT_STEPS_DEFAULT;
             }
             int participantCompletedSteps = participant.getCompletedSteps();
             double participantCompletedDistance = participantCompletedSteps / Constants.STEPS_IN_A_MILE;

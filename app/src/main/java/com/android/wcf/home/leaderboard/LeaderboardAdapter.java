@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.TeamViewHolder>
@@ -18,6 +19,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
     LeaderboardAdapterMvp.Host mHost;
     LeaderboardAdapterMvp.Presenter mAdapterPresenter;
+
+    DecimalFormat numberFormatter = new DecimalFormat("#,###,###");
 
     public LeaderboardAdapter(LeaderboardAdapterMvp.Host host, int myTeamId) {
         this.mHost = host;
@@ -61,8 +64,8 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
         teamViewHolder.teamRank.setText(team.getRank() + "");
         teamViewHolder.teamName.setText(team.getName());
-        teamViewHolder.distanceCompleted.setText(String.format("%,.02f", team.getDistanceCompleted()));
-        teamViewHolder.amountRaised.setText(String.format("$%,.02f", team.getAmountAccrued()));
+        teamViewHolder.distanceCompleted.setText(numberFormatter.format(team.getDistanceCompleted()));
+        teamViewHolder.amountRaised.setText(numberFormatter.format(team.getAmountAccrued()));
 
         int textColor = res.getColor(android.R.color.tab_indicator_text);
 

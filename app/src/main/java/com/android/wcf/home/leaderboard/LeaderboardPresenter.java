@@ -64,7 +64,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     public void setChallengeStarted(boolean challengeStarted) {
         this.challengeStarted = challengeStarted;
         int rand = new Random().nextInt(2);
-        //this.challengeStarted = (rand == 0 ? false : true); //enable for testing
+        this.challengeStarted = (rand == 0 ? false : true); //enable for testing
     }
 
     @Override

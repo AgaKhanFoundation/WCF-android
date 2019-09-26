@@ -25,9 +25,9 @@ data class Participant(
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
         var participantId: String? = ""
             get() = this.fbId
+        var commitmentDistance = 0.0
         var participantProfile:String? = ""
         var name:String?  = ""
-        var commitmentMiles = 0
         var completedSteps:Int = 0
         var fundsCommitted:Double = 0.0
         var fundsAccrued:Double = 0.0

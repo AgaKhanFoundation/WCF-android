@@ -1,7 +1,6 @@
 package com.android.wcf.base;
 
 
-import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -27,7 +27,6 @@ import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
 import java.text.SimpleDateFormat;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static android.content.Context.INPUT_METHOD_SERVICE;
@@ -208,17 +207,16 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             return;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMM dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd");
         String startDate = sdf.format(event.getStartDate());
         String endDate = sdf.format(event.getEndDate());
-        String eventName = event.getName();
-        milesCommitted = participant.getCommitmentMiles();
-        int weeks = event.getWeeksInChallenge();
+        String eventDescription  = event.getDescription();
+        milesCommitted = (int) Math.ceil(participant.getCommitmentDistance());
+        int days = event.getDaysInChallenge();
 
-        String shareMessage = getString(R.string.invite_supporter_template_2, startDate, endDate, eventName, milesCommitted, weeks);
+        String shareMessage = getString(R.string.invite_supporter_template_3, startDate, endDate, eventDescription, milesCommitted, days, milesCommitted );
 
         try {
-
             ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());
             Intent shareIntent = intentBuilder
                     .setType("text/plain")
@@ -273,7 +271,9 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferencesUtil.savetMyMilesCommitted(Integer.parseInt(editText.getText().toString()));
+                int miles = Integer.parseInt(editText.getText().toString());
+                int stepsCommitted = DistanceConverter.Companion.steps((miles));
+                SharedPreferencesUtil.savetMyStepsCommitted(stepsCommitted);
                 if (editTextDialogListener != null){
                     editTextDialogListener.onDialogDone(editText.getText().toString());
                 }

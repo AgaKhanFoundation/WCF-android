@@ -19,6 +19,7 @@ import androidx.annotation.Nullable;
 import com.android.wcf.R;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -56,6 +57,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     //non-ui properties
     private ChallengeMvp.Presenter challengePresenter;
+
+    DecimalFormat numberFormatter = new DecimalFormat("#,###,###");
 
     private String participantId;
     private int activeEventId;
@@ -335,23 +338,22 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 TextView editParticipantCommitmentTv = teamProfileView.findViewById(R.id.participant_committed_miles_edit);
                 editParticipantCommitmentTv.setOnClickListener(onClickListener);
 
-                DecimalFormat formatter = new DecimalFormat("#,###,###");
                 int currentTeamSize = team.getParticipants().size();
-                int teamMiles = currentTeamSize * event.getDefaultParticipantCommitment();
-                int teamGoal = event.getTeamLimit() * event.getDefaultParticipantCommitment();;
+                int teamMiles = (int) DistanceConverter.Companion.distance(currentTeamSize * event.getDefaultParticipantCommitment()); //TODO, this should from commitments for participants
+                int teamGoal = (int) DistanceConverter.Companion.distance( event.getTeamLimit() * event.getDefaultParticipantCommitment());
                 int remainingTeamGoalMiles = teamGoal - teamMiles;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 
-                String participantMiles = formatter.format(SharedPreferencesUtil.getMyMilesCommitted());
-                String teamMilesCommitted = formatter.format(teamMiles);
+                String participantMiles = numberFormatter.format((int) participant.getCommitmentDistance());
+                String teamMilesCommitted = numberFormatter.format(teamMiles);
 
                 teamNameTv.setText(team.getName());
                 teamLeadNameTv.setText(team.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
-                teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, teamMiles, teamGoal));
-                teamCommittedMilesTv.setText(teamMilesCommitted);
+                teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamMiles), numberFormatter.format(teamGoal)));
+                teamCommittedMilesTv.setText( teamMilesCommitted);
                 participantCommittedMilesTv.setText(participantMiles);
-                remainingGoalMilesTv.setText(formatter.format( remainingTeamGoalMiles));
+                remainingGoalMilesTv.setText(numberFormatter.format( remainingTeamGoalMiles));
 
                 if (teamProfileView.getVisibility() != View.VISIBLE){
                     teamProfileView.setVisibility(View.VISIBLE);
