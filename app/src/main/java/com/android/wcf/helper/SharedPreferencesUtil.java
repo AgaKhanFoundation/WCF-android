@@ -2,26 +2,29 @@ package com.android.wcf.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.model.Constants;
 
+import static com.android.wcf.model.Constants.AUTH_FACEBOOK;
+
 public class SharedPreferencesUtil {
 
+    private static final String TAG = SharedPreferencesUtil.class.getSimpleName();
     /* group different preferences under types */
     private static String PREF_TYPE_NAME_APP = "WCF_APP";
-    private static String PREF_TYPE_AUTH_METHOD_FB = "FACEBOOK";
 
     /* property names for individual preferences */
     private static String PREF_NAME_MY_FACEBOOK_ID = "MY_FB_ID";
 
     private static String PREF_NAME_MY_AUTH_METHOD_ID = "MY_AUTH_METHOD_NAME";
-    private static String PREF_NAME_MY_PARTICIPANT_ID = "MY_PARTICIPANT_ID";
+    private static String PREF_NAME_MY_LOGIN_ID = "MY_LOGIN_ID";
     private static String PREF_NAME_MY_TEAM_ID = "MY_TEAM_ID";
     private static String PREF_NAME_MY_ACTIVE_EVENT_ID = "MY_ACTIVE_EVENT_ID";
     private static String PREF_NAME_SHOW_ONBOARD_TUTORIAL = "SHOW_ONBOARD_TUTORIAL";
 
-    private static String PREF_NAME_USER_LOGGED_IN = "isUserLoggedIn" ;
+    private static String PREF_NAME_USER_LOGGED_IN = "isUserLoggedIn";
     private static String PREF_NAME_USER_FULL_NAME = "userFullName";
     private static String PREF_NAME_USER_EMAIL = "userEmail";
     private static String PREF_NAME_USER_PROFILE_PHOTO_URL = "userProfilePhotoUrl";
@@ -29,7 +32,6 @@ public class SharedPreferencesUtil {
 
     public static final String DEFAULT_FB_ID = null;   //TODO: this will be null for not logged-in person
     public static final int DEFAULT_TEAM_ID = -1;            //TODO: this will be -1 for represent unassigned teamId
-    public static final String DEFAULT_PARTICIPANT_ID = null;     //TODO: this will be -1 for not logged-in person
     public static final int DEFAULT_ACTIVE_EVENT_ID = -1;     //TODO: this will be -1 for participants who have not selected event when list is API driven
 
     public static final int UNKNOWN_ACTIVE_EVENT_ID = -1;
@@ -46,35 +48,29 @@ public class SharedPreferencesUtil {
         editor.commit();
     }
 
-
-    public static void saveMyActiveEvent(int eventId){
-        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
-        editor.putInt(PREF_NAME_MY_ACTIVE_EVENT_ID, eventId);
-        editor.commit();
-
+    public static void saveMyLoginId(String loginId, String authSource) {
+        if (AUTH_FACEBOOK.equals(authSource)) {
+            saveMyFacebookId(loginId);
+            saveMyAuthSource(AUTH_FACEBOOK);
+        } else {
+            Log.w(TAG, "Unsupported authentication source " + authSource);
+        }
     }
 
-    public static void saveMyFacebookId(String fbid) {
+    public static void saveMyAuthSource(String authSource) {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
-        editor.putString(PREF_NAME_MY_FACEBOOK_ID, fbid);
-        editor.commit();
-    }
-
-    public static void saveMyTeamId(int teamId) {
-        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
-        editor.putInt(PREF_NAME_MY_TEAM_ID, teamId);
+        editor.putString(PREF_NAME_MY_AUTH_METHOD_ID, authSource);
         editor.commit();
     }
 
-    public static void saveMyAuthenticationMethodAsFacebook() {
-        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
-        editor.putString(PREF_NAME_MY_AUTH_METHOD_ID, PREF_TYPE_AUTH_METHOD_FB);
-        editor.commit();
+    public static String getMyAuthSource() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getString(PREF_NAME_MY_AUTH_METHOD_ID, AUTH_FACEBOOK);
     }
 
-    public static void saveMyParticipantId(String participantId) {
+    public static void saveMyFacebookId(String fbId) {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
-        editor.putString(PREF_NAME_MY_PARTICIPANT_ID, participantId);
+        editor.putString(PREF_NAME_MY_FACEBOOK_ID, fbId);
         editor.commit();
     }
 
@@ -84,8 +80,12 @@ public class SharedPreferencesUtil {
     }
 
     public static String getMyParticipantId() {
-        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        return preferences.getString(PREF_NAME_MY_PARTICIPANT_ID, DEFAULT_PARTICIPANT_ID);
+        String authSource = getMyAuthSource();
+        if (AUTH_FACEBOOK.equals(authSource)) {
+            return getMyFacebookId();
+        }
+        Log.w(TAG, "Unsupported authentication source " + authSource);
+        return "";
     }
 
     public static int getMyTeamId() {
@@ -93,23 +93,30 @@ public class SharedPreferencesUtil {
         return preferences.getInt(PREF_NAME_MY_TEAM_ID, DEFAULT_TEAM_ID);
     }
 
+    public static void saveMyActiveEvent(int eventId) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putInt(PREF_NAME_MY_ACTIVE_EVENT_ID, eventId);
+        editor.commit();
+    }
+
+    public static void saveMyTeamId(int teamId) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putInt(PREF_NAME_MY_TEAM_ID, teamId);
+        editor.commit();
+    }
+
     public static void clearMyLogin() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
         preferences.edit()
                 .remove(PREF_NAME_USER_LOGGED_IN)
-                .remove(PREF_NAME_MY_PARTICIPANT_ID)
+                .remove(PREF_NAME_MY_LOGIN_ID)
                 .remove(PREF_NAME_MY_FACEBOOK_ID)
                 .commit();
     }
 
     public static void clearMyTeamId() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-         preferences.edit().remove(PREF_NAME_MY_TEAM_ID).commit();
-    }
-
-    public static void clearMyParticipantId() {
-        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        preferences.edit().remove(PREF_NAME_MY_PARTICIPANT_ID).commit();
+        preferences.edit().remove(PREF_NAME_MY_TEAM_ID).commit();
     }
 
     public static void clearMyFacebookId() {
@@ -126,6 +133,7 @@ public class SharedPreferencesUtil {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
         preferences.edit().remove(PREF_NAME_MY_ACTIVE_EVENT_ID).commit();
     }
+
     public static void saveShowOnboardingTutorial(boolean show) {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
         editor.putBoolean(PREF_NAME_SHOW_ONBOARD_TUTORIAL, show);
@@ -143,7 +151,7 @@ public class SharedPreferencesUtil {
         editor.commit();
     }
 
-    public static boolean isUserLoggedIn( ) {
+    public static boolean isUserLoggedIn() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
         return preferences.getBoolean(PREF_NAME_USER_LOGGED_IN, false);
     }
@@ -155,9 +163,9 @@ public class SharedPreferencesUtil {
         editor.commit();
     }
 
-    public static String getUserFullName( ) {
+    public static String getUserFullName() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        return preferences.getString(PREF_NAME_USER_FULL_NAME,  null);
+        return preferences.getString(PREF_NAME_USER_FULL_NAME, null);
     }
 
     public static void saveUserEmail(String userEmail) {
@@ -166,9 +174,9 @@ public class SharedPreferencesUtil {
         editor.commit();
     }
 
-    public static String getPrefNameUserEmail( ) {
+    public static String getPrefNameUserEmail() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        return preferences.getString(PREF_NAME_USER_EMAIL,  null);
+        return preferences.getString(PREF_NAME_USER_EMAIL, null);
     }
 
     public static void saveUserProfilePhotoUrl(String profileUrl) {
@@ -177,9 +185,9 @@ public class SharedPreferencesUtil {
         editor.commit();
     }
 
-    public static String getUserProfilePhotoUrl( ) {
+    public static String getUserProfilePhotoUrl() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        return preferences.getString(PREF_NAME_USER_PROFILE_PHOTO_URL,  null);
+        return preferences.getString(PREF_NAME_USER_PROFILE_PHOTO_URL, null);
     }
 
     public static int getMyStepsCommitted() {

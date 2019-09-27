@@ -18,6 +18,7 @@ import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Constants;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -132,9 +133,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                                         setParticipantTeam(null);
                                     }
 
-                                    SharedPreferencesUtil.saveMyAuthenticationMethodAsFacebook();
-                                    SharedPreferencesUtil.saveMyFacebookId(userId);
-                                    SharedPreferencesUtil.saveMyParticipantId(userId);
+                                    SharedPreferencesUtil.saveMyLoginId(userId, Constants.AUTH_FACEBOOK);
                                     SharedPreferencesUtil.saveUserLoggedIn(true);
                                     SharedPreferencesUtil.saveUserFullName(userName);
                                     SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
