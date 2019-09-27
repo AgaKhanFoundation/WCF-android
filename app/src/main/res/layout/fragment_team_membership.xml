@@ -13,8 +13,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/color_white"
-        android:paddingTop="@dimen/spacing_normal_half"
-        android:paddingBottom="@dimen/spacing_normal_half"
         app:layout_constraintTop_toTopOf="parent"
         tools:context=".settings.SettingsActivity">
 
@@ -70,7 +68,7 @@
         android:id="@+id/settings_team_membership_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_normal_half"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settings_team_profile_container"
         app:layout_constraintBottom_toTopOf="@id/settings_team_invite_container">
@@ -79,7 +77,6 @@
             android:id="@+id/team_members_rankings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal_half"
             android:text="@string/team_membership_container_label"
             android:textAppearance="@style/TextAppearance.WCF.Headline6"
             app:layout_constraintStart_toStartOf="parent"

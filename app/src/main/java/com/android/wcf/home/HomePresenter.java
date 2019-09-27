@@ -2,6 +2,7 @@ package com.android.wcf.home;
 
 import androidx.annotation.NonNull;
 
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 
@@ -56,6 +57,23 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     public void updateParticipantEvent(String participantId, int eventId) {
         super.assignParticipantToEvent(participantId, eventId, 0, 0);
         homeView.onAssignedParticipantToEvent(participantId, eventId);
+    }
 
+    @Override
+    public void createParticipantCommitment(String participantId, int eventId, int commitmentSteps) {
+        super.createParticipantCommitment(participantId, eventId, commitmentSteps);
+         homeView.onAssignedParticipantToEvent(participantId, eventId);
+    }
+
+    @Override
+    protected void onCreateParticipantCommitmentSuccess(String fbId, Commitment commitment) {
+        super.onCreateParticipantCommitmentSuccess(fbId, commitment);
+        homeView.onAssignedParticipantToEvent(fbId, commitment.getEventId());
+    }
+
+    @Override
+    protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
+        super.onUpdateParticipantCommitmentSuccess(participantId, eventId, commitmentSteps);
+        homeView.onAssignedParticipantToEvent(participantId, eventId);
     }
 }

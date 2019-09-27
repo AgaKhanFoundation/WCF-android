@@ -37,8 +37,7 @@ class HomeActivity : BaseActivity()
         , LeaderboardMvp.Host
         , NotificationsMvp.Host {
 
-
-    private var homePresenter: HomePresenter? = null
+    private var homePresenter: HomeMvp.HomePresenter? = null
     private var dashboardFragment: DashboardFragment? = null
     private var challengeFragment: ChallengeFragment? = null
     private var leaderboardFragment: LeaderboardFragment? = null
@@ -47,7 +46,7 @@ class HomeActivity : BaseActivity()
 
     private var myActiveEventId: Int = 0
     private var myTeamId: Int = 0
-    private var myParticpantId: String? = null
+    private var myParticipantId: String? = null
 
     private var currentNavigationId: Int = 0
 
@@ -90,7 +89,7 @@ class HomeActivity : BaseActivity()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        myParticpantId = SharedPreferencesUtil.getMyParticipantId()
+        myParticipantId = SharedPreferencesUtil.getMyParticipantId()
         myActiveEventId = SharedPreferencesUtil.getMyActiveEventId()
         myTeamId = SharedPreferencesUtil.getMyTeamId()
 
@@ -106,14 +105,16 @@ class HomeActivity : BaseActivity()
             showErrorAndCloseApp(R.string.events_not_selected_error)
             return
         }
-        if (myParticpantId == null || TextUtils.isEmpty(myParticpantId)) {
+        myParticipantId?.let {
+            if(!TextUtils.isEmpty(it)) {
+                //TODO when other auth providers are implemented, call the appropriate method for participant retrieval
+                homePresenter?.getParticipant(it)
+            }
+        }?:run {
             showLoginActivity()
             finish()
-            return
         }
-        homePresenter!!.getParticipant(myParticpantId!!)
     }
-
     override fun isAttached(): Boolean {
         return isDestroyed && !isFinishing
     }
@@ -178,7 +179,7 @@ class HomeActivity : BaseActivity()
     }
 
     fun setMyParticipantId(participantId: String) {
-        this.myParticpantId = participantId
+        this.myParticipantId = participantId
     }
 
     fun setMyTeamId(myTeamId: Int) {
@@ -198,32 +199,37 @@ class HomeActivity : BaseActivity()
         if (participant == null) {
             return
         }
-        if (participant.eventId != null) {
-            setEvent(participant.event)
+        val participantTeamId:Int? = participant.teamId
+        participantTeamId?.let {
+            myTeamId = it       // team must have been assigned previously
+            SharedPreferencesUtil.saveMyTeamId(myTeamId)
+
+        }?: run {
+            if (myTeamId > 0) {
+                myTeamId = 0
+                homePresenter?.participantLeaveFromTeam(myParticipantId)
+            }
         }
 
-        val participantTeamId = participant.teamId
-        if (participantTeamId == null && myTeamId > 0) {
-            myTeamId = 0
-            homePresenter!!.participantLeaveFromTeam(myParticpantId)
-        } else if (participantTeamId != null) {
-            myTeamId = participantTeamId.toInt() // team must have been assigned previously
-            SharedPreferencesUtil.saveMyTeamId(myTeamId)
-        }
-        if (participant.eventId == null || participant.eventId?.toInt() != myActiveEventId) {
-            homePresenter!!.updateParticipantEvent(myParticpantId, myActiveEventId)
-        } else {
-            addNavigationFragments()
+        participant.eventId?.let {
+            if (it != myActiveEventId) {
+                homePresenter?.createParticipantCommitment(myParticipantId, myActiveEventId, event.getDefaultParticipantCommitment())
+            }
+            else {
+                addNavigationFragments()
+            }
+        }?: run {
+            homePresenter?.createParticipantCommitment(myParticipantId, myActiveEventId, event.getDefaultParticipantCommitment())
         }
     }
 
     override fun onGetParticipantNotFound() {
-        homePresenter!!.createParticipant(myParticpantId)
+        homePresenter?.createParticipant(myParticipantId)
     }
 
     override fun onParticipantCreated(participant: Participant) {
         setParticipant(participant);
-        homePresenter!!.updateParticipantEvent(myParticpantId, myActiveEventId)
+        homePresenter?.updateParticipantEvent(myParticipantId, myActiveEventId)
     }
 
     override fun onAssignedParticipantToEvent(participantId: String, eventId: Int) {

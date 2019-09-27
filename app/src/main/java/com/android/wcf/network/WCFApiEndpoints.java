@@ -1,6 +1,7 @@
 package com.android.wcf.network;
 
 
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -44,6 +45,20 @@ public interface WCFApiEndpoints {
 
     @DELETE("participants/{fbid}")
     Single<Integer> deleteParticipant(@Path("fbid") String participantId);
+
+    /*********** PARTICIPANT COMMITMENTS ***********/
+
+    @POST("commitments/")
+    Single<Commitment> createParticipantCommitment(@Body RequestBody params);
+
+    @PATCH("commitments/participant/{id}")
+    Single<List<Integer>> updateParticipantCommitment(@Path("id") int commitmentId, @Body RequestBody params);
+
+    @GET("commitments/participant/{fbid}")
+    Single<List<Commitment>> getParticipantCommitment(@Path("fbid") String fbId);
+
+    @GET("commitments/event/{id}")
+    Single<List<Commitment>> getEventCommitments(@Path("id") int eventId);
 
     /*********** TEAM ***********/
 

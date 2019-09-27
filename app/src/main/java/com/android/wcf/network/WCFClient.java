@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 import com.android.wcf.BuildConfig;
 import com.android.wcf.helper.typeadapters.DateStringLongConverter;
 import com.android.wcf.helper.typeadapters.DateStringTypeConverter;
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -217,5 +218,41 @@ public class WCFClient {
                 new JSONObject(jsonParams).toString());
 
         return wcfApi.recordSteps(requestBody);
+    }
+
+    public Single<Commitment> createParticipantCommitment(String fbId, int eventId, int commitmentSteps) {
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_FBID, fbId);
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_EVENT_ID, eventId);
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_COMMITMENT, commitmentSteps);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.createParticipantCommitment(requestBody);
+    }
+
+    public Single<List<Integer>> updateParticipantCommitment(int id, String fbId, int eventId, int commitmentSteps) {
+        Map<String, Object> jsonParams = new ArrayMap<>();
+
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_FBID, fbId);
+
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_EVENT_ID, eventId);
+
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_COMMITMENT, commitmentSteps);
+
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.updateParticipantCommitment(id, requestBody);
+    }
+
+    public Single<List<Commitment>> getParticipantCommitments(String fbId) {
+        return wcfApi.getParticipantCommitment(fbId);
+    }
+
+    public Single<List<Commitment>> getEventCommitments(int eventId) {
+        return wcfApi.getEventCommitments(eventId);
     }
 }
