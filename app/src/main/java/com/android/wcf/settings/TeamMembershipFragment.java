@@ -19,7 +19,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
+import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Event;
@@ -48,6 +50,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     private View settingsTeamProfileContainer;
     private View settingsTeamMembershipContainer;
     private View settingsTeamInviteContainer;
+    private View deleteTeamContainer;
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -56,6 +59,8 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
                 case R.id.team_invite_chevron:
                     inviteTeamMembers();
                     break;
+                case R.id.delete_team:
+                    confirmDeleteTeam();
             }
         }
     };
@@ -67,7 +72,6 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         fragment.setArguments(args);
         return fragment;
     }
-
 
     @Override
     public void onAttach(Context context) {
@@ -148,10 +152,13 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         settingsTeamProfileContainer = fragmentView.findViewById(R.id.settings_team_profile_container);
         settingsTeamMembershipContainer = fragmentView.findViewById(R.id.settings_team_membership_container);
         settingsTeamInviteContainer = fragmentView.findViewById(R.id.settings_team_invite_container);
+        deleteTeamContainer = fragmentView.findViewById(R.id.settings_delete_team_container);
 
         setupSettingsTeamProfileContainer(settingsTeamProfileContainer);
         setupSettingsTeamMembershipContainer(settingsTeamMembershipContainer);
         setupChallengeTeamInviteContainer(settingsTeamInviteContainer);
+        setupDeleteTeamContainer(deleteTeamContainer);
+
     }
 
     void setupSettingsTeamProfileContainer(View container) {
@@ -230,6 +237,16 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         container.setVisibility(showTeamInvite ? View.VISIBLE : View.GONE);
     }
 
+    void setupDeleteTeamContainer(View container) {
+        if (isTeamLead) {
+            container.setVisibility(View.VISIBLE);
+            container.findViewById(R.id.delete_team).setOnClickListener(onClickListener);
+        } else {
+            container.setVisibility(View.GONE);
+            container.findViewById(R.id.delete_team).setOnClickListener(null);
+        }
+    }
+
     void closeView() {
         getActivity().onBackPressed();
     }
@@ -241,7 +258,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
 
     @Override
     public void participantRemovedFromTeam(String participantId) {
-      Iterator participantIterator =  team.getParticipants().iterator();
+        Iterator participantIterator = team.getParticipants().iterator();
         while (participantIterator.hasNext()) {
             Participant participant = (Participant) participantIterator.next();
             if (participant.getParticipantId().equals(participantId)) {
@@ -283,5 +300,46 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
 
         dialogBuilder.setView(dialogView);
         dialogBuilder.show();
+    }
+
+    void confirmDeleteTeam() {
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_confirm_delete_team, null);
+
+        Button deleteBtn = dialogView.findViewById(R.id.delete_team_button);
+        Button cancelBtn = dialogView.findViewById(R.id.cancel_delete_team_button);
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+            }
+        });
+        deleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                presenter.deleteTeam(team.getId());
+                dialogBuilder.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
+
+    }
+
+    @Override
+    public void onTeamDeleteSuccess() {
+        SharedPreferencesUtil.clearMyTeamId();
+        setParticipantTeam(null);
+        FacebookHelper.logout();
+        WCFApplication.instance.openHomeActivity();
+
+    }
+
+    @Override
+    public void onTeamDeleteError(Throwable error) {
+        showError("Team Delete Eror", error.getMessage());
     }
 }

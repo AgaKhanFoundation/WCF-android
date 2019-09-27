@@ -619,7 +619,6 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     protected void onDeleteTeamSuccess(Integer count) {
         Log.d(TAG, "onDeleteTeamSuccess=" + count);
-
     }
 
     protected void onDeleteTeamError(Throwable error) {

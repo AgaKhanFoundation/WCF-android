@@ -209,14 +209,14 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             return;
         }
 
-        SimpleDateFormat sdf = new SimpleDateFormat("MMMM dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("MMMM d");
         String startDate = sdf.format(event.getStartDate());
         String endDate = sdf.format(event.getEndDate());
         String eventDescription  = event.getDescription();
         milesCommitted = (int) Math.ceil(participant.getCommitmentDistance());
         int days = event.getDaysInChallenge();
 
-        String shareMessage = getString(R.string.invite_supporter_template_3, startDate, endDate, eventDescription, milesCommitted, days, milesCommitted );
+        String shareMessage = getString(R.string.invite_supporter_template_3, startDate, endDate, eventDescription, milesCommitted, days );
 
         try {
             ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());

@@ -339,18 +339,18 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 editParticipantCommitmentTv.setOnClickListener(onClickListener);
 
                 int currentTeamSize = team.getParticipants().size();
-                int teamMiles = (int) DistanceConverter.Companion.distance(currentTeamSize * event.getDefaultParticipantCommitment()); //TODO, this should from commitments for participants
+                int teamDistance = (int) DistanceConverter.Companion.distance(currentTeamSize * event.getDefaultParticipantCommitment()); //TODO, this should from commitments for participants
                 int teamGoal = (int) DistanceConverter.Companion.distance( event.getTeamLimit() * event.getDefaultParticipantCommitment());
-                int remainingTeamGoalMiles = teamGoal - teamMiles;
+                int remainingTeamGoalMiles = teamGoal - teamDistance;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 
                 String participantDistanceCommitted = numberFormatter.format((int) participant.getCommitmentDistance());
-                String teamDistanceCommitted = numberFormatter.format(teamMiles);
+                String teamDistanceCommitted = numberFormatter.format(teamDistance);
 
                 teamNameTv.setText(team.getName());
                 teamLeadNameTv.setText(team.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
-                teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamMiles), numberFormatter.format(teamGoal)));
+                teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamDistance), numberFormatter.format(teamGoal)));
                 teamCommittedMilesTv.setText( teamDistanceCommitted);
                 participantCommittedMilesTv.setText(participantDistanceCommitted);
                 remainingGoalMilesTv.setText(numberFormatter.format( remainingTeamGoalMiles));
