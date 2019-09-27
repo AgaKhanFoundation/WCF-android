@@ -344,15 +344,15 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 int remainingTeamGoalMiles = teamGoal - teamMiles;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 
-                String participantMiles = numberFormatter.format((int) participant.getCommitmentDistance());
-                String teamMilesCommitted = numberFormatter.format(teamMiles);
+                String participantDistanceCommitted = numberFormatter.format((int) participant.getCommitmentDistance());
+                String teamDistanceCommitted = numberFormatter.format(teamMiles);
 
                 teamNameTv.setText(team.getName());
                 teamLeadNameTv.setText(team.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
                 teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamMiles), numberFormatter.format(teamGoal)));
-                teamCommittedMilesTv.setText( teamMilesCommitted);
-                participantCommittedMilesTv.setText(participantMiles);
+                teamCommittedMilesTv.setText( teamDistanceCommitted);
+                participantCommittedMilesTv.setText(participantDistanceCommitted);
                 remainingGoalMilesTv.setText(numberFormatter.format( remainingTeamGoalMiles));
 
                 if (teamProfileView.getVisibility() != View.VISIBLE){
@@ -474,18 +474,20 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     public void editParticipantCommitment() {
-        int currentMiles = 0;
+        View teamProfile = participantTeamSummaryCard.findViewById(R.id.challenge_participant_team_profile_view);
+        final TextView committedDistanceTv = teamProfile.findViewById(R.id.participant_committed_miles);
+        int currentDistance = 0;
         try {
-            View teamProfile = participantTeamSummaryCard.findViewById(R.id.challenge_participant_team_profile_view);
-            TextView participantCommittedMilesTv = teamProfile.findViewById(R.id.participant_committed_miles);
-             currentMiles = NumberFormat.getNumberInstance().parse(participantCommittedMilesTv.getText().toString()).intValue();
+            currentDistance = NumberFormat.getNumberInstance().parse(committedDistanceTv.getText().toString()).intValue();
         }
         catch(Exception e) {
-            currentMiles = 0;
+            currentDistance = 0;
         }
-        challengePresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
+        challengePresenter.onShowMilesCommitmentSelected(currentDistance, new EditTextDialogListener() {
             @Override
             public void onDialogDone(@NotNull String editedValue) {
+                committedDistanceTv.setText(editedValue);
+
                 Team team = getParticipantTeam();
                 showParticipantTeamSummaryCard(team);
             }

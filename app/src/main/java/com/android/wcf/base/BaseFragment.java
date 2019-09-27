@@ -19,6 +19,8 @@ import androidx.fragment.app.Fragment;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
+import com.android.wcf.helper.DateHelper;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
@@ -254,7 +256,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.view_miles_entry, null);
 
-        final EditText editText = dialogView.findViewById(R.id.participant_miles);
+        final EditText editText = dialogView.findViewById(R.id.participant_committed_miles);
         Button saveBtn = dialogView.findViewById(R.id.save);
         Button cancelBtn = dialogView.findViewById(R.id.cancel);
 
@@ -271,9 +273,10 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int miles = Integer.parseInt(editText.getText().toString());
-                int stepsCommitted = DistanceConverter.Companion.steps((miles));
+                int distance = Integer.parseInt(editText.getText().toString());
+                int stepsCommitted = DistanceConverter.Companion.steps((distance));
                 SharedPreferencesUtil.savetMyStepsCommitted(stepsCommitted);
+                DataHolder.updateParticipantCommittedDistance(distance);
                 if (editTextDialogListener != null){
                     editTextDialogListener.onDialogDone(editText.getText().toString());
                 }

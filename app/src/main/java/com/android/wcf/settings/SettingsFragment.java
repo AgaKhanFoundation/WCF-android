@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -25,7 +23,6 @@ import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.login.AKFParticipantProfileMvp;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -194,7 +191,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     }
 
     public void editParticipantCommitment() {
-        final TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_miles);
+        final TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_committed_miles);
         int currentDistance = 0;
         try {
             currentDistance = NumberFormat.getNumberInstance().parse(committedDistanceTv.getText().toString()).intValue();
@@ -253,7 +250,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     void updateInfoDisplay() {
         showParticipantInfo();
-        TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_miles);
+        TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_committed_miles);
         String formattedDistance = numberFormatter.format(DistanceConverter.Companion.distance(SharedPreferencesUtil.getMyStepsCommitted()));
         committedDistanceTv.setText(formattedDistance);
 

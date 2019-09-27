@@ -47,7 +47,7 @@ public class CreateTeamPresenter extends BasePresenter implements CreateTeamMvp.
     @Override
     protected void onAssignParticipantToTeamSuccess(List<Integer> results, String participantId, final int teamId) {
         super.onAssignParticipantToTeamSuccess(results, participantId, teamId);
-        if (results != null && results.size() == 1) {
+        if (results != null && results.size() == 1) { //TODO: also check results[0] value
             view.participantJoinedTeam(participantId, teamId);
         } else {
             view.showError("Unable to assign to team. Please try again");

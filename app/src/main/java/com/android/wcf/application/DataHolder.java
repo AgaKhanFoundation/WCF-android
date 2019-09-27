@@ -43,4 +43,11 @@ public class DataHolder {
     public static void setTeams(List<Team> teams) {
         DataHolder.teams = teams;
     }
+
+    public static void updateParticipantCommittedDistance(int distance){
+        if (participant != null) {
+            participant.setCommitmentDistance(distance);
+        }
+        //TODO update team's commitment
+    }
 }

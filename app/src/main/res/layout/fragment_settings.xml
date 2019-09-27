@@ -121,7 +121,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/participant_miles"
+                    android:id="@+id/participant_committed_miles"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:foreground="?selectableItemBackground"
@@ -141,7 +141,7 @@
                     android:textAppearance="?attr/textAppearanceSubtitle1"
                     app:layout_constraintBaseline_toBaselineOf="@id/participant_miles_label"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@id/participant_miles" />
+                    app:layout_constraintStart_toEndOf="@id/participant_committed_miles" />
 
                 <TextView
                     android:id="@+id/participant_miles_message"
