@@ -52,7 +52,7 @@ data class Team(
 
     companion object {
         const val TEAM_ATTRIBUTE_NAME = "name"
-        const val TEAM_LEADER_ID_ATTRIBUTE_NAME = "creator_id"
-        const val TEAM_VISIBILITY_ATTRIBUTE_NAME = "visibility"
+        const val TEAM_ATTRIBUTE_LEADER_ID = "creator_id"
+        const val TEAM_ATTRIBUTE_VISIBILITY = "visibility"
     }
 }

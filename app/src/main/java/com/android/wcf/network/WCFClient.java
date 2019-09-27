@@ -1,7 +1,6 @@
 package com.android.wcf.network;
 
 import android.util.ArrayMap;
-import android.util.Log;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.helper.typeadapters.DateStringLongConverter;
@@ -31,10 +30,9 @@ import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
-import okio.Buffer;
 import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WCFClient {
 
@@ -112,8 +110,8 @@ public class WCFClient {
     public Single<Team> createTeam(String teamName, String teamLeadParticipantId, boolean teamVisibility) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         jsonParams.put(Team.TEAM_ATTRIBUTE_NAME, teamName);
-        jsonParams.put(Team.TEAM_LEADER_ID_ATTRIBUTE_NAME, teamLeadParticipantId);
-        jsonParams.put(Team.TEAM_VISIBILITY_ATTRIBUTE_NAME, teamVisibility);
+        jsonParams.put(Team.TEAM_ATTRIBUTE_LEADER_ID, teamLeadParticipantId);
+        jsonParams.put(Team.TEAM_ATTRIBUTE_VISIBILITY, teamVisibility);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
@@ -121,18 +119,16 @@ public class WCFClient {
         return wcfApi.createTeam(requestBody);
     }
 
-
     public Single<Integer> updateTeamVisibility(int teamId, boolean teamVisibility) {
 
         Map<String, Object> jsonParams = new ArrayMap<>();
-        jsonParams.put(Team.TEAM_VISIBILITY_ATTRIBUTE_NAME, teamVisibility);
+        jsonParams.put(Team.TEAM_ATTRIBUTE_VISIBILITY, teamVisibility);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
 
         return wcfApi.updateTeam(teamId, requestBody);
     }
-
 
     public Single<List<Team>> getTeams() {
         return wcfApi.getTeams();
@@ -152,7 +148,7 @@ public class WCFClient {
 
     public Single<Participant> createParticipant(String participantId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_ID, participantId);
+        jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, participantId);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
@@ -171,7 +167,7 @@ public class WCFClient {
     public Single<List<Integer>> updateParticipant(String currentParticipantId, String newParticipantId, Integer teamId, Integer causeId, Integer localityId, Integer eventId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (newParticipantId != null && !newParticipantId.isEmpty())
-            jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_ID, newParticipantId);
+            jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newParticipantId);
         if (teamId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_TEAM_ID, teamId);
         if (causeId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_CAUSE_ID, causeId);
         if (localityId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_LOCALITY_ID, localityId);
@@ -210,8 +206,6 @@ public class WCFClient {
     public Single<List<Source>> getTrackingSources() {
         return wcfApi.getSources();
     }
-
-
 
     public Single<Record> recordSteps(int participantId, int trackerSourceId, String trackedDate, long stepsCount) {
         Map<String, Object> jsonParams = new ArrayMap<>();

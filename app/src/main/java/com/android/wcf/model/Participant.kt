@@ -33,7 +33,8 @@ data class Participant(
         var fundsAccrued:Double = 0.0
 
     companion object {
-        const val PARTICIPANT_ATTRIBUTE_ID = "fbid"
+        const val PARTICIPANT_ATTRIBUTE_ID = "id"
+        const val PARTICIPANT_ATTRIBUTE_FBID = "fbid"
         const val PARTICIPANT_ATTRIBUTE_TEAM_ID = "team_id"
         const val PARTICIPANT_ATTRIBUTE_CAUSE_ID = "cause_id"
         const val PARTICIPANT_ATTRIBUTE_LOCALITY_ID = "locality_id"
