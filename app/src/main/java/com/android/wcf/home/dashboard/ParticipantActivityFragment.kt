@@ -10,12 +10,12 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
+import com.android.wcf.helper.DistanceConverter
 import com.android.wcf.model.Constants
 import com.fitbitsdk.service.models.ActivitySteps
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.math.roundToInt
 
 
 class ParticipantActivityFragment : BaseFragment() {
@@ -238,18 +238,18 @@ class ParticipantActivityFragment : BaseFragment() {
     }
 
     fun updateViewDaily() {
-        val miles = numberFormatter.format(activityGoal)
-        activityGoalTv.text = getString(R.string.dashboard_distance_goal_template, miles)
+        val distanceGoal = numberFormatter.format(activityGoal)
+        activityGoalTv.text = getString(R.string.dashboard_distance_goal_template, distanceGoal)
 
         stepsInfo?.steps?.let {
             if (stepsIndex >= 0 && stepsIndex < it.size) {
                 val steps = it.get(stepsIndex);
                 navPrev.setEnabled(if (stepsIndex < it.size - 1) true else false)
                 dateTv.text = steps.date
-                val stepsComplete = steps.value / Constants.STEPS_IN_A_MILE * 1.0
-                activityCompletedTv.text = numberFormatter.format(stepsComplete)
+                val distanceComplete = DistanceConverter.distance(steps.value.toInt())
+                activityCompletedTv.text = numberFormatter.format(distanceComplete)
 
-                val progress = (stepsComplete / activityGoal) * 100
+                val progress = (distanceComplete / activityGoal) * 100
                 activityPb.progress = progress.toInt()
             }
         }
@@ -258,7 +258,7 @@ class ParticipantActivityFragment : BaseFragment() {
 
     fun updateViewWeekly() {
 
-        val stepsBarMaxMiles = 8
+        val stepsBarMaxMiles = 8 // arbitrary - most people will walk less than 8 miles/day; walked >= 8miles implies 100% progressBar
         var weekDateRange:String = ""
         var knownDateIdx = -1
         var knownDate:Date? = null
@@ -273,7 +273,7 @@ class ParticipantActivityFragment : BaseFragment() {
 
                 if (dayIdx >= 0 && dayIdx < it.size) {
                     val steps = it.get(dayIdx);
-                    milesComplete = steps.value / Constants.STEPS_IN_A_MILE * 1.0
+                    milesComplete =  DistanceConverter.distance(steps.value.toInt())
 
                     progress = (milesComplete / stepsBarMaxMiles) * 100
 

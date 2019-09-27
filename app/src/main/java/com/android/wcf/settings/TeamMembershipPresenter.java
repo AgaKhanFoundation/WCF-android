@@ -1,5 +1,7 @@
 package com.android.wcf.settings;
 
+import android.util.Log;
+
 import com.android.wcf.home.BasePresenter;
 
 import java.util.List;
@@ -27,6 +29,17 @@ public class TeamMembershipPresenter extends BasePresenter implements TeamMember
     @Override
     protected void onParticipantLeaveFromTeamError(Throwable error, String participantId) {
         super.onParticipantLeaveFromTeamError(error, participantId);
+    }
+
+
+    protected void onDeleteTeamSuccess(Integer count) {
+        super.onDeleteTeamSuccess(count);
+        view.onTeamDeleteSuccess();
+    }
+
+    protected void onDeleteTeamError(Throwable error) {
+       super.onDeleteTeamError(error);
+       view.onTeamDeleteError(error);
     }
 
     @Override

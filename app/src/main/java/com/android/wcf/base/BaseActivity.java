@@ -21,6 +21,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.tracker.TrackingHelper;
 import com.android.wcf.tracker.fitbit.FitbitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
@@ -167,9 +168,14 @@ abstract public class BaseActivity extends AppCompatActivity
     public void setParticipant(Participant participant) {
         DataHolder.setParticipant(participant);
         Event event = DataHolder.getEvent();
-        if (event != null && participant.getCommitmentMiles() == 0) {
-            participant.setCommitmentMiles(event.getDefaultParticipantCommitment());
-            SharedPreferencesUtil.savetMyMilesCommitted(event.getDefaultParticipantCommitment());
+        if (event != null && participant.getCommitmentDistance() == 0) {
+            //TODO: this should from participant's commitment for the event and default only if commitment is zero
+            int committedSteps =  SharedPreferencesUtil.getMyStepsCommitted();
+            if (committedSteps == 0) {
+                committedSteps = event.getDefaultParticipantCommitment();
+                SharedPreferencesUtil.savetMyStepsCommitted(committedSteps);
+            }
+            participant.setCommitmentDistance(DistanceConverter.Companion.distance(committedSteps));
         }
     }
 

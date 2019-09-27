@@ -40,6 +40,7 @@ import androidx.annotation.StringRes;
 import androidx.core.app.ActivityCompat;
 
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseActivity;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
@@ -112,6 +113,8 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
 
         //For V1 of the app, we will assign the users to the first event
         //later we will provide UI to allow users to select from a list
+
+        DataHolder.setEvent(event);
 
         int currentEventId = SharedPreferencesUtil.getMyActiveEventId();
         if (currentEventId == SharedPreferencesUtil.DEFAULT_ACTIVE_EVENT_ID || currentEventId != event.getId()) {

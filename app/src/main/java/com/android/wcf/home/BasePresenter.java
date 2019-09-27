@@ -5,6 +5,7 @@ import android.util.Log;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -276,7 +277,6 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onSuccess(Integer integer) {
-
                         onTeamPublicVisibilityUpdateSuccess();
                     }
 
@@ -526,9 +526,9 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         double teamAmountPledged = 0.0, teamAmountAccrued = 0.0;
 
         for (Participant participant : team.getParticipants()) {
-            double participantDistancePledged = participant.getCommitmentMiles();
+            double participantDistancePledged = participant.getCommitmentDistance();
             if (participantDistancePledged == 0) {
-                participantDistancePledged = Constants.PARTICIPANT_COMMITMENT_MILES_DEFAULT;
+                participantDistancePledged = Constants.PARTICIPANT_COMMITMENT_STEPS_DEFAULT;
             }
             int participantCompletedSteps = participant.getCompletedSteps();
             double participantCompletedDistance = participantCompletedSteps / Constants.STEPS_IN_A_MILE;
@@ -620,7 +620,6 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     protected void onDeleteTeamSuccess(Integer count) {
         Log.d(TAG, "onDeleteTeamSuccess=" + count);
-
     }
 
     protected void onDeleteTeamError(Throwable error) {
@@ -689,8 +688,77 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         Log.e(TAG, "onParticipantLeaveFromTeamError(participantId) Error: " + error.getMessage());
     }
 
+    /***** PARTICIPANT COMMITMENTS API ******/
 
-    /***** PARTICPANT TO Event API ******/
+    public void createParticipantCommitment(final String fbId, final int eventId, final int commitmentSteps) {
+        wcfClient.createParticipantCommitment(fbId, eventId, commitmentSteps)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<Commitment>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(Commitment commitment) {
+                        onCreateParticipantCommitmentSuccess(fbId, commitment);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        if (error.getMessage().startsWith("HTTP 409")) {
+                            // updateParticipantCommitment(participantId, eventId, commitmentSteps);
+                        }
+                        else {
+                            onCreateParticipantCommitmentError(error, fbId, eventId, commitmentSteps);
+                        }
+                    }
+                });
+    }
+
+    protected void onCreateParticipantCommitmentSuccess(String fbId, Commitment commitment) {
+        Log.d(TAG, "onCreateParticipantCommitmentSuccess success: " + commitment.toString());
+
+    }
+
+    protected void onCreateParticipantCommitmentError(Throwable error, String participantId, int eventId, int commitmentSteps) {
+        Log.e(TAG, "onCreateParticipantCommitmentError($participantId, $eventId, $commitmentSteps) Error: " + error.getMessage());
+
+    }
+
+    public void updateParticipantCommitment(final int commitmentId, final String fbId, final int eventId, final int commitmentSteps) {
+        wcfClient.updateParticipantCommitment(commitmentId, fbId, eventId, commitmentSteps)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onUpdateParticipantCommitmentSuccess( fbId, eventId, commitmentSteps);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onUpdateParticipantCommitmentError(error, fbId, eventId, commitmentSteps);
+                    }
+                });
+    }
+
+    protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
+
+    }
+
+    protected void onUpdateParticipantCommitmentError(Throwable error, String participantId, int eventId, int commitmentSteps) {
+
+    }
+
+
+    /***** PARTICPANT TO Event API obsolete, we now use COMMITMENTS to join ******/
     public void assignParticipantToEvent(final String participantId, final int eventId, final int causeId, final int localityId) {
         wcfClient.updateParticipant(participantId, null, 0, 0, 0, eventId)
                 .subscribeOn(Schedulers.io())

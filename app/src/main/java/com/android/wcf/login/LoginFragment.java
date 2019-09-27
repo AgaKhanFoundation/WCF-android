@@ -9,13 +9,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Constants;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -100,6 +103,9 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                 host.showTermsAndConditions();
             }
         });
+        TextView appVersionTv = view.findViewById(R.id.app_version);
+        appVersionTv.setText("v" + BuildConfig.VERSION_NAME);
+
 
         loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));
 
@@ -127,9 +133,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                                         setParticipantTeam(null);
                                     }
 
-                                    SharedPreferencesUtil.saveMyAuthenticationMethodAsFacebook();
-                                    SharedPreferencesUtil.saveMyFacebookId(userId);
-                                    SharedPreferencesUtil.saveMyParticipantId(userId);
+                                    SharedPreferencesUtil.saveMyLoginId(userId, Constants.AUTH_FACEBOOK);
                                     SharedPreferencesUtil.saveUserLoggedIn(true);
                                     SharedPreferencesUtil.saveUserFullName(userName);
                                     SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);

@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,14 +21,15 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
-import com.android.wcf.login.AKFParticipantProfileMvp;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 
@@ -45,6 +44,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     View participantSettingsContainer;
     View teamSettingsContainer;
 
+    DecimalFormat numberFormatter = new DecimalFormat("#,###,###");
 
     boolean isTeamLead = false;
     Team team;
@@ -62,7 +62,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     else {
                         teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_off_message));
                     }
-                    settingsPresenter.updateTeamPublicVisibility(isChecked);
+                    settingsPresenter.updateTeamPublicVisibility(team.getId(), isChecked);
                     break;
             }
         }
@@ -191,17 +191,17 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     }
 
     public void editParticipantCommitment() {
-        final TextView participantMiles = participantSettingsContainer.findViewById(R.id.participant_miles);
-        int currentMiles = 0;
+        final TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_committed_miles);
+        int currentDistance = 0;
         try {
-            currentMiles = NumberFormat.getNumberInstance().parse(participantMiles.getText().toString()).intValue();
+            currentDistance = NumberFormat.getNumberInstance().parse(committedDistanceTv.getText().toString()).intValue();
         } catch (Exception e) {
-            currentMiles = 0;
+            currentDistance = 0;
         }
-        settingsPresenter.onShowMilesCommitmentSelected(currentMiles, new EditTextDialogListener() {
+        settingsPresenter.onShowMilesCommitmentSelected(currentDistance, new EditTextDialogListener() {
             @Override
             public void onDialogDone(@NotNull String editedValue) {
-                participantMiles.setText(editedValue);
+                committedDistanceTv.setText(editedValue);
             }
 
             @Override
@@ -250,8 +250,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     void updateInfoDisplay() {
         showParticipantInfo();
-        TextView particpantMiles = participantSettingsContainer.findViewById(R.id.participant_miles);
-        particpantMiles.setText(SharedPreferencesUtil.getMyMilesCommitted() + "");
+        TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_committed_miles);
+        String formattedDistance = numberFormatter.format(DistanceConverter.Companion.distance(SharedPreferencesUtil.getMyStepsCommitted()));
+        committedDistanceTv.setText(formattedDistance);
 
         setupLeaveTeamClickListeners();
         setupTeamPublicVisibility();
@@ -350,7 +351,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     public void teamPublicVisibilityUpdateError(Throwable error) {
         View teamVisibilityContainer = teamSettingsContainer.findViewById(R.id.team_visibilty_container);
         SwitchCompat teamVisibiltySwitch = teamVisibilityContainer.findViewById(R.id.team_public_visibility_enabled);
+        teamVisibiltySwitch.setOnCheckedChangeListener(null);
         teamVisibiltySwitch.setChecked(!teamVisibiltySwitch.isChecked());
+        teamVisibiltySwitch.setOnCheckedChangeListener(onCheckedChangeListener);
     }
 
     void setupLeaveTeamClickListeners() {

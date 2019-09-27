@@ -19,7 +19,6 @@
         app:layout_constraintEnd_toStartOf="@+id/team_member_count"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:text="Team name"
         tools:text="Team name"/>
 
     <TextView
@@ -32,7 +31,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/team_name"
         app:layout_constraintBaseline_toBaselineOf="@id/team_name"
-        android:text="8 members"
         tools:text="8 members"/>
 
     <TextView
@@ -44,7 +42,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/team_distance_unpledged_count"
         app:layout_constraintTop_toBottomOf="@id/team_name"
-        android:text="Team lead name"
         tools:text="Team lead name"/>
 
     <TextView
@@ -57,7 +54,6 @@
         app:layout_constraintStart_toEndOf="@id/team_lead_name"
         app:layout_constraintBaseline_toBaselineOf="@id/team_lead_name"
         android:gravity="right"
-        android:text="100 miles unpledged"
         tools:text="100 miles unpledged"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

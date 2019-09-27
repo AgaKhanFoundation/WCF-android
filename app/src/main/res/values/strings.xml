@@ -124,6 +124,11 @@
         All proceeds will be donated to AKF.  Learn about AKF https://www.akfusa.org Thank you for your support.
     </string>
 
+    <string name="invite_supporter_template_3">
+        From %1$s to %2$s, I will be embarking on %3$s, with the help of the Aga Khan Foundation in the Steps 4 Impact Challenge. I have set a goal to walk %4$d miles in %5$d days. I would like your support for this wonderful cause by pledging at the AKF USA website through https://www.akfusa.org/steps4impactpledge/. The donation will be requested at the end of the challenge when I achieve my goal of walking %4$d miles. 100%% of the proceeds will go to support the initiatives of the Aga Khan Foundation. To learn more about AKF, please visit https://www.akfusa.org/. Thank you for your support
+    </string>
+
+
     <string name="invite_supporters_to_pledge_label">Invite Supporters to Pledge</string>
     <string name="supporters_invite_title">Invite Supporters</string>
 
@@ -148,8 +153,8 @@
     <string name="team_created_invite_members_message">Next, invite friends to join. You have %1$d spots remaining on your team.</string>
     <string name="invite_members_to_join_label">Invite friends to join</string>
     <string name="team_created_continue_message">Continue</string>
-    <string name="invite_team_member_template">Hey! I have created a team named \'%1$s\' for the \'%2$s\' Challenge on the new Aga Khan Foundation \(AKF\) app, Steps4Impact, and I want you on my team!\n
-                Download the app here:\n
+    <string name="invite_team_member_template">Hey! I have created a team named \'%1$s\' for the \'%2$s\' on the new Aga Khan Foundation \(AKF\) app, Steps 4 Impact, and I want you on my team!\n
+        Download the app here:\n
         iPhone:  http://rebrand.ly/steps4impact-iphone\n
         Android: http://rebrand.ly/steps4impact-android</string>
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
@@ -159,7 +164,7 @@
     <string name="team_committed_miles_label">Team\'s committed miles</string>
     <string name="remaining_goal_miles_label">Uncommitted miles</string>
 
-    <string name="team_miles_commitment_status_template">%1$d/%2$d miles committed</string>
+    <string name="team_miles_commitment_status_template">%1$s/%2$s miles committed</string>
     <string name="team_spots_message_template">%1$d of %2$d spots available</string>
     <string name="no_spots_available_message">No spots available</string>
     <string name="challenge_team_progress_label">Team Progress</string>
@@ -167,7 +172,7 @@
     <string name="challenge_team_total_fund_raised_label">Total funds raised</string>
     <string name="challenge_team_member_rankings_label">Team member rankings</string>
 
-    <string name="team_detail_distance_goal_template">/%1$d miles</string>
+    <string name="team_detail_distance_goal_template">/%1$s miles</string>
     <string name="remove_team_member_label">Remove</string>
     <string name="team_membership_container_label">Team Members</string>
     <string name="cancel_remove_team_member_button_text">Cancel</string>
@@ -182,5 +187,11 @@
     <string name="applink_android">http://rebrand.ly/steps4impact-android</string>
     <string name="terms_url">https://www.akfusa.org/website-private-policy/</string>
     <string name="term_title">Terms and Conditions</string>
+    <string name="delete_team">Delete Team</string>
+    <string name="delete_account_label">Delete Account</string>
+    <string name="delete_team_title">Delete Team?</string>
+    <string name="delete_team_message">This will remove all data and team members from the challenge.</string>
+    <string name="cancel_delete_team_button_text">Cancel</string>
+    <string name="delete_team_button">Delete Team</string>
 
 </resources>

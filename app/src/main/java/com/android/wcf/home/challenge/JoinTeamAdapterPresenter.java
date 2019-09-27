@@ -66,4 +66,12 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
         host.teamRowSelected(pos);
 
     }
+
+    @Override
+    public boolean isTeamSelectable(int pos) {
+        if (pos < 0 || pos >= teams.size()) {
+            return false;
+        }
+        return teams.get(pos).getVisibility();
+    }
 }

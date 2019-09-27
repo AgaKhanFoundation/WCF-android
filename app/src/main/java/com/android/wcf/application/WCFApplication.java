@@ -32,6 +32,8 @@ import android.app.Application;
 import android.content.Intent;
 
 import com.android.wcf.R;
+import com.android.wcf.helper.DistanceConverter;
+import com.android.wcf.helper.DistanceMetric;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
 
@@ -46,6 +48,7 @@ public class WCFApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        DistanceConverter.Companion.setDefaultMetrics(DistanceMetric.MILES); //TODO this can be driven by Locale
         PreferenceManager.setDefaultValues(this, R.xml.settings_preferences_root, false);
         instance = this;
 

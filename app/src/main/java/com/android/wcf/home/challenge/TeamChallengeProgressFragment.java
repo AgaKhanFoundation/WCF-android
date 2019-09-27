@@ -40,6 +40,10 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
     private View challengeTeamMemberDetailsContainer;
     private View challengeTeamInviteContainer;
 
+    DecimalFormat numberFormatter = new DecimalFormat("#,###,###");
+    DecimalFormat currencyformatter = new DecimalFormat("$###,###.##");
+
+
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -155,12 +159,11 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
         TextView distanceGoalTv = container.findViewById(R.id.team_total_distance_goal);
         TextView distanceWalkedTv = container.findViewById(R.id.team_total_distance_walked);
         TextView fundsRaisedTv = container.findViewById(R.id.team_total_funds_raised_amount);
-        distanceWalkedTv.setText(getTeamTotalDistanceWalked() + "");
-        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, event.getTeamDistanceGoal() ) );
+        distanceWalkedTv.setText(numberFormatter.format(getTeamTotalDistanceWalked()));
+        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, numberFormatter.format(event.getTeamDistanceGoal()) ) );
 
         double fundRaiseAccrued = getTeamTotalFundRaiseAccrued();
-        DecimalFormat formatter = new DecimalFormat("$###,###.##");
-        fundsRaisedTv.setText(formatter.format(fundRaiseAccrued));
+        fundsRaisedTv.setText(currencyformatter.format(fundRaiseAccrued));
     }
 
     private int getTeamTotalDistanceWalked() {
@@ -168,7 +171,7 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
     }
 
     private double getTeamTotalFundRaiseAccrued() {
-        return 0.0;
+        return 0.0;  //TODO add participants' accrued funds
     }
 
     void setupChallengeTeamMemberDetailsContainer(View container) {

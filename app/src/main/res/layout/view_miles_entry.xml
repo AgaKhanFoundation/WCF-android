@@ -19,7 +19,7 @@
         android:text="@string/settings_participant_miles_label"/>
 
     <EditText
-        android:id="@+id/participant_miles"
+        android:id="@+id/participant_committed_miles"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +39,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/participant_miles"
-        app:layout_constraintBaseline_toBaselineOf="@id/participant_miles"
+        app:layout_constraintStart_toEndOf="@id/participant_committed_miles"
+        app:layout_constraintBaseline_toBaselineOf="@id/participant_committed_miles"
         android:textAppearance="@style/TextAppearance.WCF.Headline6"
         android:gravity="right"
         android:text="@string/settings_participant_miles_units_label"/>
@@ -56,7 +56,7 @@
         android:textAppearance="@style/TextAppearance.WCF.Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/participant_miles" />
+        app:layout_constraintTop_toBottomOf="@+id/participant_committed_miles" />
 
     <Button
         android:id="@+id/cancel"

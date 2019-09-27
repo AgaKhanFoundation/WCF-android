@@ -108,6 +108,10 @@ Reference:
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="TextAppearance.WCF.Body1.Dim">
+        <item name="android:textColor">@color/color_light_grey_2</item>
+    </style>
+
 
     <style name="TextAppearance.WCF.Body2" parent="TextAppearance.MaterialComponents.Body2">
         <item name="fontFamily">roboto_regular</item>

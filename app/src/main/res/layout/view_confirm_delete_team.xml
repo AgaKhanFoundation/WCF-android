@@ -9,10 +9,10 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/remove_team_member_title"
+        android:id="@+id/delete_team_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/remove_team_member_title"
+        android:text="@string/delete_team_title"
         android:gravity="center"
         android:textAppearance="?textAppearanceHeadline6"
         android:layout_marginStart="@dimen/spacing_normal"
@@ -22,10 +22,10 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <TextView
-        android:id="@+id/remove_team_member_message"
+        android:id="@+id/delete_team_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/remove_team_member_message"
+        tools:text="@string/delete_team_message"
         android:gravity="center"
         android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
         android:textAppearance="?textAppearanceBody1"
@@ -34,32 +34,32 @@
         android:layout_marginTop="@dimen/spacing_big"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/remove_team_member_title"/>
+        app:layout_constraintTop_toBottomOf="@id/delete_team_title"/>
 
     <Button
-        android:id="@+id/cancel_remove_team_member_button"
+        android:id="@+id/cancel_delete_team_button"
         style="@style/Widget.WCF.Button.Secondary"
         android:layout_width="@dimen/button_width_medium"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_big"
         android:gravity="center"
-        android:text="@string/cancel_remove_team_member_button_text"
+        android:text="@string/cancel_delete_team_button_text"
         android:textAppearance="@style/TextAppearance.WCF.Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/remove_team_member_message" />
+        app:layout_constraintTop_toBottomOf="@id/delete_team_message" />
 
     <Button
-        android:id="@+id/remove_team_member_button"
+        android:id="@+id/delete_team_button"
         style="@style/Widget.WCF.Button.Red"
         android:layout_width="@dimen/button_width_medium"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_normal"
         android:gravity="center"
-        android:text="@string/remove_team_member_button"
+        android:text="@string/delete_team_button"
         android:textAppearance="@style/TextAppearance.WCF.Button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cancel_remove_team_member_button" />
+        app:layout_constraintTop_toBottomOf="@+id/cancel_delete_team_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

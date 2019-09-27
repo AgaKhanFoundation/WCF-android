@@ -49,6 +49,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
 
     private Toolbar toolbar;
     LoginActivityMvp.Presenter loginPesenter;
+    boolean bypassAKFProfile = true; //bypass until Javascript hook is available on AKF profile page.
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -148,7 +149,12 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
 
     @Override
     public void loginComplete() {
-        showAKFProfileView();
+        if (bypassAKFProfile) {
+            akfProfileCreationComplete();
+        }
+        else {
+            showAKFProfileView();
+        }
     }
 
     @Override

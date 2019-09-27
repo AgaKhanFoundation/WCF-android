@@ -1,5 +1,6 @@
 package com.android.wcf.home;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.android.wcf.base.BaseMvp;
@@ -22,9 +23,13 @@ public interface HomeMvp {
     interface HomePresenter extends BaseMvp.Presenter {
         void getParticipant(String participantId);
 
+        void participantLeaveFromTeam(String myParticpantId);
+
         void createParticipant(String participantId);
 
         void updateParticipantEvent(String participantId, int eventId);
+
+        void createParticipantCommitment(@Nullable String participantId, int eventId, int commitmentSteps);
     }
 
 }
