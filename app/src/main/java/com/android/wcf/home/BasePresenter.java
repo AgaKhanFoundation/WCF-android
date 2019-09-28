@@ -690,8 +690,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     /***** PARTICIPANT COMMITMENTS API ******/
 
-    public void createParticipantCommitment(final String fbId, final int eventId, final int commitmentSteps) {
-        wcfClient.createParticipantCommitment(fbId, eventId, commitmentSteps)
+    public void createParticipantCommitment(final String participantId, final int eventId, final int commitmentSteps) {
+        wcfClient.createParticipantCommitment(participantId, eventId, commitmentSteps)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Commitment>() {
@@ -702,33 +702,29 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onSuccess(Commitment commitment) {
-                        onCreateParticipantCommitmentSuccess(fbId, commitment);
+                        onCreateParticipantCommitmentSuccess(participantId, commitment);
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        if (error.getMessage().startsWith("HTTP 409")) {
-                            // updateParticipantCommitment(participantId, eventId, commitmentSteps);
-                        }
-                        else {
-                            onCreateParticipantCommitmentError(error, fbId, eventId, commitmentSteps);
-                        }
+                        onCreateParticipantCommitmentError(error, participantId, eventId, commitmentSteps);
                     }
                 });
     }
 
-    protected void onCreateParticipantCommitmentSuccess(String fbId, Commitment commitment) {
-        Log.d(TAG, "onCreateParticipantCommitmentSuccess success: " + commitment.toString());
+    protected void onCreateParticipantCommitmentSuccess(String participantId, Commitment commitment) {
+        Log.d(TAG, "onCreateParticipantCommitmentSuccess: participantId= " + participantId + " :" + commitment.toString());
 
     }
 
     protected void onCreateParticipantCommitmentError(Throwable error, String participantId, int eventId, int commitmentSteps) {
-        Log.e(TAG, "onCreateParticipantCommitmentError($participantId, $eventId, $commitmentSteps) Error: " + error.getMessage());
-
+        //TODO force a refresh of Event.
+        Log.e(TAG, "onCreateParticipantCommitmentError: " + error.getMessage() + "\n\tparticipantId= " + participantId +
+            " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
     }
 
-    public void updateParticipantCommitment(final int commitmentId, final String fbId, final int eventId, final int commitmentSteps) {
-        wcfClient.updateParticipantCommitment(commitmentId, fbId, eventId, commitmentSteps)
+    public void updateParticipantCommitment(final int commitmentId, final String participantId, final int eventId, final int commitmentSteps) {
+        wcfClient.updateParticipantCommitment(commitmentId, participantId, eventId, commitmentSteps)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<Integer>>() {
@@ -739,24 +735,23 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onSuccess(List<Integer> results) {
-                        onUpdateParticipantCommitmentSuccess( fbId, eventId, commitmentSteps);
+                        onUpdateParticipantCommitmentSuccess( participantId, eventId, commitmentSteps);
                     }
 
                     @Override
                     public void onError(Throwable error) {
-                        onUpdateParticipantCommitmentError(error, fbId, eventId, commitmentSteps);
+                        onUpdateParticipantCommitmentError(error, participantId, eventId, commitmentSteps);
                     }
                 });
     }
 
     protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
-
+        Log.d(TAG, "onUpdateParticipantCommitmentSuccess: participantId=" + participantId  + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
     }
 
     protected void onUpdateParticipantCommitmentError(Throwable error, String participantId, int eventId, int commitmentSteps) {
-
+        Log.e(TAG, "onUpdateParticipantCommitmentError: " + error.getMessage() + "\n\tparticipantId=" + participantId  + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
     }
-
 
     /***** PARTICPANT TO Event API obsolete, we now use COMMITMENTS to join ******/
     public void assignParticipantToEvent(final String participantId, final int eventId, final int causeId, final int localityId) {

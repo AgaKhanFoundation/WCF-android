@@ -20,7 +20,6 @@ import androidx.fragment.app.Fragment;
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
-import com.android.wcf.helper.DateHelper;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
@@ -107,8 +106,8 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
-    public void setEvent(Event event) {
-        baseView.setEvent(event);
+    public void cacheEvent(Event event) {
+        baseView.cacheEvent(event);
     }
 
     @Override
@@ -117,8 +116,8 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
-    public void setParticipant(Participant participant) {
-        baseView.setParticipant(participant);
+    public void cacheParticipant(Participant participant) {
+        baseView.cacheParticipant(participant);
     }
 
     @Override
@@ -127,8 +126,8 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
-    public void setParticipantTeam(Team team) {
-        baseView.setParticipantTeam(team);
+    public void cacheParticipantTeam(Team team) {
+        baseView.cacheParticipantTeam(team);
     }
 
     @Override
@@ -137,8 +136,8 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
-    public void setTeamList(List<Team> teams) {
-        baseView.setTeamList(teams);
+    public void cacheTeamList(List<Team> teams) {
+        baseView.cacheTeamList(teams);
     }
 
     @Override

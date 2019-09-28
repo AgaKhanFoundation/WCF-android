@@ -37,19 +37,19 @@ public interface BaseMvp {
 
         void closeKeyboard();
 
-        void setEvent(Event event);
+        void cacheEvent(Event event);
 
         Event getEvent();
 
-        void setParticipant(Participant participant);
+        void cacheParticipant(Participant participant);
 
         Participant getParticipant();
 
-        void setParticipantTeam(Team team);
+        void cacheParticipantTeam(Team team);
 
         Team getParticipantTeam();
 
-        void setTeamList(List<Team> teams);
+        void cacheTeamList(List<Team> teams);
 
         List<Team> getTeamList();
 

@@ -220,9 +220,9 @@ public class WCFClient {
         return wcfApi.recordSteps(requestBody);
     }
 
-    public Single<Commitment> createParticipantCommitment(String fbId, int eventId, int commitmentSteps) {
+    public Single<Commitment> createParticipantCommitment(String participantId, int eventId, int commitmentSteps) {
         Map<String, Object> jsonParams = new ArrayMap<>();
-        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_FBID, fbId);
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_FB_ID, participantId);
         jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_EVENT_ID, eventId);
         jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_COMMITMENT, commitmentSteps);
 
@@ -232,10 +232,10 @@ public class WCFClient {
         return wcfApi.createParticipantCommitment(requestBody);
     }
 
-    public Single<List<Integer>> updateParticipantCommitment(int id, String fbId, int eventId, int commitmentSteps) {
+    public Single<List<Integer>> updateParticipantCommitment(int commitmentId, String participantId, int eventId, int commitmentSteps) {
         Map<String, Object> jsonParams = new ArrayMap<>();
 
-        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_FBID, fbId);
+        jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_FB_ID, participantId);
 
         jsonParams.put(Commitment.COMMITMENT_ATTRIBUTE_EVENT_ID, eventId);
 
@@ -245,7 +245,7 @@ public class WCFClient {
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
 
-        return wcfApi.updateParticipantCommitment(id, requestBody);
+        return wcfApi.updateParticipantCommitment(commitmentId, requestBody);
     }
 
     public Single<List<Commitment>> getParticipantCommitments(String fbId) {

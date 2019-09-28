@@ -68,7 +68,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         }
     };
 
-
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -202,6 +201,19 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             @Override
             public void onDialogDone(@NotNull String editedValue) {
                 committedDistanceTv.setText(editedValue);
+
+                int newCommitmentDistance = Integer.parseInt(editedValue);
+                int newCommittedSteps = DistanceConverter.Companion.steps(newCommitmentDistance);
+                int activeEventId = SharedPreferencesUtil.getMyActiveEventId();
+                String participantId = SharedPreferencesUtil.getMyParticipantId();
+
+                int commitmentId = getEvent().getParticipantCommitmentId(activeEventId);
+                if (commitmentId == 0) {
+                    settingsPresenter.createParticipantCommitment(participantId, activeEventId, newCommittedSteps);
+                }
+                else {
+                    settingsPresenter.updateParticipantCommitment(commitmentId, participantId, activeEventId, newCommittedSteps);
+                }
             }
 
             @Override
@@ -243,7 +255,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         String participantId = SharedPreferencesUtil.getMyParticipantId();
         if (id.equals(participantId)) { //I removed myself from team
             SharedPreferencesUtil.clearMyTeamId();
-            setParticipantTeam(null);
+            cacheParticipantTeam(null);
             host.restartHomeActivity();
         }
     }

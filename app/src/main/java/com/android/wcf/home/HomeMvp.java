@@ -1,10 +1,12 @@
 package com.android.wcf.home;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Participant;
+
 
 public interface HomeMvp {
 
@@ -27,9 +29,10 @@ public interface HomeMvp {
 
         void createParticipant(String participantId);
 
-        void updateParticipantEvent(String participantId, int eventId);
+        void createParticipantCommitment(@NonNull String participantId, int eventId, int commitmentSteps);
 
-        void createParticipantCommitment(@Nullable String participantId, int eventId, int commitmentSteps);
+        void updateParticipantCommitment(@NonNull int commitmentId, @NonNull String participantId, int eventId, int commitmentSteps);
+
     }
 
 }

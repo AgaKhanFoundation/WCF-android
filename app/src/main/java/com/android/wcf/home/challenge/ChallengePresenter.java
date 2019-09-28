@@ -31,6 +31,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         return challengeView.getTeamList();
     }
 
+
     @Override
     public String getTag() {
         return TAG;
@@ -55,7 +56,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetEventSuccess(Event event) {
         super.onGetEventSuccess(event);
-        challengeView.setEvent(event);
+        challengeView.cacheEvent(event);
         eventRetrieved = true;
         updateJourneySection();
         updateTeamSection();
@@ -161,7 +162,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamSuccess(Team team) {
         super.onGetTeamSuccess(team);
-        challengeView.setParticipantTeam(team);
+        challengeView.cacheParticipantTeam(team);
         getTeamParticipantsInfoFromFacebook(team);
     }
 
@@ -178,7 +179,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
     @Override
     protected void onGetTeamParticipantsInfoSuccess(Team team){
-        challengeView.setParticipantTeam(team);
+        challengeView.cacheParticipantTeam(team);
         teamRetrieved = true;
         if (challengeView.isAttached()) {
             updateJourneySection();
@@ -197,7 +198,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamListSuccess(List<Team> teams) {
         super.onGetTeamListSuccess(teams);
-        challengeView.setTeamList(teams);
+        challengeView.cacheTeamList(teams);
         challengeView.enableShowCreateTeam(true);
         if (teams == null || teams.size() == 0) {
             challengeView.enableJoinExistingTeam(false);
@@ -253,7 +254,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetParticipantSuccess(Participant participant) {
         super.onGetParticipantSuccess(participant);
-        challengeView.setParticipant(participant);
+        challengeView.cacheParticipant(participant);
         participantRetrieved = true;
         updateTeamSection();
     }

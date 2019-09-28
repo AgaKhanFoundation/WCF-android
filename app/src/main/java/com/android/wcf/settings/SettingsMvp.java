@@ -21,6 +21,10 @@ public interface SettingsMvp {
         void removeFromTeam(String participantId);
 
         void updateTeamPublicVisibility(int teamId, boolean isChecked);
+
+        void createParticipantCommitment(String participantId, int eventId, int stepsCommitted);
+
+        void updateParticipantCommitment(int commitmentId, String participantId, int eventId, int stepsCommitted);
     }
 
     interface Host extends BaseMvp.Host {

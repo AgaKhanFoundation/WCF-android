@@ -130,7 +130,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                                     String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
                                     if (!userId.equals(savedParticipantId)){
                                         SharedPreferencesUtil.clearMyTeamId();
-                                        setParticipantTeam(null);
+                                        cacheParticipantTeam(null);
                                     }
 
                                     SharedPreferencesUtil.saveMyLoginId(userId, Constants.AUTH_FACEBOOK);
