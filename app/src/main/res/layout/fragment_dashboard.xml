@@ -14,14 +14,14 @@
         android:layout_marginStart="@dimen/spacing_normal"
         android:layout_marginEnd="@dimen/spacing_normal"
         android:layout_marginBottom="@dimen/spacing_normal"
-        android:layout_marginTop="@dimen/spacing_normal_half"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:orientation="vertical">
 
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/dashboard_participant_profile_card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal"
+            android:visibility="visible"
             app:cardBackgroundColor="@color/color_white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,7 +33,6 @@
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/spacing_normal"
                 android:paddingEnd="@dimen/spacing_normal"
-                android:paddingBottom="@dimen/spacing_normal"
                 android:layout_marginTop="@dimen/spacing_normal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -112,33 +111,34 @@
                     android:id="@+id/dashboard_badges_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/participant_profile_view">
-
-                    <TextView
-                        android:id="@+id/view_badges_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal_half"
-                        android:text="@string/dashboard_badges_label"
-                        android:textAppearance="?attr/textAppearanceSubtitle1"
-                        android:textColor="@color/color_blue"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/view_badge_chevron"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/min_button_height"
                         android:gravity="right"
                         android:src="@drawable/ic_chevron_right_blue"
                         android:textAppearance="?attr/textAppearanceHeadline6"
-                        app:layout_constraintBottom_toBottomOf="@id/view_badges_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/view_badges_label" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/view_badges_label"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/spacing_normal_half"
+                        android:gravity="start|center"
+                        android:text="@string/dashboard_badges_label"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="@color/color_blue"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/view_badge_chevron"
+                        app:layout_constraintTop_toTopOf="@id/view_badge_chevron"
+                        app:layout_constraintBottom_toBottomOf="@id/view_badge_chevron" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
@@ -255,7 +255,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/spacing_normal"
-            android:padding="@dimen/spacing_normal"
             android:visibility="visible"
             app:cardBackgroundColor="@color/color_white"
             app:layout_constraintEnd_toEndOf="parent"
@@ -266,7 +265,9 @@
                 android:id="@+id/dashboard_challenge_progress_before_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_normal"
+                android:paddingStart="@dimen/spacing_normal"
+                android:paddingEnd="@dimen/spacing_normal"
+                android:paddingTop="@dimen/spacing_normal"
                 android:visibility="visible">
 
                 <TextView
@@ -291,12 +292,10 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/challenge_progress_view_label" />
 
-
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/challenge_team_invite_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/challenge_progess_view_before_start_message">
 
@@ -307,27 +306,29 @@
                         android:background="@color/color_light_grey_3"
                         app:layout_constraintTop_toTopOf="parent" />
 
+                    <ImageView
+                        android:id="@+id/team_invite_chevron"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/min_button_height"
+                        android:gravity="right"
+                        android:src="@drawable/ic_chevron_right_blue"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/seperator_3" />
+
                     <TextView
                         android:id="@+id/team_invite_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/spacing_normal_half"
+                        android:gravity="start|center"
                         tools:text="Invite 4 new team members"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         android:textColor="@color/color_blue"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/seperator_3" />
-
-                    <ImageView
-                        android:id="@+id/team_invite_chevron"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:src="@drawable/ic_chevron_right_blue"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/team_invite_label" />
+                        app:layout_constraintTop_toTopOf="@id/team_invite_chevron"
+                        app:layout_constraintBottom_toBottomOf="@id/team_invite_chevron"
+                        app:layout_constraintEnd_toStartOf="@id/team_invite_chevron" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -337,7 +338,9 @@
                 android:id="@+id/dashboard_challenge_progress_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_normal"
+                android:paddingStart="@dimen/spacing_normal"
+                android:paddingEnd="@dimen/spacing_normal"
+                android:paddingTop="@dimen/spacing_normal"
                 android:visibility="visible">
 
                 <TextView
@@ -414,7 +417,9 @@
                 android:id="@+id/fundraising_progress_view_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/spacing_normal">
+                android:paddingStart="@dimen/spacing_normal"
+                android:paddingEnd="@dimen/spacing_normal"
+                android:paddingTop="@dimen/spacing_normal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/fundraising_progress_before_view"
@@ -455,7 +460,7 @@
                     android:id="@+id/fundraising_progress_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_normal"
+                    android:layout_marginBottom="@dimen/spacing_normal_half"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/view_supporters_container"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -511,29 +516,31 @@
                     android:id="@+id/view_supporters_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_normal"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toTopOf="@+id/seperator_2">
-
-                    <TextView
-                        android:id="@+id/view_supporters_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="View list of supporters"
-                        android:textAppearance="?attr/textAppearanceSubtitle1"
-                        android:textColor="@color/color_blue"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
 
                     <ImageView
                         android:id="@+id/view_supporters_icon"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="@dimen/min_button_height"
                         android:gravity="right"
                         android:src="@drawable/ic_chevron_right_blue"
-                        app:layout_constraintBottom_toBottomOf="@id/view_supporters_label"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/view_supporters_label" />
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/view_supporters_label"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/spacing_normal_half"
+                        android:gravity="start|center"
+                        android:text="View list of supporters"
+                        android:textAppearance="?attr/textAppearanceSubtitle1"
+                        android:textColor="@color/color_blue"
+                        app:layout_constraintTop_toTopOf="@id/view_supporters_icon"
+                        app:layout_constraintBottom_toBottomOf="@id/view_supporters_icon"
+                        app:layout_constraintEnd_toStartOf="@id/view_supporters_icon"
+                        app:layout_constraintStart_toStartOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -553,27 +560,29 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent">
 
+                    <ImageView
+                        android:id="@+id/fundraising_invite_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="@dimen/min_button_height"
+                        android:gravity="right"
+                        android:src="@drawable/ic_chevron_right_blue"
+                        android:textAppearance="?attr/textAppearanceHeadline6"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"/>
+
                     <TextView
                         android:id="@+id/fundraising_invite_label"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_marginEnd="@dimen/spacing_normal_half"
+                        android:gravity="start|center"
                         android:text="@string/fundraising_invite_label"
                         android:textAppearance="?attr/textAppearanceSubtitle1"
                         android:textColor="@color/color_blue"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-                    <ImageView
-                        android:id="@+id/fundraising_invite_button"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:src="@drawable/ic_chevron_right_blue"
-                        android:textAppearance="?attr/textAppearanceHeadline6"
-                        app:layout_constraintBottom_toBottomOf="@id/fundraising_invite_label"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="@id/fundraising_invite_label" />
+                        app:layout_constraintTop_toTopOf="@id/fundraising_invite_button"
+                        app:layout_constraintBottom_toBottomOf="@id/fundraising_invite_button"
+                        app:layout_constraintEnd_toStartOf="@id/fundraising_invite_button" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 

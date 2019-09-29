@@ -193,5 +193,8 @@
     <string name="delete_team_message">This will remove all data and team members from the challenge.</string>
     <string name="cancel_delete_team_button_text">Cancel</string>
     <string name="delete_team_button">Delete Team</string>
+    <string name="team_needed_label">You will need a team</string>
+    <string name="cant_see_device_message_short">Can\'t see your device on the list?</string>
+    <string name="other_device_message_long">Fitness trackers such as Jawbone, Garmin, etc. connect to your phone’s fitness app. Use the Fitness app feature above to track your steps.</string>
 
 </resources>

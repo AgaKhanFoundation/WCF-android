@@ -129,53 +129,62 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_device_message_expand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:gravity="right"
-        android:src="@drawable/ic_chevron_down_blue"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/connection_fitness_device_container"
-        android:layout_marginTop="@dimen/spacing_normal_half"
-        android:layout_marginEnd="@dimen/spacing_normal" />
-
-    <TextView
-        android:id="@+id/other_device_message_short"
-        android:layout_height="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/other_device_message_expand_container"
         android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/spacing_normal_half"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        app:layout_constraintTop_toTopOf="@id/iv_device_message_expand"
-        android:text="Can't see your device on the list?"
-        android:lineSpacingMultiplier="@dimen/body_line_spacing_3"
-        android:textColor="@color/color_light_grey_7"
-        android:textSize="12sp"/>
-
-    <TextView
-        android:id="@+id/other_device_message_long"
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/spacing_normal_half"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        app:layout_constraintTop_toBottomOf="@id/other_device_message_short"
-        android:text="Fitness trackers such as Jawbone, Garmin, etc. connect to your phone’s fitness app. Use the Fitness app feature above to track your steps. "
-        android:lineSpacingMultiplier="@dimen/body_line_spacing_3"
-        android:visibility="gone"
-        android:textAppearance="?attr/textAppearanceCaption"
-        android:textColor="@color/color_light_grey_7"
-        android:textSize="12sp"/>
+        app:layout_constraintTop_toBottomOf="@id/connection_fitness_device_container">
 
-    <View
-        android:id="@+id/seperator_3"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        app:layout_constraintTop_toBottomOf="@id/other_device_message_long"
-        android:layout_marginTop="@dimen/spacing_normal"
-        android:layout_marginStart="@dimen/spacing_normal"
-        android:layout_marginEnd="@dimen/spacing_normal"
-        android:background="@color/color_light_grey_3" />
+        <ImageView
+            android:id="@+id/iv_device_message_expand"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/min_button_height"
+            android:gravity="end"
+            android:src="@drawable/ic_chevron_down_blue"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginEnd="@dimen/spacing_normal" />
+
+        <TextView
+            android:id="@+id/other_device_message_short"
+            android:layout_height="0dp"
+            android:layout_width="0dp"
+            android:gravity="start|center"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:textAppearance="@style/TextAppearance.WCF.Body1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_device_message_expand"
+            app:layout_constraintTop_toTopOf="@id/iv_device_message_expand"
+            app:layout_constraintBottom_toBottomOf="@id/iv_device_message_expand"
+            android:text="@string/cant_see_device_message_short"
+            android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/other_device_message_long"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:gravity="start"
+            android:layout_marginStart="@dimen/spacing_large"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:layout_marginBottom="@dimen/spacing_normal"
+            android:textAppearance="@style/TextAppearance.WCF.Body1"
+            android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/iv_device_message_expand"
+            app:layout_constraintTop_toTopOf="@id/iv_device_message_expand"
+            android:text="@string/other_device_message_long"
+            android:visibility="gone" />
+
+        <View
+            android:id="@+id/seperator_3"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginEnd="@dimen/spacing_normal"
+            android:background="@color/color_light_grey_3" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -136,17 +136,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/challenge_team_member_details_container">
 
-        <TextView
-            android:id="@+id/team_invite_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/spacing_normal_half"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            android:textColor="@color/color_blue"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:text="Invite 4 new team members" />
-
         <ImageView
             android:id="@+id/team_invite_chevron"
             android:layout_width="wrap_content"
@@ -154,9 +143,23 @@
             android:gravity="right"
             android:src="@drawable/ic_chevron_right_blue"
             android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/team_invite_label" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/team_invite_label"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+            android:gravity="start|center"
+            android:textAppearance="?attr/textAppearanceSubtitle1"
+            android:textColor="@color/color_blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/team_invite_chevron"
+            app:layout_constraintBottom_toBottomOf="@id/team_invite_chevron"
+            app:layout_constraintTop_toTopOf="@id/team_invite_chevron"
+
+            tools:text="Invite 4 new team members" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

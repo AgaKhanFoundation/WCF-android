@@ -15,7 +15,7 @@
             android:layout_marginStart="@dimen/spacing_normal"
             android:layout_marginEnd="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_normal"
-            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:layout_marginTop="@dimen/spacing_normal"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +36,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal"
+                    android:visibility="visible"
                     app:layout_constraintTop_toTopOf="parent">
 
                     <ImageView
@@ -88,7 +89,6 @@
                         android:layout_width="@dimen/card_image_size"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
-                        android:layout_marginTop="@dimen/spacing_normal"
                         android:contentDescription="TODO"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -127,9 +127,9 @@
                 android:id="@+id/challenge_participant_team_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
                 android:visibility="visible"
                 app:cardBackgroundColor="@color/color_white"
+                android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/challenge_journey_card">
@@ -140,32 +140,32 @@
                     android:layout_height="wrap_content"
                     android:padding="@dimen/spacing_normal"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="gone">
+                    android:visibility="visible">
 
                     <ImageView
-                        android:id="@+id/icon_my_team"
-                        android:layout_width="@dimen/card_image_size"
-                        android:layout_height="wrap_content"
+                        android:id="@+id/icon_create_team"
+                        android:layout_height="@dimen/card_image_size_2"
+                        android:layout_width="wrap_content"
                         android:layout_gravity="center_horizontal"
                         android:contentDescription="@null"
-                        android:src="@drawable/icon_team"
+                        android:src="@drawable/onboard_join_team"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/my_team_label"
+                        android:id="@+id/need_team_label"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal"
+                        android:layout_marginTop="@dimen/spacing_big"
                         android:gravity="start"
-                        android:text="My team"
+                        android:text="@string/team_needed_label"
                         android:textAppearance="@style/TextAppearance.WCF.Headline6"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/icon_my_team" />
+                        app:layout_constraintTop_toBottomOf="@id/icon_create_team" />
 
                     <TextView
-                        android:id="@+id/my_team_text"
+                        android:id="@+id/need_team_message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
@@ -175,7 +175,7 @@
                         android:textAppearance="@style/TextAppearance.WCF.Body1"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/my_team_label"/>
+                        app:layout_constraintTop_toBottomOf="@id/need_team_label"/>
 
                     <Button
                         android:id="@+id/show_create_team_button"
@@ -188,7 +188,7 @@
                         android:textAppearance="@style/TextAppearance.WCF.Button"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/my_team_text" />
+                        app:layout_constraintTop_toBottomOf="@id/need_team_message" />
 
                     <Button
                         android:id="@+id/show_join_team_button"
@@ -196,7 +196,6 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_normal"
-                        android:layout_marginBottom="@dimen/spacing_normal"
                         android:enabled="false"
                         android:gravity="center"
                         android:text="@string/team_card_show_teams_to_join_button_text"
@@ -212,9 +211,11 @@
                     android:id="@+id/challenge_participant_team_profile_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_normal"
+                    android:paddingTop="@dimen/spacing_normal_half"
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
                     app:layout_constraintTop_toTopOf="parent"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/team_name"
@@ -397,30 +398,31 @@
                         android:id="@+id/team_commitment_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal_half"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/seperator_1">
-
-                        <TextView
-                            android:id="@+id/team_commitment_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_normal_half"
-                            android:text="View Breakdown"
-                            android:textAppearance="?attr/textAppearanceSubtitle1"
-                            android:textColor="@color/color_blue"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/navigate_team_commitment_breakdown"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/min_button_height"
                             android:gravity="right"
                             android:src="@drawable/ic_chevron_right_blue"
-                            app:layout_constraintBottom_toBottomOf="@id/team_commitment_label"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/team_commitment_label" />
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/team_commitment_label"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="@dimen/spacing_normal_half"
+                            android:gravity="start|center"
+                            android:text="View Breakdown"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="@color/color_blue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/navigate_team_commitment_breakdown"
+                            app:layout_constraintBottom_toBottomOf="@id/navigate_team_commitment_breakdown"
+                            app:layout_constraintTop_toTopOf="@id/navigate_team_commitment_breakdown" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -443,7 +445,9 @@
                     android:id="@+id/challenge_team_invite_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="@dimen/spacing_normal">
+                    android:paddingStart="@dimen/spacing_normal"
+                    android:paddingEnd="@dimen/spacing_normal"
+                    android:visibility="visible">
 
                     <ImageView
                         android:id="@+id/icon_invite_to_team"
@@ -490,31 +494,33 @@
                         android:id="@+id/challenge_team_invite_container"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_normal_half"
+                        android:visibility="visible"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/seperator_2">
-
-                        <TextView
-                            android:id="@+id/team_invite_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_normal_half"
-                            tools:text="Invite 4 new team members"
-                            android:textAppearance="?attr/textAppearanceSubtitle1"
-                            android:textColor="@color/color_blue"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
 
                         <ImageView
                             android:id="@+id/team_invite_chevron"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/min_button_height"
                             android:gravity="right"
                             android:src="@drawable/ic_chevron_right_blue"
                             android:textAppearance="?attr/textAppearanceHeadline6"
-                            app:layout_constraintBottom_toBottomOf="@id/team_invite_label"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/team_invite_label" />
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/team_invite_label"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="@dimen/spacing_normal_half"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:gravity="start|center"
+                            android:textColor="@color/color_blue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/team_invite_chevron"
+                            app:layout_constraintBottom_toBottomOf="@id/team_invite_chevron"
+                            app:layout_constraintTop_toTopOf="@id/team_invite_chevron"
+                            tools:text="Invite 4 new team members" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -588,17 +594,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/seperator_3">
 
-                        <TextView
-                            android:id="@+id/fundraising_invite_label"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_normal_half"
-                            android:text="@string/fundraising_invite_label"
-                            android:textAppearance="?attr/textAppearanceSubtitle1"
-                            android:textColor="@color/color_blue"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
-
                         <ImageView
                             android:id="@+id/fundraising_invite_button"
                             android:layout_width="wrap_content"
@@ -606,9 +601,22 @@
                             android:gravity="right"
                             android:src="@drawable/ic_chevron_right_blue"
                             android:textAppearance="?attr/textAppearanceHeadline6"
-                            app:layout_constraintBottom_toBottomOf="@id/fundraising_invite_label"
                             app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="@id/fundraising_invite_label" />
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/fundraising_invite_label"
+                            android:layout_width="0dp"
+                            android:layout_height="0dp"
+                            android:layout_marginEnd="@dimen/spacing_normal_half"
+                            android:gravity="start|center"
+                            android:text="@string/fundraising_invite_label"
+                            android:textAppearance="?attr/textAppearanceSubtitle1"
+                            android:textColor="@color/color_blue"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintBottom_toBottomOf="@id/fundraising_invite_button"
+                            app:layout_constraintEnd_toStartOf="@id/fundraising_invite_button"
+                            app:layout_constraintTop_toTopOf="@id/fundraising_invite_button" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
