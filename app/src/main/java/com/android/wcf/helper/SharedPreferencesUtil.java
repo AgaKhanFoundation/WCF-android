@@ -109,8 +109,6 @@ public class SharedPreferencesUtil {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
         preferences.edit()
                 .remove(PREF_NAME_USER_LOGGED_IN)
-                .remove(PREF_NAME_MY_LOGIN_ID)
-                .remove(PREF_NAME_MY_FACEBOOK_ID)
                 .commit();
     }
 
@@ -199,6 +197,11 @@ public class SharedPreferencesUtil {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
         editor.putInt(PREF_NAME_USER_STEPS_COMMITTED, steps);
         editor.commit();
+    }
+
+    public static void clearMyStepsCommitted() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        preferences.edit().remove(PREF_NAME_USER_STEPS_COMMITTED).commit();
     }
 
 }

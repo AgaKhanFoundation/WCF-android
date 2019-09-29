@@ -179,14 +179,6 @@ class HomeActivity : BaseActivity()
         this.startActivity(intent)
     }
 
-    fun setMyParticipantId(participantId: String) {
-        this.myParticipantId = participantId
-    }
-
-    fun setMyTeamId(myTeamId: Int) {
-        this.myTeamId = myTeamId
-    }
-
     fun setMyActiveEventId(myActiveEventId: Int) {
         this.myActiveEventId = myActiveEventId
     }

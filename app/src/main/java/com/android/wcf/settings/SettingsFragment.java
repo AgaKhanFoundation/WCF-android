@@ -20,6 +20,7 @@ import androidx.appcompat.widget.SwitchCompat;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
+import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
@@ -116,7 +117,8 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         view.findViewById(R.id.btn_signout).setOnClickListener(onClickListener);
 
         TextView appVersionTv = view.findViewById(R.id.app_version);
-        appVersionTv.setText("v" + BuildConfig.VERSION_NAME);
+        appVersionTv.setText(WCFApplication.instance.getAppVersion());
+
     }
 
     @Override

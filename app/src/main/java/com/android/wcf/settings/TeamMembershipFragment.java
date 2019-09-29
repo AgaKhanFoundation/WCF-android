@@ -332,9 +332,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     @Override
     public void onTeamDeleteSuccess() {
         SharedPreferencesUtil.clearMyTeamId();
-        cacheParticipantTeam(null);
-        FacebookHelper.logout();
-        WCFApplication.instance.openHomeActivity();
+        host.signout();
 
     }
 

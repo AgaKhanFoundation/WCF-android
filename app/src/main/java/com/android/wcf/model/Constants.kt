@@ -3,14 +3,13 @@ package com.android.wcf.model
 class Constants {
     companion object {
 
-        public val SPLASH_TIMER = 3000
+        const val SPLASH_TIMER = 3000
 
         const val AUTH_FACEBOOK:String = "Facebook"
 
         const val SORT_MODE_ASCENDING = 0
         const val SORT_MODE_DESCENDING = 1
 
-        const val PARTICIPANT_COMMITMENT_MILES_PER_DAY = 5
         const val PARTICIPANT_COMMITMENT_STEPS_PER_DAY_DEFAULT = 10000
 
         const val PARTICIPANT_COMMITMENT_MILES_DEFAULT = 350
