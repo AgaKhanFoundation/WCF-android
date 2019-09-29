@@ -51,7 +51,7 @@ public interface WCFApiEndpoints {
     @POST("commitments/")
     Single<Commitment> createParticipantCommitment(@Body RequestBody params);
 
-    @PATCH("commitments/participant/{id}")
+    @PATCH("commitments/{id}")
     Single<List<Integer>> updateParticipantCommitment(@Path("id") int commitmentId, @Body RequestBody params);
 
     @GET("commitments/participant/{fbid}")

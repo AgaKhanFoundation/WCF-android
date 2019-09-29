@@ -16,7 +16,10 @@ data class Event(
         @SerializedName("team_building_start") var teamBuildingStart: Date? = null,
         @SerializedName("team_building_end") var teamBuildingEnd: Date? = null,
         @SerializedName("locality_id") var localityId: Int = 0,
-        @SerializedName("cause_id") var causeId: Int = 0) {
+        @SerializedName("cause_id") var causeId: Int = 0,
+        @SerializedName("participant_event") var participantCommitment: Commitment? = null
+
+) {
 
     fun hasTeamBuildingStarted(): Boolean {
         teamBuildingStart?.let {
@@ -129,5 +132,15 @@ data class Event(
         return day.toString() + " Days " + hours.toString() + " Hours " +
                 minutes.toString() + " Minutes " + seconds.toString() + " Seconds."
     }
-}
 
+    fun getParticipantCommitmentId(eventId:Int):Int {
+      return  participantCommitment?.let {
+          if (it.eventId == eventId) {
+              it.id
+          }
+          else {
+              return 0
+          }
+        }?:0;
+    }
+}

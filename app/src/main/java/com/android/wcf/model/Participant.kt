@@ -16,16 +16,26 @@ data class Participant(
         @SerializedName("id") var id: Int = 0,
         @SerializedName("fbid") var fbId: String? = "",
         @SerializedName("team_id") var teamId: Int? = null,
-        @SerializedName("event_id") var eventId: Int? = null,
         @SerializedName("cause_id") var causeId: Int? = null,
         @SerializedName("source_id") var sourceId: Int = 0,
         @SerializedName("team") var team: Team? = Team(),
         @SerializedName("cause") var cause: Cause? = Cause(),
-        @SerializedName("event") var event: Event? = Event(),
+        @SerializedName("events") var events: List<Event> = arrayListOf(),
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
-        var participantId: String? = ""
+
+    fun getEvent(eventId: Int): Event? {
+        for (event in events) {
+            if (event.id == eventId) {
+                return event;
+            }
+        }
+        return null
+    }
+
+    var participantId: String? = ""
             get() = this.fbId
-        var commitmentDistance = 0.0
+        var commitmentDistance:Double = 0.0
+
         var participantProfile:String? = ""
         var name:String?  = ""
         var completedSteps:Int = 0

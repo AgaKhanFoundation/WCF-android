@@ -182,7 +182,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public void onGetTeamError(Throwable error) {
         showError(R.string.teams_manager_error, error.getMessage());
-        setParticipantTeam(null);
+        cacheParticipantTeam(null);
         SharedPreferencesUtil.clearMyTeamId();
         teamId = SharedPreferencesUtil.getMyTeamId();
     }
@@ -487,6 +487,15 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             @Override
             public void onDialogDone(@NotNull String editedValue) {
                 committedDistanceTv.setText(editedValue);
+                int newCommitmentDistance = Integer.parseInt(editedValue);
+                int newCommittedSteps = DistanceConverter.Companion.steps(newCommitmentDistance);
+                int commitmentId = getEvent().getParticipantCommitmentId(activeEventId);
+                if (commitmentId == 0) {
+                    challengePresenter.createParticipantCommitment(participantId, activeEventId, newCommittedSteps);
+                }
+                else {
+                    challengePresenter.updateParticipantCommitment(commitmentId, participantId, activeEventId, newCommittedSteps);
+                }
 
                 Team team = getParticipantTeam();
                 showParticipantTeamSummaryCard(team);

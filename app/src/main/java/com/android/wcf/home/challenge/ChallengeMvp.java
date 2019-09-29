@@ -70,6 +70,9 @@ public interface ChallengeMvp {
 
         void onShowMilesCommitmentSelected( int currentMiles, final EditTextDialogListener editTextDialogListener);
 
+        void createParticipantCommitment(String participantId, int eventId, int stepsCommitted);
+
+        void updateParticipantCommitment(int commitmentId, String participantId, int eventId, int stepsCommitted);
     }
 
     interface Host extends BaseMvp.Host {

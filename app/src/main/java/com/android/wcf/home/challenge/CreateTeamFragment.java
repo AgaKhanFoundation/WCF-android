@@ -151,7 +151,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
     @Override
     public void teamCreated(@NotNull Team team) {
-        setParticipantTeam(team);
+        cacheParticipantTeam(team);
         showMessage("New team " + team.getName() + " created");
         presenter.assignParticipantToTeam(SharedPreferencesUtil.getMyParticipantId(), team.getId());
     }

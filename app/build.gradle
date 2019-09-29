@@ -12,8 +12,8 @@ android {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         applicationId "org.akf.steps4impact"
-        versionCode 4
-        versionName "0.5.0"
+        versionCode 5
+        versionName "0.6.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -59,7 +59,7 @@ android {
             debuggable true
             signingConfig signingConfigs.debugConfig
 
-            //fitbit test app in keshaniz@gmail.com fitbit acc
+            //fitbit test app in keshwaniz@gmail.com fitbit acc
             manifestPlaceholders = [
                     fitbit_client_id: "22CZ2W",
                     fitbit_client_secret: "ffe6f7749d28e4ec79416771d0698749",

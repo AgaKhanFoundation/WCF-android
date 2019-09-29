@@ -21,6 +21,7 @@ import com.android.wcf.home.leaderboard.LeaderboardMvp
 import com.android.wcf.home.notifications.NotificationsFragment
 import com.android.wcf.home.notifications.NotificationsMvp
 import com.android.wcf.login.LoginActivity
+import com.android.wcf.model.Commitment
 import com.android.wcf.model.Constants
 import com.android.wcf.model.Participant
 import com.android.wcf.settings.SettingsActivity
@@ -211,15 +212,25 @@ class HomeActivity : BaseActivity()
             }
         }
 
-        participant.eventId?.let {
-            if (it != myActiveEventId) {
-                homePresenter?.createParticipantCommitment(myParticipantId, myActiveEventId, event.getDefaultParticipantCommitment())
-            }
-            else {
-                addNavigationFragments()
+        val event = participant.getEvent(myActiveEventId);
+        event?.let {
+            cacheEvent(event) //this will also have participant's commitment if already committed for this event
+            val commitment:Commitment? = event.participantCommitment
+            commitment?.let {
+
+                val myStepsCommited = SharedPreferencesUtil.getMyStepsCommitted();
+                if (myStepsCommited != commitment.commitmentSteps) {
+                    homePresenter?.updateParticipantCommitment(it.id, participant.fbId!!, myActiveEventId, myStepsCommited)
+                }
+                else {
+                    addNavigationFragments()
+                }
+            }?:
+            run {
+                homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
             }
         }?: run {
-            homePresenter?.createParticipantCommitment(myParticipantId, myActiveEventId, event.getDefaultParticipantCommitment())
+            homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, getEvent().getDefaultParticipantCommitment())
         }
     }
 
@@ -228,8 +239,8 @@ class HomeActivity : BaseActivity()
     }
 
     override fun onParticipantCreated(participant: Participant) {
-        setParticipant(participant);
-        homePresenter?.updateParticipantEvent(myParticipantId, myActiveEventId)
+        cacheParticipant(participant);
+        homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
     }
 
     override fun onAssignedParticipantToEvent(participantId: String, eventId: Int) {

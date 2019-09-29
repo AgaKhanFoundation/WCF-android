@@ -145,7 +145,7 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void setEvent(Event event) {
+    public void cacheEvent(Event event) {
         DataHolder.setEvent(event);
     }
 
@@ -155,7 +155,7 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void setTeamList(List<Team> teams) {
+    public void cacheTeamList(List<Team> teams) {
         DataHolder.setTeams(teams);
     }
 
@@ -165,17 +165,25 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void setParticipant(Participant participant) {
+    public void cacheParticipant(Participant participant) {
         DataHolder.setParticipant(participant);
-        Event event = DataHolder.getEvent();
-        if (event != null && participant.getCommitmentDistance() == 0) {
+        Event activeEvent = DataHolder.getEvent();
+        if (activeEvent != null) {
+            Event participantEvent = participant.getEvent(activeEvent.getId());
+            if (participantEvent != null) {
+                DataHolder.setEvent(participantEvent);
+                activeEvent = participantEvent;
+            }
+        }
+
+        if (activeEvent != null && participant.getCommitmentDistance() == 0) {
             //TODO: this should from participant's commitment for the event and default only if commitment is zero
             int committedSteps =  SharedPreferencesUtil.getMyStepsCommitted();
             if (committedSteps == 0) {
-                committedSteps = event.getDefaultParticipantCommitment();
+                committedSteps = activeEvent.getDefaultParticipantCommitment();
                 SharedPreferencesUtil.savetMyStepsCommitted(committedSteps);
             }
-            participant.setCommitmentDistance(DistanceConverter.Companion.distance(committedSteps));
+            DataHolder.updateParticipantCommittedDistance((int) DistanceConverter.Companion.distance(committedSteps));
         }
     }
 
@@ -185,7 +193,7 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void setParticipantTeam(Team team) {
+    public void cacheParticipantTeam(Team team) {
         DataHolder.setParticipantTeam(team);
     }
 

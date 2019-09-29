@@ -54,21 +54,15 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     }
 
     @Override
-    public void updateParticipantEvent(String participantId, int eventId) {
-        super.assignParticipantToEvent(participantId, eventId, 0, 0);
-        homeView.onAssignedParticipantToEvent(participantId, eventId);
-    }
-
-    @Override
     public void createParticipantCommitment(String participantId, int eventId, int commitmentSteps) {
         super.createParticipantCommitment(participantId, eventId, commitmentSteps);
          homeView.onAssignedParticipantToEvent(participantId, eventId);
     }
 
     @Override
-    protected void onCreateParticipantCommitmentSuccess(String fbId, Commitment commitment) {
-        super.onCreateParticipantCommitmentSuccess(fbId, commitment);
-        homeView.onAssignedParticipantToEvent(fbId, commitment.getEventId());
+    protected void onCreateParticipantCommitmentSuccess(String participantId, Commitment commitment) {
+        super.onCreateParticipantCommitmentSuccess(participantId, commitment);
+        homeView.onAssignedParticipantToEvent(participantId, commitment.getEventId());
     }
 
     @Override
