@@ -33,6 +33,8 @@ public interface SettingsMvp {
 
         void signout();
 
+        void restartApp();
+
         void restartHomeActivity();
 
         void showTeamMembershipDetail(boolean isTeamLead);

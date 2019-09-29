@@ -94,7 +94,7 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
         sharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);

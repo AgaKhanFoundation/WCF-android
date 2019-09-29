@@ -10,6 +10,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseActivity;
 import com.android.wcf.facebook.FacebookHelper;
@@ -70,9 +71,15 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
 
     @Override
     public void signout() {
-        FacebookHelper.logout();
+        DataHolder.clearCache();
         SharedPreferencesUtil.clearMyLogin();
-        WCFApplication.instance.openHomeActivity();
+        FacebookHelper.logout();
+        restartApp();
+    }
+
+    @Override
+    public void restartApp() {
+        WCFApplication.instance.restartApp();
     }
 
     @Override

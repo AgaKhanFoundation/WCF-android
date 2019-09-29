@@ -54,14 +54,21 @@ import com.android.wcf.utils.Debug;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.android.wcf.model.Constants.SPLASH_TIMER;
+
 public class SplashActivity extends BaseActivity implements SplashMvp.SplashView {
 
     private static boolean DEBUG = com.android.wcf.utils.Build.DEBUG;
     private ApplicationPermission mApplicationPermission;
     private List<String> mPermissionList;
-    private final int SPLASH_TIMER = 3000;
     private Context mContext;
     private SplashPresenter presenter;
+
+    public static Intent createIntent(Context context)  {
+        Intent intent = new Intent(context, SplashActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

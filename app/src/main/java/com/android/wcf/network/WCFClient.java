@@ -37,8 +37,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WCFClient {
 
-    private final static String AKF_WCF_BACKEND_URL = "https://step4change.org";
-//    private final static String AKF_WCF_BACKEND_URL = "http://akf-causes.subshell.org";
+    private final static String AKF_WCF_BACKEND_URL_PROD = "https://step4change.org";
+    private final static String AKF_WCF_BACKEND_URL_TEST = "http://akf-causes.subshell.org";
+
+    private static String AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD; //Ensure the correct
 
     private static WCFClient instance;
     private WCFApiEndpoints wcfApi;
@@ -48,6 +50,10 @@ public class WCFClient {
             instance = new WCFClient();
         }
         return instance;
+    }
+
+    public boolean isProdBackend() {
+        return AKF_WCF_BACKEND_URL.equals(AKF_WCF_BACKEND_URL_PROD);
     }
 
     private WCFClient() {

@@ -15,5 +15,6 @@ public interface TeamMembershipMvp extends BaseMvp.BaseView {
 
     interface Host extends BaseMvp.Host {
         void restartHomeActivity();
+        void signout();
     }
 }

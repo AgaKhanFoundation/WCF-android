@@ -69,4 +69,11 @@ public class DataHolder {
         }
         //TODO update team's commitment
     }
+
+    public static void clearCache() {
+        event = null;
+        participant = null;
+        participantTeam = null;
+        teams = null;
+    }
 }

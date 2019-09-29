@@ -25,7 +25,7 @@
         android:id="@+id/delete_team_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        tools:text="@string/delete_team_message"
+        android:text="@string/delete_team_message"
         android:gravity="center"
         android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
         android:textAppearance="?textAppearanceBody1"

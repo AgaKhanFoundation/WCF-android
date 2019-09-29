@@ -1,6 +1,7 @@
 package com.android.wcf.login;
 
 import android.app.AlertDialog;
+import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -16,6 +17,7 @@ import androidx.annotation.Nullable;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
+import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Constants;
@@ -104,8 +106,10 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
             }
         });
         TextView appVersionTv = view.findViewById(R.id.app_version);
-        appVersionTv.setText("v" + BuildConfig.VERSION_NAME);
+        appVersionTv.setText(WCFApplication.instance.getAppVersion());
 
+        TextView hashKeyTV = view.findViewById(R.id.hash_key);
+        hashKeyTV.setText(WCFApplication.instance.getHashKey());
 
         loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));
 
@@ -129,6 +133,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
 
                                     String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
                                     if (!userId.equals(savedParticipantId)){
+                                        SharedPreferencesUtil.clearMyStepsCommitted();
                                         SharedPreferencesUtil.clearMyTeamId();
                                         cacheParticipantTeam(null);
                                     }
