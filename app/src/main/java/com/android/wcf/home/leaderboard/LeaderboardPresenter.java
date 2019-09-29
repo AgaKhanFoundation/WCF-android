@@ -143,12 +143,6 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
         if (challengeStarted) {
             List<LeaderboardTeam> sortedByDistance = new ArrayList<>(leaderboard);
 
-//            Collections.sort(sortedByDistance, LeaderboardTeam.SORT_BY_STEPS_COMPLETED);
-//            int rank = 1;
-//            for (LeaderboardTeam team: sortedByDistance) {
-//                team.setRank(rank++);
-//            }
-
             LeaderboardTeam team = null;
 
             if (sortedByDistance.size() > 0) {

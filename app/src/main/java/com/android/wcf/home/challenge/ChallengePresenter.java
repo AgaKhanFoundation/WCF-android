@@ -48,18 +48,21 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             super.getEvent(eventId);
         } else {
             eventRetrieved = true;
-            updateJourneySection();
-            updateTeamSection();
+            updateChallengeView();
+
         }
     }
+
+    // updateJourneySection();
+    // updateTeamSection();
+
 
     @Override
     protected void onGetEventSuccess(Event event) {
         super.onGetEventSuccess(event);
-        challengeView.cacheEvent(event);
         eventRetrieved = true;
-        updateJourneySection();
-        updateTeamSection();
+        challengeView.cacheEvent(event);
+        updateChallengeView();
     }
 
     @Override
@@ -68,83 +71,71 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         challengeView.onGetEventError(error);
     }
 
-    private void updateTeamSection() {
+    private void updateChallengeView() {
+        if (!challengeView.isAttached()) {
+            return;
+        }
+
         if (eventRetrieved && teamRetrieved && participantRetrieved) {
             Event event = challengeView.getEvent();
-
-            if (!event.hasChallengeEnded()) {
-                challengeView.showFundraisingInvite();
-            }
-            else {
-                challengeView.hideFundraisingInvite();
-            }
-
-            boolean teamBuildingEnded = event.hasTeamBuildingEnded();
-
             Team team = challengeView.getParticipantTeam();
-            if (team == null) {
-                if (eventRetrieved && event != null) {
-                    if (!teamBuildingEnded) {
-                        challengeView.showCreateOrJoinTeamView();
-                    } else {
-                        challengeView.hideCreateOrJoinTeamView();
-                    }
-                    challengeView.hideInviteTeamMembersCard();
-                    challengeView.hideParticipantTeamProfileView();
-                    challengeView.showParticipantTeamSummaryCard(team);
-                }
-            } else {
-                challengeView.hideCreateOrJoinTeamView();
-                challengeView.showParticipantTeamProfileView();
-                challengeView.showParticipantTeamSummaryCard(team);
+            Participant participant = challengeView.getParticipant();
 
-                boolean showTeamInvite = false;
-                int openSlots = 0;
-                if (eventRetrieved && event != null) {
-                    Participant participant = challengeView.getParticipant();
-                    if (participant != null) {
-                        if (team.isTeamLeader(participant.getParticipantId())) {
-                            if (!teamBuildingEnded) {
-                                List<Participant> participants = team.getParticipants();
-                                if (participants != null) {
-                                    openSlots = event.getTeamLimit() - participants.size();
-                                    if (openSlots > 0) {
-                                        showTeamInvite = true;
-                                    }
-                                }
-                            }
+            if (event == null) {
+                challengeView.noActiveEventFound();
+                return;
+            }
+
+            if (team == null) {
+                challengeView.showBeforeTeamContainer();
+                return;
+            }
+
+            if (event.daysToStartEvent() >= 0) {
+                challengeView.showJourneyBeforeStartView(event);
+            } else {
+                challengeView.showJourneyActiveView(event);
+            }
+
+            updateTeamSection(event, team, participant);
+
+            challengeView.showAfterTeamContainer();
+        }
+    }
+
+    private void updateTeamSection(Event event, Team team, Participant participant) {
+
+        if (!event.hasChallengeEnded()) {
+            challengeView.showFundraisingInvite();
+        } else {
+            challengeView.hideFundraisingInvite();
+        }
+
+        challengeView.showParticipantTeamProfileView();
+        challengeView.showParticipantTeamSummaryCard(team);
+
+        boolean teamBuildingEnded = event.hasTeamBuildingEnded();
+
+        boolean showTeamInvite = false;
+        int openSlots = 0;
+        if (participant != null) {
+            if (team.isTeamLeader(participant.getParticipantId())) {
+                if (!teamBuildingEnded) {
+                    List<Participant> participants = team.getParticipants();
+                    if (participants != null) {
+                        openSlots = event.getTeamLimit() - participants.size();
+                        if (openSlots > 0) {
+                            showTeamInvite = true;
                         }
-                    }
-                    if (showTeamInvite && openSlots > 0) {
-                        challengeView.showInviteTeamMembersCard(openSlots);
-                    } else {
-                        challengeView.hideInviteTeamMembersCard();
                     }
                 }
             }
         }
-    }
 
-    private void updateJourneySection() {
-        if (eventRetrieved && teamRetrieved) {
-            Event event = challengeView.getEvent();
-            Team team = challengeView.getParticipantTeam();
-
-            if (event != null) {
-                if (event.daysToStartEvent() >= 0) {
-                    challengeView.hideJourneyActiveView();
-
-                    if (team == null && event.hasTeamBuildingStarted() && !event.hasTeamBuildingEnded()) {
-                        challengeView.hideJourneyBeforeStartView();
-                    } else {
-                        challengeView.showJourneyBeforeStartView(event);
-                    }
-                } else {
-                    challengeView.showJourneyActiveView(event);
-                }
-            } else {
-                challengeView.hideJourneyActiveView();
-            }
+        if (showTeamInvite && openSlots > 0) {
+            challengeView.showInviteTeamMembersCard(openSlots);
+        } else {
+            challengeView.hideInviteTeamMembersCard();
         }
     }
 
@@ -154,8 +145,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             super.getTeam(id);
         } else {
             teamRetrieved = true;
-            updateJourneySection();
-            updateTeamSection();
+            updateChallengeView();
         }
     }
 
@@ -172,8 +162,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         if (error instanceof NoSuchElementException) {
             challengeView.onGetTeamError(error);
             teamRetrieved = true;
-            updateJourneySection();
-            updateTeamSection();
+            updateChallengeView();
         }
     }
 
@@ -181,18 +170,14 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetTeamParticipantsInfoSuccess(Team team){
         challengeView.cacheParticipantTeam(team);
         teamRetrieved = true;
-        if (challengeView.isAttached()) {
-            updateJourneySection();
-            updateTeamSection();
-        }
+        updateChallengeView();
     }
 
     @Override
     protected void onGetTeamParticipantsInfoError(Throwable error) {
         super.onGetTeamParticipantsInfoError(error);
         teamRetrieved = true;
-        updateJourneySection();
-        updateTeamSection();
+        updateChallengeView();
     }
 
     @Override
@@ -256,7 +241,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         super.onGetParticipantSuccess(participant);
         challengeView.cacheParticipant(participant);
         participantRetrieved = true;
-        updateTeamSection();
+        updateChallengeView();
     }
 
     @Override

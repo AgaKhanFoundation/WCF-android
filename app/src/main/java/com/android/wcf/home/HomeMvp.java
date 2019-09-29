@@ -1,7 +1,6 @@
 package com.android.wcf.home;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 
 import com.android.wcf.base.BaseMvp;
@@ -11,6 +10,8 @@ import com.android.wcf.model.Participant;
 public interface HomeMvp {
 
     interface HomeView extends BaseMvp.BaseView {
+        void noActiveEventFound();
+
         void showErrorAndCloseApp(@StringRes int messageRes);
 
         void onGetParticipant(Participant participant);
