@@ -13,8 +13,10 @@ interface CreateTeamMvp {
 
     interface Presenter : BaseMvp.Presenter {
         fun createTeam(teamName: String, teamLeadParticipantId: String, teamVisibility: Boolean? = true)
+        fun assignParticipantToTeam(participantId: String, teamId: Int)
     }
 
     interface Host : BaseMvp.Host {
+
     }
 }

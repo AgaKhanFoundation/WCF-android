@@ -31,7 +31,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     private static final String TAG = CreateTeamFragment.class.getSimpleName();
     public static final int MIN_TEAM_NAME_SIZE = 6;
 
-    CreateTeamPresenter presenter;
+    CreateTeamMvp.Presenter presenter;
     CreateTeamMvp.Host host;
     private View createTeamCard = null;
     private View teamCreatedCard = null;
@@ -153,6 +153,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     public void teamCreated(@NotNull Team team) {
         cacheParticipantTeam(team);
         showMessage("New team " + team.getName() + " created");
+
         presenter.assignParticipantToTeam(SharedPreferencesUtil.getMyParticipantId(), team.getId());
     }
 
