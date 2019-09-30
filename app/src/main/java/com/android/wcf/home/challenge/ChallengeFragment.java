@@ -367,7 +367,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         setHasOptionsMenu(true);
 
         setupViewForMainContent(mainContentView);
-        showBeforeTeamContainer();
+        if (getParticipantTeam() == null) { //optimize, don't show before container when team exists
+            showBeforeTeamContainer();
+        }
     }
 
     private void setupViewForMainContent(View mainView) {
