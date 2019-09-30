@@ -215,8 +215,8 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
-    protected void onDeleteTeamSuccess(Integer count) {
-        super.onDeleteTeamSuccess(count);
+    protected void onDeleteTeamSuccess(List<Integer> result) {
+        super.onDeleteTeamSuccess(result);
         getTeams();
     }
 

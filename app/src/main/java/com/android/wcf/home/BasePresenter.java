@@ -269,15 +269,15 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.updateTeamVisibility(teamId, isVisible)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Integer>() {
+                .subscribe(new SingleObserver<List<Integer>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposables.add(d);
                     }
 
                     @Override
-                    public void onSuccess(Integer integer) {
-                        onTeamPublicVisibilityUpdateSuccess();
+                    public void onSuccess(List<Integer> result) {
+                        onTeamPublicVisibilityUpdateSuccess(result);
                     }
 
                     @Override
@@ -287,8 +287,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 });
     }
 
-    protected void onTeamPublicVisibilityUpdateSuccess() {
-        Log.d(TAG, "onTeamPublicVisibilityUpdateSuccess");
+    protected void onTeamPublicVisibilityUpdateSuccess(List<Integer> result) {
+        Log.d(TAG, "onTeamPublicVisibilityUpdateSuccess " + result);
     }
 
     protected void onTeamPublicVisibilityUpdateError(Throwable error) {
@@ -599,14 +599,14 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.deleteTeam(teamId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Integer>() {
+                .subscribe(new SingleObserver<List<Integer>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposables.add(d);
                     }
 
                     @Override
-                    public void onSuccess(Integer count) {
+                    public void onSuccess(List<Integer> count) {
                         onDeleteTeamSuccess(count);
                     }
 
@@ -618,7 +618,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 });
     }
 
-    protected void onDeleteTeamSuccess(Integer count) {
+    protected void onDeleteTeamSuccess(List<Integer> count) {
         Log.d(TAG, "onDeleteTeamSuccess=" + count);
     }
 

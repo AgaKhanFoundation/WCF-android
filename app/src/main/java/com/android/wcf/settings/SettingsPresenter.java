@@ -1,5 +1,7 @@
 package com.android.wcf.settings;
 
+import android.util.Log;
+
 import com.android.wcf.home.BasePresenter;
 
 import java.util.List;
@@ -43,6 +45,14 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
     protected void onTeamPublicVisibilityUpdateError(Throwable error){
         super.onTeamPublicVisibilityUpdateError(error);
         settingsView.teamPublicVisibilityUpdateError(error);
+    }
+
+    @Override
+    protected void onTeamPublicVisibilityUpdateSuccess(List<Integer> result) {
+        super.onTeamPublicVisibilityUpdateSuccess(result);
+        if (result.get(0) != 1) {
+            settingsView.teamPublicVisibilityUpdateError(new Error("Update failed"));
+        }
     }
 
     @Override

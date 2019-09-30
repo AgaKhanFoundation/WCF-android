@@ -198,6 +198,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public void onParticipantIdMissing() {
         Toast.makeText(getContext(), "Login Id needed. Please login", Toast.LENGTH_SHORT).show();
         WCFApplication.instance.requestLogin();
+        getActivity().finish();
     }
 
     @Override

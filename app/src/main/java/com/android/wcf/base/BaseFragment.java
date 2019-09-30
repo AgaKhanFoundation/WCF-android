@@ -146,6 +146,26 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
+    public void clearCachedParticipantTeam() {
+        baseView.clearCachedParticipantTeam();
+    }
+
+    @Override
+    public void clearCachedEvent() {
+        baseView.clearCachedEvent();
+    }
+
+    @Override
+    public void clearCachedParticipant() {
+        baseView.clearCachedParticipant();
+    }
+
+    @Override
+    public void clearCacheTeamList() {
+        baseView.clearCacheTeamList();
+    }
+
+    @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         baseView = (BaseMvp.BaseView) context;

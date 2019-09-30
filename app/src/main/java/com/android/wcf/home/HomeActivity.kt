@@ -115,9 +115,6 @@ class HomeActivity : BaseActivity()
             finish()
         }
     }
-    override fun isAttached(): Boolean {
-        return isDestroyed && !isFinishing
-    }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id = item.itemId
