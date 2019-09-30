@@ -332,12 +332,14 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     @Override
     public void onTeamDeleteSuccess() {
         SharedPreferencesUtil.clearMyTeamId();
-        host.signout();
-
+        clearCacheTeamList();
+        clearCachedParticipantTeam();
+        clearCachedParticipant();
+        host.restartHomeActivity();
     }
 
     @Override
     public void onTeamDeleteError(Throwable error) {
-        showError("Team Delete Eror", error.getMessage());
+        showError("Team Delete Error", error.getMessage());
     }
 }

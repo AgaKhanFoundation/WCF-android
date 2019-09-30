@@ -58,9 +58,11 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             R.id.iv_device_message_expand ->
                 if (other_device_message_long.visibility == View.VISIBLE) {
                     other_device_message_long.visibility = View.GONE
+                    other_device_message_short.visibility = View.VISIBLE
                     iv_device_message_expand.setImageResource(R.drawable.ic_chevron_down_blue)
                 } else {
                     other_device_message_long.visibility = View.VISIBLE
+                    other_device_message_short.visibility = View.GONE
                     iv_device_message_expand.setImageResource(R.drawable.ic_chevron_up_blue)
                 }
             R.id.btn_connect_to_fitness_app -> {
@@ -87,14 +89,13 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         sharedPreferences = activity?.getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
         val fragmentView = inflater.inflate(R.layout.fragment_device_connection, container, false)
 
-        val expandImage: ImageView = fragmentView.findViewById(R.id.iv_device_message_expand)
         val fitnessAppButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_app)
         val fitnessDeviceButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_device)
 
-        expandImage.setOnClickListener(onClickListener)
         fitnessAppButton.setOnClickListener(onClickListener)
         fitnessDeviceButton.setOnClickListener(onClickListener)
 
+        setupOtherDeviceContainer(fragmentView.findViewById(R.id.other_device_message_expand_container))
         return fragmentView
     }
 
@@ -145,6 +146,14 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+     fun setupOtherDeviceContainer(container: View) {
+         val expandImage: ImageView = container.findViewById(R.id.iv_device_message_expand)
+         expandImage.setOnClickListener(onClickListener)
+
+        expandViewHitArea(expandImage, container)
+
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

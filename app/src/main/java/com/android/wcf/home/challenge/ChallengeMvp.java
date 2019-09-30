@@ -9,19 +9,15 @@ public interface ChallengeMvp {
     interface ChallengeView extends BaseMvp.BaseView {
         void onParticipantIdMissing();
 
-        void hideJourneyBeforeStartView();
+        void showBeforeTeamContainer();
+
+        void showAfterTeamContainer();
 
         void showJourneyBeforeStartView(Event event);
-
-        void hideJourneyActiveView();
 
         void showJourneyActiveView(Event event);
 
         void showParticipantTeamSummaryCard(Team team);
-        void hideParticipantTeamSummaryCard();
-
-        void hideCreateOrJoinTeamView();
-        void showCreateOrJoinTeamView();
 
         void enableShowCreateTeam(boolean enabledFlag);
         void enableJoinExistingTeam(boolean enabledFlag);
@@ -31,7 +27,6 @@ public interface ChallengeMvp {
 
         void onGetTeamError(Throwable error);
 
-        void hideParticipantTeamProfileView();
         void showParticipantTeamProfileView();
 
         void hideInviteTeamMembersCard();
@@ -45,6 +40,9 @@ public interface ChallengeMvp {
         void showMilesEditDialog( int currentMiles, final EditTextDialogListener editTextDialogListener);
 
         void onGetEventError(Throwable error);
+
+        void noActiveEventFound();
+
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -56,13 +54,9 @@ public interface ChallengeMvp {
 
         void getTeamStats(int teamId);
 
-        void deleteTeam(int teamId);
-
         void getParticipant(String participantId);
 
         void getParticipantStats(String participantId);
-
-        void deleteParticipant(String participantId);
 
         void showCreateTeamView();
 
@@ -76,6 +70,8 @@ public interface ChallengeMvp {
     }
 
     interface Host extends BaseMvp.Host {
+
+        void noActiveEventFound();
 
         void showCreateTeam();
 

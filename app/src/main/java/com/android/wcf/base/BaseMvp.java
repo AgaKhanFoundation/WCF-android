@@ -53,11 +53,20 @@ public interface BaseMvp {
 
         List<Team> getTeamList();
 
+        void clearCachedParticipantTeam();
+
+        void clearCachedEvent();
+
+        void clearCachedParticipant();
+
+        void clearCacheTeamList();
+
         boolean isAttached();
     }
 
     interface Presenter {
         String getTag();
+
         void onStop();
     }
 

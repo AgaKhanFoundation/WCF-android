@@ -163,31 +163,31 @@
                 android:background="@color/color_light_grey_3"
                 app:layout_constraintTop_toBottomOf="@id/participant_miles_setting" />
 
-            <TextView
-                android:id="@+id/push_notification_enabled_label"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal_half"
-                android:text="@string/settings_participant_push_enabled_label"
-                android:textAppearance="?attr/textAppearanceSubtitle1"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/seperator_1_1" />
-
             <androidx.appcompat.widget.SwitchCompat
                 android:id="@+id/push_notifications_enabled"
                 android:layout_width="wrap_content"
-                android:layout_height="0dp"
+                android:layout_height="@dimen/min_button_height"
                 android:checked="true"
-                app:layout_constraintBaseline_toBaselineOf="@+id/push_notification_enabled_label"
-                app:layout_constraintBottom_toBottomOf="@+id/push_notification_enabled_label"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/push_notification_enabled_label" />
+                app:layout_constraintTop_toBottomOf="@+id/seperator_1_1"/>
+
+            <TextView
+                android:id="@+id/push_notification_enabled_label"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginEnd="@dimen/spacing_normal_half"
+                android:gravity="start|center"
+                android:text="@string/settings_participant_push_enabled_label"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toStartOf="@id/push_notifications_enabled"
+                app:layout_constraintBottom_toBottomOf="@id/push_notifications_enabled"
+                app:layout_constraintTop_toTopOf="@id/push_notifications_enabled" />
 
             <View
                 android:id="@+id/seperator_1_2"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="@dimen/spacing_normal_half"
                 android:background="@color/color_light_grey_3"
                 app:layout_constraintTop_toBottomOf="@id/push_notification_enabled_label" />
 
@@ -195,30 +195,31 @@
                 android:id="@+id/connect_device_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal_half"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/seperator_1_2">
-
-                <TextView
-                    android:id="@+id/connect_app_device_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
-                    android:text="@string/settings_participant_connect_app_device_label"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/navigate_to_connect_app_or_device"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/min_button_height"
                     android:gravity="right"
                     android:src="@drawable/ic_chevron_right_blue"
                     android:textAppearance="?attr/textAppearanceHeadline6"
-                    app:layout_constraintBottom_toBottomOf="@id/connect_app_device_label"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/connect_app_device_label" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/connect_app_device_label"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/spacing_normal_half"
+                    android:gravity="start|center"
+                    android:text="@string/settings_participant_connect_app_device_label"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/navigate_to_connect_app_or_device"
+                    app:layout_constraintBottom_toBottomOf="@id/navigate_to_connect_app_or_device"
+                    app:layout_constraintTop_toTopOf="@id/navigate_to_connect_app_or_device" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -226,49 +227,40 @@
                 android:id="@+id/seperator_1_3"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginTop="@dimen/spacing_normal_half"
                 android:background="@color/color_light_grey_3"
                 app:layout_constraintTop_toBottomOf="@id/connect_device_container" />
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/akf_create_profile_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal_half"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/seperator_1_3">
-
-                <TextView
-                    android:id="@+id/akf_create_profile_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
-                    android:text="@string/settings_participant_akf_create_profile_label"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/navigate_to_akf_create_profile_label"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/min_button_height"
                     android:gravity="right"
                     android:src="@drawable/ic_chevron_right_blue"
                     android:textAppearance="?attr/textAppearanceHeadline6"
-                    app:layout_constraintBottom_toBottomOf="@id/akf_create_profile_label"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/akf_create_profile_label" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/akf_create_profile_label"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/spacing_normal_half"
+                    android:gravity="start|center"
+                    android:text="@string/settings_participant_akf_create_profile_label"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/navigate_to_akf_create_profile_label"
+                    app:layout_constraintBottom_toBottomOf="@id/navigate_to_akf_create_profile_label"
+                    app:layout_constraintTop_toTopOf="@id/navigate_to_akf_create_profile_label" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <View
-                android:id="@+id/seperator_1_4"
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="@dimen/spacing_normal_half"
-                android:background="@color/color_light_grey_3"
-                app:layout_constraintTop_toBottomOf="@id/akf_create_profile_container" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -303,34 +295,35 @@
                 android:id="@+id/view_team_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal_half"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/view_team_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View Team"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/team_view_team_icon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/min_button_height"
                     android:gravity="right"
                     android:src="@drawable/ic_chevron_right_blue"
-                    app:layout_constraintBottom_toBottomOf="@id/view_team_label"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/view_team_label" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/view_team_label"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/spacing_normal_half"
+                    android:gravity="start|center"
+                    android:text="View Team"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/team_view_team_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/team_view_team_icon"
+                    app:layout_constraintTop_toTopOf="@id/team_view_team_icon" />
 
                 <View
                     android:id="@+id/seperator_4"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_normal_half"
                     android:background="@color/color_light_grey_3"
                     app:layout_constraintTop_toBottomOf="@id/team_view_team_icon" />
 
@@ -341,15 +334,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/spacing_normal_half"
-                android:layout_marginBottom="@dimen/spacing_normal_half"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/view_team_container">
 
                 <TextView
                     android:id="@+id/team_visibilty_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="left"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/spacing_normal_half"
+                    android:gravity="start|center"
                     android:text="Team visibility"
                     android:textAppearance="?attr/textAppearanceSubtitle1"
                     app:layout_constraintStart_toStartOf="parent"
@@ -402,35 +395,35 @@
                 android:id="@+id/leave_team_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_normal"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/team_visibilty_container">
-
-                <TextView
-                    android:id="@+id/leave_team_label"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/spacing_normal_half"
-                    android:text="Leave Team"
-                    android:textAppearance="?attr/textAppearanceSubtitle1"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
                     android:id="@+id/leave_team_icon"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/min_button_height"
                     android:gravity="right"
                     android:src="@drawable/ic_chevron_right_blue"
-                    app:layout_constraintBottom_toBottomOf="@id/leave_team_label"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@id/leave_team_label" />
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/leave_team_label"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="@dimen/spacing_normal_half"
+                    android:gravity="start|center"
+                    android:text="Leave Team"
+                    android:textAppearance="?attr/textAppearanceSubtitle1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toStartOf="@id/leave_team_icon"
+                    app:layout_constraintBottom_toBottomOf="@id/leave_team_icon"
+                    app:layout_constraintTop_toTopOf="@id/leave_team_icon" />
 
                 <View
                     android:id="@+id/seperator_6"
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
-                    android:layout_marginTop="@dimen/spacing_normal"
                     android:background="@color/color_light_grey_3"
                     app:layout_constraintTop_toBottomOf="@id/leave_team_icon" />
 
@@ -456,11 +449,11 @@
 
         <TextView
             android:id="@+id/delete_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/min_button_height"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_normal"
-            android:enabled="false"
+            android:gravity="center"
             android:text="@string/delete_account_label"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="@color/color_blue"

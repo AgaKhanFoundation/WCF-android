@@ -5,6 +5,7 @@ import android.util.Log;
 import com.android.wcf.home.BasePresenter;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class TeamMembershipPresenter extends BasePresenter implements TeamMembershipMvp.Presenter {
 
@@ -32,14 +33,23 @@ public class TeamMembershipPresenter extends BasePresenter implements TeamMember
     }
 
 
-    protected void onDeleteTeamSuccess(Integer count) {
-        super.onDeleteTeamSuccess(count);
-        view.onTeamDeleteSuccess();
+    @Override
+    protected void onDeleteTeamSuccess(List<Integer> result) {
+        super.onDeleteTeamSuccess(result);
+        if (result.get(0) > 0) { //TODO define a constaint for API success/failure
+            view.onTeamDeleteSuccess();
+        }
     }
 
+    @Override
     protected void onDeleteTeamError(Throwable error) {
-       super.onDeleteTeamError(error);
-       view.onTeamDeleteError(error);
+        if (!(error instanceof NoSuchElementException)) {
+            super.onDeleteTeamError(error);
+            view.onTeamDeleteError(error);
+        }
+        else {
+            view.onTeamDeleteSuccess();
+        }
     }
 
     @Override

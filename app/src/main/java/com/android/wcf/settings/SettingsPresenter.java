@@ -1,8 +1,11 @@
 package com.android.wcf.settings;
 
+import android.util.Log;
+
 import com.android.wcf.home.BasePresenter;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class SettingsPresenter extends BasePresenter implements SettingsMvp.Presenter {
 
@@ -25,6 +28,17 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
     }
 
 
+    @Override
+    public void onDeleteAccountSelected() {
+        boolean deleteAllowed = settingsView.isAccountDeletable();
+        if (deleteAllowed) {
+            settingsView.confirmToDeleteAccount();
+        }
+        else {
+            settingsView.cannotDeleteLeadAccountWithMembers();
+        }
+    }
+
     public SettingsPresenter(SettingsMvp.View settingsView) {
         this.settingsView = settingsView;
     }
@@ -43,6 +57,47 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
     protected void onTeamPublicVisibilityUpdateError(Throwable error){
         super.onTeamPublicVisibilityUpdateError(error);
         settingsView.teamPublicVisibilityUpdateError(error);
+    }
+
+    @Override
+    protected void onTeamPublicVisibilityUpdateSuccess(List<Integer> result) {
+        super.onTeamPublicVisibilityUpdateSuccess(result);
+        if (result.get(0) != 1) {
+            settingsView.teamPublicVisibilityUpdateError(new Error("Update failed"));
+        }
+    }
+
+    @Override
+    protected void onDeleteParticipantSuccess(Integer count) {
+        super.onDeleteParticipantSuccess(count);
+        settingsView.participantDeleted();
+    }
+
+    @Override
+    protected void onDeleteParticipantError(Throwable error) {
+        if (!(error instanceof NoSuchElementException)) {
+            settingsView.onParticipantDeleteError(error);
+        }
+        else {
+            settingsView.participantDeleted();
+        }
+    }
+
+    @Override
+    public void deleteLeaderTeam(int teamId) {
+        deleteTeam(teamId);
+    }
+
+    @Override
+    protected void onDeleteTeamSuccess(List<Integer> result) {
+       super.onDeleteTeamSuccess(result);
+       settingsView.signout(true);
+    }
+
+    @Override
+    protected void onDeleteTeamError(Throwable error) {
+        super.onDeleteTeamError(error);
+        settingsView.signout(true);
     }
 
     @Override

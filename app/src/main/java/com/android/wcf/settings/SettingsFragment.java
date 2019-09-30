@@ -32,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 
 
 public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
@@ -90,11 +91,13 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     showTeamMembershipDetail();
                     break;
                 case R.id.btn_signout:
-                    signout();
+                    signout(false);
                     break;
                 case R.id.leave_team_icon:
                     settingsPresenter.onShowLeaveTeamSelected();
                     break;
+                case R.id.delete_account:
+                    settingsPresenter.onDeleteAccountSelected();
             }
         }
     };
@@ -115,6 +118,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         setupTeamSettingsView(view);
 
         view.findViewById(R.id.btn_signout).setOnClickListener(onClickListener);
+        view.findViewById(R.id.delete_account).setOnClickListener(onClickListener);
 
         TextView appVersionTv = view.findViewById(R.id.app_version);
         appVersionTv.setText(WCFApplication.instance.getAppVersion());
@@ -260,6 +264,67 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             cacheParticipantTeam(null);
             host.restartHomeActivity();
         }
+    }
+
+    @Override
+    public boolean isAccountDeletable() {
+        if (isTeamLead) {
+            Team team = getParticipantTeam();
+            if (team != null) {
+                List participants = team.getParticipants();
+                if (participants != null && participants.size() > 1) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void cannotDeleteLeadAccountWithMembers() {
+        showError(getString(R.string.delete_team_title), getString(R.string.team_lead_remove_members_first));
+    }
+
+    @Override
+    public void confirmToDeleteAccount() {
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_delete_account, null);
+
+        Button leaveBtn = dialogView.findViewById(R.id.delete_account_button);
+        Button cancelBtn = dialogView.findViewById(R.id.cancel_delete_account_button);
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+            }
+        });
+        leaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                settingsPresenter.deleteParticipant(SharedPreferencesUtil.getMyParticipantId());
+                dialogBuilder.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
+    }
+
+    @Override
+    public void participantDeleted() {
+        if (isTeamLead) {
+            settingsPresenter.deleteLeaderTeam(SharedPreferencesUtil.getMyTeamId());
+        }
+        else {
+            signout(true);
+        }
+    }
+
+    @Override
+    public void onParticipantDeleteError(Throwable error) {
+        showError(getString(R.string.delete_account_label), error.getMessage());
     }
 
     void updateInfoDisplay() {
@@ -414,10 +479,9 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         }
     }
 
-    public void signout(){
+    public void signout(boolean complete){
         if (host != null) {
-            host.signout();
+            host.signout(complete);
         }
     }
-
 }

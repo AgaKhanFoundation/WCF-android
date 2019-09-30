@@ -103,8 +103,7 @@ class HomeActivity : BaseActivity()
         super.onStart()
 
         if (myActiveEventId < 1) {
-            showErrorAndCloseApp(R.string.events_not_selected_error)
-            return
+            noActiveEventFound()
         }
         myParticipantId?.let {
             if(!TextUtils.isEmpty(it)) {
@@ -115,9 +114,6 @@ class HomeActivity : BaseActivity()
             showLoginActivity()
             finish()
         }
-    }
-    override fun isAttached(): Boolean {
-        return isDestroyed && !isFinishing
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -183,9 +179,16 @@ class HomeActivity : BaseActivity()
         this.myActiveEventId = myActiveEventId
     }
 
+    override fun noActiveEventFound() {
+        showErrorAndCloseApp(R.string.events_not_selected_error)
+        return
+    }
+
     override fun showErrorAndCloseApp(@StringRes messageId: Int) {
         showError(messageId)
-        Handler().postDelayed({ finish() }, Constants.SPLASH_TIMER.toLong())
+        if (getEvent() == null)  {
+            Handler().postDelayed({ finish() }, Constants.SPLASH_TIMER.toLong())
+        }
     }
 
     override fun onGetParticipant(participant: Participant?) {

@@ -44,7 +44,7 @@ public interface WCFApiEndpoints {
     Single<Stats> getParticipantStats(@Path("fbid") String participantId);
 
     @DELETE("participants/{fbid}")
-    Single<Integer> deleteParticipant(@Path("fbid") String participantId);
+    Single<List<Integer>> deleteParticipant(@Path("fbid") String participantId);
 
     /*********** PARTICIPANT COMMITMENTS ***********/
 
@@ -75,10 +75,10 @@ public interface WCFApiEndpoints {
     Single<Stats> getTeamStats(@Path("id") int id);
 
     @DELETE("teams/{id}")
-    Single<Integer> deleteTeam(@Path("id") int id);
+    Single<List<Integer>> deleteTeam(@Path("id") int id);
 
     @PATCH("teams/{id}")
-    Single<Integer> updateTeam(@Path("id") int teamId, @Body RequestBody params);
+    Single<List<Integer>> updateTeam(@Path("id") int teamId, @Body RequestBody params);
 
 
     /*********** SOURCES **********/

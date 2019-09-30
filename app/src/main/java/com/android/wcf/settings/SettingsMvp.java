@@ -11,6 +11,19 @@ public interface SettingsMvp {
         void participantRemovedFromTeam(String participantId);
 
         void teamPublicVisibilityUpdateError(Throwable error);
+
+        void cannotDeleteLeadAccountWithMembers();
+
+        void confirmToDeleteAccount();
+
+        boolean isAccountDeletable();
+
+        void participantDeleted();
+
+        void onParticipantDeleteError(Throwable error);
+
+        void signout(boolean complete);
+
     }
 
     interface Presenter extends BaseMvp.Presenter{
@@ -25,13 +38,20 @@ public interface SettingsMvp {
         void createParticipantCommitment(String participantId, int eventId, int stepsCommitted);
 
         void updateParticipantCommitment(int commitmentId, String participantId, int eventId, int stepsCommitted);
+
+        void onDeleteAccountSelected();
+
+        void deleteParticipant(String participantId);
+
+        void deleteLeaderTeam(int myTeamId);
+
     }
 
     interface Host extends BaseMvp.Host {
 
         void showDeviceConnection();
 
-        void signout();
+        void signout(boolean complete);
 
         void restartApp();
 

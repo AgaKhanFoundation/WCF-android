@@ -48,6 +48,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     /* UI elements */
 
     private View mainContentView = null;
+    private View beforeTeamContainer = null;
+    private View afterTeamContainer = null;
     private View journeyCard = null;
     private View challengeTeamInviteCard = null;
     private View participantTeamSummaryCard = null;
@@ -188,24 +190,19 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
-    public void onParticipantIdMissing() {
-        Toast.makeText(getContext(), "Login Id needed. Please login", Toast.LENGTH_SHORT).show();
-        WCFApplication.instance.requestLogin();
+    public void noActiveEventFound() {
+        mHostingParent.noActiveEventFound();
     }
 
     @Override
-    public void hideJourneyBeforeStartView() {
-        View journeyBeforeStartView = mainContentView.findViewById(R.id.journey_active_view);
-        if (journeyBeforeStartView != null && journeyBeforeStartView.getVisibility() != View.GONE) {
-            journeyBeforeStartView.setVisibility(View.GONE);
-        }
+    public void onParticipantIdMissing() {
+        Toast.makeText(getContext(), "Login Id needed. Please login", Toast.LENGTH_SHORT).show();
+        WCFApplication.instance.requestLogin();
+        getActivity().finish();
     }
 
     @Override
     public void showJourneyBeforeStartView(Event event) {
-        if (isDetached()) {
-            return;
-        }
         if (journeyCard == null) {
             return;
         }
@@ -235,22 +232,10 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
-    public void hideJourneyActiveView() {
-        if (journeyCard != null) {
-            View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
-            if (journeyActiveView != null && journeyActiveView.getVisibility() != View.GONE) {
-                journeyActiveView.setVisibility(View.GONE);
-            }
-        }
-    }
-
-    @Override
     public void showJourneyActiveView(Event event) {
         if (journeyCard != null) {
 
-            if (event != null) {
-                //update view data
-            }
+            //TODO: show Milestones view
 
             View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
             if (journeyActiveView != null && journeyActiveView.getVisibility() != View.VISIBLE) {
@@ -265,52 +250,10 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
-    public void hideCreateOrJoinTeamView() {
-        View createOrJoinTeamView = participantTeamSummaryCard.findViewById(R.id.challenge_create_or_join_team_view);
-        if (createOrJoinTeamView != null && createOrJoinTeamView.getVisibility() != View.GONE) {
-            createOrJoinTeamView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void hideParticipantTeamProfileView() {
-        View teamProfileView = participantTeamSummaryCard.findViewById(R.id.challenge_participant_team_profile_view);
-        if (teamProfileView != null && teamProfileView.getVisibility() != View.GONE){
-            teamProfileView.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
     public void showParticipantTeamProfileView() {
         View teamProfileView = participantTeamSummaryCard.findViewById(R.id.challenge_participant_team_profile_view);
         if (teamProfileView.getVisibility() != View.VISIBLE){
             teamProfileView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void showCreateOrJoinTeamView() {
-        View createOrJoinTeamView = participantTeamSummaryCard.findViewById(R.id.challenge_create_or_join_team_view);
-        if (createOrJoinTeamView != null) {
-            showCreateTeamButton = createOrJoinTeamView.findViewById(R.id.show_create_team_button);
-            if (showCreateTeamButton != null) {
-                showCreateTeamButton.setOnClickListener(onClickListener);
-            }
-            showJoinTeamButton = createOrJoinTeamView.findViewById(R.id.show_join_team_button);
-            if (showJoinTeamButton != null) {
-                showJoinTeamButton.setOnClickListener(onClickListener);
-            }
-        }
-
-        if (createOrJoinTeamView.getVisibility() != View.VISIBLE) {
-            createOrJoinTeamView.setVisibility(View.VISIBLE);
-        }
-    }
-
-    public void hideParticipantTeamSummaryCard() {
-
-        if (participantTeamSummaryCard != null && participantTeamSummaryCard.getVisibility() != View.GONE) {
-            participantTeamSummaryCard.setVisibility(View.GONE);
         }
     }
 
@@ -424,13 +367,15 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         setHasOptionsMenu(true);
 
         setupViewForMainContent(mainContentView);
+        if (getParticipantTeam() == null) { //optimize, don't show before container when team exists
+            showBeforeTeamContainer();
+        }
     }
 
     private void setupViewForMainContent(View mainView) {
 
-        journeyCard = mainView.findViewById(R.id.challenge_journey_card);
-        participantTeamSummaryCard = mainView.findViewById(R.id.challenge_participant_team_card);
-        View createOrJoinTeamView = participantTeamSummaryCard.findViewById(R.id.challenge_create_or_join_team_view);
+        beforeTeamContainer = mainView.findViewById(R.id.before_team_container);
+        View createOrJoinTeamView = beforeTeamContainer.findViewById(R.id.challenge_create_or_join_team_view);
         if (createOrJoinTeamView != null) {
             showCreateTeamButton = createOrJoinTeamView.findViewById(R.id.show_create_team_button);
             if (showCreateTeamButton != null) {
@@ -442,10 +387,15 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             }
         }
 
-        challengeTeamInviteCard = mainView.findViewById(R.id.challenge_team_invite_card);
+        afterTeamContainer = mainView.findViewById(R.id.after_team_container);
+
+        journeyCard = afterTeamContainer.findViewById(R.id.challenge_journey_card);
+        participantTeamSummaryCard = afterTeamContainer.findViewById(R.id.challenge_participant_team_card);
+
+        challengeTeamInviteCard = afterTeamContainer.findViewById(R.id.challenge_team_invite_card);
         setupChallengeTeamInviteCard(challengeTeamInviteCard);
 
-        challengeFundraisingProgressCard = mainView.findViewById(R.id.challenge_fundraising_progress_card);
+        challengeFundraisingProgressCard = afterTeamContainer.findViewById(R.id.challenge_fundraising_progress_card);
         setupChallengeFundraisingCard(challengeFundraisingProgressCard);
     }
 
@@ -461,6 +411,27 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         View image = container.findViewById(R.id.fundraising_invite_button);
         expandViewHitArea(image, container);
         image.setOnClickListener(onClickListener);
+    }
+
+    @Override
+    public void showBeforeTeamContainer() {
+        if (beforeTeamContainer.getVisibility() != View.VISIBLE){
+            beforeTeamContainer.setVisibility(View.VISIBLE);
+        }
+        if (afterTeamContainer.getVisibility() != View.GONE) {
+            afterTeamContainer.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void showAfterTeamContainer() {
+        if (afterTeamContainer.getVisibility() != View.VISIBLE) {
+            afterTeamContainer.setVisibility(View.VISIBLE);
+        }
+
+        if (beforeTeamContainer.getVisibility() != View.GONE){
+            beforeTeamContainer.setVisibility(View.GONE);
+        }
     }
 
     @Override

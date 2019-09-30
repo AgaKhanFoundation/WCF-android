@@ -202,6 +202,32 @@ abstract public class BaseActivity extends AppCompatActivity
         return DataHolder.getParticipantTeam();
     }
 
+    @Override
+    public void clearCachedEvent() {
+        DataHolder.setEvent(null);
+    }
+
+    @Override
+    public void clearCachedParticipantTeam() {
+        DataHolder.setParticipantTeam(null);
+    }
+
+    @Override
+    public void clearCachedParticipant() {
+        DataHolder.setParticipant(null);
+    }
+
+    @Override
+    public void clearCacheTeamList() {
+        DataHolder.setTeams(null);
+
+    }
+
+    @Override
+    public boolean isAttached() {
+        return !isDestroyed() && !isFinishing() ;
+    }
+
     //TODO: implement the proper dialogFragment for showing error messages
 
     @Override

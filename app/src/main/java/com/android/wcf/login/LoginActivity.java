@@ -35,6 +35,7 @@ import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseActivity;
@@ -49,7 +50,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
 
     private Toolbar toolbar;
     LoginActivityMvp.Presenter loginPesenter;
-    boolean bypassAKFProfile = true; //bypass until Javascript hook is available on AKF profile page.
+    public static boolean bypassAKFProfile = true; //bypass until Javascript hook is available on AKF profile page.
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -78,10 +79,25 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
-
     @Override
-    public boolean isAttached() {
-        return !isDestroyed() && !isFinishing();
+    public void onBackPressed() {
+        FragmentManager sfm = getSupportFragmentManager();
+
+        if (sfm.getBackStackEntryCount() > 0) {
+            Fragment fragment = sfm.findFragmentById(R.id.fragment_container);
+            if (fragment instanceof LoginFragment) {
+                finish();
+            }
+            else if (fragment instanceof AKFParticipantProfileFragment) {
+                showHomeActivity();
+            }
+            else {
+                super.onBackPressed();
+            }
+        }
+        else {
+            super.onBackPressed();
+        }
     }
 
     @Override
