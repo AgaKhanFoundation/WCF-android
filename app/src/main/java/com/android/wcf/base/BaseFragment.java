@@ -194,8 +194,6 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
 
         String teamName = getParticipantTeam().getName();
         String eventName = getEvent().getName();
-        String appLink = "https://play.google.com/store/apps/details?id=" + BuildConfig.APPLICATION_ID;
-        String teamLink = getParticipantTeam().getName();
 
         String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName);
 

@@ -13,19 +13,11 @@ public interface ChallengeMvp {
 
         void showAfterTeamContainer();
 
-        void hideJourneyBeforeStartView();
-
         void showJourneyBeforeStartView(Event event);
-
-        void hideJourneyActiveView();
 
         void showJourneyActiveView(Event event);
 
         void showParticipantTeamSummaryCard(Team team);
-        void hideParticipantTeamSummaryCard();
-
-        void hideCreateOrJoinTeamView();
-        void showCreateOrJoinTeamView();
 
         void enableShowCreateTeam(boolean enabledFlag);
         void enableJoinExistingTeam(boolean enabledFlag);
@@ -35,7 +27,6 @@ public interface ChallengeMvp {
 
         void onGetTeamError(Throwable error);
 
-        void hideParticipantTeamProfileView();
         void showParticipantTeamProfileView();
 
         void hideInviteTeamMembersCard();
@@ -63,13 +54,9 @@ public interface ChallengeMvp {
 
         void getTeamStats(int teamId);
 
-        void deleteTeam(int teamId);
-
         void getParticipant(String participantId);
 
         void getParticipantStats(String participantId);
-
-        void deleteParticipant(String participantId);
 
         void showCreateTeamView();
 
