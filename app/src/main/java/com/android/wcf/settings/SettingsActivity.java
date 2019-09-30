@@ -70,9 +70,14 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
     }
 
     @Override
-    public void signout() {
+    public void signout(boolean complete) {
         DataHolder.clearCache();
-        SharedPreferencesUtil.clearMyLogin();
+        if (complete) {
+            SharedPreferencesUtil.clearAll();
+        }
+        else {
+            SharedPreferencesUtil.clearMyLogin();
+        }
         FacebookHelper.logout();
         restartApp();
     }

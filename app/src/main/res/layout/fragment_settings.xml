@@ -449,11 +449,11 @@
 
         <TextView
             android:id="@+id/delete_account"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/min_button_height"
             android:layout_marginTop="@dimen/spacing_normal"
             android:layout_marginBottom="@dimen/spacing_normal"
-            android:enabled="false"
+            android:gravity="center"
             android:text="@string/delete_account_label"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             android:textColor="@color/color_blue"

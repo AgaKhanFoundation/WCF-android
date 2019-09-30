@@ -44,7 +44,7 @@ public interface WCFApiEndpoints {
     Single<Stats> getParticipantStats(@Path("fbid") String participantId);
 
     @DELETE("participants/{fbid}")
-    Single<Integer> deleteParticipant(@Path("fbid") String participantId);
+    Single<List<Integer>> deleteParticipant(@Path("fbid") String participantId);
 
     /*********** PARTICIPANT COMMITMENTS ***********/
 

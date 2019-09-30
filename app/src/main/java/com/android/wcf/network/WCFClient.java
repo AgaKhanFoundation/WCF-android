@@ -125,7 +125,7 @@ public class WCFClient {
         return wcfApi.createTeam(requestBody);
     }
 
-    public Single<Integer> updateTeamVisibility(int teamId, boolean teamVisibility) {
+    public Single<List<Integer>> updateTeamVisibility(int teamId, boolean teamVisibility) {
 
         Map<String, Object> jsonParams = new ArrayMap<>();
         jsonParams.put(Team.TEAM_ATTRIBUTE_VISIBILITY, teamVisibility);
@@ -148,7 +148,7 @@ public class WCFClient {
         return wcfApi.getTeamStats(teamId);
     }
 
-    public Single<Integer> deleteTeam(int teamId) {
+    public Single<List<Integer>> deleteTeam(int teamId) {
         return wcfApi.deleteTeam(teamId);
     }
 
@@ -205,7 +205,7 @@ public class WCFClient {
         return wcfApi.updateParticipant(participantId, requestBody);
     }
 
-    public Single<Integer> deleteParticipant(String participantId) {
+    public Single<List<Integer>> deleteParticipant(String participantId) {
         return wcfApi.deleteParticipant(participantId);
     }
 

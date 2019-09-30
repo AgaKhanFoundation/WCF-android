@@ -209,14 +209,15 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         wcfClient.deleteParticipant(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<Integer>() {
+                .subscribe(new SingleObserver<List<Integer>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
                         disposables.add(d);
                     }
 
                     @Override
-                    public void onSuccess(Integer count) {
+                    public void onSuccess(List<Integer> result) {
+                        int count = result != null ? result.get(0) : 0;
                         onDeleteParticipantSuccess(count);
                     }
 

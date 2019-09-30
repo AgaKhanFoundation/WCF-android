@@ -196,5 +196,10 @@
     <string name="team_needed_label">You will need a team</string>
     <string name="cant_see_device_message_short">Can\'t see your device on the list?</string>
     <string name="other_device_message_long">Fitness trackers such as Jawbone, Garmin, etc. connect to your phone’s fitness app. Use the Fitness app feature above to track your steps.</string>
+    <string name="delete_account_title">Delete Account from the App?</string>
+    <string name="cancel_delete_account_button_text">Cancel</string>
+    <string name="delete_account_button">Delete Account</string>
+    <string name="team_lead_remove_members_first">Please remove members from your team before deleting your account from the app</string>
+    <string name="delete_account_message">This will remove all your data linked to the app. You will not be able to participate in the challenge</string>
 
 </resources>
