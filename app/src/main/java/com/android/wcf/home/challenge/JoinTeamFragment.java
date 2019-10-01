@@ -2,6 +2,9 @@ package com.android.wcf.home.challenge;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,9 +23,12 @@ import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View, JoinTeamAdapterMvp.Host {
@@ -30,13 +36,31 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     private static final String TAG = JoinTeamFragment.class.getSimpleName();
     JoinTeamMvp.Presenter presenter;
     JoinTeamMvp.Host host;
-    int teamSize = 10;
+
+    List<Team> teams = new ArrayList<>();
 
     private Button joinTeamButton = null;
     private RecyclerView teamsListRecyclerView = null;
     private JoinTeamAdapter teamsAdapter = null;
     private String participantId;
     private Team selectedTeam = null;
+    private TextInputLayout teamNameInputLayout = null;
+    private TextInputEditText teamNameEditText = null;
+
+    private TextWatcher searchTeamEditWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        }
+
+        @Override
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+            searchTeamToJoin();
+        }
+
+        @Override
+        public void afterTextChanged(Editable editable) {
+        }
+    };
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -118,7 +142,7 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     }
 
     void refreshTeamList() {
-        List<Team> teams = getTeamList();
+        teams = getTeamList();
         joinTeamButton.setEnabled((teams == null || teams.size() == 0) ? false : true);
         teamsAdapter.clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
         teamsListRecyclerView.scrollToPosition(0);
@@ -153,6 +177,13 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
             joinTeamButton.setOnClickListener(onClickListener);
             joinTeamButton.setEnabled(false); // will be enabled when a team is selected
         }
+
+        teamNameEditText = joinTeamView.findViewById(R.id.team_name);
+        if (teamNameEditText != null) {
+            teamNameEditText.addTextChangedListener(searchTeamEditWatcher);
+        }
+        teamNameInputLayout = joinTeamView.findViewById(R.id.search_team_name_input_layout);
+
     }
 
     void closeView() {
@@ -165,6 +196,7 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
             showMessage("Please select a team to join");
             return;
         }
+
         //TODO ensure capacity, if not show message
 
         presenter.assignParticipantToTeam(participantId, selectedTeam.getId());
@@ -179,5 +211,35 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     @Override
     public void participantJoinTeamError(String participantId, int teamId) {
         showMessage(getString(R.string.participant_team_join_error));
+    }
+
+    protected void searchTeamToJoin() {
+        String errorMessage = getString(R.string.search_team_name_not_found_error);
+        Log.d(TAG, errorMessage);
+
+        if (teamNameEditText != null) {
+            String teamName = teamNameEditText.getText().toString().trim();
+
+            if (teamName.length() >= 1) {
+                int teamsCount =  (teams != null ? teams.size() : 0);
+                int dataRow = -1;
+                for (int idx = 0; idx < teamsCount; idx++ ) {
+                    if (teams.get(idx).getName().toLowerCase().startsWith(teamName.toLowerCase())) {
+                        dataRow = idx;
+                        break;
+                    }
+                }
+                if (dataRow >= 0) {
+                    teamsListRecyclerView.smoothScrollToPosition(dataRow);
+                    teamsListRecyclerView.setSelected(true);
+                    teamNameInputLayout.setError(null);
+                }
+                else {
+                    if (teamNameInputLayout != null) {
+                        teamNameInputLayout.setError(errorMessage);
+                    }
+                }
+            }
+        }
     }
 }

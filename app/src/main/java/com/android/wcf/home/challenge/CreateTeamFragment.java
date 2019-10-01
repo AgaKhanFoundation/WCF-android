@@ -49,19 +49,17 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
 
     private TextWatcher creatTeamEditWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        public void beforeTextChanged(CharSequence charSequence,  int start, int before, int count) {
 
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            teamNameInputLayout.setError(null);
+        public void onTextChanged(CharSequence charSequence,  int start, int before, int count) {
             enableCreateTeamButton();
         }
 
         @Override
         public void afterTextChanged(Editable editable) {
-
         }
     };
 
@@ -168,6 +166,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     public void showCreateTeamConstraintError() {
         if (teamNameInputLayout != null) {
             teamNameInputLayout.setError(getString(R.string.duplicate_team_name_error));
+            showError(getString(R.string.create_team_title), getString(R.string.duplicate_team_name_error));
         }
     }
 
