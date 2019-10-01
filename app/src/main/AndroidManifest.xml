@@ -61,7 +61,8 @@
         <activity
             android:name=".home.HomeActivity"
             android:screenOrientation="portrait"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
         </activity>
 
         <activity
