@@ -45,6 +45,7 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
             }
         }
     };
+
     public JoinTeamAdapter(JoinTeamAdapterMvp.Host host, int teamSizeLimit) {
         super();
         this.host = host;
@@ -147,7 +148,6 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
 
         teamViewHolder.rbTeamSelected.setChecked(team.getSelectedToJoin());
 
-//        teamViewHolder.itemView.setSelected(rowSelected);
         boolean teamSelectable = teamsAdapterPresenter.isTeamSelectable(pos, teamSizeLimit);
 
         teamViewHolder.rbTeamSelected.setEnabled(teamSelectable);
@@ -164,11 +164,10 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
         teamViewHolder.teamLeadName.setEnabled(teamSelectable);
         teamViewHolder.teamSpotsMessage.setEnabled(teamSelectable);
 
-        teamSelectable = false;
-        teamViewHolder.rbTeamSelected.setEnabled(teamSelectable);
+        teamViewHolder.rbTeamSelected.setEnabled(false); //preventing clicks on RB, it will be checked On/Off by click on ViewHolder
+        teamViewHolder.rbTeamSelected.setTag(R.integer.join_team_row_num_tag, pos);
 
-       // teamViewHolder.itemView.setOnClickListener(onClickListener);
-       // teamViewHolder.rbTeamSelected.setOnClickListener(onClickListener);
+        teamViewHolder.rbTeamSelected.setOnClickListener(onClickListener);
 
     }
 
