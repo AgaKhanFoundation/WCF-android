@@ -250,7 +250,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         String startDate = sdf.format(event.getStartDate());
         String endDate = sdf.format(event.getEndDate());
         String eventDescription = event.getDescription();
-        milesCommitted = (int) Math.ceil(participant.getCommitmentDistance());
+        milesCommitted = (int) participant.getCommitmentDistance();
         int days = event.getDaysInChallenge();
 
         String shareMessage = getString(R.string.invite_supporter_template_3, startDate, endDate, eventDescription, milesCommitted, days);
