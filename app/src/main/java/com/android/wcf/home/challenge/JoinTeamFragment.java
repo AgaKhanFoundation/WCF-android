@@ -150,7 +150,7 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
             teamNameEditText.clearFocus();
         }
 
-//        closeKeyboard();
+        closeKeyboard();
     }
 
     void refreshTeamList() {

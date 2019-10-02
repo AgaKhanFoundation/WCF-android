@@ -65,7 +65,6 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
 
         host.removeFocusFromSearch();
 
-        //view.refreshRows(prevSelectedPos < pos ? prevSelectedPos : pos, prevSelectedPos > pos ? prevSelectedPos : pos);
     }
 
     @Override
