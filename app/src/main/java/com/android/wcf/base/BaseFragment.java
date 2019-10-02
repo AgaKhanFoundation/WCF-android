@@ -1,6 +1,7 @@
 package com.android.wcf.base;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 
-import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.helper.DistanceConverter;
@@ -46,7 +46,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
 
     @Override
     public void showError(int messageId) {
-        Toast.makeText(getContext(), getString(messageId) , Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
 
@@ -181,13 +181,21 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         return !isDetached();
     }
 
+//    @Override
+//        public void closeKeyboard() {
+//        View view = getView();
+//        if (view != null) {
+//            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
+//            imm.hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
+//        }
+//    }
+
     @Override
     public void closeKeyboard() {
-        View view = view = getView();
-        if (view != null) {
-            InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getRootView().getWindowToken(), 0);
-        }
+        Activity activity = getActivity();
+
+        InputMethodManager inputMethodManager = (InputMethodManager) activity.getSystemService(INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(), 0);
     }
 
     public void inviteTeamMembers() {
@@ -198,7 +206,6 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         String shareMessage = getString(R.string.invite_team_member_template, teamName, eventName);
 
         try {
-
             ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());
             Intent shareIntent = intentBuilder
                     .setType("text/plain")
@@ -221,7 +228,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         Participant participant = getParticipant();
         int milesCommitted = 0;
 
-        if (event == null || participant == null ) {
+        if (event == null || participant == null) {
             //TODO: show message that committed mile have to valid
             return;
         }
@@ -229,11 +236,11 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         SimpleDateFormat sdf = new SimpleDateFormat("MMMM d");
         String startDate = sdf.format(event.getStartDate());
         String endDate = sdf.format(event.getEndDate());
-        String eventDescription  = event.getDescription();
+        String eventDescription = event.getDescription();
         milesCommitted = (int) Math.ceil(participant.getCommitmentDistance());
         int days = event.getDaysInChallenge();
 
-        String shareMessage = getString(R.string.invite_supporter_template_3, startDate, endDate, eventDescription, milesCommitted, days );
+        String shareMessage = getString(R.string.invite_supporter_template_3, startDate, endDate, eventDescription, milesCommitted, days);
 
         try {
             ShareCompat.IntentBuilder intentBuilder = ShareCompat.IntentBuilder.from(getActivity());
@@ -281,7 +288,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (editTextDialogListener != null){
+                if (editTextDialogListener != null) {
                     editTextDialogListener.onDialogCancel();
                 }
                 dialogBuilder.dismiss();
@@ -294,7 +301,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
                 int stepsCommitted = DistanceConverter.Companion.steps((distance));
                 SharedPreferencesUtil.savetMyStepsCommitted(stepsCommitted);
                 DataHolder.updateParticipantCommittedDistance(distance);
-                if (editTextDialogListener != null){
+                if (editTextDialogListener != null) {
                     editTextDialogListener.onDialogDone(editText.getText().toString());
                 }
                 dialogBuilder.dismiss();

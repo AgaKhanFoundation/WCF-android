@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
@@ -31,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View, JoinTeamAdapterMvp.Host {
+public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, JoinTeamAdapterMvp.Host {
 
     private static final String TAG = JoinTeamFragment.class.getSimpleName();
     JoinTeamMvp.Presenter presenter;
@@ -46,6 +48,7 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     private Team selectedTeam = null;
     private TextInputLayout teamNameInputLayout = null;
     private TextInputEditText teamNameEditText = null;
+    private RecyclerView.SmoothScroller smoothScroller = null;
 
     private TextWatcher searchTeamEditWatcher = new TextWatcher() {
         @Override
@@ -119,7 +122,7 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
         if (!handled) {
             switch (item.getItemId()) {
                 case android.R.id.home:
-                     closeView();
+                    closeView();
                     handled = true;
                     break;
                 default:
@@ -141,19 +144,30 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
         presenter.onStop();
     }
 
+    @Override
+    public void removeFocusFromSearch() {
+        if (teamNameEditText != null) {
+            teamNameEditText.clearFocus();
+        }
+
+//        closeKeyboard();
+    }
+
     void refreshTeamList() {
         teams = getTeamList();
         joinTeamButton.setEnabled((teams == null || teams.size() == 0) ? false : true);
         teamsAdapter.clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
-        teamsListRecyclerView.scrollToPosition(0);
+        teamsListRecyclerView.scrollToPosition(0); //TODO: reuse and scroll to previously selected pos
         teamsAdapter.updateTeamsData(teams);
     }
 
     @Override
     public void teamRowSelected(int pos) {
+        Log.d(TAG, "teamRowSelected pos=" + pos);
         //TODO: enable selecting a team if it has capacity for additional members or show message
         joinTeamButton.setEnabled(pos >= 0);
     }
+
 
     void setupView(View joinTeamView) {
         Event event = getEvent();
@@ -161,15 +175,61 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
         if (teamsAdapter == null) {
             teamsAdapter = new JoinTeamAdapter(this, ((Event) event).getTeamLimit());
         }
-
+        Context context = getContext();
         teamsListRecyclerView = joinTeamView.findViewById(R.id.teams_list);
-        teamsListRecyclerView.setLayoutManager(new LinearLayoutManager(joinTeamView.getContext()));
-        teamsListRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+        teamsListRecyclerView.setLayoutManager(layoutManager);
+
+        teamsListRecyclerView.addItemDecoration(new DividerItemDecoration(context,
                 DividerItemDecoration.VERTICAL));
 
-        teamsListRecyclerView.addItemDecoration(new ListPaddingDecoration(getContext()));
+        teamsListRecyclerView.addItemDecoration(new ListPaddingDecoration(context));
 
         teamsListRecyclerView.setAdapter(teamsAdapter);
+//        teamsListRecyclerView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                Log.d(TAG, "onFocusChange recyclerview");
+//
+//                if (hasFocus) {
+//                    if (teamNameEditText.hasFocus()) {
+//                        teamNameEditText.clearFocus();
+////                        teamsListRecyclerView.requestFocus();
+//                    }
+//                    closeKeyboard();
+////                    teamsListRecyclerView.requestFocus();
+//                }
+//            }
+//        });
+//
+//        teamsListRecyclerView.setOnTouchListener(new View.OnTouchListener() {
+//            @Override
+//            public boolean onTouch(View v, MotionEvent event) {
+//                Log.d(TAG, "onTouch recyclerview");
+//                if (teamNameEditText.hasFocus()) {
+//                    teamNameEditText.clearFocus();
+//                    closeKeyboard();
+//                    teamsListRecyclerView.requestFocus();
+//                }
+//                teamsListRecyclerView.requestFocus();
+//
+//                return false;
+//            }
+//        });
+//
+//        teamsListRecyclerView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.d(TAG, "onClick recyclerview");
+//                if (teamNameEditText.hasFocus()) {
+//                    teamNameEditText.clearFocus();
+//                    closeKeyboard();
+//                    teamsListRecyclerView.requestFocus();
+//                }
+//                teamsListRecyclerView.requestFocus();
+//            }
+//        });
+//
 
         joinTeamButton = joinTeamView.findViewById(R.id.join_team_button);
 
@@ -191,7 +251,7 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
     }
 
     private void teamSelectedToJoin() {
-         selectedTeam = teamsAdapter.getSelectedTeam();
+        selectedTeam = teamsAdapter.getSelectedTeam();
         if (selectedTeam == null) {
             showMessage("Please select a team to join");
             return;
@@ -215,31 +275,46 @@ public class JoinTeamFragment  extends BaseFragment implements JoinTeamMvp.View,
 
     protected void searchTeamToJoin() {
         String errorMessage = getString(R.string.search_team_name_not_found_error);
-        Log.d(TAG, errorMessage);
 
         if (teamNameEditText != null) {
             String teamName = teamNameEditText.getText().toString().trim();
 
             if (teamName.length() >= 1) {
-                int teamsCount =  (teams != null ? teams.size() : 0);
+                int teamsCount = (teams != null ? teams.size() : 0);
                 int dataRow = -1;
-                for (int idx = 0; idx < teamsCount; idx++ ) {
+                for (int idx = 0; idx < teamsCount; idx++) {
                     if (teams.get(idx).getName().toLowerCase().startsWith(teamName.toLowerCase())) {
                         dataRow = idx;
                         break;
                     }
                 }
                 if (dataRow >= 0) {
-                    teamsListRecyclerView.smoothScrollToPosition(dataRow);
-                    teamsListRecyclerView.setSelected(true);
                     teamNameInputLayout.setError(null);
-                }
-                else {
+
+                    navigateToPosition(dataRow);
+                } else {
                     if (teamNameInputLayout != null) {
                         teamNameInputLayout.setError(errorMessage);
                     }
                 }
             }
         }
+    }
+
+    protected void navigateToPosition(int pos) {
+
+        smoothScroller = new LinearSmoothScroller(getContext()) {
+            @Override
+            protected int getVerticalSnapPreference() {
+                return LinearSmoothScroller.SNAP_TO_START;
+            }
+        };
+        smoothScroller.setTargetPosition(pos);
+        teamsListRecyclerView.getLayoutManager().startSmoothScroll(smoothScroller);
+
+        //  These are other options to scroll, but have different results
+        //  teamsListRecyclerView.scrollToPosition(pos);
+        //  teamsListRecyclerView.scrollToPosition(pos);
+
     }
 }
