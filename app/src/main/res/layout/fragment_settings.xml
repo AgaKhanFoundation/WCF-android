@@ -33,7 +33,7 @@
                 android:layout_height="80dp"
                 android:layout_marginStart="@dimen/spacing_normal"
                 android:contentDescription="@string/content_description_participant_photo"
-                tools:src="@drawable/sultan_linkedin"
+                android:src="@drawable/avatar_profile"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0" />
