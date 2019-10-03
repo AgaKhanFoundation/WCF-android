@@ -27,6 +27,8 @@
     <string name="nav_notifications">Notifications</string>
 
     <string name="akf_profileview_title">AKF Profile</string>
+    <string name="login_id_not_found">Login data not found. Please login or contact the support team for assistance</string>
+
 
     <string name="team_card_join_create_team_mesage">Participating in a challenge is always more fun with friends! </string>
     <string name="team_card_show_teams_to_join_button_text">Join an Existing Team</string>

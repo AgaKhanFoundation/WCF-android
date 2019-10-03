@@ -123,4 +123,5 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
     public void akfProfileCreationComplete() {
         super.onBackPressed();
     }
+
 }

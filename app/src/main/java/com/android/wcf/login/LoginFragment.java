@@ -33,6 +33,7 @@ import com.facebook.login.widget.LoginButton;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Date;
 
 public class LoginFragment extends BaseFragment implements LoginMvp.View {
 
@@ -135,6 +136,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                                     if (!userId.equals(savedParticipantId)){
                                         SharedPreferencesUtil.clearMyStepsCommitted();
                                         SharedPreferencesUtil.clearMyTeamId();
+                                        SharedPreferencesUtil.clearAkfProfileCreated();
                                         cacheParticipantTeam(null);
                                     }
 
@@ -214,5 +216,6 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         host.loginComplete();
 
     }
+
 }
 

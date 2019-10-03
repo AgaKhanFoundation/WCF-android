@@ -24,6 +24,8 @@ public class SharedPreferencesUtil {
     private static String PREF_NAME_MY_ACTIVE_EVENT_ID = "MY_ACTIVE_EVENT_ID";
     private static String PREF_NAME_SHOW_ONBOARD_TUTORIAL = "SHOW_ONBOARD_TUTORIAL";
 
+    private static String PREF_NAME_AKF_PROFILE_CREATED = "akf_profile_created";
+
     private static String PREF_NAME_USER_LOGGED_IN = "isUserLoggedIn";
     private static String PREF_NAME_USER_FULL_NAME = "userFullName";
     private static String PREF_NAME_USER_EMAIL = "userEmail";
@@ -204,4 +206,22 @@ public class SharedPreferencesUtil {
         preferences.edit().remove(PREF_NAME_USER_STEPS_COMMITTED).commit();
     }
 
+    public static boolean getAkfProfileCreated() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getBoolean(PREF_NAME_AKF_PROFILE_CREATED, false);
+    }
+
+    public static void saveAkfProfileCreated(boolean createdFlag) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putBoolean(PREF_NAME_AKF_PROFILE_CREATED, createdFlag);
+        editor.commit();
+    }
+
+
+    public static void clearAkfProfileCreated() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        preferences.edit()
+                .remove(PREF_NAME_AKF_PROFILE_CREATED)
+                .commit();
+    }
 }

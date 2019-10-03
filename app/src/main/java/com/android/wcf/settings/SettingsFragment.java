@@ -25,6 +25,7 @@ import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Team;
+import com.android.wcf.network.WCFClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -32,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -122,7 +124,6 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
         TextView appVersionTv = view.findViewById(R.id.app_version);
         appVersionTv.setText(WCFApplication.instance.getAppVersion());
-
     }
 
     @Override

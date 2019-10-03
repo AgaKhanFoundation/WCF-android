@@ -22,6 +22,5 @@ public interface LoginMvp {
         void showTermsAndConditions();
 
         void loginComplete();
-
     }
 }

@@ -31,6 +31,7 @@ package com.android.wcf.login;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.widget.Toolbar;
@@ -38,11 +39,13 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
+import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseActivity;
+import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.onboard.OnboardActivity;
-import com.android.wcf.web.WebViewActivity;
 import com.android.wcf.web.WebViewFragment;
 
 public class LoginActivity extends BaseActivity implements LoginActivityMvp.View, LoginMvp.Host, AKFParticipantProfileMvp.Host {
@@ -50,7 +53,6 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
 
     private Toolbar toolbar;
     LoginActivityMvp.Presenter loginPesenter;
-    public static boolean bypassAKFProfile = true; //bypass until Javascript hook is available on AKF profile page.
 
     public static Intent createIntent(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -79,6 +81,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
             fragment.onActivityResult(requestCode, resultCode, data);
         }
     }
+
     @Override
     public void onBackPressed() {
         FragmentManager sfm = getSupportFragmentManager();
@@ -87,15 +90,12 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
             Fragment fragment = sfm.findFragmentById(R.id.fragment_container);
             if (fragment instanceof LoginFragment) {
                 finish();
-            }
-            else if (fragment instanceof AKFParticipantProfileFragment) {
+            } else if (fragment instanceof AKFParticipantProfileFragment) {
                 showHomeActivity();
-            }
-            else {
+            } else {
                 super.onBackPressed();
             }
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -127,6 +127,12 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     }
 
     @Override
+    public void restartApp() {
+        SharedPreferencesUtil.clearMyLogin();
+        WCFApplication.instance.restartApp();
+        finish();
+    }
+
     public void showLoginView() {
         Fragment fragment = new LoginFragment();
         getSupportFragmentManager()
@@ -163,12 +169,15 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
         this.startActivity(intent);
     }
 
+    //Temporarily, bypass until Javascript hook is available on AKF profile page.
+    public static boolean bypassAKFProfile = true;
     @Override
     public void loginComplete() {
-        if (bypassAKFProfile) {
+        boolean akfProfileCreate = SharedPreferencesUtil.getAkfProfileCreated();
+
+        if (bypassAKFProfile || akfProfileCreate) {
             akfProfileCreationComplete();
-        }
-        else {
+        } else {
             showAKFProfileView();
         }
     }
@@ -177,4 +186,5 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     public void akfProfileCreationComplete() {
         loginPesenter.akfProfileCreationComplete();
     }
+
 }
