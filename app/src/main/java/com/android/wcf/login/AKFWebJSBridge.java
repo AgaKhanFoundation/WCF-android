@@ -1,11 +1,13 @@
 package com.android.wcf.login;
 
 import android.content.Context;
+import android.util.Log;
 import android.webkit.JavascriptInterface;
 import android.widget.Toast;
 
 public class AKFWebJSBridge {
 
+    private static final String TAG = AKFWebJSBridge.class.getSimpleName();
 
     Context mContext;
 
@@ -21,6 +23,8 @@ public class AKFWebJSBridge {
      */
     @JavascriptInterface
     public void profileCreated() {
-        Toast.makeText(mContext, "Profile created", Toast.LENGTH_SHORT).show();
+        String message = "Callback received, AKF Profile created";
+        Log.d(TAG, message);
+        // Toast.makeText(mContext, message, Toast.LENGTH_SHORT).show();
     }
 }
