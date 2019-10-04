@@ -1,7 +1,6 @@
 package com.android.wcf.login;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -127,6 +126,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         TextView hashKeyTV = view.findViewById(R.id.hash_key);
         hashKeyTV.setText(WCFApplication.instance.getHashKey());
 
+        loginButton.setFragment(this);
         loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
