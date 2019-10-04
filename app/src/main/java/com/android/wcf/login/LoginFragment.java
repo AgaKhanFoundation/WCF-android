@@ -17,16 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
-import com.android.wcf.application.DataHolder;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Constants;
 import com.android.wcf.network.WCFClient;
-import com.android.wcf.settings.EditTextDialogListener;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -36,7 +32,6 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.Arrays;
