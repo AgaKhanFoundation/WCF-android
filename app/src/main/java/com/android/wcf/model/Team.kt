@@ -1,8 +1,9 @@
 package com.android.wcf.model
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 import java.util.*
-
 
 data class Team(
         @SerializedName("id") var id: Int = 0,
@@ -12,6 +13,8 @@ data class Team(
         @SerializedName("visibility") var visibility: Boolean = true,
         @SerializedName("participants") var participants: List<Participant> = arrayListOf(),
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
+
+        var selectedToJoin = false        //used by JoinTeam to select
 
     fun getLeaderName():String? {
         this.participants.let {

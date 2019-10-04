@@ -1,5 +1,7 @@
 package com.android.wcf.home.challenge;
 
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 
 import com.android.wcf.model.Team;
@@ -8,6 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
+
+    private static final String TAG = JoinTeamAdapterPresenter.class.getSimpleName();
 
     JoinTeamAdapterMvp.View view;
     List<Team> teams = new ArrayList<>();
@@ -42,8 +46,25 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
 
     @Override
     public void onTeamSelected(int pos) {
-        selectedTeamPosition = pos;
-        view.teamRowSelected(pos);
+        Log.d(TAG, "onTeamSelected(pos)=" + pos);
+        int prevSelectedPos = selectedTeamPosition;
+        for (int idx = 0; idx < teams.size(); idx++) {
+            teams.get(idx).setSelectedToJoin(pos == idx);
+        }
+
+        if (prevSelectedPos >= 0) {
+            Team team = getTeam(prevSelectedPos);
+            if (team != null) {
+                view.teamRowUnselected(prevSelectedPos);
+            }
+        }
+        Team team = getTeam(pos);
+        if (team != null) {
+            view.teamRowSelected(pos);
+        }
+
+        host.removeFocusFromSearch();
+
     }
 
     @Override
@@ -58,20 +79,30 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
 
     @Override
     public void clearTeamSelectionPosition() {
+        if (teams != null && selectedTeamPosition >= 0 && selectedTeamPosition < teams.size() ) {
+            teams.get(selectedTeamPosition).setSelectedToJoin(false);
+            view.teamRowUnselected(selectedTeamPosition);
+        }
         selectedTeamPosition = -1;
     }
 
     @Override
     public void teamRowSelected(int pos) {
+        selectedTeamPosition = pos;
         host.teamRowSelected(pos);
 
     }
 
     @Override
-    public boolean isTeamSelectable(int pos) {
-        if (pos < 0 || pos >= teams.size()) {
+    public boolean isTeamSelectable(int pos, int teamSizeLimit) {
+        if (pos < 0 || teams == null || pos >= teams.size()) {
             return false;
         }
-        return teams.get(pos).getVisibility();
+
+        Team team = teams.get(pos);
+        int participantsCount = team.getParticipants() != null ? team.getParticipants().size() : 0;
+
+        int spotAvailable = teamSizeLimit - participantsCount;
+        return teams.get(pos).getVisibility() && spotAvailable > 0;
     }
 }

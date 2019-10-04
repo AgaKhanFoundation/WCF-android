@@ -14,5 +14,6 @@ interface AKFParticipantProfileMvp {
         fun akfProfileCreationComplete()
         fun showToolbar()
         fun hideToolbar()
+        fun restartApp()
     }
 }

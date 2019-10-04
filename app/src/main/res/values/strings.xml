@@ -27,6 +27,8 @@
     <string name="nav_notifications">Notifications</string>
 
     <string name="akf_profileview_title">AKF Profile</string>
+    <string name="login_id_not_found">Login data not found. Please login or contact the support team for assistance</string>
+
 
     <string name="team_card_join_create_team_mesage">Participating in a challenge is always more fun with friends! </string>
     <string name="team_card_show_teams_to_join_button_text">Join an Existing Team</string>
@@ -143,7 +145,11 @@
     <string name="team_name_hint_text">Name your team (required)</string>
     <string name="create_team_button_text">Create Team</string>
     <string name="team_name_constraint_hint">Minimum length 6 characters</string>
+    <string name="team_name_search_hint">Find a team</string>
+
     <string name="duplicate_team_name_error">Team name is taken. Select a different team name.</string>
+    <string name="search_team_name_not_found_error">No matching team name found.</string>
+
     <string name="cancel_team_creation_title">Cancel Team Setup?</string>
     <string name="cancel_team_creation_message">If you choose to cancel setup, your team will be deleted and any changes you made will not be saved.</string>
     <string name="create_team_continue_button_text">No, keep editing</string>
@@ -201,5 +207,10 @@
     <string name="delete_account_button">Delete Account</string>
     <string name="team_lead_remove_members_first">Please remove members from your team before deleting your account from the app</string>
     <string name="delete_account_message">This will remove all your data linked to the app. You will not be able to participate in the challenge</string>
+    <string name="settings_tester_password_label">Enter password to switch server:</string>
+    <string name="switch_server_lable">Switch Server</string>
+    <string name="connected_to_prod_server">Connected to Prod Server</string>
+    <string name="connected_to_test_server">Connected to Test Server</string>
+    <string name="invalid_password">Invalid Password</string>
 
 </resources>

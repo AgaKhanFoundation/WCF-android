@@ -229,6 +229,9 @@ class ParticipantActivityFragment : BaseFragment() {
     }
 
     fun updateView() {
+        if (!isAttached()){
+            return
+        }
         if (activityType == ACTIVITY_TYPE_DAILY) {
             updateViewDaily()
         }

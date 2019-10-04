@@ -60,5 +60,7 @@ public interface SettingsMvp {
         void showTeamMembershipDetail(boolean isTeamLead);
 
         void showAKFProfileView();
+
+        void switchServerForTestingTeam();
     }
 }

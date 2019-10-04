@@ -1,20 +1,34 @@
 package com.android.wcf.login
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
-import android.webkit.HttpAuthHandler
-import android.webkit.WebChromeClient
+import android.view.ViewGroup
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import android.widget.Toast
 import com.android.wcf.R
-import com.android.wcf.web.WebViewFragment
+import com.android.wcf.base.BaseFragment
+import com.android.wcf.helper.SharedPreferencesUtil
+import com.android.wcf.web.AppWebViewClient
+import com.fitbitsdk.authentication.UrlChangeHandler
 
-class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMvp.View {
-    val AKF_PROFILE_URL = "https://www.akfusa.org/steps4impact/"
+class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.View, UrlChangeHandler {
+
 
     var host: AKFParticipantProfileMvp.Host? = null
+    var mWebView: WebView? = null
+
+    companion object {
+        val TAG = AKFParticipantProfileFragment::class.java.simpleName
+        val AKF_PROFILE_URL = "https://www.akfusa.org/steps4impact/"
+        val AKF_PROFILE_THANKYOU_URL = "https://www.akfusa.org/thank-you-steps4impact/"
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -35,10 +49,39 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
         setHasOptionsMenu(true)
     }
 
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_web_view, container, false)
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupView()
         host?.setToolbarTitle(getString(R.string.akf_profileview_title), true)
         host?.showToolbar()
+        var url = AKF_PROFILE_URL
+        var fbid = SharedPreferencesUtil.getMyFacebookId();
+
+        if (fbid == null || fbid.isEmpty()) {
+            AlertDialog.Builder(context)
+                    .setTitle(R.string.akf_profileview_title)
+                    .setMessage(R.string.login_id_not_found)
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which -> relogin() })
+                    .create()
+                    .show()
+        }
+
+        url += "?fbid=" + fbid
+
+        mWebView?.loadUrl(url)
+    }
+
+    fun closeView() {
+        host?.akfProfileCreationComplete()
+    }
+
+    fun relogin() {
+        host?.restartApp()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -56,48 +99,36 @@ class AKFParticipantProfileFragment : WebViewFragment(), AKFParticipantProfileMv
         return handled
     }
 
-     fun closeView() {
-       host?.akfProfileCreationComplete()
+    fun setupView() {
+        mWebView = view?.findViewById(R.id.webView)
+        val webSettings = mWebView?.getSettings()
+        webSettings?.setJavaScriptEnabled(true)
+
+        var webViewClient: WebViewClient = AppWebViewClient(this)
+
+        mWebView?.setWebViewClient(webViewClient)
+
+        mWebView?.addJavascriptInterface(AKFWebJSBridge(context), "appJSReceiver")
+
     }
 
-    override fun setupWebView(): String? {
-        val args = arguments
-
-        var title: String? = null
-        var url = AKF_PROFILE_URL
-        if (args != null) {
-            url = args.getString(WEB_URL_KEY, AKF_PROFILE_URL)
-            title = args.getString(TITLE_OVERRIDE_KEY, null)
+    override fun onUrlChanged(newUrl: String?): Boolean {
+        Log.d(TAG, "onUrlChanged : $newUrl")
+        newUrl?.let {
+            val responseAsExpected: Boolean = it.startsWith(AKF_PROFILE_THANKYOU_URL, true);
+            if (responseAsExpected) {
+                Toast.makeText(context, "AKF Profile created", Toast.LENGTH_LONG).show()
+                SharedPreferencesUtil.saveAkfProfileCreated(true);
+                host?.akfProfileCreationComplete();
+            }
         }
+        return true
+    }
 
-        if (title != null) {
-            host?.setToolbarTitle(title, true)
-            mWebView?.setWebChromeClient(WebChromeClient())
-        } else {
-//            mWebView?.setWebChromeClient(object : WebChromeClient() {
-//                override fun onReceivedTitle(view: WebView, title: String?) {
-//                    super.onReceivedTitle(view, title)
-//                    if (title != null && title.length > 0) {
-//                        host?.setToolbarTitle(null, true)
-//
-//                    } else {
-//                        host?.setToolbarTitle(null, true)
-//                    }
-//                }
-//            })
-        }
-
-        if (args != null && args.containsKey(KEY_URL_USER_NAME) && args.containsKey(KEY_URL_PWD)) {
-            mWebView?.setWebViewClient(object : WebViewClient() {
-                override fun onReceivedHttpAuthRequest(view: WebView,
-                                                       handler: HttpAuthHandler,
-                                                       host: String, realm: String) {
-                    val userName = args.getString(KEY_URL_USER_NAME, "")
-                    val pwd = args.getString(KEY_URL_PWD, "")
-                    handler.proceed(userName, pwd)
-                }
-            })
-        }
-        return url
+    override fun onLoadError(errorCode: Int, description: CharSequence?) {
+        Toast.makeText(context, "Error loading AKF Profile creation page: $description", Toast.LENGTH_LONG).show()
     }
 }
+
+
+

@@ -40,7 +40,17 @@ public class WCFClient {
     private final static String AKF_WCF_BACKEND_URL_PROD = "https://step4change.org";
     private final static String AKF_WCF_BACKEND_URL_TEST = "http://akf-causes.subshell.org";
 
-    private static String AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD; //Ensure the correct
+    private static String AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD; //Ensure the correct value
+
+    //this method gets called from Settings to facilitate testing team to switch servers
+    public static void switchServerForTestingTeam() {
+        if (isProdBackend()) {
+            AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_TEST;
+        }
+        else {
+            AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD;
+        }
+    }
 
     private static WCFClient instance;
     private WCFApiEndpoints wcfApi;
@@ -52,7 +62,7 @@ public class WCFClient {
         return instance;
     }
 
-    public boolean isProdBackend() {
+    public static boolean isProdBackend() {
         return AKF_WCF_BACKEND_URL.equals(AKF_WCF_BACKEND_URL_PROD);
     }
 
