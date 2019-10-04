@@ -212,5 +212,6 @@
     <string name="connected_to_prod_server">Connected to Prod Server</string>
     <string name="connected_to_test_server">Connected to Test Server</string>
     <string name="invalid_password">Invalid Password</string>
+    <string name="login_invalid_relogin_message">Your login is not valid, please login again.</string>
 
 </resources>

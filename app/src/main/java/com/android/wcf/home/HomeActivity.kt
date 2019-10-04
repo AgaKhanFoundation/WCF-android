@@ -1,10 +1,13 @@
 package com.android.wcf.home
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +28,7 @@ import com.android.wcf.model.Commitment
 import com.android.wcf.model.Constants
 import com.android.wcf.model.Participant
 import com.android.wcf.settings.SettingsActivity
+import com.facebook.AccessToken
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : BaseActivity()
@@ -105,6 +109,13 @@ class HomeActivity : BaseActivity()
         if (myActiveEventId < 1) {
             noActiveEventFound()
         }
+
+        if (!isLoginValid()) {
+            Log.d(TAG, "login not valid")
+            askToRelogin();
+            return;
+        }
+
         myParticipantId?.let {
             if(!TextUtils.isEmpty(it)) {
                 //TODO when other auth providers are implemented, call the appropriate method for participant retrieval
@@ -114,6 +125,33 @@ class HomeActivity : BaseActivity()
             showLoginActivity()
             finish()
         }
+    }
+
+    private fun askToRelogin() {
+        val message = getString(R.string.login_invalid_relogin_message)
+        AlertDialog.Builder(this)
+                .setTitle(R.string.login_title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+
+                    showLoginActivity()
+                    finish()
+
+                })
+                .setNegativeButton(android.R.string.cancel, DialogInterface.OnClickListener { dialog, which ->
+
+                    finish()
+
+                })
+
+                .create()
+                .show()
+    }
+
+    private fun isLoginValid(): Boolean {
+        val accessToken:AccessToken = AccessToken.getCurrentAccessToken()
+        return accessToken != null && !accessToken.isExpired()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
