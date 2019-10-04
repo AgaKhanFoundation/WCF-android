@@ -10,17 +10,24 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Constants;
+import com.android.wcf.network.WCFClient;
+import com.android.wcf.settings.EditTextDialogListener;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -30,6 +37,7 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -108,6 +116,13 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         });
         TextView appVersionTv = view.findViewById(R.id.app_version);
         appVersionTv.setText(WCFApplication.instance.getAppVersion());
+
+        appVersionTv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switchServerForTestingTeam();
+            }
+        });
 
         TextView hashKeyTV = view.findViewById(R.id.hash_key);
         hashKeyTV.setText(WCFApplication.instance.getHashKey());
@@ -214,6 +229,67 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
     @Override
     public void loginComplete() {
         host.loginComplete();
+
+    }
+    int switchRequestClickCount = 0;
+    long lastSwitchClickAt = new Date().getTime();
+    private void switchServerForTestingTeam(){
+        long now = new Date().getTime();
+        Log.d(TAG, "Click count=" + switchRequestClickCount + " timeDelta=" + (now - lastSwitchClickAt));
+        if (now - lastSwitchClickAt  < 1000) { //upto .1 sec gap allowed between clicks
+            switchRequestClickCount++;
+            if (switchRequestClickCount >= 2) {
+                switchRequestClickCount = 0;
+                confirmServerSwitch();
+            }
+        }
+        else {
+            switchRequestClickCount = 0;
+        }
+        lastSwitchClickAt = now;
+    }
+
+    private void confirmServerSwitch() {
+
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_password_entry, null);
+
+        final TextView connectionMessageTv = dialogView.findViewById(R.id.current_connection_message);
+        if (WCFClient.isProdBackend()) {
+            connectionMessageTv.setText(getString(R.string.connected_to_prod_server));
+        }
+        else {
+            connectionMessageTv.setText(getString(R.string.connected_to_test_server));
+        }
+
+        final EditText editText = dialogView.findViewById(R.id.password);
+        Button okBtn = dialogView.findViewById(R.id.ok);
+        Button cancelBtn = dialogView.findViewById(R.id.cancel);
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+                closeKeyboard();
+            }
+        });
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+                closeKeyboard();
+                if (editText.getText().toString().equals("akftester1")) {
+                    host.switchServerForTestingTeam();
+                }
+                else {
+                    Toast.makeText(getContext(), getString(R.string.invalid_password), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
 
     }
 

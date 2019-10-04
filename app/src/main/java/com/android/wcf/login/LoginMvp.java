@@ -22,5 +22,9 @@ public interface LoginMvp {
         void showTermsAndConditions();
 
         void loginComplete();
+        void signout(boolean complete);
+
+        void switchServerForTestingTeam();
+
     }
 }

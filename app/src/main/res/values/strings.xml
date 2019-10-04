@@ -207,5 +207,10 @@
     <string name="delete_account_button">Delete Account</string>
     <string name="team_lead_remove_members_first">Please remove members from your team before deleting your account from the app</string>
     <string name="delete_account_message">This will remove all your data linked to the app. You will not be able to participate in the challenge</string>
+    <string name="settings_tester_password_label">Enter password to switch server:</string>
+    <string name="switch_server_lable">Switch Server</string>
+    <string name="connected_to_prod_server">Connected to Prod Server</string>
+    <string name="connected_to_test_server">Connected to Test Server</string>
+    <string name="invalid_password">Invalid Password</string>
 
 </resources>

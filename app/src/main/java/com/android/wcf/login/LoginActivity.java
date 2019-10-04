@@ -133,6 +133,19 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
         finish();
     }
 
+    @Override
+    public void signout(boolean complete) {
+        DataHolder.clearCache();
+        if (complete) {
+            SharedPreferencesUtil.clearAll();
+        }
+        else {
+            SharedPreferencesUtil.clearMyLogin();
+        }
+        FacebookHelper.logout();
+        restartApp();
+    }
+    
     public void showLoginView() {
         Fragment fragment = new LoginFragment();
         getSupportFragmentManager()
@@ -187,4 +200,12 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
         loginPesenter.akfProfileCreationComplete();
     }
 
+
+    @Override
+    public void switchServerForTestingTeam() {
+        Log.d(TAG, "Click switchServerForTestingTeam()");
+
+        WCFApplication.switchServerForTestingTeam();
+        signout(true);
+    }
 }

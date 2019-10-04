@@ -56,6 +56,7 @@ public class WCFApplication extends Application {
 
     public static WCFApplication instance;
     public static final String TAG = WCFApplication.class.getSimpleName();
+    private static boolean serverSwitched = false;
 
     @Override
     public void onCreate() {
@@ -88,8 +89,19 @@ public class WCFApplication extends Application {
         instance.startActivity(intent);
     }
 
+    public static void  switchServerForTestingTeam() {
+        Log.d(TAG, "switchServerForTestingTeam()");
+        serverSwitched = true;
+        WCFClient.switchServerForTestingTeam();
+
+    }
+
+
     public String getAppVersion() {
-      return ( "v" + BuildConfig.VERSION_NAME + ( WCFClient.getInstance().isProdBackend() ? "-p" : "-t"));
+      return ( "v" + BuildConfig.VERSION_NAME
+              + ( WCFClient.isProdBackend() ? "-p" : "-t")
+              + (serverSwitched ? " -switched" : "")
+      );
     }
 
     public String getHashKey() {

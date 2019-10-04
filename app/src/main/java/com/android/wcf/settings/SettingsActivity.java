@@ -124,4 +124,9 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
         super.onBackPressed();
     }
 
+    @Override
+    public void switchServerForTestingTeam() {
+        WCFApplication.switchServerForTestingTeam();
+        signout(true);
+    }
 }
