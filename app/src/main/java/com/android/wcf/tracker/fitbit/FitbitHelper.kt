@@ -42,7 +42,7 @@ class FitbitHelper {
 
                 val builder = AuthenticationConfigurationBuilder()
                         .setClientCredentials(clientCredentials)
-                        .setTokenExpiresIn(TimeUnit.DAYS.toMillis(365))
+                        .setTokenExpiresIn(TimeUnit.DAYS.toMillis(30))
                         .addRequiredScopes(Scope.activity)
                         .addOptionalScopes(Scope.settings, Scope.profile)
                         .setLogoutOnAuthFailure(false)
