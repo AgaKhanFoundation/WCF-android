@@ -138,7 +138,7 @@ class HomeActivity : BaseActivity()
             }
 
             override fun onTrackerLoginNotValid() {
-                showTrackerConnectionError()
+                showTrackerConnectionError(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
             }
         })
     }
@@ -150,22 +150,28 @@ class HomeActivity : BaseActivity()
             }
 
             override fun onTrackerLoginNotValid() {
-                showTrackerConnectionError()
+                showTrackerConnectionError(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
             }
         })
     }
 
-    fun showTrackerConnectionError() {
+    fun showTrackerConnectionError(trackerId:Int) {
+        var title:String = ""
+        if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
+            title = getString(R.string.tracker_connection_title_template, "Fitbit")
+        }
+        else if (trackerId == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
+            title = getString(R.string.tracker_connection_title_template, "Google Fit App")
+        }
 
         val message = getString(R.string.tracker_needs_reconnection)
         AlertDialog.Builder(this)
-                .setTitle(R.string.settings_connect_device_title)
+                .setTitle(title)
                 .setMessage(message)
                 .setCancelable(false)
                 .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
                     getParticipantData()
                 })
-
                 .show()
         // TrackingHelper.clearTrackerSelection(context = this@HomeActivity)
         // Toast.makeText(this@HomeActivity, message, Toast.LENGTH_LONG).show()

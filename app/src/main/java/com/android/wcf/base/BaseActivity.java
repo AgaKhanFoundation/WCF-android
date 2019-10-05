@@ -341,6 +341,8 @@ abstract public class BaseActivity extends AppCompatActivity
         Log.i(TAG, "onFitbitLoggedIn");
         getUserProfile();
         getDeviceProfile();
+
+
     }
 
     private void getUserProfile() {

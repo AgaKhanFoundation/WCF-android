@@ -3,10 +3,8 @@ package com.android.wcf.tracker.fitbit
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.util.Log
-import com.android.wcf.tracker.FitbitActivityResponseCallback
 import com.android.wcf.tracker.TrackerLoginStatusCallback
 import com.android.wcf.tracker.TrackerStepsCallback
 import com.android.wcf.tracker.TrackingHelper
@@ -14,7 +12,6 @@ import com.android.wcf.tracker.TrackingHelper.Companion.TRACKER_SHARED_PREF_NAME
 import com.fitbitsdk.authentication.*
 import com.fitbitsdk.service.FitbitService
 import com.fitbitsdk.service.models.ActivitySteps
-import com.fitbitsdk.service.models.DailyActivitySummary
 import com.fitbitsdk.service.models.UserProfile
 import retrofit2.Call
 import retrofit2.Callback

@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.absoluteValue
 
+
 /**
  * Created by jwcona0510 on 6/16/17.
  */
@@ -26,6 +27,13 @@ const val MILLI_INDX = 3
 class DateTimeHelper {
 
     companion object {
+        val DAY_IN_MS: Long = 1000 * 60 * 60 * 24
+
+        fun dateWeekAgo(): Date {
+
+            return Date(Date().getTime() - (7 * DAY_IN_MS))
+        }
+
         fun getNowLong(): Long {
             return System.currentTimeMillis()
         }
@@ -45,7 +53,7 @@ class DateTimeHelper {
             return generateTimeString(times)
         }
 
-        private fun generateTimeUnitsArray(l: Long): LongArray {
+        fun generateTimeUnitsArray(l: Long): LongArray {
             val timeUnits = LongArray(4)
             timeUnits[HOUR_INDX] = l / MILLIS_IN_HOUR
             timeUnits[MIN_INDX] = (l % MILLIS_IN_HOUR) / MILLIS_IN_MINUTE
@@ -55,7 +63,7 @@ class DateTimeHelper {
             return timeUnits
         }
 
-        private fun generateTimeString(timeUnits: LongArray): String {
+        fun generateTimeString(timeUnits: LongArray): String {
             val hours = timeUnits[HOUR_INDX].absoluteValue
             val minutes = timeUnits[MIN_INDX].absoluteValue
             val seconds = timeUnits[SEC_INDX].absoluteValue
@@ -79,7 +87,7 @@ class DateTimeHelper {
             return sb.toString()
         }
 
-        private fun generateUiTimeString(timeUnits: LongArray): String {
+        fun generateUiTimeString(timeUnits: LongArray): String {
             val hours = timeUnits[HOUR_INDX]
             val minutes = timeUnits[MIN_INDX]
             val seconds = timeUnits[SEC_INDX]
@@ -112,14 +120,14 @@ class DateTimeHelper {
             return cal.time
         }
 
-        fun getDateForYesterday(): Date {
-            val cal: Calendar = Calendar.getInstance()
-            cal.add(Calendar.DATE, -1);
-            cal.timeInMillis = System.currentTimeMillis()
+
+        fun yesterday(): Date {
+            val cal = Calendar.getInstance()
+            cal.add(Calendar.DATE, -1)
             return cal.time
         }
 
-        private fun longToReadableDate(l: Long): String {
+        fun longToReadableDate(l: Long): String {
             val cal: Calendar = Calendar.getInstance()
             cal.timeInMillis = l
             val date: Date = cal.time
@@ -131,7 +139,7 @@ class DateTimeHelper {
 
         fun obtainobtainISO8601Date(l: Long) = longToISO8601(l)
 
-        private fun longToISO8601(l: Long): String {
+        fun longToISO8601(l: Long): String {
             val cal = Calendar.getInstance()
             cal.timeInMillis = l
             val date: Date = cal.time
@@ -154,7 +162,7 @@ class DateTimeHelper {
             return System.currentTimeMillis() - eventTime
         }
 
-        fun getUtcOffetForlocal():Int {
+        fun getUtcOffetForlocal(): Int {
             return TimeZone.getDefault().getOffset(System.currentTimeMillis())
         }
 

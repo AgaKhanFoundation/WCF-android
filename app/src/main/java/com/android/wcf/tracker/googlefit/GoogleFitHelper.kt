@@ -88,8 +88,9 @@ class GoogleFitHelper {
         }
 
         fun validateLogin(context: Context, callback: TrackerLoginStatusCallback?) {
-            var endDate: Date = Date()
-            var startDate: Date = DateTimeHelper.getDateForYesterday();
+            var endDate:Date = Date()
+            var startDate: Date = DateTimeHelper.yesterday()
+            var endDate2 = DateTimeHelper.getDateForNow()
 
             val readRequest = DataReadRequest.Builder()
                     .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
