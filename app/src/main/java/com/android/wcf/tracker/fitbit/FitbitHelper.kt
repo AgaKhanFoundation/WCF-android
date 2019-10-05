@@ -120,9 +120,8 @@ class FitbitHelper {
 
                 override fun onFailure(call: Call<UserProfile>?, t: Throwable?) {
                     Log.d(TAG, "Error: " + t?.message)
-                    if (callback != null) {
-                        callback?.onTrackerLoginNotValid()
-                    }
+                    callback?.onTrackerLoginNotValid()
+
                 }
             })
         }

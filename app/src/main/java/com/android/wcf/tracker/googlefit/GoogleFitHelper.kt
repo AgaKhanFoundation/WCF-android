@@ -105,17 +105,15 @@ class GoogleFitHelper {
                         .readData(readRequest)
                         .addOnSuccessListener { dataReadResponse ->
 
-                            if (callback != null) {
-                                callback.onTrackerLoginValid(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
-                            }
+                            callback?.onTrackerLoginValid(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+
                         }
                         .addOnFailureListener { exception ->
                             Log.e(TAG, "GoogleFit steps error:", exception);
 
                             Log.d(TAG, "Error: " + exception.message)
-                            if (callback != null) {
-                                callback?.onTrackerLoginNotValid()
-                            }
+                            callback?.onTrackerLoginNotValid()
+
                         }
             }
         }

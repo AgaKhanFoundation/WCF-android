@@ -61,7 +61,7 @@ class TrackingHelper {
         }
 
         fun saveTrackerSelection(context:Context, deviceSelection:Boolean, appSelection: Boolean, trackerSourceId:Int) {
-            val sharedPreferences = context?.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val sharedPreferences = context.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
 
             sharedPreferences.edit().putBoolean(FITBIT_DEVICE_SELECTED, deviceSelection).commit()
             sharedPreferences.edit().putBoolean(GOOGLE_FIT_APP_SELECTED, appSelection).commit()
@@ -69,7 +69,7 @@ class TrackingHelper {
         }
 
         fun clearTrackerSelection(context:Context) {
-            val sharedPreferences = context?.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val sharedPreferences = context.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
 
             sharedPreferences.edit().remove(FITBIT_DEVICE_SELECTED).commit()
             sharedPreferences.edit().remove(GOOGLE_FIT_APP_SELECTED).commit()
