@@ -73,7 +73,7 @@ import retrofit2.Response;
 abstract public class BaseActivity extends AppCompatActivity
         implements BaseMvp.BaseView, BaseMvp.Host, FitnessTrackerConnectionMvp.Host, AuthenticationHandler {
 
-    protected SharedPreferences sharedPreferences = null;
+    protected SharedPreferences trackersSharedPreferences = null;
 
     protected static final String TAG = BaseActivity.class.getSimpleName();
 
@@ -97,7 +97,7 @@ abstract public class BaseActivity extends AppCompatActivity
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        trackersSharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
 
         AuthenticationConfiguration fitbitAuthenticationConfiguration =
                 FitbitHelper.generateAuthenticationConfiguration(this, null);
@@ -329,10 +329,10 @@ abstract public class BaseActivity extends AppCompatActivity
         if (result != null) {
             if (result.isSuccessful()) {
                 onFitbitLoggedIn();
-                sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, true).commit();
+                trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, true).commit();
             } else if (!result.isDismissed()) {
                 displayAuthError(result);
-                sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+                trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
             }
         }
     }
@@ -341,11 +341,13 @@ abstract public class BaseActivity extends AppCompatActivity
         Log.i(TAG, "onFitbitLoggedIn");
         getUserProfile();
         getDeviceProfile();
+
+
     }
 
     private void getUserProfile() {
         Log.i(TAG, "getUserProfile");
-        FitbitService fService = new FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().getClientCredentials());
+        FitbitService fService = new FitbitService(trackersSharedPreferences, AuthenticationManager.getAuthenticationConfiguration().getClientCredentials());
         fService.getUserService().profile().enqueue(new Callback<UserProfile>() {
             @Override
             public void onResponse(Call<UserProfile> call, Response<UserProfile> response) {
@@ -358,7 +360,7 @@ abstract public class BaseActivity extends AppCompatActivity
 
                     displayName = user.getDisplayName();
                 }
-                sharedPreferences.edit().putString(TrackingHelper.FITBIT_USER_DISPLAY_NAME, displayName).commit();
+                trackersSharedPreferences.edit().putString(TrackingHelper.FITBIT_USER_DISPLAY_NAME, displayName).commit();
             }
 
             @Override
@@ -370,8 +372,8 @@ abstract public class BaseActivity extends AppCompatActivity
 
     private void getDeviceProfile() {
         Log.i(TAG, "getDeviceProfile");
-        final SharedPreferences sharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
-        FitbitService fService = new FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().getClientCredentials());
+        final SharedPreferences trackersSharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        FitbitService fService = new FitbitService(trackersSharedPreferences, AuthenticationManager.getAuthenticationConfiguration().getClientCredentials());
         fService.getDeviceService().devices().enqueue(new Callback<Device[]>() {
             @Override
             public void onResponse(Call<Device[]> call, Response<Device[]> response) {
@@ -401,7 +403,7 @@ abstract public class BaseActivity extends AppCompatActivity
                         Log.i(TAG, "Device info: " + stringBuilder);
                     }
                 }
-                sharedPreferences.edit().putString(TrackingHelper.FITBIT_DEVICE_INFO, stringBuilder.toString()).commit();
+                trackersSharedPreferences.edit().putString(TrackingHelper.FITBIT_DEVICE_INFO, stringBuilder.toString()).commit();
             }
 
             @Override
@@ -445,12 +447,12 @@ abstract public class BaseActivity extends AppCompatActivity
 
     protected void onFitbitLogoutSuccess() {
         Log.i(TAG, "onFitbitLogoutSuccess");
-        sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+        trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
     }
 
     protected void onFitbitLogoutError(String message) {
         Log.i(TAG, "onFitbitLogoutError");
-        sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+        trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
     }
 
     /************* end of fitbit related methods ***************/
@@ -477,10 +479,10 @@ abstract public class BaseActivity extends AppCompatActivity
     protected void onActivityResultForGoogleFit(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "onActivityResultForGoogleFit");
         if (resultCode == Activity.RESULT_OK) {
-            sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit();
+            trackersSharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit();
             onGoogleFitLoggedIn();
         } else {
-            sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+            trackersSharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
         }
     }
 
@@ -512,7 +514,7 @@ abstract public class BaseActivity extends AppCompatActivity
         GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
         client.revokeAccess();
 
-        sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+        trackersSharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
         onGoogleFitLogoutSuccess();
 
     }

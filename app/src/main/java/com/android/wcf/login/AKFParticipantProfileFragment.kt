@@ -108,7 +108,7 @@ class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.V
 
         mWebView?.setWebViewClient(webViewClient)
 
-        mWebView?.addJavascriptInterface(AKFWebJSBridge(context), "appJSReceiver")
+        mWebView?.addJavascriptInterface(AKFWebJSBridge(context), "androidAppJSReceiver")
 
     }
 

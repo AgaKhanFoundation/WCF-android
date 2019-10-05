@@ -70,6 +70,13 @@
     <string name="settings_participant_akf_create_profile_label">Create Aga Khan Foundation \(AKF\) Profile</string>
 
     <!--device connection -->
+    <string name="connecting_to_fitness_device">Connecting the app to your Fitbit Account</string>
+    <string name="connected_to_fitness_device">Connected the app to your Fitbit Account</string>
+    <string name="disconnected_from_fitness_device">Disconnected the app from your Fitbit Account</string>
+
+    <string name="connect_device_or_app_message">No activity yet. You will need to connect a fitness tracker to track your miles.</string>
+    <string name="connect_device_app_button_text">Connect an App or a Device</string>
+
     <string name="settings_connect_device_title">Connected Apps &amp; Devices</string>
 
     <string name="settings_connect_label_fitness_app">Fitness App</string>
@@ -81,6 +88,13 @@
     <string name="settings_fitness_device_connect_label">Connect</string>
     <string name="settings_fitness_device_disconnect_label">Disconnect</string>
     <string name="settings_fitness_device_connect_message">Connect your Fitbit to sync your daily steps.</string>
+
+    <string name="tracker_needs_reconnection">\n\nError while retrieving steps data.\n\nPlease go to the Settings, disconnect and reconnect your tracking Device/App</string>
+    <string name="fitbit_connection_error_message">\n\n\Fitbit connection error:\n\n%1$s</string>
+    <string name="tracker_connection_title_template">%1$s Connection Error</string>
+    <string name="connected_to_fitness_app_message">Connected to Google Fit account on Your device</string>
+    <string name="disconnected_from_fitness_app_message">Disconnected from Google Fit account on Your device</string>
+
     <string name="settings_team_membership_title">Team</string>
 
     <string name="content_description_team_photo">Team photo</string>
@@ -100,9 +114,6 @@
     <string name="participant_team_join_error">Unable to assign to team</string>
     <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
-    <string name="connecting_to_fitness_device">Connecting the app to your Fitbit Account</string>
-    <string name="connect_device_or_app_message">No activity yet. You will need to connect a fitness tracker to track your miles.</string>
-    <string name="connect_device_app_button_text">Connect an App or a Device</string>
     <string name="dashboard_activity_card_label">Activity</string>
     <string name="challenge_progress_view_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
@@ -212,5 +223,7 @@
     <string name="connected_to_prod_server">Connected to Prod Server</string>
     <string name="connected_to_test_server">Connected to Test Server</string>
     <string name="invalid_password">Invalid Password</string>
+    <string name="login_invalid_relogin_message">Your login is not valid, please login again.</string>
+
 
 </resources>

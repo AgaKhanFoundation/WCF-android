@@ -1,7 +1,6 @@
 package com.android.wcf.login;
 
 import android.app.AlertDialog;
-import android.app.Application;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,16 +17,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
-import com.android.wcf.application.DataHolder;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Constants;
 import com.android.wcf.network.WCFClient;
-import com.android.wcf.settings.EditTextDialogListener;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -37,7 +32,6 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -127,6 +121,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         TextView hashKeyTV = view.findViewById(R.id.hash_key);
         hashKeyTV.setText(WCFApplication.instance.getHashKey());
 
+        loginButton.setFragment(this);
         loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {

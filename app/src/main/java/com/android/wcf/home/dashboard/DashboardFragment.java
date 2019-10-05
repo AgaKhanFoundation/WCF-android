@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +18,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.DateTimeHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -107,6 +109,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         @Override
         public void onTrackerStepsError(@NotNull Throwable t) {
             activityTrackedInfoView.setVisibility(View.GONE);
+            Toast.makeText(getContext(), getString(R.string.tracker_needs_reconnection), Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -272,9 +275,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         Date startDate = null;
         Date endDate = null;
 
-        long DAY_IN_MS = 1000 * 60 * 60 * 24;
+
         Date today = new Date();
-        Date weekAgo = new Date(today.getTime() - (7 * DAY_IN_MS));
+        Date weekAgo = DateTimeHelper.Companion.dateWeekAgo();
 
         if (event != null) {
             if (event.getTeamBuildingStart() != null) {

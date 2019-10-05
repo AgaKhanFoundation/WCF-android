@@ -2,11 +2,16 @@ package com.android.wcf.tracker.googlefit
 
 import android.content.Context
 import android.util.Log
+import com.android.wcf.helper.DateTimeHelper
+import com.android.wcf.tracker.TrackerLoginStatusCallback
 import com.android.wcf.tracker.TrackerStepsCallback
+import com.android.wcf.tracker.TrackingHelper
 import com.fitbitsdk.service.models.ActivitySteps
 import com.fitbitsdk.service.models.Steps
 import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.fitness.Fitness
+import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.request.DataReadRequest
 import java.text.SimpleDateFormat
@@ -19,8 +24,15 @@ class GoogleFitHelper {
 
         val TAG: String = "GoogleFitHelper"
 
-        const val GOOGLE_FIT_SHARED_PREF_NAME = "GoogleFit"
-        const val GOOGLE_FIT_APP_INFO = "googlefit_app_info"
+        val googleFitFitnessOptions = FitnessOptions.builder()
+                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
+                .build()
+
+        val googleFitSignInOptions = GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestEmail()
+                .addExtension(googleFitFitnessOptions).build()
 
         fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {
 
@@ -71,6 +83,37 @@ class GoogleFitHelper {
                                 val error = Throwable(exception.message)
                                 callback.onTrackerStepsError(error)
                             }
+                        }
+            }
+        }
+
+        fun validateLogin(context: Context, callback: TrackerLoginStatusCallback?) {
+            var endDate:Date = Date()
+            var startDate: Date = DateTimeHelper.yesterday()
+            var endDate2 = DateTimeHelper.getDateForNow()
+
+            val readRequest = DataReadRequest.Builder()
+                    .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
+                    .bucketByTime(1, TimeUnit.DAYS)
+                    .setTimeRange(startDate.time, endDate.time, TimeUnit.MILLISECONDS)
+                    .build()
+
+
+            GoogleSignIn.getLastSignedInAccount(context)?.let { googleSignInAccount ->
+
+                Fitness.getHistoryClient(context, googleSignInAccount)
+                        .readData(readRequest)
+                        .addOnSuccessListener { dataReadResponse ->
+
+                            callback?.onTrackerLoginValid(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+
+                        }
+                        .addOnFailureListener { exception ->
+                            Log.e(TAG, "GoogleFit steps error:", exception);
+
+                            Log.d(TAG, "Error: " + exception.message)
+                            callback?.onTrackerLoginNotValid()
+
                         }
             }
         }

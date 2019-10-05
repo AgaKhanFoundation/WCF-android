@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.text.TextUtils
 import android.util.Log
 import com.android.wcf.R
+import com.android.wcf.tracker.TrackingHelper
 import com.fitbitsdk.authentication.AuthenticationHandler
 import com.fitbitsdk.authentication.AuthenticationManager
 import com.fitbitsdk.authentication.AuthenticationResult
@@ -40,6 +41,7 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
         if (AuthenticationManager.isLoggedIn()) {
             onLoggedIn()
         }else{
+            //TODO: what to do here?
 //            AuthenticationManager.login(this)
         }
     }
@@ -55,17 +57,24 @@ class WCFFitbitLoginActivity : AppCompatActivity(), AuthenticationHandler {
     }
 
     fun onLoggedIn(){
-        val sharedPreferences = getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
+        val sharedPreferences = getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME , Context.MODE_PRIVATE)
         val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
         fService.getUserService().profile().enqueue(object : Callback<UserProfile> {
             override fun onResponse(call: Call<UserProfile>?, response: Response<UserProfile>?) {
-                Log.d(TAG, "Response: " + response?.body()?.user?.dateOfBirth)
+                Log.d(TAG, "Response: " + response?.body()?.user?.displayName  + " Error:${response?.errorBody()}")
             }
 
             override fun onFailure(call: Call<UserProfile>?, t: Throwable?) {
-                Log.d(TAG, "Error: " + t?.message)
+                val message = getString(R.string.fitbit_connection_error_message, t?.message)
+                android.app.AlertDialog.Builder(this@WCFFitbitLoginActivity)
+                        .setTitle(R.string.settings_connect_label_fitness_device)
+                        .setMessage(message)
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.yes, { dialog, which ->
+                        })
+                        .show()
+                Log.e(TAG, "Error: " + t?.message)
             }
-
         })
     }
 

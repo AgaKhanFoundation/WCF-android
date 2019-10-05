@@ -1,10 +1,13 @@
 package com.android.wcf.home
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.text.TextUtils
+import android.util.Log
 import android.view.MenuItem
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +28,11 @@ import com.android.wcf.model.Commitment
 import com.android.wcf.model.Constants
 import com.android.wcf.model.Participant
 import com.android.wcf.settings.SettingsActivity
+import com.android.wcf.tracker.TrackerLoginStatusCallback
+import com.android.wcf.tracker.TrackingHelper
+import com.android.wcf.tracker.fitbit.FitbitHelper
+import com.android.wcf.tracker.googlefit.GoogleFitHelper
+import com.facebook.AccessToken
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class HomeActivity : BaseActivity()
@@ -104,16 +112,126 @@ class HomeActivity : BaseActivity()
 
         if (myActiveEventId < 1) {
             noActiveEventFound()
+            return;
         }
+
+        if (!isLoginValid()) {
+            Log.d(TAG, "login not valid")
+            askToRelogin();
+            return;
+        }
+
+        val fitnessTracker = getSelectedFitnessTracker();
+        if (fitnessTracker == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
+            checkFitbitConnection();
+        } else if (fitnessTracker == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
+            checkGoogleFitConnection()
+        } else {
+            getParticipantData()
+        }
+    }
+
+    private fun checkFitbitConnection() {
+        FitbitHelper.validateLogin(this, object : TrackerLoginStatusCallback {
+            override fun onTrackerLoginValid(trackerId: Int) {
+                getParticipantData()
+            }
+
+            override fun onTrackerLoginNotValid() {
+                showTrackerConnectionError(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+            }
+        })
+    }
+
+    private fun checkGoogleFitConnection() {
+        GoogleFitHelper.validateLogin(this, object : TrackerLoginStatusCallback {
+            override fun onTrackerLoginValid(trackerId: Int) {
+                getParticipantData()
+            }
+
+            override fun onTrackerLoginNotValid() {
+                showTrackerConnectionError(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+            }
+        })
+    }
+
+    fun showTrackerConnectionError(trackerId:Int) {
+        var title:String = ""
+        if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
+            title = getString(R.string.tracker_connection_title_template, "Fitbit")
+        }
+        else if (trackerId == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
+            title = getString(R.string.tracker_connection_title_template, "Google Fit App")
+        }
+
+        val message = getString(R.string.tracker_needs_reconnection)
+        AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                    getParticipantData()
+                })
+                .show()
+        // TrackingHelper.clearTrackerSelection(context = this@HomeActivity)
+        // Toast.makeText(this@HomeActivity, message, Toast.LENGTH_LONG).show()
+    }
+
+    private fun getSelectedFitnessTracker(): Int {
+
+        trackersSharedPreferences?.let { sharedPreferences ->
+            var deviceChoice = sharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false)
+            val deviceLoggedIn = sharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)
+
+            var appChoice = sharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false)
+            val appLoggedIn = sharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false)
+
+            if (deviceLoggedIn) {
+                return TrackingHelper.FITBIT_TRACKING_SOURCE_ID
+            } else if (appLoggedIn) {
+                return TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID
+            }
+        }
+        return TrackingHelper.INVALID_TRACKING_SOURCE_ID
+    }
+
+    private fun getParticipantData() {
         myParticipantId?.let {
-            if(!TextUtils.isEmpty(it)) {
+            if (!TextUtils.isEmpty(it)) {
                 //TODO when other auth providers are implemented, call the appropriate method for participant retrieval
                 homePresenter?.getParticipant(it)
             }
-        }?:run {
+        } ?: run {
             showLoginActivity()
             finish()
         }
+    }
+
+    private fun askToRelogin() {
+        val message = getString(R.string.login_invalid_relogin_message)
+        AlertDialog.Builder(this)
+                .setTitle(R.string.login_title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+
+                    showLoginActivity()
+                    finish()
+
+                })
+                .setNegativeButton(android.R.string.cancel, DialogInterface.OnClickListener { dialog, which ->
+
+                    finish()
+
+                })
+
+                .create()
+                .show()
+    }
+
+    private fun isLoginValid(): Boolean {
+        val accessToken: AccessToken = AccessToken.getCurrentAccessToken()
+        return accessToken != null && !accessToken.isExpired()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -138,12 +256,10 @@ class HomeActivity : BaseActivity()
                 navigation.setSelectedItemId(R.id.nav_challenge);
             } else if (fragment is ChallengeFragment) {
                 finish();
-            }
-            else {
+            } else {
                 super.onBackPressed();
             }
-        }
-        else {
+        } else {
             super.onBackPressed();
         }
     }
@@ -186,7 +302,7 @@ class HomeActivity : BaseActivity()
 
     override fun showErrorAndCloseApp(@StringRes messageId: Int) {
         showError(messageId)
-        if (getEvent() == null)  {
+        if (getEvent() == null) {
             Handler().postDelayed({ finish() }, Constants.SPLASH_TIMER.toLong())
         }
     }
@@ -195,12 +311,12 @@ class HomeActivity : BaseActivity()
         if (participant == null) {
             return
         }
-        val participantTeamId:Int? = participant.teamId
+        val participantTeamId: Int? = participant.teamId
         participantTeamId?.let {
             myTeamId = it       // team must have been assigned previously
             SharedPreferencesUtil.saveMyTeamId(myTeamId)
 
-        }?: run {
+        } ?: run {
             if (myTeamId > 0) {
                 myTeamId = 0
                 homePresenter?.participantLeaveFromTeam(myParticipantId)
@@ -210,21 +326,19 @@ class HomeActivity : BaseActivity()
         val event = participant.getEvent(myActiveEventId);
         event?.let {
             cacheEvent(event) //this will also have participant's commitment if already committed for this event
-            val commitment:Commitment? = event.participantCommitment
+            val commitment: Commitment? = event.participantCommitment
             commitment?.let {
 
                 val myStepsCommited = SharedPreferencesUtil.getMyStepsCommitted();
                 if (myStepsCommited != commitment.commitmentSteps) {
                     homePresenter?.updateParticipantCommitment(it.id, participant.fbId!!, myActiveEventId, myStepsCommited)
-                }
-                else {
+                } else {
                     addNavigationFragments()
                 }
-            }?:
-            run {
+            } ?: run {
                 homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
             }
-        }?: run {
+        } ?: run {
             homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, getEvent().getDefaultParticipantCommitment())
         }
     }
@@ -280,7 +394,7 @@ class HomeActivity : BaseActivity()
                 .commit()
     }
 
-    override fun showTeamChallengeProgress(isTeamLead:Boolean) {
+    override fun showTeamChallengeProgress(isTeamLead: Boolean) {
         val fragment = TeamChallengeProgressFragment.getInstance(isTeamLead)
         supportFragmentManager
                 .beginTransaction()

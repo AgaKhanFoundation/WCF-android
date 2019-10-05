@@ -10,9 +10,14 @@ interface TrackerStepsCallback {
     fun onTrackerStepsError(t: Throwable)
 }
 
-interface FitbitActivityResponseCallback {
-    fun onFitbitActivityRetrieved(data: DailyActivitySummary)
+//interface FitbitActivityResponseCallback {
+//    fun onFitbitActivityRetrieved(data: DailyActivitySummary)
+//
+//    fun onFitbitActivityError(t: Throwable)
+//}
 
-    fun onFitbitActivityError(t: Throwable)
+interface TrackerLoginStatusCallback {
+    fun onTrackerLoginValid(trackerId:Int)
+
+    fun onTrackerLoginNotValid()
 }
-

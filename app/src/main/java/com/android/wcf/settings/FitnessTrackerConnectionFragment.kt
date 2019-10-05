@@ -1,7 +1,9 @@
 package com.android.wcf.settings
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -20,6 +22,7 @@ import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.base.RequestCodes
 import com.android.wcf.tracker.TrackingHelper
+import com.android.wcf.tracker.googlefit.GoogleFitHelper
 import com.fitbitsdk.authentication.AuthenticationManager
 import com.fitbitsdk.authentication.LogoutTaskCompletionHandler
 import com.fitbitsdk.service.FitbitService
@@ -177,11 +180,6 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
 
     /*********** Fitbit related methods *************/
-    protected fun onFitbitLoggedIn() {
-        Log.i(TAG, "onFitbitLoggedIn")
-        getUserProfile()
-        getDeviceProfile()
-    }
 
     private fun updateConnectionInfoView() {
         view?.let { fragmentView ->
@@ -265,9 +263,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                 }
                 rbFitnessApp.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-                        sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, true).commit()
-                        sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false).commit()
-                        sharedPreferences.edit().putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID).commit()
+                        TrackingHelper.saveTrackerSelection(context!!,
+                                true, false, TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
 
                         btnFitnessApp.setEnabled(isChecked)
                         btnFitnessDevice.setEnabled(!isChecked)
@@ -277,9 +274,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
                 rbFitnessDevice.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-                        sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, true).commit()
-                        sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false).commit()
-                        sharedPreferences.edit().putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, TrackingHelper.FITBIT_TRACKING_SOURCE_ID).commit()
+                        TrackingHelper.saveTrackerSelection(context!!,
+                                true, false, TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
 
                         btnFitnessDevice.setEnabled(isChecked)
                         btnFitnessApp.setEnabled(!isChecked)
@@ -319,7 +315,16 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
         sharedPreferences?.edit()?.putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, 0)?.commit()
 
+        AlertDialog.Builder(context)
+                .setTitle(getString(R.string.settings_connect_device_title))
+                .setMessage(getString(R.string.disconnected_from_fitness_device))
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                })
+                .show()
+
         updateConnectionInfoView()
+
     }
 
     protected fun onFitbitLogoutError(message: String) {
@@ -402,21 +407,12 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
     /************* Google Fit related methods    */
 
-    val googleFitFitnessOptions = FitnessOptions.builder()
-            .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-            .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-            .build()
-
-    val googleFitSignInOptions = GoogleSignInOptions
-            .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .addExtension(googleFitFitnessOptions).build()
 
     fun connectAppToGoogleFit() {
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(activity), googleFitFitnessOptions)) {
+        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(activity), GoogleFitHelper.googleFitFitnessOptions)) {
 
             context?.let { context ->
-                val client = GoogleSignIn.getClient(context, googleFitSignInOptions) //
+                val client = GoogleSignIn.getClient(context, GoogleFitHelper.googleFitSignInOptions) //
                 val intent = client.getSignInIntent()
                 startActivityForResult(intent, RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE);
             }
@@ -427,7 +423,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
     protected fun disconnectAppFromGoogleFit() {
         context?.let { context ->
-            val client = GoogleSignIn.getClient(context, googleFitSignInOptions)
+            val client = GoogleSignIn.getClient(context, GoogleFitHelper.googleFitSignInOptions)
             client.revokeAccess()
         }
 
@@ -444,6 +440,14 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         sharedPreferences?.edit()?.remove(TrackingHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL)?.commit()
 
         onGoogleFitAuthComplete()
+
+        AlertDialog.Builder(context)
+                .setTitle(getString(R.string.settings_connect_device_title))
+                .setMessage(getString(R.string.disconnected_from_fitness_app_message))
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                })
+                .show()
     }
 
     protected fun onActivityResultForGoogleFit(requestCode: Int, resultCode: Int, data: Intent) {
@@ -451,6 +455,15 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         sharedPreferences?.let { sharedPreferences ->
             if (resultCode == Activity.RESULT_OK) {
                 sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit()
+
+                AlertDialog.Builder(context)
+                        .setTitle(getString(R.string.settings_connect_device_title))
+                        .setMessage(getString(R.string.connected_to_fitness_app_message))
+                        .setCancelable(false)
+                        .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                        })
+                        .show()
+
             } else {
                 sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit()
             }

@@ -13,6 +13,8 @@ class TrackingHelper {
         const val SAVE_AFTER_MINUTES = 30
 
         const val SELECTED_TRACKING_SOURCE_ID = "tracking_source_id"
+
+        const val INVALID_TRACKING_SOURCE_ID = -1 //TODO should be lookup value from list of Sources API
         const val FITBIT_TRACKING_SOURCE_ID = 1 //TODO should be lookup value from list of Sources API
         const val GOOGLE_FIT_TRACKING_SOURCE_ID = 2 //TODO should be lookup value from list of Sources API
 
@@ -28,8 +30,9 @@ class TrackingHelper {
         const val GOOGLE_FIT_USER_DISPLAY_NAME = "googlefit_user_display_name"
         const val GOOGLE_FIT_USER_DISPLAY_EMAIL = "googlefit_user_display_email"
 
+
         fun isTimeToSave(context: Context): Boolean {
-            val deviceSharedPreferences = context.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val deviceSharedPreferences = context.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
             deviceSharedPreferences.let {
                 var lastSaveAtTime = deviceSharedPreferences.getLong(TRACKER_DATA_LAST_SAVED_AT_TIME, 0)
 
@@ -38,7 +41,7 @@ class TrackingHelper {
         }
 
         fun trackerDataSaved(context: Context,  lastSavedStepDate:String) {
-            val deviceSharedPreferences = context.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+            val deviceSharedPreferences = context.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
             deviceSharedPreferences.let {
                 deviceSharedPreferences.edit().putLong(TRACKER_DATA_LAST_SAVED_AT_TIME, Date().time).commit()
                 deviceSharedPreferences.edit().putString(TRACKER_DATA_LAST_SAVED_DATE,lastSavedStepDate).commit()
@@ -55,6 +58,22 @@ class TrackingHelper {
                 }
             }
             return ""
+        }
+
+        fun saveTrackerSelection(context:Context, deviceSelection:Boolean, appSelection: Boolean, trackerSourceId:Int) {
+            val sharedPreferences = context.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
+            sharedPreferences.edit().putBoolean(FITBIT_DEVICE_SELECTED, deviceSelection).commit()
+            sharedPreferences.edit().putBoolean(GOOGLE_FIT_APP_SELECTED, appSelection).commit()
+            sharedPreferences.edit().putInt(SELECTED_TRACKING_SOURCE_ID, trackerSourceId).commit()
+        }
+
+        fun clearTrackerSelection(context:Context) {
+            val sharedPreferences = context.applicationContext.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
+            sharedPreferences.edit().remove(FITBIT_DEVICE_SELECTED).commit()
+            sharedPreferences.edit().remove(GOOGLE_FIT_APP_SELECTED).commit()
+            sharedPreferences.edit().remove(SELECTED_TRACKING_SOURCE_ID).commit()
         }
     }
 }

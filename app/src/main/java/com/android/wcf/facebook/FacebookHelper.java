@@ -24,15 +24,20 @@ public  class FacebookHelper {
                 new GraphRequest.Callback() {
                     @Override
                     public void onCompleted(GraphResponse response) {
-                        try {
-                            JSONObject jsonObject = response.getJSONObject();
-                            String userProfileUrl = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url");
-                            participant.setName(jsonObject.getString("name"));
-                            participant.setParticipantProfile(userProfileUrl);
+                        if (response.getError() != null) {
+                            Log.e(TAG,  "fbid=" + participant.getFbId() + " Facebook profile error: " + response.getError());
+                        }
+                        else {
+                            try {
+                                JSONObject jsonObject = response.getJSONObject();
+                                String userProfileUrl = jsonObject.getJSONObject("picture").getJSONObject("data").getString("url");
+                                participant.setName(jsonObject.getString("name"));
+                                participant.setParticipantProfile(userProfileUrl);
 
-                        } catch (Exception e) {
-                            Log.e(TAG, "Error processing Facebook Login response\n" + e);
-                            e.printStackTrace();
+                            } catch (Exception e) {
+                                Log.e(TAG, "Error processing Facebook Login response\n" + e);
+                                e.printStackTrace();
+                            }
                         }
                         if (onFacebookProfileCallback != null) {
                             onFacebookProfileCallback.onParticipantProfileRetrieved(participant);
