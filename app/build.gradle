@@ -12,8 +12,8 @@ android {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         applicationId "org.akf.steps4impact"
-        versionCode 8
-        versionName "0.6.3"
+        versionCode 9
+        versionName "0.6.4"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -57,7 +57,7 @@ android {
 //            applicationIdSuffix ".debug"
 //            versionNameSuffix = "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.debugConfig
 
             //fitbit test app in keshwaniz@gmail.com fitbit acc
