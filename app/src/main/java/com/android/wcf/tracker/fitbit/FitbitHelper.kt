@@ -3,14 +3,19 @@ package com.android.wcf.tracker.fitbit
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.util.Log
 import com.android.wcf.tracker.FitbitActivityResponseCallback
+import com.android.wcf.tracker.TrackerLoginStatusCallback
 import com.android.wcf.tracker.TrackerStepsCallback
+import com.android.wcf.tracker.TrackingHelper
+import com.android.wcf.tracker.TrackingHelper.Companion.TRACKER_SHARED_PREF_NAME
 import com.fitbitsdk.authentication.*
 import com.fitbitsdk.service.FitbitService
 import com.fitbitsdk.service.models.ActivitySteps
 import com.fitbitsdk.service.models.DailyActivitySummary
+import com.fitbitsdk.service.models.UserProfile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -66,7 +71,7 @@ class FitbitHelper {
 
             var endDateString = sdf.format(endDate)
 
-            val sharedPreferences = context.getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
+            val sharedPreferences = context.getSharedPreferences(TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
             val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
             fService.getActivityService().getActivityStepsForDateRange(startDateString, endDateString)
                     .enqueue(object : Callback<ActivitySteps> {
@@ -98,37 +103,64 @@ class FitbitHelper {
                     })
         }
 
-        fun getActivities(context: Context, day: String, callback: FitbitActivityResponseCallback?) {
-            val sharedPreferences = context.getSharedPreferences("Fitbit", Context.MODE_PRIVATE)
+        fun validateLogin(context:Context, callback: TrackerLoginStatusCallback?) {
+            val sharedPreferences = context.getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+
             val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
-            fService.getActivityService().getDailyActivitySummary(day)
-                    .enqueue(object : Callback<DailyActivitySummary> {
-                        override fun onResponse(call: Call<DailyActivitySummary>, response: Response<DailyActivitySummary>) {
-                            if (response.isSuccessful) {
-                                Log.d(TAG, "fitbit activity success")
-                                val activityData: DailyActivitySummary = response.body()
-                                        ?: DailyActivitySummary()
-                                if (callback != null) {
-                                    callback.onFitbitActivityRetrieved(activityData)
-                                }
-                            } else {
-                                Log.d(TAG, "fitbit activity error:\n" + response.errorBody())
-                                if (callback != null) {
-                                    val error = Throwable(response.errorBody().toString())
-                                    callback.onFitbitActivityError(error)
-                                }
-                            }
+            fService.getUserService().profile().enqueue(object : Callback<UserProfile> {
+                override fun onResponse(call: Call<UserProfile>?, response: Response<UserProfile>?) {
+                    Log.d(TAG, "Response: " + response?.body()?.user?.displayName)
 
+                    response?.let {
+                        if (it.body() == null || it.errorBody() != null) {
+                            callback?.onTrackerLoginNotValid()
                         }
+                        else {
+                            callback?.onTrackerLoginValid(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                        }
+                    } ?: callback?.onTrackerLoginNotValid()
+                }
 
-                        override fun onFailure(call: Call<DailyActivitySummary>, t: Throwable) {
-                            Log.d(TAG, "fitbit activity error:" + t.message)
-                            if (callback != null) {
-                                callback.onFitbitActivityError(t)
-                            }
-                        }
-                    })
+                override fun onFailure(call: Call<UserProfile>?, t: Throwable?) {
+                    Log.d(TAG, "Error: " + t?.message)
+                    if (callback != null) {
+                        callback?.onTrackerLoginNotValid()
+                    }
+                }
+            })
         }
+
+//        fun getActivities(context: Context, day: String, callback: FitbitActivityResponseCallback?) {
+//            val trackersSharedPreferences = context.getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+//            val fService = FitbitService(trackersSharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
+//            fService.getActivityService().getDailyActivitySummary(day)
+//                    .enqueue(object : Callback<DailyActivitySummary> {
+//                        override fun onResponse(call: Call<DailyActivitySummary>, response: Response<DailyActivitySummary>) {
+//                            if (response.isSuccessful) {
+//                                Log.d(TAG, "fitbit activity success")
+//                                val activityData: DailyActivitySummary = response.body()
+//                                        ?: DailyActivitySummary()
+//                                if (callback != null) {
+//                                    callback.onFitbitActivityRetrieved(activityData)
+//                                }
+//                            } else {
+//                                Log.d(TAG, "fitbit activity error:\n" + response.errorBody())
+//                                if (callback != null) {
+//                                    val error = Throwable(response.errorBody().toString())
+//                                    callback.onFitbitActivityError(error)
+//                                }
+//                            }
+//
+//                        }
+//
+//                        override fun onFailure(call: Call<DailyActivitySummary>, t: Throwable) {
+//                            Log.d(TAG, "fitbit activity error:" + t.message)
+//                            if (callback != null) {
+//                                callback.onFitbitActivityError(t)
+//                            }
+//                        }
+//                    })
+//        }
 
     }
 

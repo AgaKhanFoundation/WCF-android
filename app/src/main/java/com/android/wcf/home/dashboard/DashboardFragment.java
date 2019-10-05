@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -107,6 +108,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         @Override
         public void onTrackerStepsError(@NotNull Throwable t) {
             activityTrackedInfoView.setVisibility(View.GONE);
+            Toast.makeText(getContext(), getString(R.string.tracker_needs_reconnection), Toast.LENGTH_LONG).show();
         }
 
         @Override

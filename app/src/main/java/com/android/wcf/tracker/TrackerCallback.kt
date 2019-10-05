@@ -16,3 +16,8 @@ interface FitbitActivityResponseCallback {
     fun onFitbitActivityError(t: Throwable)
 }
 
+interface TrackerLoginStatusCallback {
+    fun onTrackerLoginValid(trackerId:Int)
+
+    fun onTrackerLoginNotValid()
+}

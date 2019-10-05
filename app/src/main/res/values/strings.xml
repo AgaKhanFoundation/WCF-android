@@ -213,5 +213,8 @@
     <string name="connected_to_test_server">Connected to Test Server</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="login_invalid_relogin_message">Your login is not valid, please login again.</string>
+    <string name="tracker_needs_reconnection">\n\nError while retrieving steps data.\n\nPlease go to the Settings, disconnect and reconnect your tracking Device/App</string>
+    <string name="fitbit_connection_error_message">\n\n\Fitbit connection error:\n\n%1$s</string>
+
 
 </resources>
