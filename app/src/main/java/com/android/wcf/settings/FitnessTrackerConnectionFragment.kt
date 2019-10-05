@@ -69,7 +69,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     iv_device_message_expand.setImageResource(R.drawable.ic_chevron_up_blue)
                 }
             R.id.btn_connect_to_fitness_app -> {
-                Log.i(TAG, "btn_connect_to_fitness_app")
+                Log.d(TAG, "btn_connect_to_fitness_app")
                 if (view.tag == TAG_DISCONNECT) {
                     disconnectAppFromGoogleFit()
                 } else {
@@ -77,7 +77,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                 }
             }
             R.id.btn_connect_to_fitness_device -> {
-                Log.i(TAG, "btn_connect_to_fitness_device")
+                Log.d(TAG, "btn_connect_to_fitness_device")
                 if (view.tag == TAG_DISCONNECT) {
                     disconnectAppFromFitbit()
                 } else {
@@ -89,7 +89,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
-        sharedPreferences = activity?.getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE)
+        sharedPreferences = TrackingHelper.getSharedPrefs()
         val fragmentView = inflater.inflate(R.layout.fragment_device_connection, container, false)
 
         val fitnessAppButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_app)
@@ -114,7 +114,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
     override fun onStart() {
         super.onStart()
-        Log.i(TAG, "onStart")
+        Log.d(TAG, "onStart")
         var fitnessDeviceLoggedIn = false
         var fitnessAppLoggedIn = false
         var trackingSourceId = 0;
@@ -134,7 +134,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     }
 
     override fun onAttach(context: Context) {
-        Log.i(TAG, "onAttach")
+        Log.d(TAG, "onAttach")
         super.onAttach(context)
         if (context is FitnessTrackerConnectionMvp.Host) {
             this.host = context
@@ -160,7 +160,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        Log.i(TAG, "onActivityResult")
+        Log.d(TAG, "onActivityResult")
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
@@ -263,8 +263,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                 }
                 rbFitnessApp.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-                        TrackingHelper.saveTrackerSelection(context!!,
-                                true, false, TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+                        TrackingHelper.saveTrackerSelection(true, false, TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
 
                         btnFitnessApp.setEnabled(isChecked)
                         btnFitnessDevice.setEnabled(!isChecked)
@@ -274,8 +273,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
                 rbFitnessDevice.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-                        TrackingHelper.saveTrackerSelection(context!!,
-                                true, false, TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                        TrackingHelper.saveTrackerSelection(true, false, TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
 
                         btnFitnessDevice.setEnabled(isChecked)
                         btnFitnessApp.setEnabled(!isChecked)
@@ -288,30 +286,32 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     }
 
     fun connectAppToFitbit() {
-        Log.i(TAG, "connectAppToFitbit")
+        Log.d(TAG, "connectAppToFitbit")
         AuthenticationManager.login(activity)
     }
 
     fun disconnectAppFromFitbit() {
-        Log.i(TAG, "disconnectAppFromFitbit")
+        Log.d(TAG, "disconnectAppFromFitbit")
         AuthenticationManager.logout(activity, fitbitLogoutTaskCompletionHandler)
     }
 
     private val fitbitLogoutTaskCompletionHandler = object : LogoutTaskCompletionHandler {
         override fun logoutSuccess() {
-            Log.i(TAG, "fitbitLogoutTaskCompletionHandler: logoutSuccess")
+            Log.d(TAG, "fitbitLogoutTaskCompletionHandler: logoutSuccess")
             onFitbitLogoutSuccess()
         }
 
         override fun logoutError(message: String) {
-            Log.i(TAG, "fitbitLogoutTaskCompletionHandler: logoutError")
+            Log.d(TAG, "fitbitLogoutTaskCompletionHandler: logoutError")
             onFitbitLogoutError(message)
 
         }
     }
 
     protected fun onFitbitLogoutSuccess() {
-        Log.i(TAG, "onFitbitLogoutSuccess")
+        Log.d(TAG, "onFitbitLogoutSuccess")
+        TrackingHelper.clearTrackerSelection();
+
         sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
         sharedPreferences?.edit()?.putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, 0)?.commit()
 
@@ -324,18 +324,18 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                 .show()
 
         updateConnectionInfoView()
-
     }
 
     protected fun onFitbitLogoutError(message: String) {
-        Log.i(TAG, "onFitbitLogoutError $message")
-        sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
-        sharedPreferences?.edit()?.putInt(TrackingHelper.SELECTED_TRACKING_SOURCE_ID, 0)?.commit()
+        Log.d(TAG, "onFitbitLogoutError $message")
+
+        TrackingHelper.clearTrackerConnectionCheck()
+
         updateConnectionInfoView()
     }
 
     private fun getUserProfile() {
-        Log.i(TAG, "getUserProfile")
+        Log.d(TAG, "getUserProfile")
         sharedPreferences?.let { sharedPreferences ->
             val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
             fService.getUserService().profile().enqueue(object : Callback<UserProfile> {
@@ -344,7 +344,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     var displayName: String = ""
                     userProfile?.let {
                         val user = it.user
-                        Log.i(TAG, "User Response: " +
+                        Log.d(TAG, "User Response: " +
                                 user.displayName + " stride: " + user.strideLengthWalking + " " + user.distanceUnit)
                         displayName = user.displayName
                     }
@@ -360,7 +360,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     }
 
     private fun getDeviceProfile() {
-        Log.i(TAG, "getDeviceProfile")
+        Log.d(TAG, "getDeviceProfile")
         sharedPreferences?.let { sharedPreferences ->
             val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
             fService.getDeviceService().devices().enqueue(object : Callback<Array<Device>> {
@@ -372,7 +372,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     devices?.let {
                         for (device in it) {
 
-                            Log.i(TAG, "Device Response: " +
+                            Log.d(TAG, "Device Response: " +
                                     "Type: " + device.type + "\n" +
                                     "version: " + device.deviceVersion + "\n" +
                                     "last sync at : " + device.lastSyncTime)
@@ -388,7 +388,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
                         if (stringBuilder.length > 0) {
                             stringBuilder.replace(stringBuilder.length - 8, stringBuilder.length, "")
-                            Log.i(TAG, "Device info: $stringBuilder")
+                            Log.d(TAG, "Device info: $stringBuilder")
                         }
                     }
                     sharedPreferences.edit().putString(TrackingHelper.FITBIT_DEVICE_INFO, stringBuilder.toString()).commit()
@@ -434,7 +434,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
             configClient?.disableFit()
         }
 
-        sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false)?.commit()
+        TrackingHelper.clearTrackerConnectionCheck()
+
         sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false)?.commit()
         sharedPreferences?.edit()?.remove(TrackingHelper.GOOGLE_FIT_USER_DISPLAY_NAME)?.commit()
         sharedPreferences?.edit()?.remove(TrackingHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL)?.commit()
@@ -451,7 +452,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     }
 
     protected fun onActivityResultForGoogleFit(requestCode: Int, resultCode: Int, data: Intent) {
-        Log.i(TAG, "onActivityResultForGoogleFit")
+        Log.d(TAG, "onActivityResultForGoogleFit")
         sharedPreferences?.let { sharedPreferences ->
             if (resultCode == Activity.RESULT_OK) {
                 sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit()
@@ -472,7 +473,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     }
 
     protected fun onGoogleFitAuthComplete() {
-        Log.i(TAG, "onGoogleFitAuthComplete")
+        Log.d(TAG, "onGoogleFitAuthComplete")
 
         val signedInAccount = GoogleSignIn.getLastSignedInAccount(activity)
         val displayName = signedInAccount?.displayName
@@ -544,7 +545,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                             }
                             // }
                         }
-                        Log.i(TAG, "total steps for this week: $totalSteps")
+                        Log.d(TAG, "total steps for this week: $totalSteps")
                     }
                     .addOnCompleteListener(object : OnCompleteListener<DataReadResponse> {
                         override fun onComplete(task: Task<DataReadResponse>) {
@@ -569,7 +570,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                                 }
                                 //                            }
                             }
-                            Log.i(TAG, "total steps for this week: $totalSteps")
+                            Log.d(TAG, "total steps for this week: $totalSteps")
                         }
                     })
         }

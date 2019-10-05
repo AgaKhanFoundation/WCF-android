@@ -186,6 +186,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     public static boolean bypassAKFProfile = true;
     @Override
     public void loginComplete() {
+        LoginHelper.Companion.loginIsValid();
         boolean akfProfileCreate = SharedPreferencesUtil.getAkfProfileCreated();
 
         if (bypassAKFProfile || akfProfileCreate) {

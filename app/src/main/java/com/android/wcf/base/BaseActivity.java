@@ -329,10 +329,11 @@ abstract public class BaseActivity extends AppCompatActivity
         if (result != null) {
             if (result.isSuccessful()) {
                 onFitbitLoggedIn();
-                trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, true).commit();
+                TrackingHelper.Companion.trackerConnectionIsValid();
+                TrackingHelper.Companion.fitbitLoggedIn(true);
             } else if (!result.isDismissed()) {
                 displayAuthError(result);
-                trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+                TrackingHelper.Companion.fitbitLoggedIn(false);
             }
         }
     }
@@ -447,12 +448,12 @@ abstract public class BaseActivity extends AppCompatActivity
 
     protected void onFitbitLogoutSuccess() {
         Log.i(TAG, "onFitbitLogoutSuccess");
-        trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+        TrackingHelper.Companion.fitbitLoggedIn(false);
     }
 
     protected void onFitbitLogoutError(String message) {
         Log.i(TAG, "onFitbitLogoutError");
-        trackersSharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false).commit();
+        TrackingHelper.Companion.fitbitLoggedIn(false);
     }
 
     /************* end of fitbit related methods ***************/
@@ -479,10 +480,11 @@ abstract public class BaseActivity extends AppCompatActivity
     protected void onActivityResultForGoogleFit(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "onActivityResultForGoogleFit");
         if (resultCode == Activity.RESULT_OK) {
-            trackersSharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, true).commit();
+            TrackingHelper.Companion.trackerConnectionIsValid();
+            TrackingHelper.Companion.googleFitLoggedIn(true);
             onGoogleFitLoggedIn();
         } else {
-            trackersSharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+            TrackingHelper.Companion.googleFitLoggedIn(false);
         }
     }
 
@@ -514,7 +516,8 @@ abstract public class BaseActivity extends AppCompatActivity
         GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
         client.revokeAccess();
 
-        trackersSharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false).commit();
+        TrackingHelper.Companion.googleFitLoggedIn(false);
+
         onGoogleFitLogoutSuccess();
 
     }
