@@ -1,6 +1,8 @@
 package com.android.wcf.home.dashboard;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -40,7 +42,6 @@ import java.util.Date;
 
 public class DashboardFragment extends BaseFragment implements DashboardMvp.DashboardView {
     private static final String TAG = DashboardFragment.class.getSimpleName();
-    SharedPreferences deviceSharedPreferences = null;
     private DashboardMvp.Host mFragmentHost;
 
     ParticipantActivityFragment dailyFrag;
@@ -107,9 +108,33 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     private TrackerStepsCallback trackerStepsCallback = new TrackerStepsCallback() {
         @Override
-        public void onTrackerStepsError(@NotNull Throwable t) {
+        public void onTrackerStepsError(@NotNull Throwable error) {
             activityTrackedInfoView.setVisibility(View.GONE);
+
             Toast.makeText(getContext(), getString(R.string.tracker_needs_reconnection), Toast.LENGTH_LONG).show();
+        }
+
+        @Override
+        public void trackerNeedsRelogin(int trackerId) {
+            String title = "";
+            if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
+                title = getString(R.string.tracker_connection_title_template, "Fitbit");
+            } else if (trackerId == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
+                title = getString(R.string.tracker_connection_title_template, "Google Fit App");
+            }
+
+           String message = getString(R.string.tracker_needs_reconnection);
+           new AlertDialog.Builder(getContext())
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setCancelable(false)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                .show();
+             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         }
 
         @Override
@@ -124,8 +149,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
             activityTrackedInfoView.setVisibility(View.VISIBLE);
 
-            if (TrackingHelper.Companion.isTimeToSave()) {
-                String lastSavedDate = TrackingHelper.Companion.lastTrackerDataSavedDate();
+            if (TrackingHelper.isTimeToSave()) {
+                String lastSavedDate = TrackingHelper.lastTrackerDataSavedDate();
                 dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data, event.getStartDate(), event.getEndDate(), lastSavedDate);
             }
         }
@@ -138,17 +163,21 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         setupDashboardParticipantProfileCard(view);
         setupDashboardActivityCard(view);
@@ -195,6 +224,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach");
         super.onAttach(context);
         if (context instanceof DashboardMvp.Host) {
             mFragmentHost = (DashboardMvp.Host) context;
@@ -202,7 +232,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             throw new RuntimeException(context.toString()
                     + " must implement DashboardMvp.Host");
         }
-        deviceSharedPreferences = getActivity().getSharedPreferences(TrackingHelper.TRACKER_SHARED_PREF_NAME, Context.MODE_PRIVATE);
     }
 
     @Override
@@ -251,10 +280,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     void showDashboardActivityInfo() {
 
-        if (deviceSharedPreferences != null) {
-            fitnessDeviceLoggedIn = deviceSharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false);
-            fitnessAppLoggedIn = deviceSharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false);
-        }
+        fitnessDeviceLoggedIn = TrackingHelper.fitnessDeviceLoggedIn();
+        fitnessAppLoggedIn = TrackingHelper.fitnessDeviceLoggedIn();
+
         if (fitnessDeviceLoggedIn) {
             trackerSourceId = TrackingHelper.FITBIT_TRACKING_SOURCE_ID;
         } else {
@@ -277,7 +305,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
 
         Date today = new Date();
-        Date weekAgo = DateTimeHelper.Companion.dateWeekAgo();
+        Date weekAgo = DateTimeHelper.dateWeekAgo();
 
         if (event != null) {
             if (event.getTeamBuildingStart() != null) {
@@ -298,9 +326,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
 
         if (fitnessDeviceLoggedIn) {
-            FitbitHelper.Companion.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
+            FitbitHelper.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
         } else if (fitnessAppLoggedIn) {
-            GoogleFitHelper.Companion.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
+            GoogleFitHelper.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
         }
     }
 
@@ -375,8 +403,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         ViewPager viewPager = activityTrackedInfoView.findViewById(R.id.tracked_info_viewPager);
 
         TrackedInfoViewPagerAdapter adapter = new TrackedInfoViewPagerAdapter(getChildFragmentManager());
-        dailyFrag = ParticipantActivityFragment.Companion.instanceDaily();
-        weeklyFrag = ParticipantActivityFragment.Companion.instanceWeekly();
+        dailyFrag = ParticipantActivityFragment.instanceDaily();
+        weeklyFrag = ParticipantActivityFragment.instanceWeekly();
 
         adapter.addFragment(dailyFrag, getString(R.string.tracked_info_tab_daily_label));
         adapter.addFragment(weeklyFrag, getString(R.string.tracked_info_tab_weekly_label));
@@ -434,7 +462,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     @Override
     public void stepsRecorded(String lastSavedDate) {
-        TrackingHelper.Companion.trackerDataSaved(lastSavedDate);
+        TrackingHelper.trackerDataSaved(lastSavedDate);
         dashboardPresenter.getParticipantStats(participant.getParticipantId());
     }
 }

@@ -183,7 +183,7 @@ abstract public class BaseActivity extends AppCompatActivity
                 committedSteps = activeEvent.getDefaultParticipantCommitment();
                 SharedPreferencesUtil.savetMyStepsCommitted(committedSteps);
             }
-            DataHolder.updateParticipantCommittedDistance((int) DistanceConverter.Companion.distance(committedSteps));
+            DataHolder.updateParticipantCommittedDistance((int) DistanceConverter.distance(committedSteps));
         }
     }
 
@@ -329,11 +329,11 @@ abstract public class BaseActivity extends AppCompatActivity
         if (result != null) {
             if (result.isSuccessful()) {
                 onFitbitLoggedIn();
-                TrackingHelper.Companion.trackerConnectionIsValid();
-                TrackingHelper.Companion.fitbitLoggedIn(true);
+                TrackingHelper.trackerConnectionIsValid();
+                TrackingHelper.fitbitLoggedIn(true);
             } else if (!result.isDismissed()) {
                 displayAuthError(result);
-                TrackingHelper.Companion.fitbitLoggedIn(false);
+                TrackingHelper.fitbitLoggedIn(false);
             }
         }
     }
@@ -448,12 +448,12 @@ abstract public class BaseActivity extends AppCompatActivity
 
     protected void onFitbitLogoutSuccess() {
         Log.i(TAG, "onFitbitLogoutSuccess");
-        TrackingHelper.Companion.fitbitLoggedIn(false);
+        TrackingHelper.fitbitLoggedIn(false);
     }
 
     protected void onFitbitLogoutError(String message) {
         Log.i(TAG, "onFitbitLogoutError");
-        TrackingHelper.Companion.fitbitLoggedIn(false);
+        TrackingHelper.fitbitLoggedIn(false);
     }
 
     /************* end of fitbit related methods ***************/
@@ -480,11 +480,11 @@ abstract public class BaseActivity extends AppCompatActivity
     protected void onActivityResultForGoogleFit(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "onActivityResultForGoogleFit");
         if (resultCode == Activity.RESULT_OK) {
-            TrackingHelper.Companion.trackerConnectionIsValid();
-            TrackingHelper.Companion.googleFitLoggedIn(true);
+            TrackingHelper.trackerConnectionIsValid();
+            TrackingHelper.googleFitLoggedIn(true);
             onGoogleFitLoggedIn();
         } else {
-            TrackingHelper.Companion.googleFitLoggedIn(false);
+            TrackingHelper.googleFitLoggedIn(false);
         }
     }
 
@@ -516,7 +516,7 @@ abstract public class BaseActivity extends AppCompatActivity
         GoogleSignInClient client = GoogleSignIn.getClient(this, signInOptions);
         client.revokeAccess();
 
-        TrackingHelper.Companion.googleFitLoggedIn(false);
+        TrackingHelper.googleFitLoggedIn(false);
 
         onGoogleFitLogoutSuccess();
 

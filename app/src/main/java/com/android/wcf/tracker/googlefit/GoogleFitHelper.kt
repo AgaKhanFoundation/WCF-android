@@ -34,6 +34,7 @@ class GoogleFitHelper {
                 .requestEmail()
                 .addExtension(googleFitFitnessOptions).build()
 
+        @JvmStatic
         fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {
 
             val readRequest = DataReadRequest.Builder()
@@ -72,23 +73,20 @@ class GoogleFitHelper {
                                 Log.i(TAG, "total steps for ${stepData.date}: $totalSteps")
                             }
 
-                            if (callback != null) {
-                                callback.onTrackerStepsRetrieved(activitySteps)
-                            }
+                            callback?.onTrackerStepsRetrieved(activitySteps)
+
                         }
                         .addOnFailureListener { exception ->
-                            Log.e(TAG, "GoogleFit steps error:", exception);
 
-                            if (callback != null) {
-                                val error = Throwable(exception.message)
-                                callback.onTrackerStepsError(error)
-                            }
+                            Log.e(TAG, "GoogleFit steps error:", exception);
+                            val error = Throwable(exception.message)
+                            callback?.onTrackerStepsError(error)
                         }
             }
         }
 
         fun validateLogin(context: Context, callback: TrackerLoginStatusCallback?) {
-            var endDate:Date = Date()
+            var endDate: Date = Date()
             var startDate: Date = DateTimeHelper.yesterday()
             var endDate2 = DateTimeHelper.getDateForNow()
 

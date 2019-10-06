@@ -29,30 +29,35 @@ class DateTimeHelper {
     companion object {
         val DAY_IN_MS: Long = 1000 * 60 * 60 * 24
 
+        @JvmStatic
         fun dateWeekAgo(): Date {
-
             return Date(Date().getTime() - (7 * DAY_IN_MS))
         }
 
+        @JvmStatic
         fun getNowLong(): Long {
             return System.currentTimeMillis()
         }
 
+        @JvmStatic
         fun intToUserReadableTime(i: Int): String {
             val times = generateTimeUnitsArray(i.toLong())
             return generateUiTimeString(times)
         }
 
+        @JvmStatic
         fun intToReadableTime(i: Int): String {
             val times = generateTimeUnitsArray(i.toLong())
             return generateTimeString(times)
         }
 
+        @JvmStatic
         fun longToReadableTime(l: Long): String {
             val times = generateTimeUnitsArray(l)
             return generateTimeString(times)
         }
 
+        @JvmStatic
         fun generateTimeUnitsArray(l: Long): LongArray {
             val timeUnits = LongArray(4)
             timeUnits[HOUR_INDX] = l / MILLIS_IN_HOUR
@@ -63,6 +68,7 @@ class DateTimeHelper {
             return timeUnits
         }
 
+        @JvmStatic
         fun generateTimeString(timeUnits: LongArray): String {
             val hours = timeUnits[HOUR_INDX].absoluteValue
             val minutes = timeUnits[MIN_INDX].absoluteValue
@@ -87,6 +93,7 @@ class DateTimeHelper {
             return sb.toString()
         }
 
+        @JvmStatic
         fun generateUiTimeString(timeUnits: LongArray): String {
             val hours = timeUnits[HOUR_INDX]
             val minutes = timeUnits[MIN_INDX]
@@ -112,21 +119,24 @@ class DateTimeHelper {
             return sb.toString()
         }
 
+        @JvmStatic
         fun obtainDateForNow(): String = longToReadableDate(System.currentTimeMillis())
 
+        @JvmStatic
         fun getDateForNow(): Date {
             val cal: Calendar = Calendar.getInstance()
             cal.timeInMillis = System.currentTimeMillis()
             return cal.time
         }
 
-
+        @JvmStatic
         fun yesterday(): Date {
             val cal = Calendar.getInstance()
             cal.add(Calendar.DATE, -1)
             return cal.time
         }
 
+        @JvmStatic
         fun longToReadableDate(l: Long): String {
             val cal: Calendar = Calendar.getInstance()
             cal.timeInMillis = l
@@ -135,10 +145,13 @@ class DateTimeHelper {
             return dateForm.format(date)
         }
 
+        @JvmStatic
         fun obtainISO8601DateForNow(): String = longToISO8601(System.currentTimeMillis())
 
+        @JvmStatic
         fun obtainobtainISO8601Date(l: Long) = longToISO8601(l)
 
+        @JvmStatic
         fun longToISO8601(l: Long): String {
             val cal = Calendar.getInstance()
             cal.timeInMillis = l
@@ -147,6 +160,7 @@ class DateTimeHelper {
             return dateFormat.format(date)
         }
 
+        @JvmStatic
         fun obtainDebuggingDate(l: Long): String {
             val cal = Calendar.getInstance()
             cal.timeInMillis = l
@@ -155,13 +169,16 @@ class DateTimeHelper {
             return dateFormat.format(date)
         }
 
+        @JvmStatic
         fun obtainDebuggingDateForNow() = obtainDebuggingDate(System.currentTimeMillis())
 
 
+        @JvmStatic
         fun calcTimeDiffFromNow(eventTime: Long): Long {
             return System.currentTimeMillis() - eventTime
         }
 
+        @JvmStatic
         fun getUtcOffetForlocal(): Int {
             return TimeZone.getDefault().getOffset(System.currentTimeMillis())
         }

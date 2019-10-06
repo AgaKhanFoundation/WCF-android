@@ -102,6 +102,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         challengePresenter = new ChallengePresenter(this);
 
@@ -111,6 +112,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         View fragmentView = inflater.inflate(R.layout.fragment_challenge, container, false);
 
         return fragmentView;
@@ -118,6 +120,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         setupView(view);
     }
@@ -161,6 +164,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach");
         super.onAttach(context);
         if (context instanceof ChallengeMvp.Host) {
             mHostingParent = (ChallengeMvp.Host) context;
@@ -282,8 +286,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 editParticipantCommitmentTv.setOnClickListener(onClickListener);
 
                 int currentTeamSize = team.getParticipants().size();
-                int teamDistance = (int) DistanceConverter.Companion.distance(currentTeamSize * event.getDefaultParticipantCommitment()); //TODO, this should from commitments for participants
-                int teamGoal = (int) DistanceConverter.Companion.distance( event.getTeamLimit() * event.getDefaultParticipantCommitment());
+                int teamDistance = (int) DistanceConverter.distance(currentTeamSize * event.getDefaultParticipantCommitment()); //TODO, this should from commitments for participants
+                int teamGoal = (int) DistanceConverter.distance( event.getTeamLimit() * event.getDefaultParticipantCommitment());
                 int remainingTeamGoalMiles = teamGoal - teamDistance;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 
@@ -459,7 +463,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             public void onDialogDone(@NotNull String editedValue) {
                 committedDistanceTv.setText(editedValue);
                 int newCommitmentDistance = Integer.parseInt(editedValue);
-                int newCommittedSteps = DistanceConverter.Companion.steps(newCommitmentDistance);
+                int newCommittedSteps = DistanceConverter.steps(newCommitmentDistance);
                 int commitmentId = getEvent().getParticipantCommitmentId(activeEventId);
                 if (commitmentId == 0) {
                     challengePresenter.createParticipantCommitment(participantId, activeEventId, newCommittedSteps);

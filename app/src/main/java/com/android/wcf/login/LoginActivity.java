@@ -172,7 +172,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
 
     @Override
     public void showHomeActivity() {
-        Intent intent = HomeActivity.Companion.createIntent(this);
+        Intent intent = HomeActivity.createIntent(this);
         this.startActivity(intent);
     }
 
@@ -186,7 +186,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     public static boolean bypassAKFProfile = true;
     @Override
     public void loginComplete() {
-        LoginHelper.Companion.loginIsValid();
+        LoginHelper.loginIsValid();
         boolean akfProfileCreate = SharedPreferencesUtil.getAkfProfileCreated();
 
         if (bypassAKFProfile || akfProfileCreate) {

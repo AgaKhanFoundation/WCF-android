@@ -35,7 +35,19 @@ class TrackingHelper {
         const val TRACKER_CHECK_AFTER_MILLI = Constants.TRACKER_CHECK_DELTA_HOURS * 60 * 60 * 1000
         const val STEPS_DATA_SAVE_AFTER_MILLI = Constants.SAVE_STEPS_TO_SERVER_DELTA_MIN * 60 * 1000
 
+        @JvmStatic
+        fun fitnessDeviceLoggedIn():Boolean {
+            val sharedPreferences = getSharedPrefs()
+            return sharedPreferences?.getBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false) ?: false
+        }
 
+        @JvmStatic
+        fun fitnessAppLoggedIn():Boolean {
+            val sharedPreferences = getSharedPrefs()
+            return sharedPreferences?.getBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false) ?: false
+        }
+
+        @JvmStatic
         fun isTimeToSave(): Boolean {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -46,6 +58,7 @@ class TrackingHelper {
             return true
         }
 
+        @JvmStatic
         fun trackerDataSaved(lastSavedStepDate: String) {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -54,6 +67,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun lastTrackerDataSavedDate(): String {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -65,6 +79,7 @@ class TrackingHelper {
             return ""
         }
 
+        @JvmStatic
         fun saveTrackerSelection( deviceSelection: Boolean, appSelection: Boolean, trackerSourceId: Int) {
             val sharedPreferences = getSharedPrefs()
 
@@ -75,6 +90,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun clearAll() {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -82,6 +98,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun clearTrackerSelection() {
             val sharedPreferences = getSharedPrefs()
 
@@ -93,6 +110,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun isTimeToValidateTrackerConnection(): Boolean {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -103,6 +121,7 @@ class TrackingHelper {
             return true
         }
 
+        @JvmStatic
         fun trackerConnectionIsValid() {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -110,6 +129,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun clearTrackerConnectionCheck() {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -117,6 +137,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun googleFitLoggedIn(loggedIn: Boolean) {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -124,6 +145,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun fitbitLoggedIn(loggedIn: Boolean) {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {

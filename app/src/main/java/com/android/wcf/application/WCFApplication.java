@@ -61,7 +61,7 @@ public class WCFApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        DistanceConverter.Companion.setDefaultMetrics(DistanceMetric.MILES); //TODO this can be driven by Locale
+        DistanceConverter.setDefaultMetrics(DistanceMetric.MILES); //TODO this can be driven by Locale
         PreferenceManager.setDefaultValues(this, R.xml.settings_preferences_root, false);
         instance = this;
 
@@ -78,7 +78,7 @@ public class WCFApplication extends Application {
     }
 
     public void openHomeActivity() {
-        Intent intent = HomeActivity.Companion.createIntent(this);
+        Intent intent = HomeActivity.createIntent(this);
         intent.setFlags(FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         instance.startActivity(intent);
     }

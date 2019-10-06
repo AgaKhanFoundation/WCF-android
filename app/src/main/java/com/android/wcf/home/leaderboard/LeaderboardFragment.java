@@ -70,6 +70,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
 
@@ -88,12 +89,14 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        Log.d(TAG, "onViewCreated");
         super.onViewCreated(view, savedInstanceState);
         Participant participant = getParticipant();
         if (participant != null && participant.getTeamId() != null) {
@@ -117,6 +120,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     @Override
     public void onAttach(Context context) {
+        Log.d(TAG, "onAttach");
         super.onAttach(context);
         if (context instanceof LeaderboardMvp.Host) {
             mFragmentHost = (LeaderboardMvp.Host) context;
