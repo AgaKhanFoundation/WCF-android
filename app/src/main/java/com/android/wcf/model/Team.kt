@@ -23,6 +23,7 @@ data class Team(
                     return participant.name
                 }
             }
+            //temporary until server creator_id data is fixed
             if (it.size > 0) {
                 return it.get(0).name
             }

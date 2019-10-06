@@ -32,12 +32,16 @@ class TrackingHelper {
         const val GOOGLE_FIT_USER_DISPLAY_NAME = "googlefit_user_display_name"
         const val GOOGLE_FIT_USER_DISPLAY_EMAIL = "googlefit_user_display_email"
 
+        const val TRACKER_CHECK_AFTER_MILLI = Constants.TRACKER_CHECK_DELTA_HOURS * 60 * 60 * 1000
+        const val STEPS_DATA_SAVE_AFTER_MILLI = Constants.SAVE_STEPS_TO_SERVER_DELTA_MIN * 60 * 1000
+
+
         fun isTimeToSave(): Boolean {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
                 var lastSaveAtTime = it.getLong(TRACKER_DATA_LAST_SAVED_AT_TIME, 0)
 
-                return Date().time - lastSaveAtTime > Constants.SAVE_STEPS_TO_SERVER_DELTA_MIN * 60 * 1000
+                return Date().time - lastSaveAtTime > STEPS_DATA_SAVE_AFTER_MILLI
             }
             return true
         }
@@ -94,7 +98,7 @@ class TrackingHelper {
             sharedPreferences?.let {
                 var lastSaveAtTime = it.getLong(LAST_TRACKER_CHECK_TIME, 0)
 
-                return Date().time - lastSaveAtTime > Constants.TRACKER_CHECK_DELTA_HOURS * 60 * 60 * 1000
+                return Date().time - lastSaveAtTime > TRACKER_CHECK_AFTER_MILLI
             }
             return true
         }
