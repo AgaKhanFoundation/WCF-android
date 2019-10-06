@@ -81,6 +81,9 @@ class FitbitHelper {
                                 }
                             } else {
                                 Log.d(TAG, "fitbit steps error:" + response.code() + "- " + response.message())
+                                if (response.code() == 401) {
+                                    callback?.trackerNeedsRelogin(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                                }
                                 if (callback != null) {
                                     val error = Throwable(response.message())
                                     callback.onTrackerStepsError(error)

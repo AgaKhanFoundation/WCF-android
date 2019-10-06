@@ -124,6 +124,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             }
 
            String message = getString(R.string.tracker_needs_reconnection);
+
            new AlertDialog.Builder(getContext())
                     .setTitle(title)
                     .setMessage(message)

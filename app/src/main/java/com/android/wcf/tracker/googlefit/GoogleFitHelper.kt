@@ -79,6 +79,12 @@ class GoogleFitHelper {
                         .addOnFailureListener { exception ->
 
                             Log.e(TAG, "GoogleFit steps error:", exception);
+
+                            val errorCode = 1 // TODO: replace 1 with errorcode from Exception or add appropriate error check when token expired situation
+                            if (1 == 401) {
+                                callback?.trackerNeedsRelogin(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+                            }
+
                             val error = Throwable(exception.message)
                             callback?.onTrackerStepsError(error)
                         }
