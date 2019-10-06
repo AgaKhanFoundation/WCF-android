@@ -122,7 +122,7 @@ class HomeActivity : BaseActivity()
             return;
         }
 
-        val fitnessTracker = getSelectedFitnessTracker();
+        val fitnessTracker = TrackingHelper.getSelectedFitnessTracker();
         if (fitnessTracker == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
             checkFitbitConnection();
         } else if (fitnessTracker == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
@@ -185,24 +185,6 @@ class HomeActivity : BaseActivity()
                 .show()
         // TrackingHelper.clearTrackerSelection(context = this@HomeActivity)
         // Toast.makeText(this@HomeActivity, message, Toast.LENGTH_LONG).show()
-    }
-
-    private fun getSelectedFitnessTracker(): Int {
-
-        trackersSharedPreferences?.let { sharedPreferences ->
-            var deviceChoice = sharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false)
-            val deviceLoggedIn = sharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)
-
-            var appChoice = sharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false)
-            val appLoggedIn = sharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false)
-
-            if (deviceLoggedIn) {
-                return TrackingHelper.FITBIT_TRACKING_SOURCE_ID
-            } else if (appLoggedIn) {
-                return TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID
-            }
-        }
-        return TrackingHelper.INVALID_TRACKING_SOURCE_ID
     }
 
     private fun getParticipantData() {

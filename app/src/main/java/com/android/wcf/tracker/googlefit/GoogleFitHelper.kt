@@ -109,6 +109,7 @@ class GoogleFitHelper {
                         .readData(readRequest)
                         .addOnSuccessListener { dataReadResponse ->
 
+                            TrackingHelper.trackerConnectionIsValid()
                             callback?.onTrackerLoginValid(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
 
                         }

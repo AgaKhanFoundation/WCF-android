@@ -111,6 +111,7 @@ class FitbitHelper {
 
                     response?.let {
                         if (it.body() == null || it.errorBody() != null) {
+                            TrackingHelper.trackerConnectionIsValid()
                             callback?.onTrackerLoginNotValid()
                         }
                         else {

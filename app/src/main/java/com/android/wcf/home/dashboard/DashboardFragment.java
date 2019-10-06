@@ -55,9 +55,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     boolean challengeStarted = false;
     boolean challengeEnded = false;
-    boolean teamFormationStarted = true;
-    boolean fitnessDeviceLoggedIn = false;
-    boolean fitnessAppLoggedIn = false;
 
     View participantProfileView = null;
     View deviceConnectionView = null;
@@ -280,16 +277,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     void showDashboardActivityInfo() {
 
-        fitnessDeviceLoggedIn = TrackingHelper.fitnessDeviceLoggedIn();
-        fitnessAppLoggedIn = TrackingHelper.fitnessDeviceLoggedIn();
+        trackerSourceId = TrackingHelper.getSelectedFitnessTracker();
 
-        if (fitnessDeviceLoggedIn) {
-            trackerSourceId = TrackingHelper.FITBIT_TRACKING_SOURCE_ID;
-        } else {
-            trackerSourceId = TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID;
-        }
-
-        if (fitnessDeviceLoggedIn || fitnessAppLoggedIn) {
+        if (trackerSourceId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID ||
+                trackerSourceId == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
             activityTrackedInfoView.setVisibility(View.VISIBLE);
             deviceConnectionView.setVisibility(View.GONE);
         } else {
@@ -302,7 +293,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
         Date startDate = null;
         Date endDate = null;
-
 
         Date today = new Date();
         Date weekAgo = DateTimeHelper.dateWeekAgo();
@@ -325,10 +315,13 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             }
         }
 
-        if (fitnessDeviceLoggedIn) {
-            FitbitHelper.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
-        } else if (fitnessAppLoggedIn) {
-            GoogleFitHelper.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
+        switch (trackerSourceId) {
+            case TrackingHelper.FITBIT_TRACKING_SOURCE_ID:
+                FitbitHelper.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
+                break;
+            case TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID:
+                GoogleFitHelper.getSteps(getActivity(), startDate, endDate, trackerStepsCallback);
+                break;
         }
     }
 
