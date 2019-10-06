@@ -127,7 +127,7 @@ class TrackingHelper {
         fun fitbitLoggedIn(loggedIn: Boolean) {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
-                it.edit().putBoolean(FITBIT_DEVICE_LOGGED_IN, true).commit()
+                it.edit().putBoolean(FITBIT_DEVICE_LOGGED_IN, loggedIn).commit()
             }
         }
 
