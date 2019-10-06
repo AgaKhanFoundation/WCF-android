@@ -4,6 +4,7 @@ class Constants {
     companion object {
 
         const val SPLASH_TIMER = 3000
+        const val MIN_TEAM_NAME_CHAR_LENGTH = 6
 
         const val AUTH_FACEBOOK:String = "Facebook"
 

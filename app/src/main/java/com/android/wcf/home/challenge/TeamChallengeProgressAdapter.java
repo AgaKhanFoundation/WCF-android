@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Participant;
 import com.bumptech.glide.Glide;
@@ -77,7 +78,7 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
         holder.participantFundsCommitted.setText("$" + decimalFormatter.format(participant.getFundsCommitted()));
 
         if (challengeStarted) {
-            double milesWalked = participant.getCompletedSteps() / (Constants.STEPS_IN_A_MILE * 1.0);
+            double milesWalked = DistanceConverter.distance(participant.getCompletedSteps());
             holder.participantDistanceWalked.setText(decimalFormatter.format(milesWalked));
             holder.participantFundsAccrued.setText(decimalFormatter.format(participant.getFundsAccrued()));
         }
