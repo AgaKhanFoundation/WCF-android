@@ -96,8 +96,6 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        participantId = SharedPreferencesUtil.getMyParticipantId();
-        presenter = new JoinTeamPresenter(this);
         setHasOptionsMenu(true);
     }
 
@@ -112,6 +110,8 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        participantId = SharedPreferencesUtil.getMyParticipantId();
+        presenter = new JoinTeamPresenter(this);
         host.setToolbarTitle(getString(R.string.join_team_title), true);
         setupView(view);
     }
