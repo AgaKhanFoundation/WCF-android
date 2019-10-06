@@ -24,6 +24,7 @@ import com.android.wcf.home.leaderboard.LeaderboardMvp
 import com.android.wcf.home.notifications.NotificationsFragment
 import com.android.wcf.home.notifications.NotificationsMvp
 import com.android.wcf.login.LoginActivity
+import com.android.wcf.login.LoginHelper
 import com.android.wcf.model.Commitment
 import com.android.wcf.model.Constants
 import com.android.wcf.model.Participant
@@ -132,35 +133,44 @@ class HomeActivity : BaseActivity()
     }
 
     private fun checkFitbitConnection() {
-        FitbitHelper.validateLogin(this, object : TrackerLoginStatusCallback {
-            override fun onTrackerLoginValid(trackerId: Int) {
-                getParticipantData()
-            }
+        if (TrackingHelper.isTimeToValidateTrackerConnection()) {
+            FitbitHelper.validateLogin(this, object : TrackerLoginStatusCallback {
+                override fun onTrackerLoginValid(trackerId: Int) {
+                    getParticipantData()
+                }
 
-            override fun onTrackerLoginNotValid() {
-                showTrackerConnectionError(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
-            }
-        })
+                override fun onTrackerLoginNotValid() {
+                    showTrackerConnectionError(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                }
+            })
+        }
+        else {
+            getParticipantData()
+        }
     }
 
     private fun checkGoogleFitConnection() {
-        GoogleFitHelper.validateLogin(this, object : TrackerLoginStatusCallback {
-            override fun onTrackerLoginValid(trackerId: Int) {
-                getParticipantData()
-            }
+        if (TrackingHelper.isTimeToValidateTrackerConnection()) {
+            GoogleFitHelper.validateLogin(this, object : TrackerLoginStatusCallback {
+                override fun onTrackerLoginValid(trackerId: Int) {
+                    getParticipantData()
+                }
 
-            override fun onTrackerLoginNotValid() {
-                showTrackerConnectionError(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
-            }
-        })
+                override fun onTrackerLoginNotValid() {
+                    showTrackerConnectionError(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+                }
+            })
+        }
+        else {
+            getParticipantData()
+        }
     }
 
-    fun showTrackerConnectionError(trackerId:Int) {
-        var title:String = ""
+    fun showTrackerConnectionError(trackerId: Int) {
+        var title: String = ""
         if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
             title = getString(R.string.tracker_connection_title_template, "Fitbit")
-        }
-        else if (trackerId == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
+        } else if (trackerId == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
             title = getString(R.string.tracker_connection_title_template, "Google Fit App")
         }
 
@@ -230,8 +240,11 @@ class HomeActivity : BaseActivity()
     }
 
     private fun isLoginValid(): Boolean {
-        val accessToken: AccessToken = AccessToken.getCurrentAccessToken()
-        return accessToken != null && !accessToken.isExpired()
+        if (LoginHelper.isTimeToValidateLogin()) {
+            val accessToken: AccessToken = AccessToken.getCurrentAccessToken()
+            return accessToken != null && !accessToken.isExpired()
+        }
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

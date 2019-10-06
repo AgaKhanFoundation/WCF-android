@@ -124,8 +124,8 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
             activityTrackedInfoView.setVisibility(View.VISIBLE);
 
-            if (TrackingHelper.Companion.isTimeToSave(getContext())) {
-                String lastSavedDate = TrackingHelper.Companion.lastTrackerDataSavedDate(getContext());
+            if (TrackingHelper.Companion.isTimeToSave()) {
+                String lastSavedDate = TrackingHelper.Companion.lastTrackerDataSavedDate();
                 dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data, event.getStartDate(), event.getEndDate(), lastSavedDate);
             }
         }
@@ -434,7 +434,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
     @Override
     public void stepsRecorded(String lastSavedDate) {
-        TrackingHelper.Companion.trackerDataSaved(getContext(), lastSavedDate);
+        TrackingHelper.Companion.trackerDataSaved(lastSavedDate);
         dashboardPresenter.getParticipantStats(participant.getParticipantId());
     }
 }

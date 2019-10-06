@@ -5,7 +5,9 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import com.android.wcf.application.WCFApplication;
+import com.android.wcf.login.LoginHelper;
 import com.android.wcf.model.Constants;
+import com.android.wcf.tracker.TrackingHelper;
 
 import static com.android.wcf.model.Constants.AUTH_FACEBOOK;
 
@@ -13,7 +15,7 @@ public class SharedPreferencesUtil {
 
     private static final String TAG = SharedPreferencesUtil.class.getSimpleName();
     /* group different preferences under types */
-    private static String PREF_TYPE_NAME_APP = "WCF_APP";
+    public static String PREF_TYPE_NAME_APP = "WCF_APP";
 
     /* property names for individual preferences */
     private static String PREF_NAME_MY_FACEBOOK_ID = "MY_FB_ID";
@@ -48,6 +50,8 @@ public class SharedPreferencesUtil {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
         editor.clear();
         editor.commit();
+
+        TrackingHelper.Companion.clearAll();
     }
 
     public static void saveMyLoginId(String loginId, String authSource) {
@@ -112,6 +116,8 @@ public class SharedPreferencesUtil {
         preferences.edit()
                 .remove(PREF_NAME_USER_LOGGED_IN)
                 .commit();
+
+        LoginHelper.Companion.clearLoginCheck();
     }
 
     public static void clearMyTeamId() {
