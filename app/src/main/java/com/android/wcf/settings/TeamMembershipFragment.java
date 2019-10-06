@@ -44,7 +44,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     private Event event;
     private boolean isTeamLead = false;
 
-    private TeamMembershipPresenter presenter;
+    private TeamMembershipMvp.Presenter presenter;
     private RecyclerView teamMembershipRecyclerView = null;
     private TeamMembershipAdapter teamMembershipAdapter = null;
     private View settingsTeamProfileContainer;

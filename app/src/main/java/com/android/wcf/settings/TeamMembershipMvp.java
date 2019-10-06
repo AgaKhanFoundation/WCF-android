@@ -11,6 +11,7 @@ public interface TeamMembershipMvp extends BaseMvp.BaseView {
 
     interface Presenter extends BaseMvp.Presenter {
         void removeMemberFromTeam(String participantId);
+        void deleteTeam(int teamId);
     }
 
     interface Host extends BaseMvp.Host {

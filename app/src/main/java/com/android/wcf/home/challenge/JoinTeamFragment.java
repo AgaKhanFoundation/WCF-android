@@ -44,7 +44,6 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
     private Button joinTeamButton = null;
     private RecyclerView teamsListRecyclerView = null;
     private JoinTeamAdapter teamsAdapter = null;
-    private String participantId;
     private Team selectedTeam = null;
     private TextInputLayout teamNameInputLayout = null;
     private TextInputEditText teamNameEditText = null;
@@ -110,7 +109,6 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        participantId = SharedPreferencesUtil.getMyParticipantId();
         presenter = new JoinTeamPresenter(this);
         host.setToolbarTitle(getString(R.string.join_team_title), true);
         setupView(view);
@@ -258,7 +256,7 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
         }
 
         //TODO ensure capacity, if not show message
-
+        String participantId = SharedPreferencesUtil.getMyParticipantId();
         presenter.assignParticipantToTeam(participantId, selectedTeam.getId());
     }
 

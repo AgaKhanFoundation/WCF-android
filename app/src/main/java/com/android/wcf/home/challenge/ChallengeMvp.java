@@ -1,6 +1,7 @@
 package com.android.wcf.home.challenge;
 
 import com.android.wcf.base.BaseMvp;
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
@@ -42,13 +43,12 @@ public interface ChallengeMvp {
         void onGetEventError(Throwable error);
 
         void noActiveEventFound();
-
     }
 
     interface Presenter extends BaseMvp.Presenter {
         void getEvent(int eventId);
 
-        void getTeams();
+        void getTeamsList();
 
         void getTeam(int teamId);
 

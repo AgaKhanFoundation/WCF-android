@@ -308,8 +308,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         Log.e(TAG, "onCreateTeamConstraintError");
     }
 
-    public void getTeams() {
-        wcfClient.getTeams()
+    public void getTeamsList() {
+        wcfClient.getTeamsList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<Team>>() {
@@ -465,7 +465,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     }
 
     public void getLeaderboard() {
-        wcfClient.getTeams()
+        wcfClient.getTeamsList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<Team>>() {

@@ -152,7 +152,8 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         cacheParticipantTeam(team);
         showMessage("New team " + team.getName() + " created");
 
-        presenter.assignParticipantToTeam(SharedPreferencesUtil.getMyParticipantId(), team.getId());
+        String participantId = SharedPreferencesUtil.getMyParticipantId();
+        presenter.assignParticipantToTeam(participantId, team.getId());
     }
 
     @Override

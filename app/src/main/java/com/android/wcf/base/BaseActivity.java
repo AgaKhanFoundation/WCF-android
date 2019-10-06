@@ -156,12 +156,12 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Override
     public void cacheTeamList(List<Team> teams) {
-        DataHolder.setTeams(teams);
+        DataHolder.setTeamsList(teams);
     }
 
     @Override
     public List<Team> getTeamList() {
-        return DataHolder.getTeams();
+        return DataHolder.getTeamsList();
     }
 
     @Override
@@ -219,7 +219,7 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Override
     public void clearCacheTeamList() {
-        DataHolder.setTeams(null);
+        DataHolder.setTeamsList(null);
 
     }
 

@@ -21,6 +21,7 @@ import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -146,12 +147,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void onResume() {
+        Log.d(TAG, "onResume");
         super.onResume();
-        challengePresenter.getTeams(); //TODO: next version, we will have to associate teams to event
+        challengePresenter.getTeamsList(); //TODO: next version, we will have to associate teams to event
     }
 
     @Override
     public void onStop() {
+        Log.d(TAG, "onStop");
         super.onStop();
         challengePresenter.onStop();
     }
