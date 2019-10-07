@@ -13,18 +13,22 @@ class DistanceConverter {
 
         var participantDistanceMetrics: DistanceMetric = DistanceMetric.MILES
 
+        @JvmStatic
         fun setDefaultMetrics(metrics: DistanceMetric){
             participantDistanceMetrics = metrics;
         }
 
+        @JvmStatic
         fun steps(distance: Int): Int {
             return steps(distance * 1.0, participantDistanceMetrics)
         }
 
+        @JvmStatic
         fun distance(steps: Int): Double {
             return distance(steps, participantDistanceMetrics)
         }
 
+        @JvmStatic
         fun steps(distance: Double, sourceMetrics: DistanceMetric): Int {
             when (sourceMetrics) {
                 DistanceMetric.MILES ->
@@ -36,10 +40,12 @@ class DistanceConverter {
             }
         }
 
+        @JvmStatic
         fun steps(distance: Int, sourceMetrics: DistanceMetric): Int {
             return steps(distance * 1.0, sourceMetrics)
         }
 
+        @JvmStatic
         fun distance(steps: Int, metrics: DistanceMetric): Double {
             when (metrics) {
                 DistanceMetric.MILES ->

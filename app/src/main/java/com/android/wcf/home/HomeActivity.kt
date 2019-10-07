@@ -47,7 +47,7 @@ class HomeActivity : BaseActivity()
         , LeaderboardMvp.Host
         , NotificationsMvp.Host {
 
-    private var homePresenter: HomeMvp.HomePresenter? = null
+    private lateinit var homePresenter: HomeMvp.HomePresenter
     private var dashboardFragment: DashboardFragment? = null
     private var challengeFragment: ChallengeFragment? = null
     private var leaderboardFragment: LeaderboardFragment? = null
@@ -122,7 +122,7 @@ class HomeActivity : BaseActivity()
             return;
         }
 
-        val fitnessTracker = getSelectedFitnessTracker();
+        val fitnessTracker = TrackingHelper.getSelectedFitnessTracker();
         if (fitnessTracker == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
             checkFitbitConnection();
         } else if (fitnessTracker == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
@@ -187,29 +187,11 @@ class HomeActivity : BaseActivity()
         // Toast.makeText(this@HomeActivity, message, Toast.LENGTH_LONG).show()
     }
 
-    private fun getSelectedFitnessTracker(): Int {
-
-        trackersSharedPreferences?.let { sharedPreferences ->
-            var deviceChoice = sharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false)
-            val deviceLoggedIn = sharedPreferences.getBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)
-
-            var appChoice = sharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false)
-            val appLoggedIn = sharedPreferences.getBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false)
-
-            if (deviceLoggedIn) {
-                return TrackingHelper.FITBIT_TRACKING_SOURCE_ID
-            } else if (appLoggedIn) {
-                return TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID
-            }
-        }
-        return TrackingHelper.INVALID_TRACKING_SOURCE_ID
-    }
-
     private fun getParticipantData() {
         myParticipantId?.let {
             if (!TextUtils.isEmpty(it)) {
                 //TODO when other auth providers are implemented, call the appropriate method for participant retrieval
-                homePresenter?.getParticipant(it)
+                homePresenter.getParticipant(it)
             }
         } ?: run {
             showLoginActivity()
@@ -241,8 +223,11 @@ class HomeActivity : BaseActivity()
 
     private fun isLoginValid(): Boolean {
         if (LoginHelper.isTimeToValidateLogin()) {
-            val accessToken: AccessToken = AccessToken.getCurrentAccessToken()
-            return accessToken != null && !accessToken.isExpired()
+            val accessToken: AccessToken? = AccessToken.getCurrentAccessToken()
+            accessToken?.let {
+                return !it.isExpired
+            }
+            return false
         }
         return true
     }
@@ -332,7 +317,7 @@ class HomeActivity : BaseActivity()
         } ?: run {
             if (myTeamId > 0) {
                 myTeamId = 0
-                homePresenter?.participantLeaveFromTeam(myParticipantId)
+                homePresenter.participantLeaveFromTeam(myParticipantId)
             }
         }
 
@@ -344,25 +329,25 @@ class HomeActivity : BaseActivity()
 
                 val myStepsCommited = SharedPreferencesUtil.getMyStepsCommitted();
                 if (myStepsCommited != commitment.commitmentSteps) {
-                    homePresenter?.updateParticipantCommitment(it.id, participant.fbId!!, myActiveEventId, myStepsCommited)
+                    homePresenter.updateParticipantCommitment(it.id, participant.fbId!!, myActiveEventId, myStepsCommited)
                 } else {
                     addNavigationFragments()
                 }
             } ?: run {
-                homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
+                homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
             }
         } ?: run {
-            homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, getEvent().getDefaultParticipantCommitment())
+            homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, getEvent().getDefaultParticipantCommitment())
         }
     }
 
     override fun onGetParticipantNotFound() {
-        homePresenter?.createParticipant(myParticipantId)
+        homePresenter.createParticipant(myParticipantId)
     }
 
     override fun onParticipantCreated(participant: Participant) {
         cacheParticipant(participant);
-        homePresenter?.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
+        homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
     }
 
     override fun onAssignedParticipantToEvent(participantId: String, eventId: Int) {
@@ -438,6 +423,7 @@ class HomeActivity : BaseActivity()
         private val TAG = HomeActivity::class.java.simpleName
         private val BACK_STACK_ROOT_TAG = "root_fragment"
 
+        @JvmStatic
         fun createIntent(context: Context): Intent {
             val intent = Intent(context, HomeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK

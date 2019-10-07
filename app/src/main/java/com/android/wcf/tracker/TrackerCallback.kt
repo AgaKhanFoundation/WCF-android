@@ -8,6 +8,8 @@ interface TrackerStepsCallback {
     fun onTrackerStepsRetrieved(data: ActivitySteps)
 
     fun onTrackerStepsError(t: Throwable)
+
+    fun trackerNeedsRelogin(trackerSourceId: Int)
 }
 
 //interface FitbitActivityResponseCallback {

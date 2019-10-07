@@ -2,6 +2,7 @@ package com.android.wcf.home.challenge;
 
 import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
@@ -26,11 +27,6 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     public ChallengePresenter(ChallengeMvp.ChallengeView view) {
         this.challengeView = view;
     }
-
-    public List<Team> getTeamsList() {
-        return challengeView.getTeamList();
-    }
-
 
     @Override
     public String getTag() {
@@ -217,7 +213,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onDeleteTeamSuccess(List<Integer> result) {
         super.onDeleteTeamSuccess(result);
-        getTeams();
+        getTeamsList();
     }
 
     @Override
@@ -273,4 +269,15 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         challengeView.showError(R.string.participants_manager_error, error.getMessage());
     }
 
+    @Override
+    protected void onCreateParticipantCommitmentSuccess(String participantId, Commitment commitment) {
+        super.onCreateParticipantCommitmentSuccess(participantId, commitment);
+        challengeView.onCreateParticipantCommitmentToEvent(participantId, commitment.getEventId(), commitment);
+    }
+
+    @Override
+    protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
+        super.onUpdateParticipantCommitmentSuccess(participantId, eventId, commitmentSteps);
+        challengeView.onUpdateParticipantCommitmentToEvent(participantId, eventId, commitmentSteps);
+    }
 }

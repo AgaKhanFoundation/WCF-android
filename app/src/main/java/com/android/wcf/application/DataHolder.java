@@ -55,11 +55,11 @@ public class DataHolder {
         DataHolder.participant = participant;
     }
 
-    public static List<Team> getTeams() {
+    public static List<Team> getTeamsList() {
         return teams;
     }
 
-    public static void setTeams(List<Team> teams) {
+    public static void setTeamsList(List<Team> teams) {
         DataHolder.teams = teams;
     }
 

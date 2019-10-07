@@ -89,10 +89,11 @@
     <string name="settings_fitness_device_disconnect_label">Disconnect</string>
     <string name="settings_fitness_device_connect_message">Connect your Fitbit to sync your daily steps.</string>
 
-    <string name="tracker_needs_reconnection">\n\nError while retrieving steps data.\n\nPlease go to the Settings, disconnect and reconnect your tracking Device/App</string>
+    <string name="tracker_needs_reconnection">\n\nError while retrieving steps data.\n\nCheck network connection and try again. If error is not resolved, please go to the Settings, disconnect and reconnect your tracker</string>
     <string name="fitbit_connection_error_message">\n\n\Fitbit connection error:\n\n%1$s</string>
     <string name="tracker_connection_title_template">%1$s Connection Error</string>
     <string name="connected_to_fitness_app_message">Connected to Google Fit account on Your device</string>
+    <string name="google_fit_connection_error_message">\n\n\Google fit connection error:\n\n%1$s</string>
     <string name="disconnected_from_fitness_app_message">Disconnected from Google Fit account on Your device</string>
 
     <string name="settings_team_membership_title">Team</string>
@@ -224,6 +225,7 @@
     <string name="connected_to_test_server">Connected to Test Server</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="login_invalid_relogin_message">Your login is not valid, please login again.</string>
+    <string name="challenge_team_commitment_breakdown_label">View Breakdown</string>
 
 
 </resources>

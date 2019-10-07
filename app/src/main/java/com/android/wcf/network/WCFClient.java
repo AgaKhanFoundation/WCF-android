@@ -146,8 +146,8 @@ public class WCFClient {
         return wcfApi.updateTeam(teamId, requestBody);
     }
 
-    public Single<List<Team>> getTeams() {
-        return wcfApi.getTeams();
+    public Single<List<Team>> getTeamsList() {
+        return wcfApi.getTeamsList();
     }
 
     public Single<Team> getTeam(int teamId) {

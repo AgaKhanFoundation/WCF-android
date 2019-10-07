@@ -178,7 +178,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
 
     @Override
     public boolean isAttached() {
-        return !isDetached();
+        return !isDetached() && getContext() != null && isAdded();
     }
 
 //    @Override
@@ -311,7 +311,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             @Override
             public void onClick(View view) {
                 int distance = Integer.parseInt(editText.getText().toString());
-                int stepsCommitted = DistanceConverter.Companion.steps((distance));
+                int stepsCommitted = DistanceConverter.steps((distance));
                 SharedPreferencesUtil.savetMyStepsCommitted(stepsCommitted);
                 DataHolder.updateParticipantCommittedDistance(distance);
                 if (editTextDialogListener != null) {

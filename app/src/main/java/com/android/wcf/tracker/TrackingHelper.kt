@@ -14,7 +14,6 @@ class TrackingHelper {
 
         const val TRACKER_DATA_LAST_SAVED_AT_TIME = "tracking_saved_at_time"
         const val TRACKER_DATA_LAST_SAVED_DATE = "tracking_last_saved_date"
-        const val SELECTED_TRACKING_SOURCE_ID = "tracking_source_id"
 
         const val LAST_TRACKER_CHECK_TIME = "tracking_last_check_time"
 
@@ -35,7 +34,7 @@ class TrackingHelper {
         const val TRACKER_CHECK_AFTER_MILLI = Constants.TRACKER_CHECK_DELTA_HOURS * 60 * 60 * 1000
         const val STEPS_DATA_SAVE_AFTER_MILLI = Constants.SAVE_STEPS_TO_SERVER_DELTA_MIN * 60 * 1000
 
-
+        @JvmStatic
         fun isTimeToSave(): Boolean {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -46,6 +45,7 @@ class TrackingHelper {
             return true
         }
 
+        @JvmStatic
         fun trackerDataSaved(lastSavedStepDate: String) {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -54,6 +54,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun lastTrackerDataSavedDate(): String {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -65,16 +66,7 @@ class TrackingHelper {
             return ""
         }
 
-        fun saveTrackerSelection( deviceSelection: Boolean, appSelection: Boolean, trackerSourceId: Int) {
-            val sharedPreferences = getSharedPrefs()
-
-            sharedPreferences?.let {
-               it.edit().putBoolean(FITBIT_DEVICE_SELECTED, deviceSelection).commit()
-               it.edit().putBoolean(GOOGLE_FIT_APP_SELECTED, appSelection).commit()
-               it.edit().putInt(SELECTED_TRACKING_SOURCE_ID, trackerSourceId).commit()
-            }
-        }
-
+        @JvmStatic
         fun clearAll() {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -82,6 +74,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun clearTrackerSelection() {
             val sharedPreferences = getSharedPrefs()
 
@@ -93,6 +86,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun isTimeToValidateTrackerConnection(): Boolean {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -103,6 +97,7 @@ class TrackingHelper {
             return true
         }
 
+        @JvmStatic
         fun trackerConnectionIsValid() {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -110,6 +105,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun clearTrackerConnectionCheck() {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -117,6 +113,7 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun googleFitLoggedIn(loggedIn: Boolean) {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
@@ -124,11 +121,28 @@ class TrackingHelper {
             }
         }
 
+        @JvmStatic
         fun fitbitLoggedIn(loggedIn: Boolean) {
             val sharedPreferences = getSharedPrefs()
             sharedPreferences?.let {
-                it.edit().putBoolean(FITBIT_DEVICE_LOGGED_IN, true).commit()
+                it.edit().putBoolean(FITBIT_DEVICE_LOGGED_IN, loggedIn).commit()
             }
+        }
+        @JvmStatic
+        fun getSelectedFitnessTracker(): Int {
+            val sharedPreferences = getSharedPrefs()
+            sharedPreferences?.let {
+
+                val deviceLoggedIn = sharedPreferences.getBoolean(FITBIT_DEVICE_LOGGED_IN, false)
+                val appLoggedIn = sharedPreferences.getBoolean(GOOGLE_FIT_APP_LOGGED_IN, false)
+
+                if (deviceLoggedIn) {
+                    return FITBIT_TRACKING_SOURCE_ID
+                } else if (appLoggedIn) {
+                    return GOOGLE_FIT_TRACKING_SOURCE_ID
+                }
+            }
+            return INVALID_TRACKING_SOURCE_ID
         }
 
         fun getSharedPrefs(): SharedPreferences? {

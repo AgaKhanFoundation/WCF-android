@@ -66,7 +66,7 @@ public interface WCFApiEndpoints {
     Single<Team> createTeam(@Body RequestBody params);
 
     @GET("teams/")
-    Single<List<Team>> getTeams();
+    Single<List<Team>> getTeamsList();
 
     @GET("teams/{id}")
     Single<Team> getTeam(@Path("id") int id);

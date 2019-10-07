@@ -165,9 +165,6 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
         teamViewHolder.teamSpotsMessage.setEnabled(teamSelectable);
 
         teamViewHolder.rbTeamSelected.setEnabled(false); //preventing clicks on RB, it will be checked On/Off by click on ViewHolder
-        teamViewHolder.rbTeamSelected.setTag(R.integer.join_team_row_num_tag, pos);
-
-        teamViewHolder.rbTeamSelected.setOnClickListener(onClickListener);
 
     }
 

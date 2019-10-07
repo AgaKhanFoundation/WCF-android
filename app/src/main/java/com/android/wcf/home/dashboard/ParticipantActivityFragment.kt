@@ -27,6 +27,7 @@ class ParticipantActivityFragment : BaseFragment() {
         val ACTIVITY_TYPE_DAILY = 0
         val ACTIVITY_TYPE_WEEKLY = 1
 
+        @JvmStatic
         fun instanceDaily(): ParticipantActivityFragment {
             val args = Bundle()
             args.putInt(ACTIVITY_TYPE_ARG, ACTIVITY_TYPE_DAILY)
@@ -37,6 +38,7 @@ class ParticipantActivityFragment : BaseFragment() {
             return fragment
         }
 
+        @JvmStatic
         fun instanceWeekly(): ParticipantActivityFragment {
             val args = Bundle()
             args.putInt(ACTIVITY_TYPE_ARG, ACTIVITY_TYPE_WEEKLY)

@@ -14,12 +14,22 @@ import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.request.DataReadRequest
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+interface GoogleFitSubscriptionCallback {
+    fun onSubscriptionSuccess()
+
+    fun onSubscriptionError(exception: Exception?)
+}
+
 
 class GoogleFitHelper {
+
     companion object {
 
         val TAG: String = "GoogleFitHelper"
@@ -34,6 +44,7 @@ class GoogleFitHelper {
                 .requestEmail()
                 .addExtension(googleFitFitnessOptions).build()
 
+        @JvmStatic
         fun getSteps(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {
 
             val readRequest = DataReadRequest.Builder()
@@ -72,23 +83,26 @@ class GoogleFitHelper {
                                 Log.i(TAG, "total steps for ${stepData.date}: $totalSteps")
                             }
 
-                            if (callback != null) {
-                                callback.onTrackerStepsRetrieved(activitySteps)
-                            }
+                            callback?.onTrackerStepsRetrieved(activitySteps)
+
                         }
                         .addOnFailureListener { exception ->
+
                             Log.e(TAG, "GoogleFit steps error:", exception);
 
-                            if (callback != null) {
-                                val error = Throwable(exception.message)
-                                callback.onTrackerStepsError(error)
+                            val errorCode = 1 // TODO: replace 1 with errorcode from Exception or add appropriate error check when token expired situation
+                            if (1 == 401) {
+                                callback?.trackerNeedsRelogin(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
                             }
+
+                            val error = Throwable(exception.message)
+                            callback?.onTrackerStepsError(error)
                         }
             }
         }
 
         fun validateLogin(context: Context, callback: TrackerLoginStatusCallback?) {
-            var endDate:Date = Date()
+            var endDate: Date = Date()
             var startDate: Date = DateTimeHelper.yesterday()
             var endDate2 = DateTimeHelper.getDateForNow()
 
@@ -105,6 +119,7 @@ class GoogleFitHelper {
                         .readData(readRequest)
                         .addOnSuccessListener { dataReadResponse ->
 
+                            TrackingHelper.trackerConnectionIsValid()
                             callback?.onTrackerLoginValid(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
 
                         }
@@ -117,7 +132,29 @@ class GoogleFitHelper {
                         }
             }
         }
+
+
+        /** Records step data by requesting a subscription to background step data.  */
+
+        fun subscribeToRecordSteps(context:Context, callback:GoogleFitSubscriptionCallback) {
+            // To create a subscription, invoke the Recording API. As soon as the subscription is
+            // active, fitness data will start recording.
+            GoogleSignIn.getLastSignedInAccount(context)?.let { googleSignInAccount ->
+                Fitness.getRecordingClient(context, googleSignInAccount)
+                        .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "Successfully subscribed!")
+                                callback.onSubscriptionSuccess()
+                            } else {
+                                Log.w(TAG, "There was a problem subscribing.", task.exception)
+                                callback.onSubscriptionError(task.exception)
+                            }
+                        }
+            }
+        }
     }
+
 }
 //
 //        fun getSteps2(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {

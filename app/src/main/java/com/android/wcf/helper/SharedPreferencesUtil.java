@@ -51,7 +51,7 @@ public class SharedPreferencesUtil {
         editor.clear();
         editor.commit();
 
-        TrackingHelper.Companion.clearAll();
+        TrackingHelper.clearAll();
     }
 
     public static void saveMyLoginId(String loginId, String authSource) {
@@ -117,7 +117,7 @@ public class SharedPreferencesUtil {
                 .remove(PREF_NAME_USER_LOGGED_IN)
                 .commit();
 
-        LoginHelper.Companion.clearLoginCheck();
+        LoginHelper.clearLoginCheck();
     }
 
     public static void clearMyTeamId() {

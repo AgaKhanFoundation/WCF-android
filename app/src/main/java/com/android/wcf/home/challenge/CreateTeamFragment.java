@@ -19,6 +19,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
 import com.google.android.material.textfield.TextInputEditText;
@@ -29,7 +30,6 @@ import org.jetbrains.annotations.NotNull;
 public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.View {
 
     private static final String TAG = CreateTeamFragment.class.getSimpleName();
-    public static final int MIN_TEAM_NAME_SIZE = 6;
 
     CreateTeamMvp.Presenter presenter;
     CreateTeamMvp.Host host;
@@ -152,7 +152,8 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         cacheParticipantTeam(team);
         showMessage("New team " + team.getName() + " created");
 
-        presenter.assignParticipantToTeam(SharedPreferencesUtil.getMyParticipantId(), team.getId());
+        String participantId = SharedPreferencesUtil.getMyParticipantId();
+        presenter.assignParticipantToTeam(participantId, team.getId());
     }
 
     @Override
@@ -259,7 +260,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         boolean enabled = false;
         if (teamNameEditText != null) {
             String teamName = teamNameEditText.getText().toString();
-            if (teamName.trim().length() >= MIN_TEAM_NAME_SIZE) {
+            if (teamName.trim().length() >= Constants.MIN_TEAM_NAME_CHAR_LENGTH) {
                 enabled = true;
             }
         }
