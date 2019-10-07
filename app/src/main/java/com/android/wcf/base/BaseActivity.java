@@ -176,12 +176,13 @@ abstract public class BaseActivity extends AppCompatActivity
             }
         }
 
-        if (activeEvent != null && participant.getCommitmentDistance() == 0) {
-            //TODO: this should from participant's commitment for the event and default only if commitment is zero
+        if (activeEvent != null && participant.getCommitment() != null && participant.getCommitment().getCommitmentSteps() == 0) {
             int committedSteps =  SharedPreferencesUtil.getMyStepsCommitted();
             if (committedSteps == 0) {
                 committedSteps = activeEvent.getDefaultParticipantCommitment();
                 SharedPreferencesUtil.savetMyStepsCommitted(committedSteps);
+                participant.getCommitment().setCommitmentSteps(committedSteps);
+
             }
             DataHolder.updateParticipantCommittedDistance((int) DistanceConverter.distance(committedSteps));
         }

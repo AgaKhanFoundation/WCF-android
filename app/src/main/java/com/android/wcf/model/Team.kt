@@ -54,9 +54,29 @@ data class Team(
         }
     }
 
+    fun geTotalParticipantCommitmentSteps(): Int {
+        var totalSteps = 0
+        for (participant in participants) {
+            totalSteps += participant.commitment?.commitmentSteps ?: 0
+        }
+        return totalSteps
+    }
+
+    fun getCommitmentSteps(fbid:String):Int {
+        for (participant in participants) {
+            if (participant.fbId.equals(fbid) ) {
+                participant.commitment?.let {
+                    return it.commitmentSteps
+                }
+            }
+        }
+        return 0
+    }
+
     companion object {
         const val TEAM_ATTRIBUTE_NAME = "name"
         const val TEAM_ATTRIBUTE_LEADER_ID = "creator_id"
         const val TEAM_ATTRIBUTE_VISIBILITY = "visibility"
     }
+
 }

@@ -263,12 +263,14 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dashboard_challenge_progress_before_view"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="@dimen/spacing_normal"
                 android:paddingEnd="@dimen/spacing_normal"
                 android:paddingTop="@dimen/spacing_normal"
-                android:visibility="visible">
+                android:paddingBottom="@dimen/spacing_normal"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/challenge_progress_view_label"
@@ -341,6 +343,7 @@
                 android:paddingStart="@dimen/spacing_normal"
                 android:paddingEnd="@dimen/spacing_normal"
                 android:paddingTop="@dimen/spacing_normal"
+                android:paddingBottom="@dimen/spacing_normal"
                 android:visibility="visible">
 
                 <TextView

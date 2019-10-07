@@ -1,5 +1,6 @@
 package com.android.wcf.model
 
+import com.android.wcf.helper.DistanceConverter
 import com.google.gson.annotations.SerializedName
 import java.util.ArrayList
 
@@ -31,6 +32,7 @@ data class Participant(
         }
         return null
     }
+    var commitment:Commitment? = null
 
     var participantId: String? = ""
             get() = this.fbId

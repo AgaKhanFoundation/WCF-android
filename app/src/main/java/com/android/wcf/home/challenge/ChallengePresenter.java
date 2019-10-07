@@ -1,6 +1,8 @@
 package com.android.wcf.home.challenge;
 
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
@@ -10,6 +12,7 @@ import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Presenter {
@@ -150,6 +153,8 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         super.onGetTeamSuccess(team);
         challengeView.cacheParticipantTeam(team);
         getTeamParticipantsInfoFromFacebook(team);
+        Event event = challengeView.getEvent();
+        getTeamParticipantCommitments(team, event.getId());
     }
 
     @Override
@@ -159,6 +164,23 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             challengeView.onGetTeamError(error);
             teamRetrieved = true;
             updateChallengeView();
+        }
+    }
+
+    @Override
+    protected void onGetTeamCommitmentSuccess(Map<String, Commitment> participantCommitmentsMap) {
+        for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
+            Commitment commitment = participantCommitmentsMap.get(participant.getId() + "");
+            participant.setCommitment(commitment);
+            participant.setCommitmentDistance(DistanceConverter.distance(commitment.getCommitmentSteps()));
+
+            Participant cachedParticipant = DataHolder.getParticipant();
+            if (cachedParticipant != null && participant.getId() == cachedParticipant.getId()) {
+                cachedParticipant.setCommitment(commitment);
+                cachedParticipant.setCommitmentDistance(
+                        DistanceConverter.distance( commitment != null ? commitment.getCommitmentSteps() : 0));
+
+            }
         }
     }
 
