@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +21,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DateTimeHelper;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -35,6 +37,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -42,6 +45,8 @@ import java.util.Date;
 public class DashboardFragment extends BaseFragment implements DashboardMvp.DashboardView {
     private static final String TAG = DashboardFragment.class.getSimpleName();
     private DashboardMvp.Host mFragmentHost;
+
+    DecimalFormat numberFormatter = new DecimalFormat("#,###,###");
 
     ParticipantActivityFragment dailyFrag;
     ParticipantActivityFragment weeklyFrag;
@@ -71,6 +76,9 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     TextView challengeDatesTv;
 
     TextView challengeDaysRemainingMessage = null;
+    TextView teamActivityCompletedTv = null;
+    TextView teamActivityGoalTv = null;
+    ProgressBar teamActivityStatusGraphPb = null;
 
     private DashboardMvp.Presenter dashboardPresenter = new DashboardPresenter(this);
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -345,6 +353,14 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
             challengeDaysRemainingMessage.setVisibility(View.VISIBLE);
 
+            int teamGoal = (int) DistanceConverter.distance(team.geTotalParticipantCommitmentSteps());
+            String teamDistanceGoal = numberFormatter.format(teamGoal);
+            teamActivityGoalTv.setText(getString(R.string.dashboard_challenge_goal_label, teamDistanceGoal, "miles"));
+
+            int teamCompletedSteps = 0; //TODO: get this from team after completed steps are retrieved from server
+            teamActivityCompletedTv.setText(numberFormatter.format(teamCompletedSteps));
+            teamActivityStatusGraphPb.setProgress((int) 100.0 * teamCompletedSteps / teamGoal);
+
             challengeProgressBeforeStartView.setVisibility(View.GONE);
             challengeProgressView.setVisibility(View.VISIBLE);
         }
@@ -411,6 +427,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         challengeProgressBeforeStartView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_before_view);
         challengeProgressView = challengeProgressCard.findViewById(R.id.dashboard_challenge_progress_view);
         challengeDaysRemainingMessage = challengeProgressView.findViewById(R.id.challenge_days_remaining_message);
+        teamActivityCompletedTv = challengeProgressView.findViewById(R.id.team_activity_completed);
+        teamActivityGoalTv = challengeProgressView.findViewById(R.id.team_activity_goal);
+        teamActivityStatusGraphPb = challengeProgressView.findViewById(R.id.team_activity_status_graph);
+
 
         setupChallengeTeamInviteCard(challengeProgressBeforeStartView);
     }

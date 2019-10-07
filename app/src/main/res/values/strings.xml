@@ -200,6 +200,7 @@
     <string name="tracked_info_tab_daily_label">Daily</string>
     <string name="tracked_info_tab_weekly_label">Weekly</string>
     <string name="dashboard_badges_label">View Badges</string>
+    <string name="dashboard_challenge_goal_label">/%1$s %2$s completed</string>
 
     <string name="applink_ios">http://rebrand.ly/steps4impact-iphone</string>
     <string name="applink_android">http://rebrand.ly/steps4impact-android</string>
