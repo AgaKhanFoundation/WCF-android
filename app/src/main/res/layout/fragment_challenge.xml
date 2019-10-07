@@ -310,8 +310,8 @@
                             android:layout_marginTop="@dimen/spacing_normal_half"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/team_miles_commitment_status_label"
-                            android:secondaryProgress="50"
-                            android:progress="20"
+                            tools:secondaryProgress="50"
+                            tools:progress="20"
                             android:max="100" />
 
                         <View
@@ -450,7 +450,7 @@
                                 android:layout_height="0dp"
                                 android:layout_marginEnd="@dimen/spacing_normal_half"
                                 android:gravity="start|center"
-                                android:text="View Breakdown"
+                                android:text="@string/challenge_team_commitment_breakdown_label"
                                 android:textAppearance="?attr/textAppearanceSubtitle1"
                                 android:textColor="@color/color_blue"
                                 app:layout_constraintStart_toStartOf="parent"

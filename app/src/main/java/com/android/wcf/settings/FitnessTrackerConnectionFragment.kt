@@ -447,7 +447,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
     protected fun onActivityResultForGoogleFit(requestCode: Int, resultCode: Int, data: Intent) {
         Log.d(TAG, "onActivityResultForGoogleFit")
         sharedPreferences?.let { sharedPreferences ->
-            if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE && resultCode == Activity.RESULT_OK ) {
 
                 if (isAdded) {
                     GoogleFitHelper.subscribeToRecordSteps(context!!, object : GoogleFitSubscriptionCallback {

@@ -225,6 +225,7 @@
     <string name="connected_to_test_server">Connected to Test Server</string>
     <string name="invalid_password">Invalid Password</string>
     <string name="login_invalid_relogin_message">Your login is not valid, please login again.</string>
+    <string name="challenge_team_commitment_breakdown_label">View Breakdown</string>
 
 
 </resources>

@@ -223,8 +223,11 @@ class HomeActivity : BaseActivity()
 
     private fun isLoginValid(): Boolean {
         if (LoginHelper.isTimeToValidateLogin()) {
-            val accessToken: AccessToken = AccessToken.getCurrentAccessToken()
-            return accessToken != null && !accessToken.isExpired()
+            val accessToken: AccessToken? = AccessToken.getCurrentAccessToken()
+            accessToken?.let {
+                return !it.isExpired
+            }
+            return false
         }
         return true
     }
