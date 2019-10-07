@@ -43,6 +43,11 @@ public interface ChallengeMvp {
         void onGetEventError(Throwable error);
 
         void noActiveEventFound();
+
+        void onCreateParticipantCommitmentToEvent(String participantId, int eventId, Commitment commitment);
+
+        void onUpdateParticipantCommitmentToEvent(String participantId, int eventId, int commitmentSteps);
+
     }
 
     interface Presenter extends BaseMvp.Presenter {

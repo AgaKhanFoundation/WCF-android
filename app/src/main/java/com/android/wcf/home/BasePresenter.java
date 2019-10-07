@@ -197,7 +197,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     }
 
     protected void onGetParticipantStatsSuccess(Stats stats) {
-        Log.d(TAG, "onGetParticipantStatsSuccess success");
+        Log.d(TAG, "onGetParticipantStatsSuccess success: " + stats.toString());
     }
 
     protected void onGetParticipantStatsError(Throwable error) {

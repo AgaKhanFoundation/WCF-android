@@ -272,10 +272,12 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onCreateParticipantCommitmentSuccess(String participantId, Commitment commitment) {
         super.onCreateParticipantCommitmentSuccess(participantId, commitment);
+        challengeView.onCreateParticipantCommitmentToEvent(participantId, commitment.getEventId(), commitment);
     }
 
     @Override
     protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
         super.onUpdateParticipantCommitmentSuccess(participantId, eventId, commitmentSteps);
+        challengeView.onUpdateParticipantCommitmentToEvent(participantId, eventId, commitmentSteps);
     }
 }

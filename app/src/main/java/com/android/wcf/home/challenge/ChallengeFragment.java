@@ -485,6 +485,16 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         });
     }
 
+    @Override
+    public void onCreateParticipantCommitmentToEvent(String participantId, int eventId, Commitment commitment) {
+        //TODO: retrieve participant
+    }
+
+    @Override
+    public void onUpdateParticipantCommitmentToEvent(String participantId, int eventId, int commitmentSteps) {
+        //TODO: retrieve participant or update steps in place
+    }
+
     public void showTeamCommitmentBreakdown(){
         Log.d(TAG, "showTeamCommitmentBreakdown");
         Team team = getParticipantTeam();
