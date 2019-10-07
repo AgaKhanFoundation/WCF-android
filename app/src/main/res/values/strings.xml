@@ -93,6 +93,7 @@
     <string name="fitbit_connection_error_message">\n\n\Fitbit connection error:\n\n%1$s</string>
     <string name="tracker_connection_title_template">%1$s Connection Error</string>
     <string name="connected_to_fitness_app_message">Connected to Google Fit account on Your device</string>
+    <string name="google_fit_connection_error_message">\n\n\Google fit connection error:\n\n%1$s</string>
     <string name="disconnected_from_fitness_app_message">Disconnected from Google Fit account on Your device</string>
 
     <string name="settings_team_membership_title">Team</string>

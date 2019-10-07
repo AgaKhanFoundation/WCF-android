@@ -14,12 +14,22 @@ import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.request.DataReadRequest
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
+import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
 
+interface GoogleFitSubscriptionCallback {
+    fun onSubscriptionSuccess()
+
+    fun onSubscriptionError(exception: Exception?)
+}
+
 
 class GoogleFitHelper {
+
     companion object {
 
         val TAG: String = "GoogleFitHelper"
@@ -122,7 +132,29 @@ class GoogleFitHelper {
                         }
             }
         }
+
+
+        /** Records step data by requesting a subscription to background step data.  */
+
+        fun subscribeToRecordSteps(context:Context, callback:GoogleFitSubscriptionCallback) {
+            // To create a subscription, invoke the Recording API. As soon as the subscription is
+            // active, fitness data will start recording.
+            GoogleSignIn.getLastSignedInAccount(context)?.let { googleSignInAccount ->
+                Fitness.getRecordingClient(context, googleSignInAccount)
+                        .subscribe(DataType.TYPE_STEP_COUNT_CUMULATIVE)
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                Log.d(TAG, "Successfully subscribed!")
+                                callback.onSubscriptionSuccess()
+                            } else {
+                                Log.w(TAG, "There was a problem subscribing.", task.exception)
+                                callback.onSubscriptionError(task.exception)
+                            }
+                        }
+            }
+        }
     }
+
 }
 //
 //        fun getSteps2(context: Context, startDate: Date, endDate: Date, callback: TrackerStepsCallback?) {
