@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.wcf.R;
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
@@ -283,24 +285,40 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 TextView participantCommittedMilesTv = teamProfileView.findViewById(R.id.participant_committed_miles);
                 TextView teamCommittedMilesTv = teamProfileView.findViewById(R.id.team_committed_miles);
                 TextView remainingGoalMilesTv = teamProfileView.findViewById(R.id.remaining_goal_miles);
+                ProgressBar commitmentPV = teamProfileView.findViewById(R.id.team_miles_commitment_status_graph);
 
                 setupTeamCommitmentBreakdown(teamProfileView);
                 TextView editParticipantCommitmentTv = teamProfileView.findViewById(R.id.participant_committed_miles_edit);
                 editParticipantCommitmentTv.setOnClickListener(onClickListener);
 
                 int currentTeamSize = team.getParticipants().size();
-                int teamDistance = (int) DistanceConverter.distance(currentTeamSize * event.getDefaultParticipantCommitment()); //TODO, this should from commitments for participants
+                Team participantTeam = DataHolder.getParticipantTeam();
+                int teamCommitmentSteps = 0;
+                if (participantTeam != null) {
+                    teamCommitmentSteps = participantTeam.geTotalParticipantCommitmentSteps();
+                }
+                int teamCommitmentDistance = (int) DistanceConverter.distance(teamCommitmentSteps);
                 int teamGoal = (int) DistanceConverter.distance( event.getTeamLimit() * event.getDefaultParticipantCommitment());
-                int remainingTeamGoalMiles = teamGoal - teamDistance;
+                int remainingTeamGoalMiles = teamGoal - teamCommitmentDistance;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 
-                String participantDistanceCommitted = numberFormatter.format((int) participant.getCommitmentDistance());
-                String teamDistanceCommitted = numberFormatter.format(teamDistance);
+                int participantCommitmentSteps = participantTeam.getCommitmentSteps(participant.getFbId());
+                int participantCommitmentDistance = (int) DistanceConverter.distance(participantCommitmentSteps);
+
+                //TODO: remove this temp patch when cached participant is updated property
+                participant.setCommitmentDistance(participantCommitmentDistance);
+
+                String participantDistanceCommitted = numberFormatter.format(participantCommitmentDistance );
+                String teamDistanceCommitted = numberFormatter.format(teamCommitmentDistance);
 
                 teamNameTv.setText(team.getName());
                 teamLeadNameTv.setText(team.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
-                teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamDistance), numberFormatter.format(teamGoal)));
+                teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamCommitmentDistance), numberFormatter.format(teamGoal)));
+                int teamProgressPct = (int) (100 * (teamCommitmentDistance * 1.0/teamGoal));
+                int participantPct =  (int) (100 * (participantCommitmentDistance / teamGoal));
+                commitmentPV.setSecondaryProgress( teamProgressPct);
+                commitmentPV.setProgress(participantPct);
                 teamCommittedMilesTv.setText( teamDistanceCommitted);
                 participantCommittedMilesTv.setText(participantDistanceCommitted);
                 remainingGoalMilesTv.setText(numberFormatter.format( remainingTeamGoalMiles));

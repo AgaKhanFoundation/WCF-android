@@ -2,6 +2,7 @@ package com.android.wcf.home;
 
 import android.util.Log;
 
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
@@ -17,7 +18,9 @@ import com.android.wcf.network.WCFClient;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.SingleObserver;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -149,10 +152,14 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                     }
 
                     @Override
-                    public void onSuccess(Participant participant) {
+                    public void onSuccess(final Participant participant) {
                         FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
                             @Override
-                            public void onParticipantProfileRetrieved(Participant participant) {
+                            public void onParticipantProfileRetrieved(Participant fbParticipant) {
+                                if (participant.getFbId().equals(fbParticipant.getFbId())) {
+                                    participant.setName(fbParticipant.getName());
+                                    participant.setParticipantProfile(fbParticipant.getParticipantProfile());
+                                }
                                 onGetParticipantSuccess(participant);
                             }
                         });
@@ -184,6 +191,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                     public void onSubscribe(Disposable d) {
                         disposables.add(d);
                     }
+
                     @Override
                     public void onSuccess(Stats stats) {
                         onGetParticipantStatsSuccess(stats);
@@ -317,6 +325,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                     public void onSubscribe(Disposable d) {
                         disposables.add(d);
                     }
+
                     @Override
                     public void onSuccess(List<Team> teams) {
                         onGetTeamListSuccess(teams);
@@ -367,71 +376,9 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     protected void onGetTeamError(Throwable error) {
         Log.e(TAG, "onGetTeamError: " + error.getMessage());
     }
-    /*
-    public void getTeamParticipantsInfoFromFacebook(String myFbId, final Team team) {
-        //https://graph.facebook.com/?ids=user1,user2,user3
-         List<String> fbIdList = new ArrayList<>();
-         for (Participant participant : team.getParticipants()) {
-             fbIdList.add(participant.getFbId());
-         }
-        if (fbIdList.size() == 0) {
-            onGetTeamParticipantsInfoError(new Error("No participants"));
-        }
-        else {
-
-            GraphRequest request = GraphRequest.newGraphPathRequest(
-                    AccessToken.getCurrentAccessToken(),
-                    "/" + myFbId + "/",
-                    new GraphRequest.Callback() {
-                        @Override
-                        public void onCompleted(GraphResponse response) {
-                            // Insert your code here
-                        }
-                    });
-
-            Bundle parameters = new Bundle();
-            parameters.putString("fields", "id, name, email, picture");
-            request.setParameters(parameters);
-            request.executeAsync();
-
-            GraphRequestBatch batch = new GraphRequestBatch(
-                    GraphRequest.newMeRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            new GraphRequest.GraphJSONObjectCallback() {
-                                @Override
-                                public void onCompleted(
-                                        JSONObject jsonObject,
-                                        GraphResponse response) {
-                                    // Application code for user
-                                }
-                            }),
-                    GraphRequest.newMyFriendsRequest(
-                            AccessToken.getCurrentAccessToken(),
-                            new GraphRequest.GraphJSONArrayCallback() {
-                                @Override
-                                public void onCompleted(
-                                        JSONArray jsonArray,
-                                        GraphResponse response) {
-                                    // Application code for users friends
-                                }
-                            })
-            );
-            batch.addCallback(new GraphRequestBatch.Callback() {
-                @Override
-                public void onBatchCompleted(GraphRequestBatch graphRequests) {
-                    // Application code for when the batch finishes
-                }
-            });
-            batch.executeAsync();
-        }
-
-        onGetTeamParticipantsInfoSuccess(team);
-        https://graph.facebook.com/?ids=user1,user2,user3
-    }
-    */
-
 
     public static int facebookRequestCount;
+    public static Map<String, Participant> participantFacebookMap = new HashMap();
 
     public void getTeamParticipantsInfoFromFacebook(final Team team) {
         //https://graph.facebook.com/?ids=user1,user2,user3
@@ -439,22 +386,105 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         facebookRequestCount = team.getParticipants().size();
         Log.d(TAG, "getTeamParticipantsInfoFromFacebook: " + facebookRequestCount);
         List<String> fbIdList = new ArrayList<>();
-        for (Participant participant : team.getParticipants()) {
+        for (final Participant participant : team.getParticipants()) {
             String fbId = participant.getFbId();
             fbIdList.add(fbId);
             FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
                 @Override
-                public void onParticipantProfileRetrieved(Participant participant) {
-                    Log.d(TAG, "onParticipantProfileRetrieved: " + facebookRequestCount + " name=" + participant.getName());
+                public void onParticipantProfileRetrieved(Participant fbParticipant) {
+                    Log.d(TAG, "onParticipantProfileRetrieved: " + facebookRequestCount + " name=" + fbParticipant.getName());
+                    if (participant.getId() == fbParticipant.getId()) {
+                        participant.setParticipantProfile(fbParticipant.getParticipantProfile());
+                        participant.setName(fbParticipant.getName());
+                        participantFacebookMap.put(participant.getFbId(), fbParticipant);
+                    }
                     --facebookRequestCount;
                     if (facebookRequestCount == 0) {
                         Log.d(TAG, "onParticipantProfileRetrieved facebookRequestCount = 0 onGetTeamParticipantsInfoSuccess");
-                        onGetTeamParticipantsInfoSuccess(team);
+                        updateParticipantProfilesToTeam(team, participantFacebookMap);
+
                     }
                 }
             });
         }
     }
+
+    private void updateParticipantProfilesToTeam(Team team, Map<String, Participant> participantFacebookMap) {
+
+//        for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
+
+        for (Participant participant : team.getParticipants()) {
+            Participant fbParticipant = participantFacebookMap.get(participant.getFbId());
+            participant.setName(fbParticipant.getName());
+            participant.setParticipantProfile(fbParticipant.getParticipantProfile());
+
+            Participant cachedParticipant = DataHolder.getParticipant();
+            if (cachedParticipant != null && fbParticipant.getFbId().equals(cachedParticipant.getFbId())) {
+                cachedParticipant.setName(fbParticipant.getName());
+                cachedParticipant.setParticipantProfile(fbParticipant.getParticipantProfile());
+            }
+        }
+
+        onGetTeamParticipantsInfoSuccess(team);
+
+    }
+
+
+    public static int participantsCount;
+    public static Map<String, Commitment> participantCommitmentsMap = new HashMap();
+
+    public void getTeamParticipantCommitments(final Team team, final int eventId) {
+
+        participantsCount = team.getParticipants().size();
+        participantCommitmentsMap.clear();
+        Log.d(TAG, "getTeamParticipantCommitments: " + participantsCount);
+        List<String> fbIdList = new ArrayList<>();
+        for (Participant participant : team.getParticipants()) {
+            String fbId = participant.getFbId();
+            fbIdList.add(fbId);
+
+            wcfClient.getParticipantCommitments(fbId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<List<Commitment>>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            disposables.add(d);
+                        }
+
+                        @Override
+                         public void onSuccess(List<Commitment> commitmentList) {
+                            for (Commitment commitment : commitmentList){
+                                if (commitment.getEventId() == eventId) {
+                                    Log.d(TAG, "getParticipantCommitments: " + participantsCount + " id=" + commitment.getParticipantId());
+                                    participantCommitmentsMap.put(commitment.getParticipantId(), commitment);
+                                    break;
+                                }
+                            }
+
+                            participantsCount--;
+                            if (participantsCount == 0) {
+                                onGetTeamCommitmentSuccess(participantCommitmentsMap);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.d(TAG, "getParticipantCommitments error: " + participantsCount + " error=" + error.getMessage());
+
+                            participantsCount--;
+                            if (participantsCount == 0) {
+                                onGetTeamCommitmentSuccess(participantCommitmentsMap);
+                            }
+                        }
+                    });
+        }
+    }
+
+    protected void onGetTeamCommitmentSuccess(Map<String, Commitment> participantCommitmentsMap) {
+
+    }
+
 
     protected void onGetTeamParticipantsInfoSuccess(Team team) {
 
@@ -721,7 +751,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     protected void onCreateParticipantCommitmentError(Throwable error, String participantId, int eventId, int commitmentSteps) {
         //TODO force a refresh of Event.
         Log.e(TAG, "onCreateParticipantCommitmentError: " + error.getMessage() + "\n\tparticipantId= " + participantId +
-            " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
+                " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
     }
 
     public void updateParticipantCommitment(final int commitmentId, final String participantId, final int eventId, final int commitmentSteps) {
@@ -736,7 +766,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onSuccess(List<Integer> results) {
-                        onUpdateParticipantCommitmentSuccess( participantId, eventId, commitmentSteps);
+                        onUpdateParticipantCommitmentSuccess(participantId, eventId, commitmentSteps);
                     }
 
                     @Override
@@ -747,11 +777,11 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     }
 
     protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
-        Log.d(TAG, "onUpdateParticipantCommitmentSuccess: participantId=" + participantId  + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
+        Log.d(TAG, "onUpdateParticipantCommitmentSuccess: participantId=" + participantId + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
     }
 
     protected void onUpdateParticipantCommitmentError(Throwable error, String participantId, int eventId, int commitmentSteps) {
-        Log.e(TAG, "onUpdateParticipantCommitmentError: " + error.getMessage() + "\n\tparticipantId=" + participantId  + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
+        Log.e(TAG, "onUpdateParticipantCommitmentError: " + error.getMessage() + "\n\tparticipantId=" + participantId + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
     }
 
     /***** PARTICPANT TO Event API obsolete, we now use COMMITMENTS to join ******/
