@@ -31,7 +31,7 @@ public class DataHolder {
                 Commitment commitment = event.getParticipantCommitment();
                 if (cachedCommitment != null && cachedCommitment.getId() > 0
                         && (commitment == null || commitment.getId() <= 0) ) {
-                    Log.i(TAG, "event cache request ignored since the new event does not ave participant commitment");
+                    Log.i(TAG, "event cache request ignored since the new event does not have participant commitment");
                     return;
                 }
             }
