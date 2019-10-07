@@ -315,8 +315,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 teamLeadNameTv.setText(team.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
                 teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamCommitmentDistance), numberFormatter.format(teamGoal)));
-                int teamProgressPct = (int) (100 * (teamCommitmentDistance * 1.0/teamGoal));
-                int participantPct =  (int) (100 * (participantCommitmentDistance / teamGoal));
+                int teamProgressPct = (int) (100.0 * teamCommitmentDistance / teamGoal);
+                int participantPct =  (int) (100.0 * participantCommitmentDistance / teamGoal);
                 commitmentPV.setSecondaryProgress( teamProgressPct);
                 commitmentPV.setProgress(participantPct);
                 teamCommittedMilesTv.setText( teamDistanceCommitted);

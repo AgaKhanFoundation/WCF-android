@@ -359,7 +359,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
             int teamCompletedSteps = 0; //TODO: get this from team after completed steps are retrieved from server
             teamActivityCompletedTv.setText(numberFormatter.format(teamCompletedSteps));
-            teamActivityStatusGraphPb.setProgress((int) 100.0 * teamCompletedSteps / teamGoal);
+            teamActivityStatusGraphPb.setProgress((int) (100.0 * teamCompletedSteps / teamGoal));
 
             challengeProgressBeforeStartView.setVisibility(View.GONE);
             challengeProgressView.setVisibility(View.VISIBLE);
