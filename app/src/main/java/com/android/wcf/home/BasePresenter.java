@@ -413,12 +413,13 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
 //        for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
 
+        Participant cachedParticipant = DataHolder.getParticipant();
+
         for (Participant participant : team.getParticipants()) {
             Participant fbParticipant = participantFacebookMap.get(participant.getFbId());
             participant.setName(fbParticipant.getName());
             participant.setParticipantProfile(fbParticipant.getParticipantProfile());
 
-            Participant cachedParticipant = DataHolder.getParticipant();
             if (cachedParticipant != null && fbParticipant.getFbId().equals(cachedParticipant.getFbId())) {
                 cachedParticipant.setName(fbParticipant.getName());
                 cachedParticipant.setParticipantProfile(fbParticipant.getParticipantProfile());
