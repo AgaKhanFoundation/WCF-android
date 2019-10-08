@@ -314,6 +314,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
                 int stepsCommitted = DistanceConverter.steps((distance));
                 SharedPreferencesUtil.savetMyStepsCommitted(stepsCommitted);
                 DataHolder.updateParticipantCommittedDistance(distance);
+                DataHolder.updateParticipantCommitmentInCachedTeam(distance, stepsCommitted);
                 if (editTextDialogListener != null) {
                     editTextDialogListener.onDialogDone(editText.getText().toString());
                 }
