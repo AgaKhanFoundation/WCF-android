@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -153,7 +152,7 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
 
     void refreshTeamList() {
         teams = getTeamList();
-        joinTeamButton.setEnabled((teams == null || teams.size() == 0) ? false : true);
+        joinTeamButton.setEnabled(false);
         teamsAdapter.clearTeamSelectionPosition(); //TODO: if we have a team previously selected, find its position and select that
         teamsListRecyclerView.scrollToPosition(0); //TODO: reuse and scroll to previously selected pos
         teamsAdapter.updateTeamsData(teams);
@@ -271,31 +270,27 @@ public class JoinTeamFragment extends BaseFragment implements JoinTeamMvp.View, 
         showMessage(getString(R.string.participant_team_join_error));
     }
 
-    protected void searchTeamToJoin() {
+    @Override
+    public void noTeamsFound() {
         String errorMessage = getString(R.string.search_team_name_not_found_error);
+        if (teamNameInputLayout != null) {
+            teamNameInputLayout.setError(errorMessage);
+        }
+    }
+
+    @Override
+    public void teamsViewRefreshed() {
+        if (teamNameInputLayout != null) {
+            teamNameInputLayout.setError(null);
+        }
+    }
+
+    protected void searchTeamToJoin() {
 
         if (teamNameEditText != null) {
             String teamName = teamNameEditText.getText().toString().trim();
 
-            if (teamName.length() >= 1) {
-                int teamsCount = (teams != null ? teams.size() : 0);
-                int dataRow = -1;
-                for (int idx = 0; idx < teamsCount; idx++) {
-                    if (teams.get(idx).getName().toLowerCase().startsWith(teamName.toLowerCase())) {
-                        dataRow = idx;
-                        break;
-                    }
-                }
-                if (dataRow >= 0) {
-                    teamNameInputLayout.setError(null);
-
-                    navigateToPosition(dataRow);
-                } else {
-                    if (teamNameInputLayout != null) {
-                        teamNameInputLayout.setError(errorMessage);
-                    }
-                }
-            }
+            teamsAdapter.getFilter().filter(teamName);
         }
     }
 

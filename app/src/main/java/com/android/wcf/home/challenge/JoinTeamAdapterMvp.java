@@ -24,6 +24,7 @@ public interface JoinTeamAdapterMvp {
 
     public interface Presenter {
         void updateTeamsData(List<Team> teams);
+        void updateFilterTeamsData(List<Team> teams);
 
         int getTeamsCount();
 
@@ -40,10 +41,16 @@ public interface JoinTeamAdapterMvp {
         void teamRowSelected(int pos);
 
         boolean isTeamSelectable(int pos, int teamSizeLimit);
+
+        List<Team> filterTeams(String filterValue);
     }
 
     public interface Host {
         void teamRowSelected(int pos);
         void removeFocusFromSearch();
+
+        void noTeamsFound();
+        void teamsViewRefreshed();
+
     }
 }
