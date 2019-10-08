@@ -26,15 +26,19 @@ public class TeamMembershipAdapter extends RecyclerView.Adapter<TeamMembershipAd
     TeamMembershipAdapterMvp.Presenter teamMembershipAdapterPresenter;
     int teamSizeLimit;
     String myParticipantId;
+    String teamLeadParticipantId;
     boolean challengeStarted = false;
     boolean teamLead = false;
+    boolean inEditMode = false;
 
     DecimalFormat decimalFormatter = new DecimalFormat("##,###.##");
 
-    public TeamMembershipAdapter(TeamMembershipAdapterMvp.Host host, int teamSizeLimit, String participantId, boolean teamLead, boolean challengeStarted) {
+    public TeamMembershipAdapter(TeamMembershipAdapterMvp.Host host, int teamSizeLimit, String participantId,
+                                 String teamLeadParticipantId, boolean teamLead, boolean challengeStarted) {
         super();
         this.teamSizeLimit = teamSizeLimit;
         this.myParticipantId = participantId;
+        this.teamLeadParticipantId = teamLeadParticipantId;
         this.teamLead = teamLead;
         this.challengeStarted = challengeStarted;
 
@@ -66,26 +70,31 @@ public class TeamMembershipAdapter extends RecyclerView.Adapter<TeamMembershipAd
                     .into(holder.participantImage);
         }
 
-        holder.participantName.setText(participant.getName());
-        if (myParticipantId.equals(participant.getParticipantId())) {
-            holder.participantName.setTextColor(res.getColor(R.color.color_primary));
-        } else {
-            holder.participantName.setTextColor(res.getColor(android.R.color.tab_indicator_text));
-        }
-
-        if (teamLead && !myParticipantId.equals(participant.getParticipantId())) {
-            holder.removeMemberTv.setVisibility(View.VISIBLE);
-            holder.removeMemberTv.setOnClickListener(holder);
+        if (teamLeadParticipantId.equals(participant.getParticipantId())) {
+            holder.removeMemberTv.setVisibility(View.GONE);
+            holder.teamLeadTv.setVisibility(View.VISIBLE);
+            holder.removeMemberTv.setOnClickListener(null);
         }
         else {
-            holder.removeMemberTv.setVisibility(View.GONE);
-            holder.removeMemberTv.setOnClickListener(null);
+            holder.removeMemberTv.setVisibility((teamLead && inEditMode) ? View.VISIBLE : View.GONE);
+            holder.teamLeadTv.setVisibility(View.GONE);
+            holder.removeMemberTv.setOnClickListener((teamLead && inEditMode) ? holder : null);
         }
     }
 
     @Override
     public void updateParticipantsData(List<Participant> participantList) {
         teamMembershipAdapterPresenter.updateParticipantsData(participantList);
+    }
+
+    @Override
+    public void updateEditMode(boolean newMode) {
+        teamMembershipAdapterPresenter.updateEditMode(newMode);
+    }
+
+    public void editModeUpdated(boolean editMode) {
+        inEditMode = editMode;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -108,6 +117,7 @@ public class TeamMembershipAdapter extends RecyclerView.Adapter<TeamMembershipAd
         ImageView participantImage;
         TextView participantName;
         TextView removeMemberTv;
+        TextView teamLeadTv;
 
         TeamMembershipAdapterMvp.Presenter presenter;
 
@@ -133,6 +143,7 @@ public class TeamMembershipAdapter extends RecyclerView.Adapter<TeamMembershipAd
             participantImage = view.findViewById(R.id.participant_image);
             participantName = view.findViewById(R.id.participant_name);
             removeMemberTv = view.findViewById(R.id.team_member_remove);
+            teamLeadTv = view.findViewById(R.id.team_lead_label);
         }
     }
 }

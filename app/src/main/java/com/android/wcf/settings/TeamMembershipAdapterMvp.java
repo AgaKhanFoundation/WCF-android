@@ -7,8 +7,12 @@ import java.util.List;
 public interface TeamMembershipAdapterMvp {
     public interface View {
         void updateParticipantsData(List<Participant> participantList);
-        void clearSelectionPosition();
         void participantsDataUpdated();
+
+        void updateEditMode(boolean editModeFlag);
+        void editModeUpdated(boolean editModeFlag);
+
+        void clearSelectionPosition();
     }
 
     public interface Presenter {
@@ -19,6 +23,8 @@ public interface TeamMembershipAdapterMvp {
         Participant getParticipant(int position);
 
         void removeMemberFromTeam( int pos);
+
+        void updateEditMode(boolean editModeFlag);
     }
 
     public interface Host {

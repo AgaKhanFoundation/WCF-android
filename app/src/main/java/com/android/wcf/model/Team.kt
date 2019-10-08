@@ -31,27 +31,8 @@ data class Team(
         return ""
     }
 
-    //TODO: delete this method after creator_id not matching participant is resolved
-    fun getLeaderParticipantId():String? {
-        this.participants.let {
-            if (it.size > 0) {
-                return it.get(0).participantId
-            }
-        }
-        return ""
-    }
     fun isTeamLeader(participantId:String):Boolean{
-
-        // return (!leaderId.isNullOrEmpty() && participantId.equals(leaderId))
-        //TODO: use the above and remove the if/else below after creator_id not matching participant is resolved
-
-        if (!leaderId.isNullOrEmpty() && participantId.equals(leaderId)){
-            return true;
-        }
-        else {
-            val leaderId = getLeaderParticipantId();
-            return (!leaderId.isNullOrEmpty() && participantId.equals(leaderId))
-        }
+        return (!leaderId.isNullOrEmpty() && participantId.equals(leaderId))
     }
 
     fun geTotalParticipantCommitmentSteps(): Int {

@@ -5,6 +5,8 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +53,10 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     private View settingsTeamMembershipContainer;
     private View settingsTeamInviteContainer;
     private View deleteTeamContainer;
+
+    private MenuItem teamEditMenuEtem;
+    private boolean inEditMode = false;
+
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -120,6 +126,18 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     }
 
     @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+        menuInflater.inflate(R.menu.menu_team_edit, menu);
+        teamEditMenuEtem = menu.findItem(R.id.menu_item_team_edit);
+        if (team != null) {
+            if(teamEditMenuEtem != null) teamEditMenuEtem.setVisible(isTeamLead);
+        }
+        super.onCreateOptionsMenu(menu, menuInflater);
+
+    }
+
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         boolean handled = super.onOptionsItemSelected(item);
         if (!handled) {
@@ -128,6 +146,11 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
                     closeView();
                     handled = true;
                     break;
+                case R.id.menu_item_team_edit:
+                    inEditMode = !inEditMode;
+                    teamEditMenuEtem.setTitle(inEditMode ?
+                            getString(R.string.team_edit_done_title) : getString(R.string.team_edit_start_title));
+                    teamMembershipAdapter.updateEditMode(inEditMode);
                 default:
                     break;
             }
@@ -190,13 +213,16 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
 
     void setupSettingsTeamMembershipContainer(View container) {
         if (teamMembershipAdapter == null) {
-            boolean isTeamLead = false;
+            String teamLeadParticipantId = "";
             if (team != null) {
                 isTeamLead = team.isTeamLeader(SharedPreferencesUtil.getMyParticipantId());
+                teamLeadParticipantId = team.getLeaderId();
             }
+
             teamMembershipAdapter = new TeamMembershipAdapter(this,
                     event.getTeamLimit(),
                     SharedPreferencesUtil.getMyParticipantId(),
+                    teamLeadParticipantId,
                     isTeamLead,
                     event.hasChallengeStarted()
             );
