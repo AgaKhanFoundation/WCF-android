@@ -262,15 +262,19 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                         btnFitnessApp.setEnabled(isChecked)
                         btnFitnessDevice.setEnabled(!isChecked)
                         rbFitnessDevice.setChecked(!isChecked)
+                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, true)?.commit()
+                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false)?.commit()
                     }
                 }
 
                 rbFitnessDevice.setOnCheckedChangeListener { buttonView, isChecked ->
                     if (isChecked) {
-
                         btnFitnessDevice.setEnabled(isChecked)
                         btnFitnessApp.setEnabled(!isChecked)
                         rbFitnessApp.setChecked(!isChecked)
+                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false)?.commit()
+                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, true)?.commit()
+
                     }
                 }
 
@@ -306,6 +310,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         TrackingHelper.clearTrackerSelection();
 
         sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_LOGGED_IN, false)?.commit()
+        val rbFitnessDevice: RadioButton? = view?.findViewById(R.id.rb_connect_to_fitness_device)
+        rbFitnessDevice?.isChecked = false
 
         AlertDialog.Builder(context)
                 .setTitle(getString(R.string.settings_connect_device_title))
@@ -409,7 +415,40 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                 startActivityForResult(intent, RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE);
             }
         } else {
-            onGoogleFitAuthComplete()
+            if (isAdded) {
+                GoogleFitHelper.subscribeToRecordSteps(context!!, object : GoogleFitSubscriptionCallback {
+                    override fun onSubscriptionSuccess() {
+                        TrackingHelper.googleFitLoggedIn(true)
+                        onGoogleFitAuthComplete()
+
+                        AlertDialog.Builder(context)
+                                .setTitle(getString(R.string.settings_connect_device_title))
+                                .setMessage(getString(R.string.connected_to_fitness_app_message))
+                                .setCancelable(false)
+                                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                                })
+                                .show()
+                    }
+
+                    override fun onSubscriptionError(exception: Exception?) {
+                        TrackingHelper.googleFitLoggedIn(false)
+                        onGoogleFitAuthComplete()
+
+                        AlertDialog.Builder(context)
+                                .setTitle(getString(R.string.settings_connect_device_title))
+                                .setMessage(getString(R.string.google_fit_connection_error_message, exception?.message))
+                                .setCancelable(false)
+                                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                                })
+                                .show()
+                    }
+                })
+            } else {
+                TrackingHelper.googleFitLoggedIn(false)
+                onGoogleFitAuthComplete()
+
+            }
+
         }
     }
 
@@ -453,6 +492,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     GoogleFitHelper.subscribeToRecordSteps(context!!, object : GoogleFitSubscriptionCallback {
                         override fun onSubscriptionSuccess() {
                             TrackingHelper.googleFitLoggedIn(true)
+                            onGoogleFitAuthComplete()
 
                             AlertDialog.Builder(context)
                                     .setTitle(getString(R.string.settings_connect_device_title))
@@ -465,6 +505,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
                         override fun onSubscriptionError(exception: Exception?) {
                             TrackingHelper.googleFitLoggedIn(false)
+                            onGoogleFitAuthComplete()
 
                             AlertDialog.Builder(context)
                                     .setTitle(getString(R.string.settings_connect_device_title))
@@ -477,9 +518,10 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                     })
                 } else {
                     TrackingHelper.googleFitLoggedIn(false)
+                    onGoogleFitAuthComplete()
+
                 }
             }
-            onGoogleFitAuthComplete()
         }
     }
 
@@ -507,25 +549,6 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         val endTime = cal.timeInMillis
         cal.add(Calendar.WEEK_OF_YEAR, -1)
         val startTime = cal.timeInMillis
-
-        //TODO: try this, looks like it waits for results to come
-        //from: /Users/sultan/Documents/projects/samples/sample_android/sensors/Corey/app/src/main/java/at/shockbytes/corey/data/body/GoogleFitBodyRepository.kt
-        //        GoogleSignInOptionsExtension fitnessOptions =
-        //                FitnessOptions.builder()
-        //                        .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-        //                        .build();
-        //        GoogleSignInAccount gsa = GoogleSignIn.getAccountForExtension(this, fitnessOptions);
-        //
-        //        Date now = new Date();
-        //        Task<DataReadResponse> response = Fitness.getHistoryClient(this, gsa)
-        //                .readData(new DataReadRequest.Builder()
-        //                        .read(DataType.TYPE_STEP_COUNT_DELTA)
-        //                        .setTimeRange(now.getTime() - 7*24*60*60*1000, now.getTime(), TimeUnit.MILLISECONDS)
-        //                        .build());
-        //
-        //        DataReadResult readDataResult = Tasks.await(response);
-        //        DataSet dataSet = readDataResult.getDataSet(DataType.TYPE_STEP_COUNT_DELTA);
-
 
         val readRequest = DataReadRequest.Builder()
                 .aggregate(DataType.TYPE_STEP_COUNT_DELTA, DataType.AGGREGATE_STEP_COUNT_DELTA)
