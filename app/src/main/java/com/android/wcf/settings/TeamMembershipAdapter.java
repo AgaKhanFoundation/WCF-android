@@ -70,6 +70,14 @@ public class TeamMembershipAdapter extends RecyclerView.Adapter<TeamMembershipAd
                     .into(holder.participantImage);
         }
 
+        holder.participantName.setText(participant.getName());
+
+        if (myParticipantId.equals(participant.getParticipantId())) {
+            holder.participantName.setTextColor(res.getColor(R.color.color_primary));
+        } else {
+            holder.participantName.setTextColor(res.getColor(android.R.color.tab_indicator_text));
+        }
+
         if (teamLeadParticipantId.equals(participant.getParticipantId())) {
             holder.removeMemberTv.setVisibility(View.GONE);
             holder.teamLeadTv.setVisibility(View.VISIBLE);
