@@ -63,13 +63,8 @@ public class DataHolder {
         DataHolder.teams = teams;
     }
 
-    public static void updateParticipantCommittedDistance(int distance) {
-        if (participant != null) {
-            participant.setCommitmentDistance(distance);
-        }
-    }
 
-    public static void updateParticipantCommitmentInCachedTeam(int distance, int steps) {
+    public static void updateParticipantCommitmentInCachedTeam(int steps) {
         if (participant == null) {
             return;
         }
@@ -77,7 +72,6 @@ public class DataHolder {
         if (participantTeam != null && participantId != null) {
             for (Participant participant : participantTeam.getParticipants()) {
                 if (participant.getParticipantId().equals(participantId)) {
-                    participant.setCommitmentDistance(distance);
                     if (participant.getCommitment() != null) {
                         participant.getCommitment().setCommitmentSteps(steps);
                     }

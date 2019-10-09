@@ -145,11 +145,12 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         @Override
         public void onTrackerStepsRetrieved(@NotNull ActivitySteps data) {
             dailyFrag.setDaysInChallenge(event.getDaysInChallenge());
-            dailyFrag.setDistanceGoal((int) participant.getCommitmentDistance());
+            dailyFrag.setDistanceGoal((int) Math.round(DistanceConverter.distance(participant.getCommittedSteps())));
             dailyFrag.setStepsData(data);
 
             weeklyFrag.setDaysInChallenge(event.getDaysInChallenge());
-            weeklyFrag.setDistanceGoal((int) participant.getCommitmentDistance());
+            weeklyFrag.setDistanceGoal((int) Math.round(DistanceConverter.distance(participant.getCommittedSteps())));
+
             weeklyFrag.setStepsData(data);
 
             activityTrackedInfoView.setVisibility(View.VISIBLE);

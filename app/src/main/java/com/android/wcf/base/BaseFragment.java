@@ -267,7 +267,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         String startDate = sdf.format(event.getStartDate());
         String endDate = sdf.format(event.getEndDate());
         String eventDescription = event.getDescription();
-        milesCommitted = (int) participant.getCommitmentDistance();
+        milesCommitted = (int) DistanceConverter.distance(participant.getCommittedSteps());
         int days = event.getDaysInChallenge();
 
         String shareMessage = getString(R.string.invite_supporter_template_3, startDate, endDate, eventDescription, milesCommitted, days);
@@ -330,8 +330,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
                 int distance = Integer.parseInt(editText.getText().toString());
                 int stepsCommitted = DistanceConverter.steps((distance));
                 SharedPreferencesUtil.savetMyStepsCommitted(stepsCommitted);
-                DataHolder.updateParticipantCommittedDistance(distance);
-                DataHolder.updateParticipantCommitmentInCachedTeam(distance, stepsCommitted);
+                DataHolder.updateParticipantCommitmentInCachedTeam( stepsCommitted);
                 if (editTextDialogListener != null) {
                     editTextDialogListener.onDialogDone(editText.getText().toString());
                 }

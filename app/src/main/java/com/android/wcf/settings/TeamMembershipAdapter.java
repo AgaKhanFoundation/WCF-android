@@ -31,8 +31,6 @@ public class TeamMembershipAdapter extends RecyclerView.Adapter<TeamMembershipAd
     boolean teamLead = false;
     boolean inEditMode = false;
 
-    DecimalFormat decimalFormatter = new DecimalFormat("##,###.##");
-
     public TeamMembershipAdapter(TeamMembershipAdapterMvp.Host host, int teamSizeLimit, String participantId,
                                  String teamLeadParticipantId, boolean teamLead, boolean challengeStarted) {
         super();

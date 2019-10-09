@@ -305,9 +305,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 int participantCommitmentSteps = participantTeam.getCommitmentSteps(participant.getFbId());
                 int participantCommitmentDistance = (int) DistanceConverter.distance(participantCommitmentSteps);
 
-                //TODO: remove this temp patch when cached participant is updated property
-                participant.setCommitmentDistance(participantCommitmentDistance);
-
                 String participantDistanceCommitted = numberFormatter.format(participantCommitmentDistance );
                 String teamDistanceCommitted = numberFormatter.format(teamCommitmentDistance);
 

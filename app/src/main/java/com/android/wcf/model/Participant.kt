@@ -36,13 +36,18 @@ data class Participant(
     var stats:Stats? = null
 
     fun getCompletedSteps(): Int {
-
        return stats?.distance ?: 0
+    }
+
+    fun getCommittedSteps(): Int {
+        commitment?.let {
+            return it.commitmentSteps
+        }
+        return 0
     }
 
     var participantId: String? = ""
             get() = this.fbId
-        var commitmentDistance:Double = 0.0
 
         var participantProfile:String? = ""
         var name:String?  = ""

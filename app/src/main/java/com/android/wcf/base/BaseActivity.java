@@ -182,9 +182,7 @@ abstract public class BaseActivity extends AppCompatActivity
                 committedSteps = activeEvent.getDefaultParticipantCommitment();
                 SharedPreferencesUtil.savetMyStepsCommitted(committedSteps);
                 participant.getCommitment().setCommitmentSteps(committedSteps);
-
             }
-            DataHolder.updateParticipantCommittedDistance((int) DistanceConverter.distance(committedSteps));
         }
     }
 

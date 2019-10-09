@@ -172,13 +172,9 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
             Commitment commitment = participantCommitmentsMap.get(participant.getId() + "");
             participant.setCommitment(commitment);
-            participant.setCommitmentDistance(DistanceConverter.distance(commitment.getCommitmentSteps()));
 
             if (cachedParticipant != null && participant.getParticipantId().equals(cachedParticipant.getParticipantId())) {
                 cachedParticipant.setCommitment(commitment);
-                cachedParticipant.setCommitmentDistance(
-                        DistanceConverter.distance( commitment != null ? commitment.getCommitmentSteps() : 0));
-
             }
         }
         teamRetrieved = true;
