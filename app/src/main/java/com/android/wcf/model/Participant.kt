@@ -35,13 +35,17 @@ data class Participant(
     var commitment:Commitment? = null
     var stats:Stats? = null
 
+    fun getCompletedSteps(): Int {
+
+       return stats?.distance ?: 0
+    }
+
     var participantId: String? = ""
             get() = this.fbId
         var commitmentDistance:Double = 0.0
 
         var participantProfile:String? = ""
         var name:String?  = ""
-        var completedSteps:Int = 0
         var fundsCommitted:Double = 0.0
         var fundsAccrued:Double = 0.0
 
