@@ -33,6 +33,7 @@ data class Participant(
         return null
     }
     var commitment:Commitment? = null
+    var stats:Stats? = null
 
     var participantId: String? = ""
             get() = this.fbId

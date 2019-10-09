@@ -357,7 +357,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             String teamDistanceGoal = numberFormatter.format(teamGoal);
             teamActivityGoalTv.setText(getString(R.string.dashboard_challenge_goal_label, teamDistanceGoal, "miles"));
 
-            int teamCompletedSteps = 0; //TODO: get this from team after completed steps are retrieved from server
+            int teamCompletedSteps = (int) DistanceConverter.distance(team.geTotalParticipantCompletedSteps());
             teamActivityCompletedTv.setText(numberFormatter.format(teamCompletedSteps));
             teamActivityStatusGraphPb.setProgress((int) (100.0 * teamCompletedSteps / teamGoal));
 

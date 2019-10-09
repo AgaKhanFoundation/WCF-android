@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Event;
@@ -160,15 +161,20 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
         TextView distanceWalkedTv = container.findViewById(R.id.team_total_distance_walked);
         TextView fundsRaisedTv = container.findViewById(R.id.team_total_funds_raised_amount);
         distanceWalkedTv.setText(numberFormatter.format(getTeamTotalDistanceWalked()));
-        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, numberFormatter.format(event.getTeamDistanceGoal()) ) );
+        distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, numberFormatter.format(getTeamTotalDistanceCommited()) ) );
 
         double fundRaiseAccrued = getTeamTotalFundRaiseAccrued();
         fundsRaisedTv.setText(currencyformatter.format(fundRaiseAccrued));
     }
 
     private int getTeamTotalDistanceWalked() {
-        return 0; //TODO add participants' record steps converted to miles
+        return (int) DistanceConverter.distance(team.geTotalParticipantCompletedSteps());
     }
+
+    private int getTeamTotalDistanceCommited() {
+        return (int) DistanceConverter.distance(team.geTotalParticipantCommitmentSteps());
+    }
+
 
     private double getTeamTotalFundRaiseAccrued() {
         return 0.0;  //TODO add participants' accrued funds

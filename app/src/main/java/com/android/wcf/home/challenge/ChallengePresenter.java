@@ -174,7 +174,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             participant.setCommitment(commitment);
             participant.setCommitmentDistance(DistanceConverter.distance(commitment.getCommitmentSteps()));
 
-            if (cachedParticipant != null && participant.getId() == cachedParticipant.getId()) {
+            if (cachedParticipant != null && participant.getParticipantId().equals(cachedParticipant.getParticipantId())) {
                 cachedParticipant.setCommitment(commitment);
                 cachedParticipant.setCommitmentDistance(
                         DistanceConverter.distance( commitment != null ? commitment.getCommitmentSteps() : 0));
@@ -183,7 +183,23 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         }
         teamRetrieved = true;
         updateChallengeView();
+    }
 
+    @Override
+    protected void onGetTeamChallengeProgressSuccess(Map<String, Stats> teamChallengeProgress) {
+
+        Participant cachedParticipant = DataHolder.getParticipant();
+
+        for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
+            Stats stats = teamChallengeProgress.get(participant.getParticipantId());
+            participant.setStats(stats);
+
+            if (cachedParticipant != null && participant.getParticipantId().equals(cachedParticipant.getParticipantId())) {
+                participant.setStats(stats);
+            }
+        }
+        teamRetrieved = true;
+        updateChallengeView();
     }
 
     @Override
@@ -191,7 +207,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         challengeView.cacheParticipantTeam(team);
         Event event = challengeView.getEvent();
         getTeamParticipantCommitments(team, event.getId());
-
+        getTeamParticipantsChallengeProgress(team, event.getId());
     }
 
     @Override

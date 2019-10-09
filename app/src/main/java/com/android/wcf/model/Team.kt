@@ -54,6 +54,15 @@ data class Team(
         return 0
     }
 
+    fun geTotalParticipantCompletedSteps():Int {
+
+        var totalSteps = 0
+        for (participant in participants) {
+            totalSteps += participant.stats?.distance ?: 0
+        }
+        return totalSteps
+    }
+
     companion object {
         const val TEAM_ATTRIBUTE_NAME = "name"
         const val TEAM_ATTRIBUTE_LEADER_ID = "creator_id"

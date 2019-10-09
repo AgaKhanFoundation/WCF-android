@@ -30,7 +30,6 @@ import com.android.wcf.settings.EditTextDialogListener;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-import static android.content.Context.INPUT_METHOD_SERVICE;
 
 /**
  * A simple {@link Fragment} subclass.

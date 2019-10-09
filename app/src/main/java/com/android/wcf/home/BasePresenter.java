@@ -454,8 +454,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                         }
 
                         @Override
-                         public void onSuccess(List<Commitment> commitmentList) {
-                            for (Commitment commitment : commitmentList){
+                        public void onSuccess(List<Commitment> commitmentList) {
+                            for (Commitment commitment : commitmentList) {
                                 if (commitment.getEventId() == eventId) {
                                     Log.d(TAG, "getParticipantCommitments: " + participantsCount + " id=" + commitment.getParticipantId());
                                     participantCommitmentsMap.put(commitment.getParticipantId(), commitment);
@@ -493,6 +493,57 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     protected void onGetTeamParticipantsInfoError(Throwable error) {
         Log.e(TAG, "onGetTeamParticipantsInfoError: " + error.getMessage());
+    }
+
+    public static int participantsProgressCount;
+    public static Map<String, Stats> participantProgressMap = new HashMap();
+
+
+    public void getTeamParticipantsChallengeProgress(final Team team, final int eventId) {
+
+        participantsProgressCount = team.getParticipants().size();
+        participantProgressMap.clear();
+        Log.d(TAG, "getTeamParticipantsChallengeProgress: " + participantsProgressCount);
+        List<String> fbIdList = new ArrayList<>();
+        for (Participant participant : team.getParticipants()) {
+            final String fbId = participant.getFbId();
+            fbIdList.add(fbId);
+
+            wcfClient.getParticipantStat(fbId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<Stats>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            disposables.add(d);
+                        }
+
+                        @Override
+                        public void onSuccess(Stats stats) {
+                            Log.d(TAG, "getParticipantStat: " + participantsProgressCount + " " + stats.getDistance());
+                            participantProgressMap.put(fbId, stats);
+
+                            participantsProgressCount--;
+                            if (participantsProgressCount == 0) {
+                                onGetTeamChallengeProgressSuccess(participantProgressMap);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.d(TAG, "getParticipantStat error: " + participantsProgressCount + " error=" + error.getMessage());
+
+                            participantsProgressCount--;
+                            if (participantsProgressCount == 0) {
+                                onGetTeamChallengeProgressSuccess(participantProgressMap);
+                            }
+                        }
+                    });
+        }
+    }
+
+    protected void onGetTeamChallengeProgressSuccess(Map<String, Stats> teamChallengeProgress) {
+
     }
 
     public void getLeaderboard() {
