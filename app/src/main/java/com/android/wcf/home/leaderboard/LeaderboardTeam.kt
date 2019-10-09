@@ -12,8 +12,6 @@ data internal class LeaderboardTeam(
         var participantsCount: Int = 0,
         var stepsPledged: Int = 0,
         var stepsCompleted: Int = 0,
-        var distancePledged: Double = 0.0,
-        var distanceCompleted: Double = 0.0,
         var amountPledged: Double = 0.0,
         var amountAccrued: Double = 0.0
 ) {

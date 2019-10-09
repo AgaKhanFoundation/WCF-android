@@ -148,7 +148,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             if (sortedByDistance.size() > 0) {
                 team = sortedByDistance.get(0);
 
-                if (team.getDistanceCompleted() == 0) {
+                if (team.getStepsCompleted() == 0) {
                     teamGold = null;
                     teamSilver = null;
                     teamBronze = null;
@@ -159,7 +159,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             if (sortedByDistance.size() > 1) {
                 team = sortedByDistance.get(1);
 
-                if (team.getDistanceCompleted() == 0) {
+                if (team.getStepsCompleted() == 0) {
                     teamSilver = null;
                     teamBronze = null;
                     return;
@@ -170,7 +170,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             if (sortedByDistance.size() > 2) {
                 team = sortedByDistance.get(2);
 
-                if (team.getDistanceCompleted() == 0) {
+                if (team.getStepsCompleted() == 0) {
                     teamBronze = null;
                     return;
                 }

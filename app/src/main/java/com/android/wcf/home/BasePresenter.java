@@ -5,9 +5,9 @@ import android.util.Log;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.facebook.FacebookHelper;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Commitment;
-import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -601,31 +601,34 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         if (team == null || team.getParticipants() == null) {
             return null;
         }
+        Event event = DataHolder.getEvent();
+        if (event == null) {
+            return null;
+        }
 
         int participantsCount = 0, rank = 0;
 
-        int teamStepsPledged = 0, teamStepsCompleted = 0;
-        double teamDistancePledged = 0.0, teamdistanceCompleted = 0.0;
+        int teamStepsCommitted = 0, teamStepsCompleted = 0;
         double teamAmountPledged = 0.0, teamAmountAccrued = 0.0;
 
         for (Participant participant : team.getParticipants()) {
-            double participantDistancePledged = participant.getCommitmentDistance();
-            if (participantDistancePledged == 0) {
-                participantDistancePledged = Constants.PARTICIPANT_COMMITMENT_STEPS_DEFAULT;
+            int participantStepsCommittedSteps = participant.getCommittedSteps();
+
+            double participantDistancePledged = (int) DistanceConverter.distance(participant.getCommittedSteps());
+            if (participantStepsCommittedSteps == 0) {
+                participantStepsCommittedSteps = event.getDefaultParticipantCommitment();
             }
             int participantCompletedSteps = participant.getCompletedSteps();
-            double participantCompletedDistance = participantCompletedSteps / Constants.STEPS_IN_A_MILE;
+            double participantCompletedDistance = (int) DistanceConverter.distance(participant.getCompletedSteps()) ;
 
             double participantAvgSupportPledgePerUnitDistance = 0.0;  //TODO get the pledge avg rate for this participant from AKF
             teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
             teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
 
-            teamStepsPledged += participantDistancePledged * Constants.STEPS_IN_A_MILE;
+            teamStepsCommitted += participantStepsCommittedSteps;
             teamStepsCompleted += participantCompletedSteps;
 
         }
-        teamDistancePledged = Math.round(teamStepsPledged / Constants.STEPS_IN_A_MILE);
-        teamdistanceCompleted = Math.round(teamStepsCompleted / Constants.STEPS_IN_A_MILE);
 
         // rank = (int) (Math.random() * 15);
 
@@ -637,10 +640,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 , team.getLeaderId()
                 , team.getLeaderName()
                 , participantsCount
-                , teamStepsPledged
+                , teamStepsCommitted
                 , teamStepsCompleted
-                , teamDistancePledged
-                , teamdistanceCompleted
                 , teamAmountPledged
                 , teamAmountAccrued
         );

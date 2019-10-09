@@ -64,7 +64,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
 
         teamViewHolder.teamRank.setText(team.getRank() + "");
         teamViewHolder.teamName.setText(team.getName());
-        teamViewHolder.distanceCompleted.setText(numberFormatter.format(team.getDistanceCompleted()));
+        teamViewHolder.distanceCompleted.setText(numberFormatter.format(team.getStepsCompleted()));
         teamViewHolder.amountRaised.setText(numberFormatter.format(team.getAmountAccrued()));
 
         int textColor = res.getColor(android.R.color.tab_indicator_text);
