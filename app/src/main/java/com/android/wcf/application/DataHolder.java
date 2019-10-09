@@ -30,7 +30,7 @@ public class DataHolder {
                 Commitment cachedCommitment = DataHolder.event.getParticipantCommitment();
                 Commitment commitment = event.getParticipantCommitment();
                 if (cachedCommitment != null && cachedCommitment.getId() > 0
-                        && (commitment == null || commitment.getId() <= 0) ) {
+                        && (commitment == null || commitment.getId() <= 0)) {
                     Log.i(TAG, "event cache request ignored since the new event does not have participant commitment");
                     return;
                 }
@@ -63,12 +63,23 @@ public class DataHolder {
         DataHolder.teams = teams;
     }
 
-    public static void updateParticipantCommittedDistance(int distance) {
-        if (participant != null) {
-            participant.setCommitmentDistance(distance);
+
+    public static void updateParticipantCommitmentInCachedTeam(int steps) {
+        if (participant == null) {
+            return;
         }
-        //TODO update team's commitment
+        String participantId = participant.getParticipantId();
+        if (participantTeam != null && participantId != null) {
+            for (Participant participant : participantTeam.getParticipants()) {
+                if (participant.getParticipantId().equals(participantId)) {
+                    if (participant.getCommitment() != null) {
+                        participant.getCommitment().setCommitmentSteps(steps);
+                    }
+                }
+            }
+        }
     }
+
 
     public static void clearCache() {
         event = null;

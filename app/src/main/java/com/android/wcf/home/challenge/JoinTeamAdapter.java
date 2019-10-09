@@ -6,6 +6,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -17,7 +19,7 @@ import com.android.wcf.model.Team;
 
 import java.util.List;
 
-public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamViewHolder> implements JoinTeamAdapterMvp.View {
+public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamViewHolder> implements JoinTeamAdapterMvp.View, Filterable {
 
     private static final String TAG = JoinTeamAdapter.class.getSimpleName();
     JoinTeamAdapterMvp.Presenter teamsAdapterPresenter;
@@ -45,6 +47,24 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
             }
         }
     };
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String filterValue = constraint.toString().toLowerCase();
+               List<Team> teamListFiltered = teamsAdapterPresenter.filterTeams(filterValue);
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = teamListFiltered;
+                return filterResults;
+            }
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                teamsAdapterPresenter.updateFilterTeamsData((List<Team>) results.values);
+            }
+        };
+    }
 
     public JoinTeamAdapter(JoinTeamAdapterMvp.Host host, int teamSizeLimit) {
         super();
@@ -172,6 +192,14 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
     @Override
     public void teamsDataUpdated() {
         notifyDataSetChanged();
+        nudgeRecyclerViewToRedraw();
+        int teamsCount = teamsAdapterPresenter.getTeamsCount();
+        if (teamsCount == 0) {
+            host.noTeamsFound();
+        }
+        else {
+            host.teamsViewRefreshed();
+        }
     }
 
     @Override
@@ -180,19 +208,24 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
 
         notifyItemChanged(position, teamsAdapterPresenter.getTeam(position));
 
-        // TODO: recheck this after updating Desing libraries
+        // TODO: recheck this after updating Design libraries
         // These two are alternatives tried to force recyclerView refresh,
         // notifyItemChanged(position);
         // notifyDataSetChanged();
 
         teamsAdapterPresenter.teamRowSelected(position);
+        nudgeRecyclerViewToRedraw();
 
+    }
+
+    private void nudgeRecyclerViewToRedraw() {
         // work around to force RecyclerView refresh, the above notifyData did not work
         if (parentRV != null) {
             parentRV.scrollBy(0, -10);
             parentRV.scrollBy(0, 10);
         }
     }
+
 
     @Override
     public void teamRowUnselected(int position) {
@@ -202,10 +235,7 @@ public class JoinTeamAdapter extends RecyclerView.Adapter<JoinTeamAdapter.TeamVi
         // notifyItemChanged(position);
         // notifyDataSetChanged();
 
-        if (parentRV != null) {
-            parentRV.scrollBy(0, -10);
-            parentRV.scrollBy(0, 10);
-        }
+        nudgeRecyclerViewToRedraw();
     }
 
     static class TeamViewHolder extends RecyclerView.ViewHolder {

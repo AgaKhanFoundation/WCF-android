@@ -30,8 +30,9 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
     String myParticipantId;
     boolean challengeStarted = false;
 
-    DecimalFormat decimalFormatter = new DecimalFormat("##,###.##");
-
+    DecimalFormat numberFormatter = new DecimalFormat("#,###,###");
+    DecimalFormat currencyFormatter = new DecimalFormat("$###,###.##");
+    DecimalFormat decimalFormatter = new DecimalFormat("###,###.##");
 
     public TeamChallengeProgressAdapter(TeamChallengeProgressAdapterMvp.Host host, int teamSizeLimit, String participantId, boolean challengeStarted) {
         super();
@@ -74,12 +75,12 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
             holder.participantName.setTextColor(res.getColor(android.R.color.tab_indicator_text));
         }
 
-        holder.participantDistanceCommitment.setText(participant.getCommitmentDistance() + " mi");
-        holder.participantFundsCommitted.setText("$" + decimalFormatter.format(participant.getFundsCommitted()));
+        holder.participantDistanceCommitment.setText(DistanceConverter.distance(participant.getCommittedSteps()) + " mi");
+        holder.participantFundsCommitted.setText(currencyFormatter.format(participant.getFundsCommitted()));
 
         if (challengeStarted) {
             double milesWalked = DistanceConverter.distance(participant.getCompletedSteps());
-            holder.participantDistanceWalked.setText(decimalFormatter.format(milesWalked));
+            holder.participantDistanceWalked.setText(numberFormatter.format(milesWalked));
             holder.participantFundsAccrued.setText(decimalFormatter.format(participant.getFundsAccrued()));
         }
 
@@ -88,7 +89,6 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
         holder.participantFundsSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
         holder.participantFundsAccrued.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
     }
-
 
     @Override
     public void updateParticipantsData(List<Participant> participantList) {

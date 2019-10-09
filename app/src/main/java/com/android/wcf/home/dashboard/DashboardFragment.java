@@ -145,11 +145,12 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         @Override
         public void onTrackerStepsRetrieved(@NotNull ActivitySteps data) {
             dailyFrag.setDaysInChallenge(event.getDaysInChallenge());
-            dailyFrag.setDistanceGoal((int) participant.getCommitmentDistance());
+            dailyFrag.setDistanceGoal((int) Math.round(DistanceConverter.distance(participant.getCommittedSteps())));
             dailyFrag.setStepsData(data);
 
             weeklyFrag.setDaysInChallenge(event.getDaysInChallenge());
-            weeklyFrag.setDistanceGoal((int) participant.getCommitmentDistance());
+            weeklyFrag.setDistanceGoal((int) Math.round(DistanceConverter.distance(participant.getCommittedSteps())));
+
             weeklyFrag.setStepsData(data);
 
             activityTrackedInfoView.setVisibility(View.VISIBLE);
@@ -357,7 +358,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             String teamDistanceGoal = numberFormatter.format(teamGoal);
             teamActivityGoalTv.setText(getString(R.string.dashboard_challenge_goal_label, teamDistanceGoal, "miles"));
 
-            int teamCompletedSteps = 0; //TODO: get this from team after completed steps are retrieved from server
+            int teamCompletedSteps = (int) DistanceConverter.distance(team.geTotalParticipantCompletedSteps());
             teamActivityCompletedTv.setText(numberFormatter.format(teamCompletedSteps));
             teamActivityStatusGraphPb.setProgress((int) (100.0 * teamCompletedSteps / teamGoal));
 

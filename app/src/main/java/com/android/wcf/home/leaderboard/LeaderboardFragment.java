@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
@@ -45,15 +46,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     View medalwinnersContainer;
     View leaderboardListContainer;
 
-    Button refreshLeaderboardButton;
-
-    View myTeamLeaderboardContainer;
-    View myTeamLeaderboardItem;
-    TextView myTeamRankTextView;
-    TextView myTeamNameTextView;
-    TextView myTeamDistanceCompleted;
-    TextView myTeamAmountRaised;
-    
     Spinner leaderboardSortSelector;
     private RecyclerView leaderboardRecyclerView = null;
     private LeaderboardAdapter leaderboardAdapter = null;
@@ -77,7 +69,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (leaderboardPresenter == null) {
             leaderboardPresenter = new LeaderboardPresenter(this );
         }
-
     }
 
     @Override
@@ -172,15 +163,17 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
     @Override
     public void showMedalWinners(LeaderboardTeam goldTeam, LeaderboardTeam silverTeam, LeaderboardTeam bronzeTeam) {
+        DecimalFormat numberFormatter = new DecimalFormat("###,###");
         DecimalFormat decimalFormatter = new DecimalFormat("##,###.##");
+
 
         View bronzeContainer = medalwinnersContainer.findViewById(R.id.bronze_team_container);
         TextView teamNameTv = bronzeContainer.findViewById(R.id.bronze_team_name);
         TextView teamMiles = bronzeContainer.findViewById(R.id.bronze_team_miles_completed);
         if (bronzeTeam != null){
            teamNameTv.setText(bronzeTeam.getName());
-           double miles = bronzeTeam.getDistanceCompleted() / Constants.STEPS_IN_A_MILE * 1.0;
-            teamMiles.setText(decimalFormatter.format(miles) );
+           double miles = DistanceConverter.distance(bronzeTeam.getStepsCompleted());
+            teamMiles.setText(numberFormatter.format(miles) );
         }
         else {
             teamNameTv.setText("");
@@ -193,14 +186,13 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
         if (silverTeam != null){
             teamNameTv.setText(silverTeam.getName());
-            double miles = bronzeTeam.getDistanceCompleted() / Constants.STEPS_IN_A_MILE * 1.0;
-            teamMiles.setText(decimalFormatter.format(miles) );
+            double miles = DistanceConverter.distance(silverTeam.getStepsCompleted());
+            teamMiles.setText(numberFormatter.format(miles) );
         }
         else {
             teamNameTv.setText("");
             teamMiles.setText("");
         }
-
 
         View goldContainer = medalwinnersContainer.findViewById(R.id.gold_team_container);
         teamNameTv = goldContainer.findViewById(R.id.gold_team_name);
@@ -209,8 +201,8 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (goldTeam != null) {
             teamNameTv.setText(goldTeam.getName());
 
-            double miles = bronzeTeam.getDistanceCompleted() / Constants.STEPS_IN_A_MILE * 1.0;
-            teamMiles.setText(decimalFormatter.format(miles));
+            double miles = DistanceConverter.distance(goldTeam.getStepsCompleted());
+            teamMiles.setText(numberFormatter.format(miles));
         }
         else {
             teamNameTv.setText("");
@@ -243,20 +235,9 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         leaderboardListContainer = view.findViewById(R.id.leaderboard_list_container);
         leaderboardListContainer.setVisibility(View.VISIBLE);
 
-        setupLeaderboardMyTeam(view);
         setupLeaderboardSorting(view);
         setupLeaderboardList(view);
 
-    }
-
-    private void setupLeaderboardMyTeam(View view) {
-//        myTeamLeaderboardContainer = view.findViewById(R.id.my_team_leaderboard_container);
-//        myTeamLeaderboardContainer.setVisibility(View.GONE);
-//        myTeamLeaderboardItem = myTeamLeaderboardContainer.findViewById(R.id.my_team_leaderboard_item);
-//        myTeamRankTextView = myTeamLeaderboardItem.findViewById(R.id.team_rank);
-//        myTeamNameTextView = myTeamLeaderboardItem.findViewById(R.id.team_name);
-//        myTeamDistanceCompleted = myTeamLeaderboardItem.findViewById(R.id.team_distance_completed);
-//        myTeamAmountRaised = myTeamLeaderboardItem.findViewById(R.id.team_amount_raised);
     }
 
     private void setupLeaderboardSorting(View view) {

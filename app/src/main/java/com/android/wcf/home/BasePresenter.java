@@ -5,9 +5,9 @@ import android.util.Log;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.facebook.FacebookHelper;
+import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Commitment;
-import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -413,12 +413,13 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
 //        for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
 
+        Participant cachedParticipant = DataHolder.getParticipant();
+
         for (Participant participant : team.getParticipants()) {
             Participant fbParticipant = participantFacebookMap.get(participant.getFbId());
             participant.setName(fbParticipant.getName());
             participant.setParticipantProfile(fbParticipant.getParticipantProfile());
 
-            Participant cachedParticipant = DataHolder.getParticipant();
             if (cachedParticipant != null && fbParticipant.getFbId().equals(cachedParticipant.getFbId())) {
                 cachedParticipant.setName(fbParticipant.getName());
                 cachedParticipant.setParticipantProfile(fbParticipant.getParticipantProfile());
@@ -453,8 +454,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                         }
 
                         @Override
-                         public void onSuccess(List<Commitment> commitmentList) {
-                            for (Commitment commitment : commitmentList){
+                        public void onSuccess(List<Commitment> commitmentList) {
+                            for (Commitment commitment : commitmentList) {
                                 if (commitment.getEventId() == eventId) {
                                     Log.d(TAG, "getParticipantCommitments: " + participantsCount + " id=" + commitment.getParticipantId());
                                     participantCommitmentsMap.put(commitment.getParticipantId(), commitment);
@@ -494,6 +495,56 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         Log.e(TAG, "onGetTeamParticipantsInfoError: " + error.getMessage());
     }
 
+    public static int participantsProgressCount;
+    public static Map<String, Stats> participantProgressMap = new HashMap();
+
+    public void getTeamParticipantsChallengeProgress(final Team team, final int eventId) {
+
+        participantsProgressCount = team.getParticipants().size();
+        participantProgressMap.clear();
+        Log.d(TAG, "getTeamParticipantsChallengeProgress: " + participantsProgressCount);
+        List<String> fbIdList = new ArrayList<>();
+        for (Participant participant : team.getParticipants()) {
+            final String fbId = participant.getFbId();
+            fbIdList.add(fbId);
+
+            wcfClient.getParticipantStat(fbId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<Stats>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            disposables.add(d);
+                        }
+
+                        @Override
+                        public void onSuccess(Stats stats) {
+                            Log.d(TAG, "getParticipantStat: " + participantsProgressCount + " " + stats.getDistance());
+                            participantProgressMap.put(fbId, stats);
+
+                            participantsProgressCount--;
+                            if (participantsProgressCount == 0) {
+                                onGetTeamChallengeProgressSuccess(participantProgressMap);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.d(TAG, "getParticipantStat error: " + participantsProgressCount + " error=" + error.getMessage());
+
+                            participantsProgressCount--;
+                            if (participantsProgressCount == 0) {
+                                onGetTeamChallengeProgressSuccess(participantProgressMap);
+                            }
+                        }
+                    });
+        }
+    }
+
+    protected void onGetTeamChallengeProgressSuccess(Map<String, Stats> teamChallengeProgress) {
+
+    }
+
     public void getLeaderboard() {
         wcfClient.getTeamsList()
                 .subscribeOn(Schedulers.io())
@@ -507,7 +558,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                     @Override
                     public void onSuccess(List<Team> teams) {
                         List<LeaderboardTeam> leaderboard = extractTeamStats(teams);
-                        onGetLeaderboardSuccess(leaderboard);
+                        onGetLeaderboardLoadSuccess(leaderboard);
                     }
 
                     @Override
@@ -515,6 +566,68 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                         onGetLeaderboardError(error);
                     }
                 });
+    }
+
+    protected static int leaderboardTeamsCount;
+    protected static Map<Integer, Stats> teamsStatsMap = new HashMap();
+
+    protected void onGetLeaderboardLoadSuccess(final List<LeaderboardTeam> teams) {
+        leaderboardTeamsCount = teams.size();
+        teamsStatsMap.clear();
+        Log.d(TAG, "onGetLeaderboardLoadSuccess: " + leaderboardTeamsCount);
+        List<Integer> teamIdList = new ArrayList<>();
+        for (LeaderboardTeam team: teams) {
+            final int teamId = team.getId();
+            teamIdList.add(teamId);
+
+            wcfClient.getTeamStats(teamId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<Stats>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            disposables.add(d);
+                        }
+
+                        @Override
+                        public void onSuccess(Stats stats) {
+                            Log.d(TAG, "getTeamStat: " + leaderboardTeamsCount + " " + stats.getDistance());
+                            teamsStatsMap.put(teamId, stats);
+
+                            leaderboardTeamsCount--;
+                            if (leaderboardTeamsCount == 0) {
+                                onGetLeaderboardSuccess(teams, teamsStatsMap);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.d(TAG, "getParticipantStat error: " + participantsProgressCount + " error=" + error.getMessage());
+
+                            leaderboardTeamsCount--;
+                            if (leaderboardTeamsCount == 0) {
+                                onGetLeaderboardSuccess(teams, teamsStatsMap);
+                            }
+                        }
+                    });
+        }
+    }
+
+    protected void onGetLeaderboardSuccess(List<LeaderboardTeam> teams, Map<Integer, Stats> teamsStatsMap) {
+        Log.d(TAG, "onGetLeaderboardSuccess");
+
+        for (LeaderboardTeam team: teams) {
+            Stats stats = teamsStatsMap.get(team.getId());
+            if (stats != null) {
+                team.setStepsCompleted(stats.getDistance());
+            }
+            else {
+                team.setStepsCompleted(0);
+            }
+        }
+        rankLeaderboard(teams);
+
+        onGetLeaderboardSuccess(teams);
     }
 
     protected void onGetLeaderboardSuccess(List<LeaderboardTeam> teamsStats) {
@@ -533,8 +646,6 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 leaderboardTeamList.add(leaderboardTeam);
             }
         }
-        rankLeaderboard(leaderboardTeamList);
-
         return leaderboardTeamList;
     }
 
@@ -549,31 +660,34 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         if (team == null || team.getParticipants() == null) {
             return null;
         }
+        Event event = DataHolder.getEvent();
+        if (event == null) {
+            return null;
+        }
 
         int participantsCount = 0, rank = 0;
 
-        int teamStepsPledged = 0, teamStepsCompleted = 0;
-        double teamDistancePledged = 0.0, teamdistanceCompleted = 0.0;
+        int teamStepsCommitted = 0, teamStepsCompleted = 0;
         double teamAmountPledged = 0.0, teamAmountAccrued = 0.0;
 
-        for (Participant participant : team.getParticipants()) {
-            double participantDistancePledged = participant.getCommitmentDistance();
-            if (participantDistancePledged == 0) {
-                participantDistancePledged = Constants.PARTICIPANT_COMMITMENT_STEPS_DEFAULT;
-            }
-            int participantCompletedSteps = participant.getCompletedSteps();
-            double participantCompletedDistance = participantCompletedSteps / Constants.STEPS_IN_A_MILE;
-
-            double participantAvgSupportPledgePerUnitDistance = 0.0;  //TODO get the pledge avg rate for this participant from AKF
-            teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
-            teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
-
-            teamStepsPledged += participantDistancePledged * Constants.STEPS_IN_A_MILE;
-            teamStepsCompleted += participantCompletedSteps;
-
-        }
-        teamDistancePledged = Math.round(teamStepsPledged / Constants.STEPS_IN_A_MILE);
-        teamdistanceCompleted = Math.round(teamStepsCompleted / Constants.STEPS_IN_A_MILE);
+//        for (Participant participant : team.getParticipants()) {
+//            int participantStepsCommittedSteps = participant.getCommittedSteps();
+//
+//            double participantDistancePledged = (int) DistanceConverter.distance(participant.getCommittedSteps());
+//            if (participantStepsCommittedSteps == 0) {
+//                participantStepsCommittedSteps = event.getDefaultParticipantCommitment();
+//            }
+//            int participantCompletedSteps = participant.getCompletedSteps();
+//            double participantCompletedDistance = (int) DistanceConverter.distance(participant.getCompletedSteps());
+//
+//            double participantAvgSupportPledgePerUnitDistance = 0.0;  //TODO get the pledge avg rate for this participant from AKF
+//            teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
+//            teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
+//
+//            teamStepsCommitted += participantStepsCommittedSteps;
+//            teamStepsCompleted += participantCompletedSteps;
+//
+//        }
 
         // rank = (int) (Math.random() * 15);
 
@@ -585,10 +699,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 , team.getLeaderId()
                 , team.getLeaderName()
                 , participantsCount
-                , teamStepsPledged
+                , teamStepsCommitted
                 , teamStepsCompleted
-                , teamDistancePledged
-                , teamdistanceCompleted
                 , teamAmountPledged
                 , teamAmountAccrued
         );

@@ -227,6 +227,9 @@
     <string name="invalid_password">Invalid Password</string>
     <string name="login_invalid_relogin_message">Your login is not valid, please login again.</string>
     <string name="challenge_team_commitment_breakdown_label">View Breakdown</string>
+    <string name="tean_lead_label">Lead</string>
+    <string name="team_edit_start_title">Edit</string>
+    <string name="team_edit_done_title">Done</string>
 
 
 </resources>

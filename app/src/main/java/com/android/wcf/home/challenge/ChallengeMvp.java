@@ -21,9 +21,11 @@ public interface ChallengeMvp {
         void showParticipantTeamSummaryCard(Team team);
 
         void enableShowCreateTeam(boolean enabledFlag);
+
         void enableJoinExistingTeam(boolean enabledFlag);
 
         void showCreateNewTeamView();
+
         void showJoinTeamView();
 
         void onGetTeamError(Throwable error);
@@ -38,7 +40,7 @@ public interface ChallengeMvp {
 
         void hideFundraisingInvite();
 
-        void showMilesEditDialog( int currentMiles, final EditTextDialogListener editTextDialogListener);
+        void showMilesEditDialog(int currentMiles, final EditTextDialogListener editTextDialogListener);
 
         void onGetEventError(Throwable error);
 
@@ -67,11 +69,15 @@ public interface ChallengeMvp {
 
         void showTeamsToJoinView();
 
-        void onShowMilesCommitmentSelected( int currentMiles, final EditTextDialogListener editTextDialogListener);
+        void onShowMilesCommitmentSelected(int currentMiles, final EditTextDialogListener editTextDialogListener);
 
         void createParticipantCommitment(String participantId, int eventId, int stepsCommitted);
 
         void updateParticipantCommitment(int commitmentId, String participantId, int eventId, int stepsCommitted);
+
+        void getTeamParticipantCommitments(final Team team, final int eventId);
+
+        void getTeamParticipantsChallengeProgress(final Team team, final int eventId);
     }
 
     interface Host extends BaseMvp.Host {

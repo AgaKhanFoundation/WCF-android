@@ -153,8 +153,6 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         super.onGetTeamSuccess(team);
         challengeView.cacheParticipantTeam(team);
         getTeamParticipantsInfoFromFacebook(team);
-        Event event = challengeView.getEvent();
-        getTeamParticipantCommitments(team, event.getId());
     }
 
     @Override
@@ -169,26 +167,43 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
 
     @Override
     protected void onGetTeamCommitmentSuccess(Map<String, Commitment> participantCommitmentsMap) {
+        Participant cachedParticipant = DataHolder.getParticipant();
+
         for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
             Commitment commitment = participantCommitmentsMap.get(participant.getId() + "");
             participant.setCommitment(commitment);
-            participant.setCommitmentDistance(DistanceConverter.distance(commitment.getCommitmentSteps()));
 
-            Participant cachedParticipant = DataHolder.getParticipant();
-            if (cachedParticipant != null && participant.getId() == cachedParticipant.getId()) {
+            if (cachedParticipant != null && participant.getParticipantId().equals(cachedParticipant.getParticipantId())) {
                 cachedParticipant.setCommitment(commitment);
-                cachedParticipant.setCommitmentDistance(
-                        DistanceConverter.distance( commitment != null ? commitment.getCommitmentSteps() : 0));
-
             }
         }
+        teamRetrieved = true;
+        updateChallengeView();
+    }
+
+    @Override
+    protected void onGetTeamChallengeProgressSuccess(Map<String, Stats> teamChallengeProgress) {
+
+        Participant cachedParticipant = DataHolder.getParticipant();
+
+        for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
+            Stats stats = teamChallengeProgress.get(participant.getParticipantId());
+            participant.setStats(stats);
+
+            if (cachedParticipant != null && participant.getParticipantId().equals(cachedParticipant.getParticipantId())) {
+                participant.setStats(stats);
+            }
+        }
+        teamRetrieved = true;
+        updateChallengeView();
     }
 
     @Override
     protected void onGetTeamParticipantsInfoSuccess(Team team){
         challengeView.cacheParticipantTeam(team);
-        teamRetrieved = true;
-        updateChallengeView();
+        Event event = challengeView.getEvent();
+        getTeamParticipantCommitments(team, event.getId());
+        getTeamParticipantsChallengeProgress(team, event.getId());
     }
 
     @Override

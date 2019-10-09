@@ -15,6 +15,8 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
 
     JoinTeamAdapterMvp.View view;
     List<Team> teams = new ArrayList<>();
+    List<Team> teamsOrig = new ArrayList<>();
+
     JoinTeamAdapterMvp.Host host;
 
     int selectedTeamPosition = -1;
@@ -26,6 +28,15 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
 
     @Override
     public void updateTeamsData(List<Team> teams) {
+        this.teamsOrig.clear();
+        this.teamsOrig.addAll(teams);
+        this.teams.clear();
+        this.teams.addAll(teams);
+        view.teamsDataUpdated();
+    }
+
+    @Override
+    public void updateFilterTeamsData(List<Team> teams) {
         this.teams.clear();
         this.teams.addAll(teams);
         view.teamsDataUpdated();
@@ -42,6 +53,20 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
     @Override
     public int getTeamsCount() {
         return teams != null ? teams.size() : 0;
+    }
+
+    @Override
+    public List<Team> filterTeams(String filterValue) {
+        if (filterValue.isEmpty()) {
+           return teamsOrig;
+        }
+        List<Team> filteredList = new ArrayList<>();
+        for (Team team : teamsOrig) {
+            if (team.getName().toLowerCase().contains(filterValue)) {
+                filteredList.add(team);
+            }
+        }
+        return filteredList;
     }
 
     @Override
@@ -64,7 +89,6 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
         }
 
         host.removeFocusFromSearch();
-
     }
 
     @Override

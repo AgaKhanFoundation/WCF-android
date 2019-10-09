@@ -10,8 +10,10 @@ import java.util.List;
 public class TeamMembershipAdapterPresenter implements TeamMembershipAdapterMvp.Presenter {
 
     TeamMembershipAdapterMvp.View view;
-    List<Participant> participants = new ArrayList<>();
     TeamMembershipAdapterMvp.Host host;
+
+    List<Participant> participants = new ArrayList<>();
+    boolean inEditMode =false;
 
     public TeamMembershipAdapterPresenter(@NonNull TeamMembershipAdapterMvp.View view, @NonNull TeamMembershipAdapterMvp.Host host) {
         this.view = view;
@@ -31,6 +33,12 @@ public class TeamMembershipAdapterPresenter implements TeamMembershipAdapterMvp.
     }
 
     @Override
+    public void updateEditMode(boolean editModeFlag) {
+        this.inEditMode = editModeFlag;
+        view.editModeUpdated(editModeFlag);
+    }
+
+    @Override
     public Participant getParticipant(int position) {
         return participants.get(position);
     }
@@ -40,4 +48,5 @@ public class TeamMembershipAdapterPresenter implements TeamMembershipAdapterMvp.
         Participant participant = getParticipant(pos);
         host.removeMemberFromTeam(participant.getName(), participant.getParticipantId());
     }
+
 }
