@@ -186,7 +186,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
         if (silverTeam != null){
             teamNameTv.setText(silverTeam.getName());
-            double miles = DistanceConverter.distance(bronzeTeam.getStepsCompleted());
+            double miles = DistanceConverter.distance(silverTeam.getStepsCompleted());
             teamMiles.setText(numberFormatter.format(miles) );
         }
         else {
@@ -201,7 +201,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (goldTeam != null) {
             teamNameTv.setText(goldTeam.getName());
 
-            double miles = DistanceConverter.distance(bronzeTeam.getStepsCompleted());
+            double miles = DistanceConverter.distance(goldTeam.getStepsCompleted());
             teamMiles.setText(numberFormatter.format(miles));
         }
         else {

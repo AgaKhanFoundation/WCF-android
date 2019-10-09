@@ -498,7 +498,6 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     public static int participantsProgressCount;
     public static Map<String, Stats> participantProgressMap = new HashMap();
 
-
     public void getTeamParticipantsChallengeProgress(final Team team, final int eventId) {
 
         participantsProgressCount = team.getParticipants().size();
@@ -559,7 +558,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                     @Override
                     public void onSuccess(List<Team> teams) {
                         List<LeaderboardTeam> leaderboard = extractTeamStats(teams);
-                        onGetLeaderboardSuccess(leaderboard);
+                        onGetLeaderboardLoadSuccess(leaderboard);
                     }
 
                     @Override
@@ -567,6 +566,68 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                         onGetLeaderboardError(error);
                     }
                 });
+    }
+
+    protected static int leaderboardTeamsCount;
+    protected static Map<Integer, Stats> teamsStatsMap = new HashMap();
+
+    protected void onGetLeaderboardLoadSuccess(final List<LeaderboardTeam> teams) {
+        leaderboardTeamsCount = teams.size();
+        teamsStatsMap.clear();
+        Log.d(TAG, "onGetLeaderboardLoadSuccess: " + leaderboardTeamsCount);
+        List<Integer> teamIdList = new ArrayList<>();
+        for (LeaderboardTeam team: teams) {
+            final int teamId = team.getId();
+            teamIdList.add(teamId);
+
+            wcfClient.getTeamStats(teamId)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new SingleObserver<Stats>() {
+                        @Override
+                        public void onSubscribe(Disposable d) {
+                            disposables.add(d);
+                        }
+
+                        @Override
+                        public void onSuccess(Stats stats) {
+                            Log.d(TAG, "getTeamStat: " + leaderboardTeamsCount + " " + stats.getDistance());
+                            teamsStatsMap.put(teamId, stats);
+
+                            leaderboardTeamsCount--;
+                            if (leaderboardTeamsCount == 0) {
+                                onGetLeaderboardSuccess(teams, teamsStatsMap);
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable error) {
+                            Log.d(TAG, "getParticipantStat error: " + participantsProgressCount + " error=" + error.getMessage());
+
+                            leaderboardTeamsCount--;
+                            if (leaderboardTeamsCount == 0) {
+                                onGetLeaderboardSuccess(teams, teamsStatsMap);
+                            }
+                        }
+                    });
+        }
+    }
+
+    protected void onGetLeaderboardSuccess(List<LeaderboardTeam> teams, Map<Integer, Stats> teamsStatsMap) {
+        Log.d(TAG, "onGetLeaderboardSuccess");
+
+        for (LeaderboardTeam team: teams) {
+            Stats stats = teamsStatsMap.get(team.getId());
+            if (stats != null) {
+                team.setStepsCompleted(stats.getDistance());
+            }
+            else {
+                team.setStepsCompleted(0);
+            }
+        }
+        rankLeaderboard(teams);
+
+        onGetLeaderboardSuccess(teams);
     }
 
     protected void onGetLeaderboardSuccess(List<LeaderboardTeam> teamsStats) {
@@ -585,8 +646,6 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 leaderboardTeamList.add(leaderboardTeam);
             }
         }
-        rankLeaderboard(leaderboardTeamList);
-
         return leaderboardTeamList;
     }
 
@@ -611,24 +670,24 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         int teamStepsCommitted = 0, teamStepsCompleted = 0;
         double teamAmountPledged = 0.0, teamAmountAccrued = 0.0;
 
-        for (Participant participant : team.getParticipants()) {
-            int participantStepsCommittedSteps = participant.getCommittedSteps();
-
-            double participantDistancePledged = (int) DistanceConverter.distance(participant.getCommittedSteps());
-            if (participantStepsCommittedSteps == 0) {
-                participantStepsCommittedSteps = event.getDefaultParticipantCommitment();
-            }
-            int participantCompletedSteps = participant.getCompletedSteps();
-            double participantCompletedDistance = (int) DistanceConverter.distance(participant.getCompletedSteps()) ;
-
-            double participantAvgSupportPledgePerUnitDistance = 0.0;  //TODO get the pledge avg rate for this participant from AKF
-            teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
-            teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
-
-            teamStepsCommitted += participantStepsCommittedSteps;
-            teamStepsCompleted += participantCompletedSteps;
-
-        }
+//        for (Participant participant : team.getParticipants()) {
+//            int participantStepsCommittedSteps = participant.getCommittedSteps();
+//
+//            double participantDistancePledged = (int) DistanceConverter.distance(participant.getCommittedSteps());
+//            if (participantStepsCommittedSteps == 0) {
+//                participantStepsCommittedSteps = event.getDefaultParticipantCommitment();
+//            }
+//            int participantCompletedSteps = participant.getCompletedSteps();
+//            double participantCompletedDistance = (int) DistanceConverter.distance(participant.getCompletedSteps());
+//
+//            double participantAvgSupportPledgePerUnitDistance = 0.0;  //TODO get the pledge avg rate for this participant from AKF
+//            teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
+//            teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
+//
+//            teamStepsCommitted += participantStepsCommittedSteps;
+//            teamStepsCompleted += participantCompletedSteps;
+//
+//        }
 
         // rank = (int) (Math.random() * 15);
 
