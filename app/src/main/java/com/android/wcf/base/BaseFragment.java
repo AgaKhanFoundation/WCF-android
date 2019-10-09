@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.core.app.ShareCompat;
@@ -66,7 +67,24 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
 
     @Override
     public void showError(String title, String message) {
-        showMessage(message);
+
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_error_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.error_title)).setText(title);
+        ((TextView) dialogView.findViewById(R.id.error_message)).setText(message);
+
+        Button okBtn = dialogView.findViewById(R.id.ok_button);
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
     }
 
     @Override
