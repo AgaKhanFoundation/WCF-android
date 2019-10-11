@@ -66,8 +66,9 @@ class OAuthAccessToken(
         val windowPeriod = Calendar.getInstance().apply {
             add(Calendar.MINUTE, 5)
         }
-
-        return expiration.before(windowPeriod)
+        if (expiration != null) {
+            return expiration.before(windowPeriod)
+        }
+        return false
     }
-
 }
