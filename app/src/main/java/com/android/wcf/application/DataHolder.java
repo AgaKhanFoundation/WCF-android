@@ -2,6 +2,7 @@ package com.android.wcf.application;
 
 import android.util.Log;
 
+import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
@@ -21,22 +22,8 @@ public class DataHolder {
     }
 
     public static void setEvent(Event event) {
-        if (DataHolder.event != null && event != null) {
-
-            //Don't overwrite if cached version already has participant commitment and new instance for the same event will make us loose it.
-            // This is workaround to ensure an event refresh from somewhere in the app does not overwrite the event instance from Participant
-
-            if (event.getId() == DataHolder.event.getId()) {
-                Commitment cachedCommitment = DataHolder.event.getParticipantCommitment();
-                Commitment commitment = event.getParticipantCommitment();
-                if (cachedCommitment != null && cachedCommitment.getId() > 0
-                        && (commitment == null || commitment.getId() <= 0)) {
-                    Log.i(TAG, "event cache request ignored since the new event does not have participant commitment");
-                    return;
-                }
-            }
-        }
         DataHolder.event = event;
+        updateParticipantCommitmentFromEvent(); //TODO: check if this overkill. setParticipant updates it
     }
 
     public static Team getParticipantTeam() {
@@ -53,6 +40,7 @@ public class DataHolder {
 
     public static void setParticipant(Participant participant) {
         DataHolder.participant = participant;
+        updateParticipantCommitmentFromEvent();
     }
 
     public static List<Team> getTeamsList() {
@@ -80,6 +68,47 @@ public class DataHolder {
         }
     }
 
+    public static void updateParticipantCommitment(int steps) {
+        if (participant == null) {
+            return;
+        }
+        if (event == null) {
+            return;
+        }
+
+        Event participantEvent = participant.getEvent(event.getId());
+        if (participantEvent != null) {
+            Commitment commitment = participantEvent.getParticipantCommitment();
+            if (commitment != null) {
+               commitment.setCommitmentSteps(steps);
+            }
+        }
+
+        Commitment commitment = participant.getCommitment();
+        if (commitment != null) {
+            commitment.setCommitmentSteps(steps);
+        }
+    }
+
+    public static void updateParticipantCommitmentFromEvent() {
+        if (participant == null) {
+            return;
+        }
+        if (event == null) {
+            return;
+        }
+
+        Event participantEvent = participant.getEvent(event.getId());
+        if (participantEvent != null) {
+            Commitment commitment = participantEvent.getParticipantCommitment();
+            if (commitment != null) {
+                participant.setCommitment(commitment);
+                if (commitment.getCommitmentSteps() == 0) {
+                    commitment.setCommitmentSteps(SharedPreferencesUtil.getMyStepsCommitted());
+                }
+            }
+        }
+    }
 
     public static void clearCache() {
         event = null;

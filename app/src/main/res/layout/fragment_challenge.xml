@@ -212,6 +212,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/journey_card_icon_journey" />
 
+                        <!-- journey_card_journey_text android:tex is temporary until the new date is decided -->
                         <TextView
                             android:id="@+id/journey_card_journey_text"
                             android:layout_width="wrap_content"
@@ -219,12 +220,12 @@
                             android:layout_marginTop="@dimen/spacing_normal_half"
                             android:contentDescription="@null"
                             android:gravity="start"
-                            android:text="Your journey started..."
+                            android:text="@string/message_journey_started"
                             android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
                             android:textAppearance="@style/TextAppearance.WCF.Body1"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/journey_card_journey_label"
-                            tools:text="Your Journey has started" />
+                            tools:text="@string/message_journey_started" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

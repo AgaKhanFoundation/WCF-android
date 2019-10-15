@@ -26,6 +26,7 @@ import com.android.wcf.base.BaseFragment;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -196,6 +197,11 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         String startDate = sdf.format(event.getStartDate());
         String endDate = sdf.format(event.getEndDate());
         challengeDatesTv.setText(startDate + " to " + endDate);
+
+        //TODO: remove this when new date for challenge is decided
+        if (Constants.getChallengeStartSoonMessage()) {
+            challengeDatesTv.setText(getString(R.string.message_journey_starting_soon));
+        }
 
         Team team = getParticipantTeam();
         teamNameTv.setText(team.getName());

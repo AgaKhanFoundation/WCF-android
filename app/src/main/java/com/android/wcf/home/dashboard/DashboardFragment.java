@@ -23,6 +23,7 @@ import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DateTimeHelper;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -279,6 +280,11 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
             challengeNameTv.setText(event.getName());
             challengeDatesTv.setText(startDate + " to " + endDate);
+
+            //TODO: remove this when new date for challenge is decided
+            if (Constants.getChallengeStartSoonMessage()) {
+                challengeDatesTv.setText(getString(R.string.message_journey_starting_soon));
+            }
         }
 
         //TODO: add "Show badges"
@@ -458,6 +464,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         expandViewHitArea(image, inviteContainer);
         image.setOnClickListener(onClickListener);
 
+        fundraisingProgressCard.setVisibility(Constants.getFeatureFundraising() ? View.VISIBLE : View.GONE);
     }
 
     void showParticipantBadgesEarned() {

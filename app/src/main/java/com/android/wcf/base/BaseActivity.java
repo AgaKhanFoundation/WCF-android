@@ -22,6 +22,7 @@ import androidx.fragment.app.FragmentManager;
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.helper.DistanceConverter;
+import com.android.wcf.model.Commitment;
 import com.android.wcf.tracker.TrackingHelper;
 import com.android.wcf.tracker.fitbit.FitbitHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
@@ -167,23 +168,6 @@ abstract public class BaseActivity extends AppCompatActivity
     @Override
     public void cacheParticipant(Participant participant) {
         DataHolder.setParticipant(participant);
-        Event activeEvent = DataHolder.getEvent();
-        if (activeEvent != null) {
-            Event participantEvent = participant.getEvent(activeEvent.getId());
-            if (participantEvent != null) {
-                DataHolder.setEvent(participantEvent);
-                activeEvent = participantEvent;
-            }
-        }
-
-        if (activeEvent != null && participant.getCommitment() != null && participant.getCommitment().getCommitmentSteps() == 0) {
-            int committedSteps =  SharedPreferencesUtil.getMyStepsCommitted();
-            if (committedSteps == 0) {
-                committedSteps = activeEvent.getDefaultParticipantCommitment();
-                SharedPreferencesUtil.savetMyStepsCommitted(committedSteps);
-                participant.getCommitment().setCommitmentSteps(committedSteps);
-            }
-        }
     }
 
     @Override

@@ -73,7 +73,7 @@ ext {
     daggerKaptCompilerVersion = '2.14.1'
 
     //Glide
-    glideVersion = '4.7.1'
+    glideVersion = '4.10.0'
 
     circleimageviewVersion='3.0.0'
 

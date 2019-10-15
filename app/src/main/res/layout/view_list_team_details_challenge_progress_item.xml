@@ -24,6 +24,9 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_extra_small"
+        android:layout_marginBottom="@dimen/spacing_extra_small"
+
         android:contentDescription="@string/content_description_participant_photo"
         android:src="@drawable/avatar_profile"
         app:layout_constraintStart_toEndOf="@id/participant_rank"
@@ -83,7 +86,6 @@
         app:layout_constraintStart_toStartOf="@id/participant_distance_commitment"
         app:layout_constraintTop_toBottomOf="@id/participant_distance_commitment"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:text="$500"
         tools:text="$500"/>
 
     <TextView

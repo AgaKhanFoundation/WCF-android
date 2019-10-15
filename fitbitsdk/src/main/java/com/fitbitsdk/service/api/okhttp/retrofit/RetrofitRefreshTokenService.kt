@@ -58,8 +58,8 @@ class RetrofitRefreshTokenService(private val env: Environment, private val endp
     override fun refreshToken(outdatedToken: OAuthAccessToken, listener: RefreshTokenService.TokenListener) {
         val refreshToken: String? = outdatedToken.refresh_token
         if (refreshToken?.isNotBlank() == true) {
-            val refreshTokenModel = RequestRefreshTokenModel(refreshToken)
-            authService.refreshToken(endpoint.authEndpoint.basicHeader(env).second, refreshTokenModel).enqueue(createCallback(listener))
+          //  val refreshTokenModel = RequestRefreshTokenModel(refreshToken)
+            authService.refreshToken(endpoint.authEndpoint.basicHeader(env).second, RequestRefreshTokenModel.REFRESH_GRANT_TYPE, refreshToken).enqueue(createCallback(listener))
         } else {
             listener.onError(IllegalArgumentException("Token parameters invalid"))
         }

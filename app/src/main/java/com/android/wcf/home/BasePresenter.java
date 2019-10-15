@@ -890,6 +890,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
         Log.d(TAG, "onUpdateParticipantCommitmentSuccess: participantId=" + participantId + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
+        DataHolder.updateParticipantCommitmentInCachedTeam( commitmentSteps);
+        DataHolder.updateParticipantCommitment(commitmentSteps);
     }
 
     protected void onUpdateParticipantCommitmentError(Throwable error, String participantId, int eventId, int commitmentSteps) {

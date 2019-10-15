@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,7 +21,6 @@ import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 
 import com.android.wcf.R;
-import com.android.wcf.application.DataHolder;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
@@ -218,6 +218,8 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     @Override
     public void closeKeyboard() {
         Activity activity = getActivity();
+        if (activity == null) return;
+
         InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
         //Find the currently focused view, so we can grab the correct window token from it.
         View view = activity.getCurrentFocus();
@@ -225,7 +227,10 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         if (view == null) {
             view = new View(activity);
         }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+       boolean closed = imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        if (!closed) {
+            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+        }
     }
 
     public void inviteTeamMembers() {
@@ -318,23 +323,26 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                dialogBuilder.dismiss();
+
                 if (editTextDialogListener != null) {
                     editTextDialogListener.onDialogCancel();
                 }
-                dialogBuilder.dismiss();
             }
         });
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int distance = Integer.parseInt(editText.getText().toString());
+                String newDistanceText = editText.getText().toString();
+                int distance = Integer.parseInt(newDistanceText);
                 int stepsCommitted = DistanceConverter.steps((distance));
                 SharedPreferencesUtil.savetMyStepsCommitted(stepsCommitted);
-                DataHolder.updateParticipantCommitmentInCachedTeam( stepsCommitted);
-                if (editTextDialogListener != null) {
-                    editTextDialogListener.onDialogDone(editText.getText().toString());
-                }
+
                 dialogBuilder.dismiss();
+
+                if (editTextDialogListener != null) {
+                    editTextDialogListener.onDialogDone(newDistanceText);
+                }
             }
         });
 

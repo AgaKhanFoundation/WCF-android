@@ -18,12 +18,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.android.wcf.R;
-import com.android.wcf.application.DataHolder;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Commitment;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -145,6 +145,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         challengePresenter.getEvent(activeEventId);
         challengePresenter.getTeam(teamId);
         challengePresenter.getParticipant(participantId);
+
     }
 
     @Override
@@ -248,6 +249,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
             View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
             if (journeyActiveView != null && journeyActiveView.getVisibility() != View.VISIBLE) {
+                TextView journeyText = journeyActiveView.findViewById(R.id.journey_card_journey_text);
+
+                if (Constants.getChallengeStartSoonMessage()) {
+                    journeyText.setText(R.string.message_journey_starting_soon);
+                }
+                else {
+                    journeyText.setText(R.string.message_journey_started);
+                }
                 journeyActiveView.setVisibility(View.VISIBLE);
             }
 
@@ -267,7 +276,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     }
 
     @Override
-    public void showParticipantTeamSummaryCard(Team team) {
+    public void showParticipantTeamSummaryCard(Team participantTeam) {
         if (!isAttached()) {
             return;
         }
@@ -277,7 +286,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             Event event = getEvent();
             View teamProfileView = participantTeamSummaryCard.findViewById(R.id.challenge_participant_team_profile_view);
 
-            if (team != null) {
+            if (participantTeam != null) {
                 TextView teamNameTv = teamProfileView.findViewById(R.id.team_name);
                 TextView teamLeadNameTv = teamProfileView.findViewById(R.id.team_lead_name);
                 TextView teamSizeTv = teamProfileView.findViewById(R.id.team_size_label);
@@ -291,8 +300,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 TextView editParticipantCommitmentTv = teamProfileView.findViewById(R.id.participant_committed_miles_edit);
                 editParticipantCommitmentTv.setOnClickListener(onClickListener);
 
-                int currentTeamSize = team.getParticipants().size();
-                Team participantTeam = DataHolder.getParticipantTeam();
+                int currentTeamSize = participantTeam.getParticipants().size();
                 int teamCommitmentSteps = 0;
                 if (participantTeam != null) {
                     teamCommitmentSteps = participantTeam.geTotalParticipantCommitmentSteps();
@@ -302,14 +310,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 int remainingTeamGoalMiles = teamGoal - teamCommitmentDistance;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 
-                int participantCommitmentSteps = participantTeam.getCommitmentSteps(participant.getFbId());
+                int participantCommitmentSteps = participant.getCommittedSteps();
                 int participantCommitmentDistance = (int) DistanceConverter.distance(participantCommitmentSteps);
 
                 String participantDistanceCommitted = numberFormatter.format(participantCommitmentDistance );
                 String teamDistanceCommitted = numberFormatter.format(teamCommitmentDistance);
 
-                teamNameTv.setText(team.getName());
-                teamLeadNameTv.setText(team.getLeaderName());
+                teamNameTv.setText(participantTeam.getName());
+                teamLeadNameTv.setText(participantTeam.getLeaderName());
                 teamSizeTv.setText(getResources().getQuantityString(R.plurals.team_members_count, currentTeamSize, currentTeamSize));
                 teamMilesCommitmentStatusLabelTv.setText( getString(R.string.team_miles_commitment_status_template, numberFormatter.format(teamCommitmentDistance), numberFormatter.format(teamGoal)));
                 int teamProgressPct = (int) (100.0 * teamCommitmentDistance / teamGoal);
@@ -433,6 +441,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         View image = container.findViewById(R.id.fundraising_invite_button);
         expandViewHitArea(image, container);
         image.setOnClickListener(onClickListener);
+
+        parentView.setVisibility(Constants.getFeatureFundraising() ? View.VISIBLE : View.GONE);
     }
 
     @Override
@@ -479,35 +489,48 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         challengePresenter.onShowMilesCommitmentSelected(currentDistance, new EditTextDialogListener() {
             @Override
             public void onDialogDone(@NotNull String editedValue) {
+                closeKeyboard();
+
                 committedDistanceTv.setText(editedValue);
                 int newCommitmentDistance = Integer.parseInt(editedValue);
                 int newCommittedSteps = DistanceConverter.steps(newCommitmentDistance);
-                int commitmentId = getEvent().getParticipantCommitmentId(activeEventId);
+                Commitment commitment = getParticipant().getCommitment();
+                int commitmentId = 0;
+                if (commitment != null) {
+                    commitmentId = commitment.getId();
+                }
+
                 if (commitmentId == 0) {
                     challengePresenter.createParticipantCommitment(participantId, activeEventId, newCommittedSteps);
                 }
                 else {
                     challengePresenter.updateParticipantCommitment(commitmentId, participantId, activeEventId, newCommittedSteps);
                 }
-
-                Team team = getParticipantTeam();
-                showParticipantTeamSummaryCard(team);
             }
 
             @Override
             public void onDialogCancel() {
+                closeKeyboard();
             }
         });
     }
 
     @Override
     public void onCreateParticipantCommitmentToEvent(String participantId, int eventId, Commitment commitment) {
-        //TODO: retrieve participant
+        //commitment is created in HomeActivity. It will be created in ChallengeFragment only if it failed in HomeActivity
+        // Refresh data to sync up views
+        teamId = SharedPreferencesUtil.getMyTeamId();
+        activeEventId = SharedPreferencesUtil.getMyActiveEventId();
+
+        challengePresenter.getEvent(activeEventId);
+        challengePresenter.getTeam(teamId);
+        challengePresenter.getParticipant(participantId);
     }
 
     @Override
     public void onUpdateParticipantCommitmentToEvent(String participantId, int eventId, int commitmentSteps) {
-        //TODO: retrieve participant or update steps in place
+        Team team = getParticipantTeam();
+        showParticipantTeamSummaryCard(team);
     }
 
     public void showTeamCommitmentBreakdown(){
