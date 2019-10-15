@@ -23,6 +23,7 @@ import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Commitment;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -248,6 +249,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
             View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
             if (journeyActiveView != null && journeyActiveView.getVisibility() != View.VISIBLE) {
+                TextView journeyText = journeyActiveView.findViewById(R.id.journey_card_journey_text);
+
+                if (Constants.getChallengeStartSoonMessage()) {
+                    journeyText.setText(R.string.message_journey_starting_soon);
+                }
+                else {
+                    journeyText.setText(R.string.message_journey_started);
+                }
                 journeyActiveView.setVisibility(View.VISIBLE);
             }
 
@@ -432,6 +441,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         View image = container.findViewById(R.id.fundraising_invite_button);
         expandViewHitArea(image, container);
         image.setOnClickListener(onClickListener);
+
+        parentView.setVisibility(Constants.getFeatureFundraising() ? View.VISIBLE : View.GONE);
     }
 
     @Override

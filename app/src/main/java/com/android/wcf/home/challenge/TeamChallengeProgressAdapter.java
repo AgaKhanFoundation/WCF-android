@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.helper.DistanceConverter;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Participant;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -84,12 +85,13 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
             holder.participantFundsAccrued.setText(decimalFormatter.format(participant.getFundsAccrued()));
         }
 
-        holder.participantDistanceSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
         holder.participantDistanceWalked.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
+        holder.participantDistanceSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
 
-       //TODO: uncomment later. Hide fundraising until AKF backend integration is complete
-      //  holder.participantFundsSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
-      //  holder.participantFundsAccrued.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
+        holder.participantFundsAccrued.setVisibility((Constants.getFeatureFundraising() && challengeStarted) ? View.VISIBLE : View.GONE);
+        holder.participantFundsSepartor.setVisibility((Constants.getFeatureFundraising() && challengeStarted) ? View.VISIBLE : View.GONE);
+
+        holder.participantFundsCommitted.setVisibility(Constants.getFeatureFundraising() ? View.VISIBLE : View.GONE);
     }
 
     @Override

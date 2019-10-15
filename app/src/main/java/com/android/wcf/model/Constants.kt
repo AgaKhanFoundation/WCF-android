@@ -21,6 +21,12 @@ class Constants {
         const val TRACKER_CHECK_DELTA_HOURS = 8 //check device and facebook login frequently for token expiry
 
         const val SAVE_STEPS_TO_SERVER_DELTA_MIN = 30 //optimize
+
+        @JvmStatic
+        var featureFundraising = false //Hide fundraising until AKF backend integration is complete
+
+        @JvmStatic
+        var challengeStartSoonMessage = true
     }
 }
 

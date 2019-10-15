@@ -24,6 +24,9 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginTop="@dimen/spacing_extra_small"
+        android:layout_marginBottom="@dimen/spacing_extra_small"
+
         android:contentDescription="@string/content_description_participant_photo"
         android:src="@drawable/avatar_profile"
         app:layout_constraintStart_toEndOf="@id/participant_rank"
@@ -74,10 +77,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:text="100"/>
 
-    <!-- Hide fundraising until AKF backend integration is complete -->
     <TextView
         android:id="@+id/participant_funds_committed"
-        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/spacing_tiny"
@@ -89,7 +90,6 @@
 
     <TextView
         android:id="@+id/participant_funds_separtor"
-        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.WCF.Body1"
@@ -101,7 +101,6 @@
 
     <TextView
         android:id="@+id/participant_funds_accrued"
-        android:visibility="gone"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="@style/TextAppearance.WCF.Body1"

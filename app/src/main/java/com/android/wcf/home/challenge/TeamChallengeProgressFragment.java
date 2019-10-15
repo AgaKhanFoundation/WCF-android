@@ -19,6 +19,7 @@ import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
@@ -159,12 +160,19 @@ public class TeamChallengeProgressFragment extends BaseFragment implements TeamC
     void setupChallengeTeamProgressSummaryContainer(View container) {
         TextView distanceGoalTv = container.findViewById(R.id.team_total_distance_goal);
         TextView distanceWalkedTv = container.findViewById(R.id.team_total_distance_walked);
+        TextView fundRaisedLabelTv = container.findViewById(R.id.team_total_fund_raised_label);
         TextView fundsRaisedTv = container.findViewById(R.id.team_total_funds_raised_amount);
+        View separator = container.findViewById(R.id.seperator_fundraised);
         distanceWalkedTv.setText(numberFormatter.format(getTeamTotalDistanceWalked()));
         distanceGoalTv.setText(getString(R.string.team_detail_distance_goal_template, numberFormatter.format(getTeamTotalDistanceCommited()) ) );
 
         double fundRaiseAccrued = getTeamTotalFundRaiseAccrued();
         fundsRaisedTv.setText(currencyformatter.format(fundRaiseAccrued));
+
+        fundRaisedLabelTv.setVisibility(Constants.getFeatureFundraising() ? View.VISIBLE :View.GONE);
+        fundsRaisedTv.setVisibility(Constants.getFeatureFundraising() ? View.VISIBLE :View.GONE);
+        separator.setVisibility(Constants.getFeatureFundraising() ? View.VISIBLE :View.GONE);
+
     }
 
     private int getTeamTotalDistanceWalked() {

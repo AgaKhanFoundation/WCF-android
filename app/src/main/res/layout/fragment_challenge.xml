@@ -220,12 +220,12 @@
                             android:layout_marginTop="@dimen/spacing_normal_half"
                             android:contentDescription="@null"
                             android:gravity="start"
-                            android:text="@string/message_journey_starting_soon"
+                            android:text="@string/message_journey_started"
                             android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
                             android:textAppearance="@style/TextAppearance.WCF.Body1"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/journey_card_journey_label"
-                            tools:text="@string/message_journey_starting_soon" />
+                            tools:text="@string/message_journey_started" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -563,13 +563,12 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <!-- Hide fundraising until AKF backend integration is complete -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/challenge_fundraising_progress_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="gone"
+                    android:visibility="visible"
                     app:cardBackgroundColor="@color/color_white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
