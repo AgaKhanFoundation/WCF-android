@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Single;
+import kotlin.Pair;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
@@ -35,21 +36,19 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class WCFClient {
 
-    private final static String AKF_WCF_BACKEND_URL_PROD = "https://step4change.org";
-    private final static String AKF_WCF_BACKEND_URL_DEV = "https://dev.step4change.org";
-    private final static String AKF_WCF_BACKEND_URL_STAGING = "https://staging.step4change.org";
+    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.PROD; //Ensure its PROD for a store build
 
-    private static String AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD; //Ensure the correct value for a build //AKF_WCF_BACKEND_URL_DEV; //
 
     //this method gets called from Settings to facilitate testing team to switch servers
     public static void switchServerForTestingTeam() {
         if (isProdBackend()) {
-            AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_STAGING;
+            serverEnv = Steps4ChangeEnv.STAGE;
         }
         else {
-            AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD;
+            serverEnv = Steps4ChangeEnv.PROD;
         }
     }
 
@@ -64,7 +63,7 @@ public class WCFClient {
     }
 
     public static boolean isProdBackend() {
-        return AKF_WCF_BACKEND_URL.equals(AKF_WCF_BACKEND_URL_PROD);
+        return serverEnv == Steps4ChangeEnv.PROD;
     }
 
     private WCFClient() {
@@ -77,13 +76,13 @@ public class WCFClient {
             public Response intercept(Chain chain) throws IOException {
                 Request original = chain.request();
                 HttpUrl url = original.url().newBuilder()
-//                        .addQueryParameter("api_key", API_KEY)
                         .build();
 
-                // Customize the request
+              Pair<String, String> authHeader = WCFAuth.basicHeader(serverEnv);
                 Request request = original.newBuilder()
                         .url(url)
                         .header("Accept", "application/json")
+                        .header( authHeader.getFirst(), authHeader.getSecond())
                         .method(original.method(), original.body())
                         .build();
 
@@ -107,7 +106,7 @@ public class WCFClient {
                 .create();
 
         final Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(AKF_WCF_BACKEND_URL)
+                .baseUrl(serverEnv.getUrl())
                 .client(httpClient)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

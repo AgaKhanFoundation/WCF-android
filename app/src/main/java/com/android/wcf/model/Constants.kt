@@ -22,6 +22,10 @@ class Constants {
 
         const val SAVE_STEPS_TO_SERVER_DELTA_MIN = 30 //optimize
 
+        const val WCF_PWD_DEV = "tester"
+        const val WCF_PWD_STAGE = "tester"
+        const val WCF_PWD_PROD = "tester"
+
         @JvmStatic
         var featureFundraising = false //Hide fundraising until AKF backend integration is complete
 
