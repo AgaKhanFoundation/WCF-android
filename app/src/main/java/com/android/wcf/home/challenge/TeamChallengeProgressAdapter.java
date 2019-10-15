@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.helper.DistanceConverter;
-import com.android.wcf.model.Constants;
 import com.android.wcf.model.Participant;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;

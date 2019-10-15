@@ -32,7 +32,7 @@ data class Participant(
         }
         return null
     }
-    var commitment:Commitment? = null
+    var commitment:Commitment? = null //this is set from retrieval of commitments for team members. Also, for the current participant, it comes from participant's event
     var stats:Stats? = null
 
     fun getCompletedSteps(): Int {

@@ -24,6 +24,7 @@ import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Team;
 import com.android.wcf.network.WCFClient;
 import com.bumptech.glide.Glide;
@@ -214,14 +215,22 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         settingsPresenter.onShowMilesCommitmentSelected(currentDistance, new EditTextDialogListener() {
             @Override
             public void onDialogDone(@NotNull String editedValue) {
+                int newCommitmentDistance = Integer.parseInt(editedValue);
+                if (newCommitmentDistance <= 0) {
+                    return;
+                }
                 committedDistanceTv.setText(editedValue);
 
-                int newCommitmentDistance = Integer.parseInt(editedValue);
-                int newCommittedSteps = DistanceConverter.steps(newCommitmentDistance);
                 int activeEventId = SharedPreferencesUtil.getMyActiveEventId();
                 String participantId = SharedPreferencesUtil.getMyParticipantId();
 
-                int commitmentId = getEvent().getParticipantCommitmentId(activeEventId);
+                int newCommittedSteps = DistanceConverter.steps(newCommitmentDistance);
+                Commitment commitment = getParticipant().getCommitment();
+                int commitmentId = 0;
+                if (commitment != null) {
+                    commitmentId = commitment.getId();
+                }
+
                 if (commitmentId == 0) {
                     settingsPresenter.createParticipantCommitment(participantId, activeEventId, newCommittedSteps);
                 }
