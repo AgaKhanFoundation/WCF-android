@@ -86,8 +86,10 @@ public class TeamChallengeProgressAdapter extends RecyclerView.Adapter<TeamChall
 
         holder.participantDistanceSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
         holder.participantDistanceWalked.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
-        holder.participantFundsSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
-        holder.participantFundsAccrued.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
+
+       //TODO: uncomment later. Hide fundraising until AKF backend integration is complete
+      //  holder.participantFundsSepartor.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
+      //  holder.participantFundsAccrued.setVisibility(challengeStarted ? View.VISIBLE : View.GONE);
     }
 
     @Override

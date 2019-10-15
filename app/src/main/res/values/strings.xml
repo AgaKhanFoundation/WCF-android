@@ -17,9 +17,11 @@
     <string name="silver_medal_label">2</string>
     <string name="bronze_medal_label">3</string>
 
+
+    <!-- Hide fundraising until AKF backend integration is complete -->
+    <!--    <item>Money Raised</item>-->
     <string-array name="leaderboard_sort_types">
         <item>Miles</item>
-        <item>Money Raised</item>
         <item>Alphabetic(A-Z)</item>
         <item>Alphabetic(Z-A)</item>
     </string-array>

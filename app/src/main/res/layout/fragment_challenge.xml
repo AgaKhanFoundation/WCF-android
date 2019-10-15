@@ -563,12 +563,13 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
+                <!-- Hide fundraising until AKF backend integration is complete -->
                 <com.google.android.material.card.MaterialCardView
                     android:id="@+id/challenge_fundraising_progress_card"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/spacing_normal"
-                    android:visibility="visible"
+                    android:visibility="gone"
                     app:cardBackgroundColor="@color/color_white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
