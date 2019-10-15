@@ -38,14 +38,15 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class WCFClient {
 
     private final static String AKF_WCF_BACKEND_URL_PROD = "https://step4change.org";
-    private final static String AKF_WCF_BACKEND_URL_TEST = "http://akf-causes.subshell.org";
+    private final static String AKF_WCF_BACKEND_URL_DEV = "https://dev.step4change.org";
+    private final static String AKF_WCF_BACKEND_URL_STAGING = "https://staging.step4change.org";
 
-    private static String AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD; //Ensure the correct value
+    private static String AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD; //Ensure the correct value for a build //AKF_WCF_BACKEND_URL_DEV; //
 
     //this method gets called from Settings to facilitate testing team to switch servers
     public static void switchServerForTestingTeam() {
         if (isProdBackend()) {
-            AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_TEST;
+            AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_STAGING;
         }
         else {
             AKF_WCF_BACKEND_URL = AKF_WCF_BACKEND_URL_PROD;
