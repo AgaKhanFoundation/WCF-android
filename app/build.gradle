@@ -57,7 +57,7 @@ android {
 //            applicationIdSuffix ".debug"
 //            versionNameSuffix = "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable false
+            debuggable true
             signingConfig signingConfigs.debugConfig
 
             //fitbit test app in keshwaniz@gmail.com fitbit acc
