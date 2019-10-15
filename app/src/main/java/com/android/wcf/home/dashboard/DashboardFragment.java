@@ -279,6 +279,10 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
             challengeNameTv.setText(event.getName());
             challengeDatesTv.setText(startDate + " to " + endDate);
+
+            //TODO: remove this when new date for challenge is decided
+            challengeDatesTv.setText(getString(R.string.message_journey_starting_soon));
+
         }
 
         //TODO: add "Show badges"

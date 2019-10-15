@@ -197,6 +197,9 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         String endDate = sdf.format(event.getEndDate());
         challengeDatesTv.setText(startDate + " to " + endDate);
 
+        //TODO: remove this when new date for challenge is decided
+        challengeDatesTv.setText(getString(R.string.message_journey_starting_soon));
+
         Team team = getParticipantTeam();
         teamNameTv.setText(team.getName());
 

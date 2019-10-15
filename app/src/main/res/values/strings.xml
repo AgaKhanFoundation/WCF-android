@@ -230,6 +230,7 @@
     <string name="tean_lead_label">Lead</string>
     <string name="team_edit_start_title">Edit</string>
     <string name="team_edit_done_title">Done</string>
+    <string name="message_journey_starting_soon">Challenge starting soon; check Facebook group for up-to-date information</string>
 
 
 </resources>
