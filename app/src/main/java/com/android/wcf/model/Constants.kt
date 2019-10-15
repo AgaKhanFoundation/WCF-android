@@ -27,6 +27,10 @@ class Constants {
 
         @JvmStatic
         var challengeStartSoonMessage = true
+
+        @JvmStatic
+        var bypassAKFProfile = false  //To  bypass AKF profile creation flow
+
     }
 }
 

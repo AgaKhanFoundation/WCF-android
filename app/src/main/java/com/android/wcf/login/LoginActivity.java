@@ -45,6 +45,7 @@ import com.android.wcf.base.BaseActivity;
 import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
+import com.android.wcf.model.Constants;
 import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.web.WebViewFragment;
 
@@ -182,14 +183,12 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
         this.startActivity(intent);
     }
 
-    //Temporarily, bypass until Javascript hook is available on AKF profile page.
-    public static boolean bypassAKFProfile = true;
     @Override
     public void loginComplete() {
         LoginHelper.loginIsValid();
-        boolean akfProfileCreate = SharedPreferencesUtil.getAkfProfileCreated();
+        boolean akfProfileCreated = SharedPreferencesUtil.getAkfProfileCreated();
 
-        if (bypassAKFProfile || akfProfileCreate) {
+        if (Constants.getBypassAKFProfile() || akfProfileCreated) {
             akfProfileCreationComplete();
         } else {
             showAKFProfileView();
