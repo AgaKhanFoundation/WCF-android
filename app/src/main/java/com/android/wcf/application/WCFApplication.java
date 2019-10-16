@@ -36,6 +36,8 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.helper.DistanceConverter;
@@ -44,8 +46,6 @@ import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
 import com.android.wcf.network.WCFClient;
 import com.android.wcf.splash.SplashActivity;
-
-import androidx.preference.PreferenceManager;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -129,4 +129,5 @@ public class WCFApplication extends Application {
         }
         return "Unknown";
     }
+
 }

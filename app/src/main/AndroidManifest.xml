@@ -42,8 +42,20 @@
             android:screenOrientation="portrait"/>
 
         <meta-data
+            android:name="prod_wcb_server_password"
+            android:value="${prod_wcb_server_password}"/>
+
+        <meta-data
+            android:name="stage_wcb_server_password"
+            android:value="${stage_wcb_server_password}"/>
+
+        <meta-data
+            android:name="dev_wcb_server_password"
+            android:value="${dev_wcb_server_password}"/>
+
+        <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="${facebook_app_id}" />
 
         <meta-data android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
             android:value="false"/>

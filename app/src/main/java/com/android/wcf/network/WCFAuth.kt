@@ -1,7 +1,7 @@
 package com.android.wcf.network
 
 import android.util.Base64
-import com.android.wcf.model.Constants
+import com.android.wcf.helper.ManifestHelper
 
 enum class Steps4ChangeEnv(val url:String) {
      DEV(WCFAuth.AKF_WCF_BACKEND_URL_DEV)
@@ -20,21 +20,9 @@ class WCFAuth {
 
         @JvmStatic
         fun basicHeader(env: Steps4ChangeEnv): Pair<String, String> {
-            var pw = ""
-            when (env) {
-                Steps4ChangeEnv.DEV ->
-                    pw = Constants.WCF_PWD_DEV
-                Steps4ChangeEnv.STAGE ->
-                    pw = Constants.WCF_PWD_STAGE
-                Steps4ChangeEnv.PROD->
-                    pw = Constants.WCF_PWD_PROD
-                else ->
-                    pw = ""
-                }
-
-            val basicToken = Base64.encode(":$pw".toByteArray(), Base64.NO_WRAP)
+            var pwd =  ManifestHelper.getServerPassword(env)
+            val basicToken = Base64.encode(":$pwd".toByteArray(), Base64.NO_WRAP)
             return AUTH_HEADER_KEY to "basic ${String(basicToken)}"
         }
     }
-
 }
