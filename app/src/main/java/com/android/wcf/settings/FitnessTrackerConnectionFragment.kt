@@ -262,8 +262,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                         btnFitnessApp.setEnabled(isChecked)
                         btnFitnessDevice.setEnabled(!isChecked)
                         rbFitnessDevice.setChecked(!isChecked)
-                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, true)?.commit()
-                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false)?.commit()
+                        sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, true).commit()
+                        sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, false).commit()
                     }
                 }
 
@@ -272,8 +272,8 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                         btnFitnessDevice.setEnabled(isChecked)
                         btnFitnessApp.setEnabled(!isChecked)
                         rbFitnessApp.setChecked(!isChecked)
-                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false)?.commit()
-                        sharedPreferences?.edit()?.putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, true)?.commit()
+                        sharedPreferences.edit().putBoolean(TrackingHelper.GOOGLE_FIT_APP_SELECTED, false).commit()
+                        sharedPreferences.edit().putBoolean(TrackingHelper.FITBIT_DEVICE_SELECTED, true).commit()
 
                     }
                 }
