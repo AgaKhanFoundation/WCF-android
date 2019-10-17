@@ -82,7 +82,7 @@ public class WCFClient {
                 Request request = original.newBuilder()
                         .url(url)
                         .header("Accept", "application/json")
-                        .header( authHeader.getFirst(), authHeader.getSecond())
+                        //.header( authHeader.getFirst(), authHeader.getSecond()) //TODO: activate after we have the password and updated in build script
                         .method(original.method(), original.body())
                         .build();
 
