@@ -120,7 +120,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
 
         @Override
-        public void trackerNeedsRelogin(int trackerId) {
+        public void trackerNeedsReLogin(int trackerId) {
             String title = "";
             if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
                 title = getString(R.string.tracker_connection_title_template, "Fitbit");
@@ -140,7 +140,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
                         }
                     })
                 .show();
-             Toast.makeText(getContext(), message, Toast.LENGTH_LONG).show();
         }
 
         @Override
