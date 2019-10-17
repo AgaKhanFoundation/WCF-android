@@ -12,8 +12,8 @@ android {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         applicationId "org.akf.steps4impact"
-        versionCode 19
-        versionName "0.8.4"
+        versionCode 20
+        versionName "0.8.5"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -43,14 +43,17 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
             signingConfig signingConfigs.releaseConfig
-
+            loadProperties()
             //fitbit app in steps4impactapp@gmail.com fitbit acc
             manifestPlaceholders = [
-                    fitbit_client_id: "22B4MM",
-                    fitbit_client_secret: "c2daab8d7565ffc888cc269ad1a9dff9",
-                    fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
+                    fitbit_client_id: "$buildProps.release_fitbit_client_id",
+                    fitbit_client_secret: "$buildProps.release_fitbit_client_secret",
+                    fitbit_client_redirect_url: "$buildProps.release_fitbit_client_redirect_url",
+                    facebook_app_id: "$buildProps.release_facebook_app_id",
+                    prod_wcb_server_password: "$buildProps.prod_wcb_server_password",
+                    stage_wcb_server_password: "$buildProps.stage_wcb_server_password",
+                    dev_wcb_server_password: "$buildProps.dev_wcb_server_password"
             ]
-
         }
         debug {
             minifyEnabled false
@@ -58,15 +61,20 @@ android {
 //            versionNameSuffix = "-debug"
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable true
+
             signingConfig signingConfigs.debugConfig
+            loadProperties()
 
             //fitbit test app in keshwaniz@gmail.com fitbit acc
             manifestPlaceholders = [
-                    fitbit_client_id: "22CZ2W",
-                    fitbit_client_secret: "ffe6f7749d28e4ec79416771d0698749",
-                    fitbit_client_redirect_url: "https://fitbit_oauth2_complete"
+                    fitbit_client_id: "$buildProps.debug_fitbit_client_id",
+                    fitbit_client_secret: "$buildProps.debug_fitbit_client_secret",
+                    fitbit_client_redirect_url: "$buildProps.debug_fitbit_client_redirect_url",
+                    facebook_app_id: "$buildProps.debug_facebook_app_id",
+                    prod_wcb_server_password: "$buildProps.prod_wcb_server_password",
+                    stage_wcb_server_password: "$buildProps.stage_wcb_server_password",
+                    dev_wcb_server_password: "$buildProps.dev_wcb_server_password"
             ]
-
         }
     }
 
@@ -92,28 +100,34 @@ android {
         resolutionStrategy.force "com.android.support:support-annotations:${supportLibVersion}"
     }
 
-    def Properties prop = new Properties()
-    def propFile = new File('app/credentials.properties')
-
-    if (propFile.exists() && propFile.canRead()) {
-        println 'Attempting to load from credentials.properties'
-        prop.load(new FileInputStream(propFile))
-
-        if (prop != null && prop.containsKey('wcfStorePassword') && prop.containsKey('wcfKeyStorePassword')) {
-            android.signingConfigs.releaseConfig.storePassword = prop['wcfStorePassword']
-            android.signingConfigs.releaseConfig.keyPassword = prop['wcfKeyStorePassword']
-        } else {
-            println '\nYou don\'t have credentials.properties set up. You should have this file and define the variables wcfStorePassword and wcfKeyStorePassword to create Release builds\n\n'
-        }
-    } else {
-        println '\nYou don\'t have credentials.properties set up. You should have this file and define the variables wcfStorePassword and wcfKeyStorePassword to create Release builds\n\n'
-    }
-
     dexOptions {
         preDexLibraries = false
         javaMaxHeapSize "4g"
     }
     testOptions { unitTests.all { jvmArgs '-noverify' } }
+}
+
+
+
+def loadProperties() {
+    def filename = "app/credentials.properties"
+    def propFile = new File("$filename")
+    def buildProps = new Properties()
+
+    if (propFile.exists() && propFile.canRead()) {
+        println "Attempting to load from $filename"
+        buildProps.load(new FileInputStream(propFile))
+
+        project.ext.buildProps = buildProps
+        if (buildProps != null && buildProps.containsKey('release_wcfStorePassword') && buildProps.containsKey('release_wcfKeyStorePassword')) {
+            android.signingConfigs.releaseConfig.storePassword = buildProps['release_wcfStorePassword']
+            android.signingConfigs.releaseConfig.keyPassword = buildProps['release_wcfKeyStorePassword']
+        } else {
+            println "\nYou don't have $filename set up properly. You should have this file and define the variables release_wcfStorePassword and release_wcfKeyStorePassword to create Release builds\n\n"
+        }
+    } else {
+        println "\nYou don't have $filename set up. You should have this file and define the variables release_wcfStorePassword and release_wcfKeyStorePassword to create Release builds\n\n"
+    }
 }
 
 repositories {

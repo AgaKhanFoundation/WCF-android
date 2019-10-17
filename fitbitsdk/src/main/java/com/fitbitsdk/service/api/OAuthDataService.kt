@@ -28,6 +28,7 @@ open class OAuthDataService(private val storageDelegate: OAuthAccessTokenStorage
         val latch = CountDownLatch(1)
         refreshToken(token, object: RefreshTokenService.TokenListener {
             override fun onTokenReceived(token: OAuthAccessToken) {
+                token.updateExpiration()
                 this@OAuthDataService.token = token
                 latch.countDown()
             }

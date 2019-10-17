@@ -139,8 +139,12 @@ class HomeActivity : BaseActivity()
                     getParticipantData()
                 }
 
-                override fun onTrackerLoginNotValid() {
+                override fun onTrackerLoginVerifyError() {
                     showTrackerConnectionError(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                }
+
+                override fun trackerNeedsReLogin(trackerSourceId: Int) {
+                    showTrackerNeedsReLoginError(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
                 }
             })
         }
@@ -156,8 +160,12 @@ class HomeActivity : BaseActivity()
                     getParticipantData()
                 }
 
-                override fun onTrackerLoginNotValid() {
+                override fun onTrackerLoginVerifyError() {
                     showTrackerConnectionError(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+                }
+
+                override fun trackerNeedsReLogin(trackerSourceId: Int) {
+                    showTrackerNeedsReLoginError(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
                 }
             })
         }
@@ -165,8 +173,26 @@ class HomeActivity : BaseActivity()
             getParticipantData()
         }
     }
-
     fun showTrackerConnectionError(trackerId: Int) {
+        var title: String = ""
+        if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
+            title = getString(R.string.tracker_connection_title_template, "Fitbit")
+        } else if (trackerId == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
+            title = getString(R.string.tracker_connection_title_template, "Google Fit App")
+        }
+
+        val message = getString(R.string.tracker_connection_check_error)
+        AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                    getParticipantData()
+                })
+                .show()
+    }
+
+    fun showTrackerNeedsReLoginError(trackerId: Int) {
         var title: String = ""
         if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
             title = getString(R.string.tracker_connection_title_template, "Fitbit")
@@ -183,8 +209,6 @@ class HomeActivity : BaseActivity()
                     getParticipantData()
                 })
                 .show()
-        // TrackingHelper.clearTrackerSelection(context = this@HomeActivity)
-        // Toast.makeText(this@HomeActivity, message, Toast.LENGTH_LONG).show()
     }
 
     private fun getParticipantData() {

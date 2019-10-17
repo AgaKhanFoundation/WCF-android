@@ -36,6 +36,8 @@ import android.content.pm.Signature;
 import android.util.Base64;
 import android.util.Log;
 
+import androidx.preference.PreferenceManager;
+
 import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.helper.DistanceConverter;
@@ -44,8 +46,6 @@ import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
 import com.android.wcf.network.WCFClient;
 import com.android.wcf.splash.SplashActivity;
-
-import androidx.preference.PreferenceManager;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -114,10 +114,6 @@ public class WCFApplication extends Application {
                 md.update(signature.toByteArray());
                 final String fbHashKey = Base64.encodeToString(md.digest(), Base64.DEFAULT);
                 Log.d(TAG, "fbHashKey:" + fbHashKey);
-
-               // final String hashKey = new String(Base64.encode(md.digest(), Base64.DEFAULT));
-               // Log.d(TAG, "hashKey:" + hashKey);
-
                 return fbHashKey;
             }
         } catch (PackageManager.NameNotFoundException e) {
@@ -129,4 +125,5 @@ public class WCFApplication extends Application {
         }
         return "Unknown";
     }
+
 }

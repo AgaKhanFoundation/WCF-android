@@ -59,6 +59,7 @@
         android:id="@+id/app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/spacing_normal"
         android:textAppearance="@style/TextAppearance.WCF.Body2.Dim"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -76,6 +77,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        android:visibility="gone"
         tools:text="hashkey 1234567890" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

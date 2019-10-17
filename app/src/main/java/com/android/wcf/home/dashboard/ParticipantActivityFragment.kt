@@ -269,7 +269,7 @@ class ParticipantActivityFragment : BaseFragment() {
         var knownDate:Date? = null
 
         for (idx in 0..6) {
-            var dayIdx = -1
+            var dayIdx:Int
             var progress = 0.0
             var milesComplete = 0.0
             stepsInfo?.steps?.let {

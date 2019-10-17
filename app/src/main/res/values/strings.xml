@@ -2,11 +2,15 @@
     <string name="app_name">Steps4Impact</string>
     <string name="app_name_title">Steps 4 Impact</string>
 
-    <!-- 952254615120365 created under sultan.keshwani@gmail.com -->
-    <string name="fb_login_protocol_scheme">fb246679025737864</string>
-    <string name="facebook_app_id">246679025737864</string>
-
+    <!-- for reference only. Build script provides it. release fb app is shared between iOS and Adroid apps  -->
+    <!-- debug fb app created under sultan.keshwani@gmail.com -->
+    <string name="debug_facebook_app_id">952254615120365</string>
+    <string name="release_facebook_app_id">246679025737864</string>
     <string name="facebook_Steps4Impact_group_id">466564417434674</string>
+
+    <!-- for reference only. Build script provides it    -->
+    <string name="release_fitbit_client_id">22B4MM</string>
+    <string name="debug_fitbit_client_id">22CZ2W</string>
 
     <string name="nav_dashboard">Dashboard</string>
     <string name="nav_challenge">Challenge</string>
@@ -92,6 +96,8 @@
     <string name="settings_fitness_device_connect_message">Connect your Fitbit to sync your daily steps.</string>
 
     <string name="tracker_needs_reconnection">\n\nError while retrieving steps data.\n\nCheck network connection and try again. If error is not resolved, please go to the Settings, disconnect and reconnect your tracker</string>
+    <string name="tracker_connection_check_needs_reconnection">\n\nTracker not connected. Please go to the Settings, disconnect and reconnect your tracker and try again.</string>
+    <string name="tracker_connection_check_error">\n\nTracker connection error.\n\nCheck network connection and try again. If error is not resolved, please go to the Settings, disconnect and reconnect your tracker</string>
     <string name="fitbit_connection_error_message">\n\n\Fitbit connection error:\n\n%1$s</string>
     <string name="tracker_connection_title_template">%1$s Connection Error</string>
     <string name="connected_to_fitness_app_message">Connected to Google Fit account on Your device</string>

@@ -18,7 +18,7 @@ class Constants {
         const val PARTICIPANT_COMMITMENT_STEPS_DEFAULT = PARTICIPANT_COMMITMENT_MILES_DEFAULT * STEPS_IN_A_MILE
 
         const val LOGIN_CHECK_DELTA_HOURS = 8 //check device and facebook login frequently for token expiry
-        const val TRACKER_CHECK_DELTA_HOURS = 8 //check device and facebook login frequently for token expiry
+        const val TRACKER_CHECK_DELTA_HOURS = 4 //check frequently for token expiry. Fitbit access token expires in 8 hours
 
         const val SAVE_STEPS_TO_SERVER_DELTA_MIN = 30 //optimize
 
@@ -27,6 +27,10 @@ class Constants {
 
         @JvmStatic
         var challengeStartSoonMessage = true
+
+        @JvmStatic
+        var bypassAKFProfile = false  //To  bypass AKF profile creation flow
+
     }
 }
 
