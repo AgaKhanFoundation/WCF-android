@@ -9,7 +9,7 @@ interface TrackerStepsCallback {
 
     fun onTrackerStepsError(t: Throwable)
 
-    fun trackerNeedsRelogin(trackerSourceId: Int)
+    fun trackerNeedsReLogin(trackerSourceId: Int)
 }
 
 //interface FitbitActivityResponseCallback {
@@ -21,5 +21,7 @@ interface TrackerStepsCallback {
 interface TrackerLoginStatusCallback {
     fun onTrackerLoginValid(trackerId:Int)
 
-    fun onTrackerLoginNotValid()
+    fun onTrackerLoginVerifyError()
+
+    fun trackerNeedsReLogin(trackerSourceId: Int)
 }

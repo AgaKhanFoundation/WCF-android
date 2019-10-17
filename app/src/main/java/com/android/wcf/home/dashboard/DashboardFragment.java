@@ -116,7 +116,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         public void onTrackerStepsError(@NotNull Throwable error) {
             activityTrackedInfoView.setVisibility(View.GONE);
 
-            Toast.makeText(getContext(), getString(R.string.tracker_needs_reconnection), Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), getString(R.string.tracker_connection_check_error), Toast.LENGTH_LONG).show();
         }
 
         @Override

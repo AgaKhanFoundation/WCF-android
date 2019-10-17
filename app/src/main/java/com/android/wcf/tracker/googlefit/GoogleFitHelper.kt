@@ -14,8 +14,6 @@ import com.google.android.gms.fitness.Fitness
 import com.google.android.gms.fitness.FitnessOptions
 import com.google.android.gms.fitness.data.DataType
 import com.google.android.gms.fitness.request.DataReadRequest
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import java.lang.Exception
 import java.text.SimpleDateFormat
 import java.util.*
@@ -92,7 +90,7 @@ class GoogleFitHelper {
 
                             val errorCode = 1 // TODO: replace 1 with errorcode from Exception or add appropriate error check when token expired situation
                             if (1 == 401) {
-                                callback?.trackerNeedsRelogin(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
+                                callback?.trackerNeedsReLogin(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
                             }
 
                             val error = Throwable(exception.message)
@@ -127,7 +125,7 @@ class GoogleFitHelper {
                             Log.e(TAG, "GoogleFit steps error:", exception);
 
                             Log.d(TAG, "Error: " + exception.message)
-                            callback?.onTrackerLoginNotValid()
+                            callback?.onTrackerLoginVerifyError()
 
                         }
             }

@@ -96,6 +96,8 @@
     <string name="settings_fitness_device_connect_message">Connect your Fitbit to sync your daily steps.</string>
 
     <string name="tracker_needs_reconnection">\n\nError while retrieving steps data.\n\nCheck network connection and try again. If error is not resolved, please go to the Settings, disconnect and reconnect your tracker</string>
+    <string name="tracker_connection_check_needs_reconnection">\n\nTracker not connected. Please go to the Settings, disconnect and reconnect your tracker and try again.</string>
+    <string name="tracker_connection_check_error">\n\nTracker connection error.\n\nCheck network connection and try again. If error is not resolved, please go to the Settings, disconnect and reconnect your tracker</string>
     <string name="fitbit_connection_error_message">\n\n\Fitbit connection error:\n\n%1$s</string>
     <string name="tracker_connection_title_template">%1$s Connection Error</string>
     <string name="connected_to_fitness_app_message">Connected to Google Fit account on Your device</string>

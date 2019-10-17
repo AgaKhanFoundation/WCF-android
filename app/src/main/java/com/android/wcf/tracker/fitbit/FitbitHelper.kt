@@ -15,6 +15,7 @@ import com.fitbitsdk.service.models.UserProfile
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.net.HttpURLConnection
 import java.text.SimpleDateFormat
 import java.util.*
 import java.util.concurrent.TimeUnit
@@ -82,7 +83,7 @@ class FitbitHelper {
                             } else {
                                 Log.d(TAG, "fitbit steps error:" + response.code() + "- " + response.message())
                                 if (response.code() == 401) {
-                                    callback?.trackerNeedsRelogin(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                                    callback?.trackerNeedsReLogin(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
                                 }
                                 if (callback != null) {
                                     val error = Throwable(response.message())
@@ -107,22 +108,36 @@ class FitbitHelper {
             val fService = FitbitService(sharedPreferences, AuthenticationManager.getAuthenticationConfiguration().clientCredentials)
             fService.getUserService().profile().enqueue(object : Callback<UserProfile> {
                 override fun onResponse(call: Call<UserProfile>?, response: Response<UserProfile>?) {
-                    Log.d(TAG, "Response: " + response?.body()?.user?.displayName)
+                    Log.d(TAG, "validateLogin Response: " + response?.body()?.user?.displayName ?: response?.errorBody().toString())
 
                     response?.let {
-                        if (it.body() == null || it.errorBody() != null) {
-                            TrackingHelper.trackerConnectionIsValid()
-                            callback?.onTrackerLoginNotValid()
-                        }
-                        else {
+                        if (response.isSuccessful()) {
                             callback?.onTrackerLoginValid(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                            return
                         }
-                    } ?: callback?.onTrackerLoginNotValid()
+
+                        if (it.code() == HttpURLConnection.HTTP_UNAUTHORIZED) {
+                            callback?.trackerNeedsReLogin(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
+                            return
+                        }
+
+                        if (it.body() == null || it.errorBody() != null) {
+                            val errorString:String? = it.errorBody()?.string()
+
+                            errorString?.let {
+                                Log.e(TAG, "validateLogin error: $errorString")
+                            }
+                            callback?.onTrackerLoginVerifyError()
+                        }
+
+                    } ?: callback?.onTrackerLoginVerifyError()
                 }
 
                 override fun onFailure(call: Call<UserProfile>?, t: Throwable?) {
-                    Log.d(TAG, "Error: " + t?.message)
-                    callback?.onTrackerLoginNotValid()
+                    Log.d(TAG, "validateLogin Error: " + t?.message)
+
+                   //TODO: specfic auth failed check vs networtk error etc ?
+                    callback?.onTrackerLoginVerifyError()
 
                 }
             })
