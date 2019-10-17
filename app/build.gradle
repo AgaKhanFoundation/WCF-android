@@ -12,8 +12,8 @@ android {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         applicationId "org.akf.steps4impact"
-        versionCode 19
-        versionName "0.8.4"
+        versionCode 20
+        versionName "0.8.5"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -41,7 +41,7 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            debuggable true
+            debuggable false
             signingConfig signingConfigs.releaseConfig
             loadProperties()
             //fitbit app in steps4impactapp@gmail.com fitbit acc
