@@ -1,5 +1,6 @@
 package com.fitbitsdk.service.api.okhttp.interceptor
 
+import android.util.Log
 import com.fitbitsdk.service.api.OAuthDataService
 import com.fitbitsdk.service.api.RefreshTokenService
 import com.fitbitsdk.service.api.endpoint.AuthEndpoint
@@ -8,6 +9,8 @@ import okhttp3.*
 import java.net.HttpURLConnection.HTTP_UNAUTHORIZED
 
 class AuthenticationInterceptor(val oAuthDataService: OAuthDataService) : Interceptor {
+     val TAG = AuthenticationInterceptor::class.java.simpleName
+
     override fun intercept(chain: Interceptor.Chain): Response {
         //Auth calls should be pre-authed with a `Basic` token
         if(chain.request().url().toString().equals(oAuthDataService.getTokenServiceUrl(), true)) {
@@ -20,26 +23,31 @@ class AuthenticationInterceptor(val oAuthDataService: OAuthDataService) : Interc
         val tokenNeedsRefreshed:Boolean = token.needsRefresh()
 
         if(!tokenNeedsRefreshed) {
+            Log.d(TAG, "intercept - token refresh not needed")
             return proceedInChain(chain, token)
-        } else {
-            //All active Threads will pause here
-            return synchronized(oAuthDataService) {
-                val accessToken = oAuthDataService.token
-                when {
-                    accessToken?.needsRefresh() == false -> return proceedInChain(chain, accessToken)
-                    accessToken != null ->
-                        return try {
-                            proceedInChain(chain, oAuthDataService.refreshTokenWithLatch(accessToken))
-                        } catch (error: RefreshTokenService.HttpError) {
-                            Response.Builder()
-                                    .code(error.code)
-                                    .protocol(Protocol.HTTP_1_1)
-                                    .body(ResponseBody.create(MediaType.parse(error.contentType), error.errorBody))
-                                    .message(error.errorBody)
-                                    .request(chain.request())
-                                    .build()
-                        }
-                    else -> return noTokenResponse(chain.request())
+        }
+        //All active Threads will pause here
+        return synchronized(oAuthDataService) {
+            val accessToken = oAuthDataService.token
+            when {
+                accessToken != null -> {
+                    Log.d(TAG, "intercept - token refresh needed")
+
+                    return try {
+                        proceedInChain(chain, oAuthDataService.refreshTokenWithLatch(accessToken))
+                    } catch (error: RefreshTokenService.HttpError) {
+                        Response.Builder()
+                                .code(error.code)
+                                .protocol(Protocol.HTTP_1_1)
+                                .body(ResponseBody.create(MediaType.parse(error.contentType), error.errorBody))
+                                .message(error.errorBody)
+                                .request(chain.request())
+                                .build()
+                    }
+                }
+                else ->{
+                    Log.d(TAG, "intercept - no token present")
+                    return noTokenResponse(chain.request())
                 }
             }
         }

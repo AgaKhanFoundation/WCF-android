@@ -2,6 +2,8 @@ package com.fitbitsdk.service.models.auth
 
 import android.os.Parcel
 import android.os.Parcelable
+import android.text.format.DateFormat
+import android.util.Log
 import com.fitbitsdk.authentication.Scope
 import kotlinx.android.parcel.Parceler
 import kotlinx.android.parcel.Parcelize
@@ -14,16 +16,18 @@ class OAuthAccessToken(
         var refresh_token: String?,
         var scopes: List<Scope>?,
         var token_type: String?,
-        var user_id: String?) : Parcelable{
+        var user_id: String?) : Parcelable {
 
     var expiration: Calendar
 
     private companion object : Parceler<OAuthAccessToken> {
+        val TAG = OAuthAccessToken::class.java.simpleName
+
         override fun OAuthAccessToken.write(parcel: Parcel, flags: Int) {
             parcel.writeString(access_token)
             parcel.writeInt(expires_in ?: 0)
             parcel.writeString(refresh_token)
-            parcel.writeString(scopes?.joinToString(","){ it.name } ?: "")
+            parcel.writeString(scopes?.joinToString(",") { it.name } ?: "")
             parcel.writeString(token_type)
             parcel.writeString(user_id)
             parcel.writeLong(expiration.timeInMillis)
@@ -34,6 +38,9 @@ class OAuthAccessToken(
             val expirationDate = Calendar.getInstance()
             expirationDate.timeInMillis = parcel.readLong()
             token.expiration = expirationDate
+
+            Log.d(TAG, "create/parcel - Token next expires at:" + getExpirationDateFormatted(token))
+
             return token
         }
 
@@ -50,7 +57,23 @@ class OAuthAccessToken(
             return scopesList
         }
 
+        fun getExpirationDateFormatted(token:OAuthAccessToken?): String {
+            token?.let {
+                val dateString = DateFormat.format("dd-MM-yyyy hh:mm:ss", it.expiration)
+                return it.expiration?.timeInMillis?.toString() + " : " + dateString
+            }
+            return "No token"
+        }
 
+    }
+
+    fun updateExpiration() {
+        this.expiration = expires_in?.let {
+            Calendar.getInstance().apply {
+                this.add(Calendar.SECOND, it)
+            }
+        } ?: Calendar.getInstance()
+        Log.d(TAG, "updateExpiration - token next expires at: "  + getExpirationDateFormatted(this))
     }
 
     init {
@@ -59,6 +82,9 @@ class OAuthAccessToken(
                 this.add(Calendar.SECOND, it)
             }
         } ?: Calendar.getInstance()
+
+        Log.d(TAG, "Init - Token next expires at: "  + getExpirationDateFormatted(this))
+
     }
 
     fun needsRefresh(): Boolean {
@@ -66,9 +92,14 @@ class OAuthAccessToken(
         val windowPeriod = Calendar.getInstance().apply {
             add(Calendar.MINUTE, 5)
         }
-        if (expiration != null) {
-            return expiration.before(windowPeriod)
+
+        var refresh = false
+        expiration?.let {
+            refresh = it.before(windowPeriod)
         }
-        return false
+        Log.d(TAG, "needsRefresh() $refresh - Token currently expires at: "  + getExpirationDateFormatted(this))
+
+        return refresh
     }
+
 }
