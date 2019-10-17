@@ -21,7 +21,7 @@ class WCFAuth {
         @JvmStatic
         fun basicHeader(env: Steps4ChangeEnv): Pair<String, String> {
             var pwd =  ManifestHelper.getServerPassword(env)
-            val basicToken = Base64.encode(":$pwd".toByteArray(), Base64.NO_WRAP)
+            val basicToken = Base64.encode(":${pwd.reversed()}".toByteArray(), Base64.NO_WRAP)
             return AUTH_HEADER_KEY to "basic ${String(basicToken)}"
         }
     }
