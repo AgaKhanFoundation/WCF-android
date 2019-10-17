@@ -114,10 +114,6 @@ public class WCFApplication extends Application {
                 md.update(signature.toByteArray());
                 final String fbHashKey = Base64.encodeToString(md.digest(), Base64.DEFAULT);
                 Log.d(TAG, "fbHashKey:" + fbHashKey);
-
-               // final String hashKey = new String(Base64.encode(md.digest(), Base64.DEFAULT));
-               // Log.d(TAG, "hashKey:" + hashKey);
-
                 return fbHashKey;
             }
         } catch (PackageManager.NameNotFoundException e) {
