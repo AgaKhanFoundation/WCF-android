@@ -5,7 +5,6 @@ import android.util.Log;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.facebook.FacebookHelper;
-import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;

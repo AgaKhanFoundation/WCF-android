@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.StringRes;
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
 
@@ -35,14 +36,23 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
+
+
+
+ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
 
     private BaseMvp.BaseView baseView;
 
     public BaseFragment() {
     }
 
-    //TODO: implement the proper dialogFragment for showing error messages
+    @Override
+     public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
+         showError(getString(error_title_res_id), getString(R.string.no_network_message), null);
+     }
+
+
+     //TODO: implement the proper dialogFragment for showing error messages
 
     @Override
     public void showError(int messageId) {
@@ -66,7 +76,7 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
-    public void showError(String title, String message) {
+    public void showError(String title, String message, final ErrorDialogCallback errorDialogCallback) {
 
         final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
         LayoutInflater inflater = this.getLayoutInflater();
@@ -80,6 +90,9 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
             @Override
             public void onClick(View view) {
                 dialogBuilder.dismiss();
+                if (errorDialogCallback != null) {
+                    errorDialogCallback.onOk();
+                }
             }
         });
 
@@ -88,17 +101,17 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     }
 
     @Override
-    public void showError(String title, int messageId) {
+    public void showError(String title, int messageId, final ErrorDialogCallback errorDialogCallback) {
         Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showError(int titleId, String message) {
+    public void showError(int titleId, String message, final ErrorDialogCallback errorDialogCallback) {
         showMessage(message);
     }
 
     @Override
-    public void showError(int titleId, int messageId) {
+    public void showError(int titleId, int messageId, ErrorDialogCallback errorDialogCallback) {
         Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
@@ -231,6 +244,11 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
         if (!closed) {
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
+    }
+
+    @Override
+    public boolean isNetworkConnected() {
+        return baseView.isNetworkConnected();
     }
 
     public void inviteTeamMembers() {

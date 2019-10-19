@@ -1,8 +1,6 @@
 package com.android.wcf.home.challenge;
 
-import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
-import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
@@ -11,6 +9,7 @@ import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -158,10 +157,14 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamError(Throwable error) {
         super.onGetTeamError(error);
-        if (error instanceof NoSuchElementException) {
-            challengeView.onGetTeamError(error);
-            teamRetrieved = true;
-            updateChallengeView();
+        if (error instanceof IOException) {
+            challengeView.showNetworkErrorMessage();
+        } else {
+            if (error instanceof NoSuchElementException) {
+                challengeView.onGetTeamError(error);
+                teamRetrieved = true;
+                updateChallengeView();
+            }
         }
     }
 
@@ -209,8 +212,12 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamParticipantsInfoError(Throwable error) {
         super.onGetTeamParticipantsInfoError(error);
-        teamRetrieved = true;
-        updateChallengeView();
+        if (error instanceof IOException) {
+            challengeView.showNetworkErrorMessage();
+        } else {
+            teamRetrieved = true;
+            updateChallengeView();
+        }
     }
 
     @Override
@@ -228,11 +235,8 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamListError(Throwable error) {
         super.onGetTeamListError(error);
+        challengeView.onGetTeamListError(error);
 
-        challengeView.enableShowCreateTeam(true);
-        challengeView.enableJoinExistingTeam(false);
-
-        challengeView.showError(R.string.teams_manager_error, error.getMessage());
     }
 
     @Override
@@ -244,7 +248,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetTeamStatsError(Throwable error) {
         super.onGetTeamStatsError(error);
-        challengeView.showError(R.string.teams_manager_error, error.getMessage());
+        challengeView.onGetTeamStatsError(error);
     }
 
     @Override
@@ -256,7 +260,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onDeleteTeamError(Throwable error) {
         super.onDeleteTeamError(error);
-        challengeView.showError(R.string.teams_manager_error, error.getMessage());
+        challengeView.onDeleteTeamError(error);
     }
 
     @Override
@@ -280,7 +284,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetParticipantError(Throwable error) {
         super.onGetParticipantError(error);
-        challengeView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.onGetParticipantError(error);
     }
 
     @Override
@@ -292,7 +296,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onGetParticipantStatsError(Throwable error) {
         super.onGetParticipantStatsError(error);
-        challengeView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.onGetParticipantStatsError(error);
     }
 
     @Override
@@ -303,7 +307,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     protected void onDeleteParticipantError(Throwable error) {
         super.onDeleteParticipantError(error);
-        challengeView.showError(R.string.participants_manager_error, error.getMessage());
+        challengeView.onDeleteParticipantError(error);
     }
 
     @Override

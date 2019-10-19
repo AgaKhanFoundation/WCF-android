@@ -2,7 +2,6 @@ package com.android.wcf.home.dashboard;
 
 import android.util.Log;
 
-import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -42,7 +41,8 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
 
     protected void onGetParticipantError(Throwable error) {
         super.onGetParticipantError(error);
-        dashboardView.showError(R.string.participants_manager_error, error.getMessage());
+        dashboardView.onGetParticipantError(error);
+
     }
 
     protected void onGetParticipantSuccess(Participant participant) {
@@ -58,7 +58,8 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
     @Override
     protected void onGetParticipantStatsError(Throwable error) {
         super.onGetParticipantStatsError(error);
-        dashboardView.showError(R.string.participants_manager_error, error.getMessage());
+        dashboardView.onGetParticipantStatsError(error);
+
     }
 
     @Override

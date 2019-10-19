@@ -118,8 +118,11 @@
     <string name="events_list_not_setup_error">Server data has not been setup yet. Please try again later</string>
     <string name="events_not_selected_error">Event not selected. Please try again later</string>
 
-    <string name="teams_manager_error">Teams Manager Error</string>
-    <string name="participants_manager_error">Participants Manager Error</string>
+
+    <string name="leaderboard_data_error">Leaderboard Error</string>
+    <string name="events_data_error">Challenge Error</string>
+    <string name="teams_data_error">Teams Error</string>
+    <string name="participants_data_error">Participants Error</string>
     <string name="participant_team_join_error">Unable to assign to team</string>
     <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
@@ -154,6 +157,7 @@
     <string name="invite_supporters_to_pledge_label">Invite Supporters to Pledge</string>
     <string name="supporters_invite_title">Invite Supporters</string>
 
+    <string name="leave_team_label">Leave Team Error</string>
     <string name="leave_team_title">Leave Team?</string>
     <string name="leave_team_message">This will remove all your data linked to the team. You will not be able to participate in the challenge.</string>
     <string name="cancel_leave_team_button_text">Cancel</string>
@@ -240,6 +244,8 @@
     <string name="team_edit_done_title">Done</string>
     <string name="message_journey_starting_soon">Challenge starting soon; check Facebook group for up-to-date information</string>
     <string name="message_journey_started">Your Journey Started...</string>
+    <string name="no_network">Network Connection Error</string>
+    <string name="no_network_message">Internet connection is required. Please check connection and try again.</string>
 
 
 </resources>

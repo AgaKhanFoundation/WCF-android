@@ -15,6 +15,8 @@ public interface LeaderboardMvp {
         void noMedalWinners();
 
         void showLeaderboardIsEmpty();
+
+        void onGetLeaderboardError(Throwable error);
     }
 
     interface Presenter extends BaseMvp.Presenter {

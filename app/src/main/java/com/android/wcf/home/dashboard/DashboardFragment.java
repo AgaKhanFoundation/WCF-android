@@ -38,6 +38,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -289,6 +290,26 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
         }
 
         //TODO: add "Show badges"
+    }
+
+    @Override
+    public void onGetParticipantError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.nav_dashboard);
+        }
+        else {
+            showError(R.string.participants_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onGetParticipantStatsError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.nav_dashboard);
+        }
+        else {
+            showError(R.string.participants_data_error, error.getMessage(), null);
+        }
     }
 
     void showDashboardActivityInfo() {

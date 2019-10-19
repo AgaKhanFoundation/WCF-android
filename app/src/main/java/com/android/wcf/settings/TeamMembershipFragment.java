@@ -374,6 +374,6 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
 
     @Override
     public void onTeamDeleteError(Throwable error) {
-        showError("Team Delete Error", error.getMessage());
+        showError("Team Delete Error", error.getMessage(), null);
     }
 }

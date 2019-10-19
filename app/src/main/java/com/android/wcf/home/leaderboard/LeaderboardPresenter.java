@@ -1,6 +1,5 @@
 package com.android.wcf.home.leaderboard;
 
-import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
@@ -8,7 +7,6 @@ import com.android.wcf.model.Event;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 
 public class LeaderboardPresenter extends BasePresenter implements LeaderboardMvp.Presenter {
     private static final String TAG = LeaderboardPresenter.class.getSimpleName();
@@ -90,7 +88,8 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
     @Override
     protected void onGetLeaderboardError(Throwable error) {
         super.onGetLeaderboardError(error);
-        leaderboardView.showError(R.string.teams_manager_error, error.getMessage());
+        leaderboardView.onGetLeaderboardError(error);
+
     }
 
     @Override

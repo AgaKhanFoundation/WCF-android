@@ -1,5 +1,8 @@
 package com.android.wcf.home.challenge;
 
+import androidx.annotation.IdRes;
+import androidx.annotation.StringRes;
+
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
@@ -50,6 +53,21 @@ public interface ChallengeMvp {
 
         void onUpdateParticipantCommitmentToEvent(String participantId, int eventId, int commitmentSteps);
 
+        void showNetworkErrorMessage(@StringRes int participants_manager_error);
+
+        void showNetworkErrorMessage();
+
+        void onGetParticipantError(Throwable error);
+
+        void onGetParticipantStatsError(Throwable error);
+
+        void onDeleteParticipantError(Throwable error);
+
+        void onGetTeamListError(Throwable error);
+
+        void onGetTeamStatsError(Throwable error);
+
+        void onDeleteTeamError(Throwable error);
     }
 
     interface Presenter extends BaseMvp.Presenter {

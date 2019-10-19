@@ -16,10 +16,12 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 
 import com.android.wcf.R;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.base.ErrorDialogCallback;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Commitment;
@@ -31,6 +33,7 @@ import com.android.wcf.settings.EditTextDialogListener;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -61,6 +64,17 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     private Button showCreateTeamButton = null;
     private Button showJoinTeamButton = null;
     private View challengeFundraisingProgressCard = null;
+
+    private ErrorDialogCallback errorDialogCallback = new ErrorDialogCallback() {
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onOk() {
+            retrieveViewData();
+        }
+    };
 
     //non-ui properties
     private ChallengeMvp.Presenter challengePresenter;
@@ -141,13 +155,18 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             return;
         }
 
+        retrieveViewData();
+
+    }
+
+    private void retrieveViewData() {
+
         teamId = SharedPreferencesUtil.getMyTeamId();
         activeEventId = SharedPreferencesUtil.getMyActiveEventId();
 
         challengePresenter.getEvent(activeEventId);
         challengePresenter.getTeam(teamId);
         challengePresenter.getParticipant(participantId);
-
     }
 
     @Override
@@ -190,15 +209,90 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     @Override
     public void onGetEventError(Throwable error) {
-        SharedPreferencesUtil.cleartMyActiveEventId();
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.data_error);
+        }
+        else {
+            SharedPreferencesUtil.cleartMyActiveEventId();
+        }
+    }
+
+    @Override
+    public void showNetworkErrorMessage() {
+        showNetworkErrorMessage(R.string.data_error);
+    }
+
+    @Override
+    public void onGetParticipantError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage();
+        }
+        else {
+            showError(R.string.participants_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onGetParticipantStatsError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.data_error);
+        }
+        else {
+            showError(R.string.participants_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onDeleteParticipantError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.data_error);
+        } else {
+            showError(R.string.participants_data_error, error.getMessage(), null);
+        }
     }
 
     @Override
     public void onGetTeamError(Throwable error) {
-        showError(R.string.teams_manager_error, error.getMessage());
+        showError(R.string.teams_data_error, error.getMessage(), null);
         cacheParticipantTeam(null);
         SharedPreferencesUtil.clearMyTeamId();
         teamId = SharedPreferencesUtil.getMyTeamId();
+    }
+
+    @Override
+    public void onGetTeamListError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage();
+        } else {
+            enableShowCreateTeam(true);
+            enableJoinExistingTeam(false);
+            showError(R.string.teams_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onGetTeamStatsError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage();
+        } else {
+            showError(R.string.teams_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onDeleteTeamError(Throwable error) {
+
+        if (error instanceof IOException) {
+            showNetworkErrorMessage();
+        } else {
+            showError(R.string.teams_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
+        challengePresenter.onStop();
+        showError(getString(error_title_res_id), getString(R.string.no_network_message), errorDialogCallback);
     }
 
     @Override

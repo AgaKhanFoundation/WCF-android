@@ -21,16 +21,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
-import com.android.wcf.helper.DistanceConverter;
-import com.android.wcf.model.Commitment;
-import com.android.wcf.tracker.TrackingHelper;
-import com.android.wcf.tracker.fitbit.FitbitHelper;
-import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
+import com.android.wcf.network.NetworkUtils;
 import com.android.wcf.settings.FitnessTrackerConnectionFragment;
 import com.android.wcf.settings.FitnessTrackerConnectionMvp;
+import com.android.wcf.tracker.TrackingHelper;
+import com.android.wcf.tracker.fitbit.FitbitHelper;
 import com.fitbitsdk.authentication.AuthenticationConfiguration;
 import com.fitbitsdk.authentication.AuthenticationHandler;
 import com.fitbitsdk.authentication.AuthenticationManager;
@@ -139,6 +137,16 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
+    public boolean isNetworkConnected() {
+        return NetworkUtils.isNetworkConnected(this);
+    }
+
+    @Override
+    public void showNetworkErrorMessage(int error_title_res_id) {
+
+    }
+
+    @Override
     public void popBackStack(String tag) {
         FragmentManager fm = getSupportFragmentManager();
         // Pop off everything up to and including the current tab
@@ -234,22 +242,22 @@ abstract public class BaseActivity extends AppCompatActivity
     }
 
     @Override
-    public void showError(String title, String message) {
+    public void showError(String title, String message, final ErrorDialogCallback errorDialogCallback) {
         showMessage(message);
     }
 
     @Override
-    public void showError(String title, int messageId) {
+    public void showError(String title, int messageId, final ErrorDialogCallback errorDialogCallback) {
         Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void showError(int titleId, String message) {
+    public void showError(int titleId, String message, final ErrorDialogCallback errorDialogCallback) {
         showMessage(message);
     }
 
     @Override
-    public void showError(int titleId, int messageId) {
+    public void showError(int titleId, int messageId, final ErrorDialogCallback errorDialogCallback) {
         Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
