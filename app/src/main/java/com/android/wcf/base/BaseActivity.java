@@ -9,11 +9,15 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -141,9 +145,10 @@ abstract public class BaseActivity extends AppCompatActivity
         return NetworkUtils.isNetworkConnected(this);
     }
 
-    @Override
-    public void showNetworkErrorMessage(int error_title_res_id) {
 
+    @Override
+    public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
+        showError(getString(error_title_res_id), getString(R.string.no_network_message), null);
     }
 
     @Override
@@ -243,7 +248,26 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Override
     public void showError(String title, String message, final ErrorDialogCallback errorDialogCallback) {
-        showMessage(message);
+        final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.view_error_dialog, null);
+        ((TextView) dialogView.findViewById(R.id.error_title)).setText(title);
+        ((TextView) dialogView.findViewById(R.id.error_message)).setText(message);
+
+        Button okBtn = dialogView.findViewById(R.id.ok_button);
+
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialogBuilder.dismiss();
+                if (errorDialogCallback != null) {
+                    errorDialogCallback.onOk();
+                }
+            }
+        });
+
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.show();
     }
 
     @Override

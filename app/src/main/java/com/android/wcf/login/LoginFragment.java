@@ -34,6 +34,8 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.net.ConnectException;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -180,7 +182,12 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
             @Override
             public void onError(FacebookException error) {
                 Log.e(TAG, "Facebook Login error: " + error.getMessage());
-                loginPesenter.onLoginError(error.getMessage());
+                if (error.getMessage().contains("CONNECTION_FAILURE")) {
+                    showNetworkErrorMessage(R.string.login_title);
+                }
+                else {
+                    loginPesenter.onLoginError(error.getMessage());
+                }
             }
         });
     }
