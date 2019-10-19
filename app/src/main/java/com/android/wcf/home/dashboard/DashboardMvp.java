@@ -9,6 +9,10 @@ public interface DashboardMvp {
 
     interface DashboardView extends BaseMvp.BaseView {
         void stepsRecorded(String lastSavedDate);
+
+        void onGetParticipantError(Throwable error);
+
+        void onGetParticipantStatsError(Throwable error);
     }
 
     interface Presenter extends BaseMvp.Presenter {

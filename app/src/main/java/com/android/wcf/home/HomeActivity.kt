@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.android.wcf.R
 import com.android.wcf.base.BaseActivity
+import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.helper.SharedPreferencesUtil
 import com.android.wcf.home.challenge.*
 import com.android.wcf.home.dashboard.DashboardFragment
@@ -53,6 +54,14 @@ class HomeActivity : BaseActivity()
     private var leaderboardFragment: LeaderboardFragment? = null
     private var notificationsFragment: NotificationsFragment? = null
     private var toolbar: Toolbar? = null
+
+    private val errorDialogCallback = object : ErrorDialogCallback {
+        override fun onCancel() {}
+
+        override fun onOk() {
+            checkConnections()
+        }
+    }
 
     private var myActiveEventId: Int = 0
     private var myTeamId: Int = 0
@@ -111,6 +120,15 @@ class HomeActivity : BaseActivity()
     override fun onStart() {
         super.onStart()
 
+        checkConnections()
+    }
+
+    private fun checkConnections() {
+        if (!isNetworkConnected) {
+            showNoNetworkMessage()
+            return;
+        }
+
         if (myActiveEventId < 1) {
             noActiveEventFound()
             return;
@@ -130,6 +148,10 @@ class HomeActivity : BaseActivity()
         } else {
             getParticipantData()
         }
+    }
+
+    override fun showNoNetworkMessage() {
+        showError(getString(R.string.no_network), getString(R.string.no_network_message), errorDialogCallback)
     }
 
     private fun checkFitbitConnection() {

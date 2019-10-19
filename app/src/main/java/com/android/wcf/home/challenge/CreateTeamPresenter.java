@@ -1,6 +1,5 @@
 package com.android.wcf.home.challenge;
 
-import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Team;
 
@@ -41,7 +40,8 @@ public class CreateTeamPresenter extends BasePresenter implements CreateTeamMvp.
     @Override
     protected void onCreateTeamError(Throwable error) {
         super.onCreateTeamError(error);
-        view.showError(R.string.teams_manager_error, error.getMessage());
+        view.onCreateTeamError(error);
+
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CreateTeamPresenter extends BasePresenter implements CreateTeamMvp.
     @Override
     protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
         super.onAssignParticipantToTeamError(error, participantId, teamId);
-        view.showError(R.string.team_created_but_participant_team_join_error);
+        view.onAssignParicipantToTeamError(error, participantId, teamId);
     }
 
     @Override

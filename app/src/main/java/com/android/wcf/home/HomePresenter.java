@@ -6,6 +6,8 @@ import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 
+import java.io.IOException;
+
 public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresenter {
     private static final String TAG = HomePresenter.class.getSimpleName();
 
@@ -34,12 +36,13 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     @Override
     protected void onGetParticipantError(Throwable error) {
         super.onGetParticipantError(error);
-        //TODO: Rx/Retrofit global error handling
-//        if ("Not Found".equalsIgnoreCase(error.getMessage())){
-//            homeView.onGetParticipantNotFound();
-//        }
-        homeView.onGetParticipantNotFound();
 
+        if (error instanceof IOException) {
+            homeView.showNoNetworkMessage();
+        }
+        else {
+            homeView.onGetParticipantNotFound();
+        }
     }
 
     @Override

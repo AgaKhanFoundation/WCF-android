@@ -10,6 +10,7 @@ import com.android.wcf.model.Participant;
 public interface HomeMvp {
 
     interface HomeView extends BaseMvp.BaseView {
+        void showNoNetworkMessage();
         void noActiveEventFound();
 
         void showErrorAndCloseApp(@StringRes int messageRes);

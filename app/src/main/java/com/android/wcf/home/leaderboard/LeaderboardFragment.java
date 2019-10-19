@@ -17,18 +17,21 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.base.ErrorDialogCallback;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
@@ -159,6 +162,30 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public void onOptionsMenuClosed(Menu menu) {
         super.onOptionsMenuClosed(menu);
+    }
+
+    @Override
+    public void onGetLeaderboardError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.leaderboard_data_error);
+        } else {
+            showError(R.string.leaderboard_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
+        showError(getString(error_title_res_id), getString(R.string.no_network_message), new ErrorDialogCallback() {
+            @Override
+            public void onCancel() {
+
+            }
+
+            @Override
+            public void onOk() {
+                leaderboardPresenter.refreshLeaderboard(event);
+            }
+        });
     }
 
     @Override

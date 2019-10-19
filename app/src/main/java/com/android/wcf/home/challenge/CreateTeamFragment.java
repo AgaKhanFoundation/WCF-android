@@ -27,6 +27,8 @@ import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
+
 public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.View {
 
     private static final String TAG = CreateTeamFragment.class.getSimpleName();
@@ -164,10 +166,25 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     }
 
     @Override
+    public void onAssignParicipantToTeamError(@NotNull Throwable error, @NotNull String participantId, int teamId) {
+        showError(R.string.team_created_but_participant_team_join_error);
+    }
+
+    @Override
+    public void onCreateTeamError(@NotNull Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.events_data_error);
+        }
+        else {
+            showError(R.string.teams_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
     public void showCreateTeamConstraintError() {
         if (teamNameInputLayout != null) {
             teamNameInputLayout.setError(getString(R.string.duplicate_team_name_error));
-            showError(getString(R.string.create_team_title), getString(R.string.duplicate_team_name_error));
+            showError(getString(R.string.create_team_title), getString(R.string.duplicate_team_name_error), null);
         }
     }
 

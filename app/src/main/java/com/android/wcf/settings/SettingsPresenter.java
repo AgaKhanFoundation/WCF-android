@@ -2,8 +2,10 @@ package com.android.wcf.settings;
 
 import android.util.Log;
 
+import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -51,6 +53,7 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
     @Override
     protected void onParticipantLeaveFromTeamError(Throwable error, String participantId) {
         super.onParticipantLeaveFromTeamError(error, participantId);
+        settingsView.onParticipantLeaveFromTeamError(error, participantId);
     }
 
     @Override
@@ -97,7 +100,7 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
     @Override
     protected void onDeleteTeamError(Throwable error) {
         super.onDeleteTeamError(error);
-        settingsView.signout(true);
+        settingsView.signout(true); //TODO view should handle error, not signout
     }
 
     @Override

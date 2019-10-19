@@ -96,6 +96,9 @@ public class WCFApplication extends Application {
 
     }
 
+    public static boolean isProdBackend() {
+        return WCFClient.isProdBackend();
+    }
 
     public String getAppVersion() {
       return ( "v" + BuildConfig.VERSION_NAME

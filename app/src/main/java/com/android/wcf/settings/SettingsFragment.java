@@ -32,6 +32,7 @@ import com.bumptech.glide.request.RequestOptions;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Date;
@@ -299,7 +300,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     @Override
     public void cannotDeleteLeadAccountWithMembers() {
-        showError(getString(R.string.delete_team_title), getString(R.string.team_lead_remove_members_first));
+        showError(getString(R.string.delete_team_title), getString(R.string.team_lead_remove_members_first), null);
     }
 
     @Override
@@ -341,7 +342,32 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
 
     @Override
     public void onParticipantDeleteError(Throwable error) {
-        showError(getString(R.string.delete_account_label), error.getMessage());
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.settings_title);
+        }
+        else {
+            showError(getString(R.string.delete_account_label), error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onParticipantLeaveFromTeamError(Throwable error, String participantId) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.settings_title);
+        }
+        else {
+            showError(getString(R.string.leave_team_label), error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onTeamDeleteError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.settings_title);
+        }
+        else {
+            showError(getString(R.string.delete_team), error.getMessage(), null);
+        }
     }
 
     void updateInfoDisplay() {
@@ -450,6 +476,10 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         teamVisibiltySwitch.setOnCheckedChangeListener(null);
         teamVisibiltySwitch.setChecked(!teamVisibiltySwitch.isChecked());
         teamVisibiltySwitch.setOnCheckedChangeListener(onCheckedChangeListener);
+
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.settings_title);
+        }
     }
 
     void setupLeaveTeamClickListeners() {

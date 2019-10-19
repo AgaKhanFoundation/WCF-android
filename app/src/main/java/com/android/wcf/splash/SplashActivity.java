@@ -29,7 +29,9 @@ package com.android.wcf.splash;
  **/
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -42,6 +44,7 @@ import androidx.core.app.ActivityCompat;
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseActivity;
+import com.android.wcf.base.ErrorDialogCallback;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
@@ -61,8 +64,18 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
     private static boolean DEBUG = com.android.wcf.utils.Build.DEBUG;
     private ApplicationPermission mApplicationPermission;
     private List<String> mPermissionList;
-    private Context mContext;
     private SplashPresenter presenter;
+
+    private ErrorDialogCallback errorDialogCallback = new ErrorDialogCallback() {
+        @Override
+        public void onCancel() {
+        }
+
+        @Override
+        public void onOk() {
+            setSplashDelay();
+        }
+    };
 
     public static Intent createIntent(Context context)  {
         Intent intent = new Intent(context, SplashActivity.class);
@@ -74,9 +87,14 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
-        mContext = this;
         presenter = new SplashPresenter(this);
         addPermission();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
         if (mApplicationPermission.checkAllPermission()) {
             setSplashDelay();
         } else {
@@ -148,13 +166,23 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
         }, SPLASH_TIMER);
     }
 
+
     private void setSplashDelay() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
+
+                if (!isNetworkConnected()) {
+                    showNoNetworkMessage();
+                    return;
+                }
                 presenter.getEventsList();
             }
         }, SPLASH_TIMER);
+    }
+
+    public void showNoNetworkMessage(){
+        showError(getString(R.string.no_network), getString(R.string.no_network_message), errorDialogCallback);
     }
 
     private void startApp(Class<?> activityClass) {

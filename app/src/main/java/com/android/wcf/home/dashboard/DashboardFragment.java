@@ -38,9 +38,12 @@ import com.google.android.material.tabs.TabLayout;
 
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import static com.android.wcf.application.WCFApplication.isProdBackend;
 
 
 public class DashboardFragment extends BaseFragment implements DashboardMvp.DashboardView {
@@ -281,12 +284,32 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             challengeDatesTv.setText(startDate + " to " + endDate);
 
             //TODO: remove this when new date for challenge is decided
-            if (Constants.getChallengeStartSoonMessage()) {
+            if (isProdBackend() && Constants.getChallengeStartSoonMessage()) {
                 challengeDatesTv.setText(getString(R.string.message_journey_starting_soon));
             }
         }
 
         //TODO: add "Show badges"
+    }
+
+    @Override
+    public void onGetParticipantError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.nav_dashboard);
+        }
+        else {
+            showError(R.string.participants_data_error, error.getMessage(), null);
+        }
+    }
+
+    @Override
+    public void onGetParticipantStatsError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.nav_dashboard);
+        }
+        else {
+            showError(R.string.participants_data_error, error.getMessage(), null);
+        }
     }
 
     void showDashboardActivityInfo() {

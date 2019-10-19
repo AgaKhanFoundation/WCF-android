@@ -2,8 +2,10 @@ package com.android.wcf.settings;
 
 import android.util.Log;
 
+import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -29,7 +31,12 @@ public class TeamMembershipPresenter extends BasePresenter implements TeamMember
 
     @Override
     protected void onParticipantLeaveFromTeamError(Throwable error, String participantId) {
-        super.onParticipantLeaveFromTeamError(error, participantId);
+        if (error instanceof IOException) {
+            view.showNetworkErrorMessage(R.string.data_error);
+        }
+        else {
+            super.onParticipantLeaveFromTeamError(error, participantId);
+        }
     }
 
 
@@ -43,7 +50,11 @@ public class TeamMembershipPresenter extends BasePresenter implements TeamMember
 
     @Override
     protected void onDeleteTeamError(Throwable error) {
-        if (!(error instanceof NoSuchElementException)) {
+        if (error instanceof IOException) {
+            view.showNetworkErrorMessage(R.string.data_error);
+        }
+
+        else if (!(error instanceof NoSuchElementException)) {
             super.onDeleteTeamError(error);
             view.onTeamDeleteError(error);
         }

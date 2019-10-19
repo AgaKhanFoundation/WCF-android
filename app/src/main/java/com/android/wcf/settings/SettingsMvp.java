@@ -22,6 +22,10 @@ public interface SettingsMvp {
 
         void onParticipantDeleteError(Throwable error);
 
+        void onParticipantLeaveFromTeamError(Throwable error, String participantId);
+
+        void onTeamDeleteError(Throwable error);
+
         void signout(boolean complete);
 
     }
