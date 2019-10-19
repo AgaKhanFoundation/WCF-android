@@ -37,6 +37,8 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.android.wcf.application.WCFApplication.isProdBackend;
+
 public class TeamMembershipFragment extends BaseFragment implements TeamMembershipMvp.View, TeamMembershipAdapterMvp.Host {
 
     private static final String TAG = TeamMembershipFragment.class.getSimpleName();
@@ -199,7 +201,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         challengeDatesTv.setText(startDate + " to " + endDate);
 
         //TODO: remove this when new date for challenge is decided
-        if (Constants.getChallengeStartSoonMessage()) {
+        if (isProdBackend() && Constants.getChallengeStartSoonMessage()) {
             challengeDatesTv.setText(getString(R.string.message_journey_starting_soon));
         }
 

@@ -42,6 +42,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.android.wcf.application.WCFApplication.isProdBackend;
+
 
 public class DashboardFragment extends BaseFragment implements DashboardMvp.DashboardView {
     private static final String TAG = DashboardFragment.class.getSimpleName();
@@ -281,7 +283,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             challengeDatesTv.setText(startDate + " to " + endDate);
 
             //TODO: remove this when new date for challenge is decided
-            if (Constants.getChallengeStartSoonMessage()) {
+            if (isProdBackend() && Constants.getChallengeStartSoonMessage()) {
                 challengeDatesTv.setText(getString(R.string.message_journey_starting_soon));
             }
         }

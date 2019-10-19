@@ -34,6 +34,8 @@ import org.jetbrains.annotations.NotNull;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import static com.android.wcf.application.WCFApplication.isProdBackend;
+
 public class ChallengeFragment extends BaseFragment implements ChallengeMvp.ChallengeView {
 
     private static final String TAG = ChallengeFragment.class.getSimpleName();
@@ -251,7 +253,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             if (journeyActiveView != null && journeyActiveView.getVisibility() != View.VISIBLE) {
                 TextView journeyText = journeyActiveView.findViewById(R.id.journey_card_journey_text);
 
-                if (Constants.getChallengeStartSoonMessage()) {
+                if (isProdBackend() && Constants.getChallengeStartSoonMessage()) {
                     journeyText.setText(R.string.message_journey_starting_soon);
                 }
                 else {
