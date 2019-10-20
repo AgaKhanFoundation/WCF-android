@@ -10,6 +10,15 @@ pool:
   vmImage: 'macos-latest'
 
 steps:
+- task: DownloadSecureFile@1
+  name: credentials
+  inputs:
+    secureFile: 'credentials.properties'
+- task: CopyFiles@2
+  inputs:
+    Contents: '$(credentials.secureFilePath)'
+    TargetFolder: '$(Build.SourcesDirectory)/app'
+    OverWrite: true
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
