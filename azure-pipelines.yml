@@ -14,11 +14,9 @@ steps:
   name: credentials
   inputs:
     secureFile: 'credentials.properties'
-- task: CopyFiles@2
-  inputs:
-    Contents: '$(credentials.secureFilePath)'
-    TargetFolder: '$(Build.SourcesDirectory)/app'
-    OverWrite: true
+- script: |
+    cp $(credentials.secureFilePath) $(Build.SourcesDirectory)/app
+  displayName: 'Copy credentials.properties'
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
