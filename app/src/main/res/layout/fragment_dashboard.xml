@@ -362,6 +362,7 @@
                     android:layout_marginTop="@dimen/spacing_normal"
                     android:gravity="start"
                     tools:text="3,000"
+                    android:visibility="visible"
                     android:textAppearance="?textAppearanceSubtitle1"
                     android:textColor="@color/color_primary"
                     app:layout_constraintTop_toBottomOf="@id/challenge_progress_view_label_2"
@@ -371,10 +372,11 @@
                     android:id="@+id/team_activity_goal"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/spacing_normal"
                     android:gravity="start"
                     tools:text="/5,000 miles completed"
                     android:textAppearance="?textAppearanceSubtitle1"
-                    app:layout_constraintBaseline_toBaselineOf="@id/team_activity_completed"
+                    app:layout_constraintTop_toBottomOf="@id/challenge_progress_view_label_2"
                     app:layout_constraintStart_toEndOf="@id/team_activity_completed"
                     app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -468,7 +470,7 @@
                     app:layout_constraintBottom_toTopOf="@+id/view_supporters_container"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    android:visibility="visible">
+                    android:visibility="gone">
 
                     <TextView
                         android:id="@+id/fundraising_progress_label_2"

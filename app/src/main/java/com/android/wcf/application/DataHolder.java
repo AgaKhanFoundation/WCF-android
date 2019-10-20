@@ -116,4 +116,10 @@ public class DataHolder {
         participantTeam = null;
         teams = null;
     }
+
+    public static void updateParticipantTeamName(String newName) {
+        if (participantTeam != null){
+            participantTeam.setName(newName);
+        }
+    }
 }

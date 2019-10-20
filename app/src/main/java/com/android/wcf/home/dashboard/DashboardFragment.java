@@ -382,13 +382,23 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
             challengeDaysRemainingMessage.setVisibility(View.VISIBLE);
 
-            int teamGoal = (int) DistanceConverter.distance(team.geTotalParticipantCommitmentSteps());
-            String teamDistanceGoal = numberFormatter.format(teamGoal);
-            teamActivityGoalTv.setText(getString(R.string.dashboard_challenge_goal_label, teamDistanceGoal, "miles"));
+            int teamGoal = 0;
+            int teamCompletedSteps = 0;
+            if (team != null) {
+                teamGoal = (int) DistanceConverter.distance(team.geTotalParticipantCommitmentSteps());
+                teamCompletedSteps = (int) DistanceConverter.distance(team.geTotalParticipantCompletedSteps());
 
-            int teamCompletedSteps = (int) DistanceConverter.distance(team.geTotalParticipantCompletedSteps());
-            teamActivityCompletedTv.setText(numberFormatter.format(teamCompletedSteps));
-            teamActivityStatusGraphPb.setProgress((int) (100.0 * teamCompletedSteps / teamGoal));
+                String teamDistanceGoal = numberFormatter.format(teamGoal);
+                teamActivityGoalTv.setText(getString(R.string.dashboard_challenge_goal_label, teamDistanceGoal, "miles"));
+
+                teamActivityCompletedTv.setText(numberFormatter.format(teamCompletedSteps));
+                teamActivityStatusGraphPb.setProgress((int) (100.0 * teamCompletedSteps / teamGoal));
+            }
+            else {
+                teamActivityGoalTv.setText(R.string.dashboard_participant_need_to_join_team);
+                teamActivityCompletedTv.setVisibility(View.GONE);
+                teamActivityStatusGraphPb.setVisibility(View.VISIBLE);
+            }
 
             challengeProgressBeforeStartView.setVisibility(View.GONE);
             challengeProgressView.setVisibility(View.VISIBLE);

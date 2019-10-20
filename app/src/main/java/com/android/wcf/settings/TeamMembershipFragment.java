@@ -3,6 +3,8 @@ package com.android.wcf.settings;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,14 +18,14 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
-import com.android.wcf.application.WCFApplication;
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseFragment;
-import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
@@ -32,7 +34,12 @@ import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
@@ -60,6 +67,23 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     private MenuItem teamEditMenuEtem;
     private boolean inEditMode = false;
 
+    AlertDialog editTeamNameDialogBuilder;
+    View editTeamDialogView = null;
+
+    TextView teamNameTv;
+
+    EditTextDialogListener editTeamNameDialogListener = new EditTextDialogListener() {
+        @Override
+        public void onDialogDone(@NotNull String newName) {
+            TextView editTeamteamNameTv = teamNameTv;
+            editTeamteamNameTv.setText(newName);
+            DataHolder.updateParticipantTeamName(newName);
+        }
+
+        @Override
+        public void onDialogCancel() {
+        }
+    };
 
     private View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -70,6 +94,8 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
                     break;
                 case R.id.delete_team:
                     confirmDeleteTeam();
+                case R.id.team_name:
+                    editTeamName();
             }
         }
     };
@@ -103,6 +129,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        editTeamNameDialogBuilder = new AlertDialog.Builder(getContext()).create();
     }
 
     @Nullable
@@ -133,7 +160,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         menuInflater.inflate(R.menu.menu_team_edit, menu);
         teamEditMenuEtem = menu.findItem(R.id.menu_item_team_edit);
         if (team != null) {
-            if(teamEditMenuEtem != null) teamEditMenuEtem.setVisible(isTeamLead);
+            if (teamEditMenuEtem != null) teamEditMenuEtem.setVisible(isTeamLead);
         }
         super.onCreateOptionsMenu(menu, menuInflater);
 
@@ -167,6 +194,13 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         refreshTeamParticipantsList();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        presenter.onStop();
+        editTeamNameDialogBuilder = null;
+    }
+
     void refreshTeamParticipantsList() {
         teamMembershipAdapter.clearSelectionPosition();
         teamMembershipRecyclerView.scrollToPosition(0);
@@ -189,7 +223,8 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
 
     void setupSettingsTeamProfileContainer(View container) {
         ImageView teamProfileImage = container.findViewById(R.id.team_image);
-        TextView teamNameTv = container.findViewById(R.id.team_name);
+        teamNameTv = container.findViewById(R.id.team_name);
+
         TextView challengeNameTv = container.findViewById(R.id.challenge_name);
         TextView challengeDatesTv = container.findViewById(R.id.challenge_dates);
 
@@ -207,6 +242,11 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
 
         Team team = getParticipantTeam();
         teamNameTv.setText(team.getName());
+        if (isTeamLead) {
+            teamNameTv.setOnClickListener(onClickListener);
+        } else {
+            teamNameTv.setOnClickListener(null);
+        }
 
         String teamImageUrl = team.getImage();
         if (teamImageUrl != null && !teamImageUrl.isEmpty()) {
@@ -375,5 +415,121 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     @Override
     public void onTeamDeleteError(Throwable error) {
         showError("Team Delete Error", error.getMessage(), null);
+    }
+
+    public void editTeamName() {
+        final TextView teamNameTV = settingsTeamProfileContainer.findViewById(R.id.team_name);
+        final String currentTeamName = teamNameTV.getText().toString();
+        presenter.onEditTeamName(presenter, currentTeamName, editTeamNameDialogListener);
+    }
+
+    @Override
+    public void showTeamNameEditDialog(final TeamMembershipMvp.Presenter presenter,
+                                       final String currentName,
+                                       final EditTextDialogListener editTextDialogListener) {
+
+        LayoutInflater inflater = this.getLayoutInflater();
+        editTeamDialogView = inflater.inflate(R.layout.view_team_name_edit, null);
+
+        final Button saveBtn = editTeamDialogView.findViewById(R.id.save);
+        final Button cancelBtn = editTeamDialogView.findViewById(R.id.cancel);
+
+        final TextInputLayout teamNameInputLayout = editTeamDialogView.findViewById(R.id.team_name_input_layout);
+        final TextInputEditText teamNameEditText = editTeamDialogView.findViewById(R.id.team_name);
+
+        TextWatcher editTeamNameWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                boolean enabled = false;
+                String teamName = teamNameEditText.getText().toString();
+                if (teamName.trim().length() >= Constants.MIN_TEAM_NAME_CHAR_LENGTH) {
+
+                    if (!teamName.equals(currentName)) {
+                        enabled = true;
+                    }
+                }
+                saveBtn.setEnabled(enabled);
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+            }
+        };
+
+        teamNameEditText.setText(currentName);
+        teamNameEditText.addTextChangedListener(editTeamNameWatcher);
+
+        //disable the saveBtn initially. It will be enabled when team name entered
+        boolean enabled = false;
+        String teamName = teamNameEditText.getText().toString();
+        if (teamName.trim().length() >= Constants.MIN_TEAM_NAME_CHAR_LENGTH) {
+
+            if (!teamName.equals(currentName)) {
+                enabled = true;
+            }
+        }
+        saveBtn.setEnabled(enabled);
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                editTeamNameDialogBuilder.dismiss();
+                editTeamNameDialogBuilder.setView(null);
+
+                if (editTextDialogListener != null) {
+                    editTextDialogListener.onDialogCancel();
+                }
+            }
+        });
+
+        saveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String newName = teamNameEditText.getText().toString();
+                if (!newName.isEmpty() && !newName.equals(currentName)) {
+                    presenter.updateTeamName(team.getId(), newName);
+                }
+            }
+        });
+
+        editTeamNameDialogBuilder.setView(editTeamDialogView);
+        editTeamNameDialogBuilder.show();
+    }
+
+    @Override
+    public void onTeamNameUpdateSuccess(String teamName) {
+        editTeamNameDialogBuilder.dismiss();
+        if (editTeamNameDialogListener != null) {
+            editTeamNameDialogListener.onDialogDone(teamName);
+        }
+    }
+
+    @Override
+    public void onTeamNameUpdateConstraintError(String teamName) {
+        if (editTeamDialogView != null) {
+            TextInputLayout teamNameInputLayout = editTeamDialogView.findViewById(R.id.team_name_input_layout);
+
+            if (teamNameInputLayout != null) {
+                teamNameInputLayout.setError(getString(R.string.duplicate_team_name_error));
+            }
+        }
+    }
+
+    @Override
+    public void onTeamNameUpdateError(@NotNull Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.events_data_error);
+        }
+        else {
+            TextInputLayout teamNameInputLayout = editTeamDialogView.findViewById(R.id.team_name_input_layout);
+            if (teamNameInputLayout != null) {
+                teamNameInputLayout.setError(error.getMessage());
+            }
+        }
     }
 }

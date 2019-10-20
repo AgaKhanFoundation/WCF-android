@@ -264,7 +264,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onError(Throwable error) {
-                        if (error.getMessage().startsWith("HTTP 409")) {
+                        if (error.getMessage().startsWith("HTTP 409") || error.getMessage().startsWith("HTTP 400")) {
                             onCreateTeamConstraintError();
                         } else {
                             onCreateTeamError(error);
@@ -798,6 +798,44 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
         Log.e(TAG, "assignParticipantToTeam(participantId, teamId) Error: " + error.getMessage());
+    }
+
+    public void updateTeamName(int teamId, final String teamName) {
+        wcfClient.updateTeamName(teamId, teamName)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onTeamNameUpdateSuccess(results, teamName);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        if (error.getMessage().startsWith("HTTP 409") || error.getMessage().startsWith("HTTP 400")) {
+                            onTeamNameUpdateConstraintError(teamName);
+                        } else {
+                            onTeamNameUpdateError(error, teamName);
+                        }
+                    }
+                });
+    }
+
+    protected void onTeamNameUpdateConstraintError(String teamName) {
+        Log.e(TAG, "onTeamNameUpdateConstraintError: teamName=" +  teamName);
+    }
+
+    protected void onTeamNameUpdateSuccess(List<Integer> results, String teamName) {
+        Log.d(TAG, "onTeamNameUpdateSuccess success: " + results.get(0));
+    }
+
+    protected void onTeamNameUpdateError(Throwable error, String teamName) {
+        Log.e(TAG, "onTeamNameUpdateError(teamName) Error: " + error.getMessage());
     }
 
     public void participantLeaveFromTeam(final String participantId) {
