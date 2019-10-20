@@ -64,6 +64,32 @@ public class TeamMembershipPresenter extends BasePresenter implements TeamMember
     }
 
     @Override
+    public void onEditTeamName(TeamMembershipMvp.Presenter presenter, String currentName, EditTextDialogListener editTextDialogListener) {
+        view.showTeamNameEditDialog(presenter, currentName, editTextDialogListener);
+    }
+
+    @Override
+    public void updateTeamName(int teamId, String teamName) {
+        super.updateTeamName(teamId, teamName);
+    }
+
+    @Override
+    protected void onTeamNameUpdateSuccess(List<Integer> results, String teamName) {
+        view.onTeamNameUpdateSuccess(teamName);
+    }
+
+    @Override
+    protected void onTeamNameUpdateConstraintError(String teamName) {
+        Log.e(TAG, "onTeamNameUpdateConstraintError: teamName=" + teamName);
+        view.onTeamNameUpdateConstraintError(teamName);
+    }
+
+    @Override
+    protected void onTeamNameUpdateError(Throwable error, String teamName) {
+        view.onTeamNameUpdateError(error);
+    }
+
+    @Override
     public String getTag() {
         return TAG;
     }

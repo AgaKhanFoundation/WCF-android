@@ -247,6 +247,7 @@
     <string name="no_network">Network Connection Error</string>
     <string name="no_network_message">Internet connection is required. Please check connection and try again.</string>
     <string name="dashboard_participant_need_to_join_team">No team selected yet.</string>
+    <string name="team_name_edit_title">Edit Team Name</string>
 
 
 </resources>

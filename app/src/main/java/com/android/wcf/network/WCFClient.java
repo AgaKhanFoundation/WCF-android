@@ -205,6 +205,16 @@ public class WCFClient {
         return wcfApi.updateParticipant(participantId, requestBody);
     }
 
+    public Single<List<Integer>> updateTeamName(int teamId, String teamName) {
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put(Team.TEAM_ATTRIBUTE_NAME, teamName);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.updateTeam(teamId, requestBody);
+    }
+
     public Single<List<Integer>> updateParticipantTrackingSource(String participantId, Integer sourceId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (sourceId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);
