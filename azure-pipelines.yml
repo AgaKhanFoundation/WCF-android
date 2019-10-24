@@ -30,6 +30,11 @@ steps:
     findBugsRunAnalysis: true
     pmdRunAnalysis: true
   displayName: 'Debug Build'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)/app/build/outputs/apk/debug/app-debug.apk'
+    ArtifactName: 'Debug'
+    publishLocation: 'Container'
 - task: Gradle@2
   inputs:
     gradleWrapperFile: 'gradlew'
@@ -43,3 +48,8 @@ steps:
     findBugsRunAnalysis: true
     pmdRunAnalysis: true
   displayName: 'Release Build'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.SourcesDirectory)/app/build/outputs/apk/release/app-release.apk'
+    ArtifactName: 'Release'
+    publishLocation: 'Container'
