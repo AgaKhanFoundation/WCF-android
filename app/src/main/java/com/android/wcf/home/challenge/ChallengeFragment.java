@@ -402,7 +402,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     teamCommitmentSteps = participantTeam.geTotalParticipantCommitmentSteps();
                 }
                 int teamCommitmentDistance = (int) DistanceConverter.distance(teamCommitmentSteps);
-                int teamGoal = (int) DistanceConverter.distance( event.getTeamLimit() * event.getDefaultParticipantCommitment());
+                int teamGoal = (int) DistanceConverter.distance( event.getTeamLimit() * event.getDefaultSteps());
                 int remainingTeamGoalMiles = teamGoal - teamCommitmentDistance;
                 if (remainingTeamGoalMiles < 0) remainingTeamGoalMiles = 0;
 

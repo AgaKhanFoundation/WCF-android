@@ -373,7 +373,11 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     void updateInfoDisplay() {
         showParticipantInfo();
         TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_committed_miles);
-        String formattedDistance = numberFormatter.format(DistanceConverter.distance(SharedPreferencesUtil.getMyStepsCommitted()));
+        int currentCommitmentStep = SharedPreferencesUtil.getMyStepsCommitted();
+        if (currentCommitmentStep == 0 && getEvent() != null) {
+            currentCommitmentStep = getEvent().getDefaultSteps();
+        }
+        String formattedDistance = numberFormatter.format(DistanceConverter.distance(currentCommitmentStep));
         committedDistanceTv.setText(formattedDistance);
 
         setupLeaveTeamClickListeners();

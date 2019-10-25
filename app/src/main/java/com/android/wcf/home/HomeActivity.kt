@@ -378,17 +378,20 @@ class HomeActivity : BaseActivity()
             val commitment: Commitment? = event.participantCommitment
             commitment?.let {
 
-                val myStepsCommited = SharedPreferencesUtil.getMyStepsCommitted()
+                var myStepsCommited = SharedPreferencesUtil.getMyStepsCommitted()
+                if (myStepsCommited <= 0) {
+                    myStepsCommited = event.defaultSteps
+                }
                 if (myStepsCommited != commitment.commitmentSteps) {
                     homePresenter.updateParticipantCommitment(it.id, participant.fbId!!, myActiveEventId, myStepsCommited)
                 } else {
                     addNavigationFragments()
                 }
             } ?: run {
-                homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
+                homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.defaultSteps)
             }
         } ?: run {
-            homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, getEvent().getDefaultParticipantCommitment())
+            homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, getEvent().defaultSteps)
         }
     }
 
@@ -398,7 +401,7 @@ class HomeActivity : BaseActivity()
 
     override fun onParticipantCreated(participant: Participant) {
         cacheParticipant(participant)
-        homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
+        homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.defaultSteps)
     }
 
     override fun onAssignedParticipantToEvent(participantId: String, eventId: Int) {

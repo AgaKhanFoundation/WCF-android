@@ -13,10 +13,6 @@ class Constants {
 
         const val PARTICIPANT_COMMITMENT_STEPS_PER_DAY_DEFAULT = 10000
 
-        const val PARTICIPANT_COMMITMENT_MILES_DEFAULT = 350
-        const val STEPS_IN_A_MILE = 2000
-        const val PARTICIPANT_COMMITMENT_STEPS_DEFAULT = PARTICIPANT_COMMITMENT_MILES_DEFAULT * STEPS_IN_A_MILE
-
         const val LOGIN_CHECK_DELTA_HOURS = 8 //check device and facebook login frequently for token expiry
         const val TRACKER_CHECK_DELTA_HOURS = 4 //check frequently for token expiry. Fitbit access token expires in 8 hours
 
