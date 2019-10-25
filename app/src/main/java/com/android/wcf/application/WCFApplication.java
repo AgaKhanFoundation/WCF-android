@@ -44,6 +44,7 @@ import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.DistanceMetric;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.login.LoginActivity;
+import com.android.wcf.network.WCFAuth;
 import com.android.wcf.network.WCFClient;
 import com.android.wcf.splash.SplashActivity;
 
@@ -89,11 +90,13 @@ public class WCFApplication extends Application {
         instance.startActivity(intent);
     }
 
+    //this method gets called from Login page to facilitate switching the backend server between PROD and Staging
+    //  testing team will use this feature
     public static void  switchServerForTestingTeam() {
         Log.d(TAG, "switchServerForTestingTeam()");
-        serverSwitched = true;
+        WCFAuth.clearTokenHeader();
         WCFClient.switchServerForTestingTeam();
-
+        serverSwitched = true;
     }
 
     public static boolean isProdBackend() {
