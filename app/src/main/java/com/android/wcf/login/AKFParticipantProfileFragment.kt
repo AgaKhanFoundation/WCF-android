@@ -17,12 +17,14 @@ import com.android.wcf.base.BaseFragment
 import com.android.wcf.helper.SharedPreferencesUtil
 import com.android.wcf.web.AppWebViewClient
 import com.fitbitsdk.authentication.UrlChangeHandler
+import java.io.IOException
 
 class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.View, UrlChangeHandler {
 
-
     var host: AKFParticipantProfileMvp.Host? = null
     var mWebView: WebView? = null
+    lateinit var presenter: AKFParticipantProfileMvp.Presenter
+    var fbid:String? = null
 
     companion object {
         val TAG = AKFParticipantProfileFragment::class.java.simpleName
@@ -47,6 +49,7 @@ class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.V
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        presenter = AKFParticipantProfilePresenter(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -71,13 +74,14 @@ class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.V
                     .show()
         }
 
+        this.fbid = fbid
         url += "?fbid=" + fbid
 
         mWebView?.loadUrl(url)
     }
 
     fun closeView() {
-        host?.akfProfileCreationComplete()
+        host?.akfProfileCreationSkipped()
     }
 
     fun relogin() {
@@ -119,7 +123,7 @@ class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.V
             if (responseAsExpected) {
                 Toast.makeText(context, "AKF Profile created", Toast.LENGTH_LONG).show()
                 SharedPreferencesUtil.saveAkfProfileCreated(true);
-                host?.akfProfileCreationComplete();
+                presenter.updateParticipantProfileRegistered(fbid!!)
             }
         }
         return true
@@ -128,7 +132,17 @@ class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.V
     override fun onLoadError(errorCode: Int, description: CharSequence?) {
         Toast.makeText(context, "Error loading AKF Profile creation page: $description", Toast.LENGTH_LONG).show()
     }
+
+    override fun akfProfileRegistered() {
+        host?.akfProfileCreationComplete()
+    }
+
+    override fun akfProfileRegistrationError(error: Throwable, participantId: String) {
+        if (error is IOException) {
+            showNetworkErrorMessage(R.string.data_error)
+        }
+
+        host?.akfProfileCreationComplete()
+
+    }
 }
-
-
-

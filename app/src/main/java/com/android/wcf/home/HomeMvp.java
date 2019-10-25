@@ -22,6 +22,17 @@ public interface HomeMvp {
         void onParticipantCreated(Participant participant);
 
         void onAssignedParticipantToEvent(String participantId, int eventId);
+
+        void akfProfileCreationSkipped();
+
+        void akfProfileRegistered();
+
+        void showAKFProfileView();
+
+        void akfProfileRegistrationError(Throwable error, String participantId);
+
+        void participantNotRetrieved();
+
     }
 
     interface HomePresenter extends BaseMvp.Presenter {
@@ -35,6 +46,7 @@ public interface HomeMvp {
 
         void updateParticipantCommitment(@NonNull int commitmentId, @NonNull String participantId, int eventId, int commitmentSteps);
 
+        void confirmAKFProfile(boolean profileCreated);
     }
 
 }

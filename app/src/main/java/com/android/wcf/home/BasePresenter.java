@@ -967,6 +967,37 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         Log.e(TAG, "onAssignParticipantToEventError(participantId, eventId, causeId, localityId) Error: " + error.getMessage());
     }
 
+
+    public void updateParticipantProfileRegistered(final String participantId) {
+        wcfClient.updateParticipantProfileRegistered( participantId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onUpdateParticipantProfileRegisteredSuccess(participantId);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onUpdateParticipantProfileRegisteredError(error, participantId);
+                    }
+                });
+    }
+
+    protected void onUpdateParticipantProfileRegisteredSuccess(String participantId) {
+        Log.d(TAG, "onUpdateParticipantProfileRegisteredSuccess: participantId=" + participantId );
+    }
+
+    protected void onUpdateParticipantProfileRegisteredError(Throwable error, String participantId) {
+        Log.e(TAG, "onUpdateParticipantProfileRegisteredError: " + error.getMessage() + "\n\tparticipantId=" + participantId );
+    }
+
     /***** tracking sources *****/
 
 

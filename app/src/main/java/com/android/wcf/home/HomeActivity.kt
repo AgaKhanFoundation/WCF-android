@@ -9,11 +9,13 @@ import android.os.Handler
 import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
+import android.view.View
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import com.android.wcf.R
+import com.android.wcf.application.WCFApplication
 import com.android.wcf.base.BaseActivity
 import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.helper.SharedPreferencesUtil
@@ -24,6 +26,8 @@ import com.android.wcf.home.leaderboard.LeaderboardFragment
 import com.android.wcf.home.leaderboard.LeaderboardMvp
 import com.android.wcf.home.notifications.NotificationsFragment
 import com.android.wcf.home.notifications.NotificationsMvp
+import com.android.wcf.login.AKFParticipantProfileFragment
+import com.android.wcf.login.AKFParticipantProfileMvp
 import com.android.wcf.login.LoginActivity
 import com.android.wcf.login.LoginHelper
 import com.android.wcf.model.Commitment
@@ -36,6 +40,7 @@ import com.android.wcf.tracker.fitbit.FitbitHelper
 import com.android.wcf.tracker.googlefit.GoogleFitHelper
 import com.facebook.AccessToken
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.IOException
 
 class HomeActivity : BaseActivity()
         , HomeMvp.HomeView
@@ -46,7 +51,8 @@ class HomeActivity : BaseActivity()
         , TeamChallengeProgressMvp.Host
         , SupportsInviteMvp.Host
         , LeaderboardMvp.Host
-        , NotificationsMvp.Host {
+        , NotificationsMvp.Host
+        , AKFParticipantProfileMvp.Host {
 
     private lateinit var homePresenter: HomeMvp.HomePresenter
     private var dashboardFragment: DashboardFragment? = null
@@ -126,23 +132,23 @@ class HomeActivity : BaseActivity()
     private fun checkConnections() {
         if (!isNetworkConnected) {
             showNoNetworkMessage()
-            return;
+            return
         }
 
         if (myActiveEventId < 1) {
             noActiveEventFound()
-            return;
+            return
         }
 
         if (!isLoginValid()) {
             Log.d(TAG, "login not valid")
-            askToRelogin();
-            return;
+            askToRelogin()
+            return
         }
 
-        val fitnessTracker = TrackingHelper.getSelectedFitnessTracker();
+        val fitnessTracker = TrackingHelper.getSelectedFitnessTracker()
         if (fitnessTracker == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
-            checkFitbitConnection();
+            checkFitbitConnection()
         } else if (fitnessTracker == TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID) {
             checkGoogleFitConnection()
         } else {
@@ -169,8 +175,7 @@ class HomeActivity : BaseActivity()
                     showTrackerNeedsReLoginError(TrackingHelper.FITBIT_TRACKING_SOURCE_ID)
                 }
             })
-        }
-        else {
+        } else {
             getParticipantData()
         }
     }
@@ -190,11 +195,11 @@ class HomeActivity : BaseActivity()
                     showTrackerNeedsReLoginError(TrackingHelper.GOOGLE_FIT_TRACKING_SOURCE_ID)
                 }
             })
-        }
-        else {
+        } else {
             getParticipantData()
         }
     }
+
     fun showTrackerConnectionError(trackerId: Int) {
         var title: String = ""
         if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
@@ -297,14 +302,14 @@ class HomeActivity : BaseActivity()
             if (fragment is DashboardFragment
                     || fragment is LeaderboardFragment
                     || fragment is NotificationsFragment) {
-                navigation.setSelectedItemId(R.id.nav_challenge);
+                navigation.setSelectedItemId(R.id.nav_challenge)
             } else if (fragment is ChallengeFragment) {
-                finish();
+                finish()
             } else {
-                super.onBackPressed();
+                super.onBackPressed()
             }
         } else {
-            super.onBackPressed();
+            super.onBackPressed()
         }
     }
 
@@ -367,13 +372,13 @@ class HomeActivity : BaseActivity()
             }
         }
 
-        val event = participant.getEvent(myActiveEventId);
+        val event = participant.getEvent(myActiveEventId)
         event?.let {
             cacheEvent(event) //this will also have participant's commitment if already committed for this event
             val commitment: Commitment? = event.participantCommitment
             commitment?.let {
 
-                val myStepsCommited = SharedPreferencesUtil.getMyStepsCommitted();
+                val myStepsCommited = SharedPreferencesUtil.getMyStepsCommitted()
                 if (myStepsCommited != commitment.commitmentSteps) {
                     homePresenter.updateParticipantCommitment(it.id, participant.fbId!!, myActiveEventId, myStepsCommited)
                 } else {
@@ -392,7 +397,7 @@ class HomeActivity : BaseActivity()
     }
 
     override fun onParticipantCreated(participant: Participant) {
-        cacheParticipant(participant);
+        cacheParticipant(participant)
         homePresenter.createParticipantCommitment(participant.fbId!!, myActiveEventId, event.getDefaultParticipantCommitment())
     }
 
@@ -418,6 +423,54 @@ class HomeActivity : BaseActivity()
         val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
         navigation.selectedItemId = R.id.nav_challenge
 
+        val profileCreated = SharedPreferencesUtil.getAkfProfileCreated()
+
+        homePresenter.confirmAKFProfile(profileCreated)
+    }
+
+    override fun akfProfileCreationSkipped() {
+        akfProfileCreationComplete()
+    }
+
+    override fun akfProfileRegistered() {
+        onBackPressed()
+    }
+
+    override fun participantNotRetrieved() {
+        //TODO: Should never be here, but if participant loading is not active, we will have to initiate it
+    }
+
+    override fun showAKFProfileView() {
+        val fragment = AKFParticipantProfileFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
+    }
+
+    override fun akfProfileCreationComplete() {
+        onBackPressed()
+    }
+
+    override fun showToolbar() {
+        toolbar?.setVisibility(View.VISIBLE)
+    }
+
+    override fun hideToolbar() {
+        toolbar?.setVisibility(View.GONE)
+    }
+
+    override fun restartApp() {
+        SharedPreferencesUtil.clearMyLogin()
+        WCFApplication.instance.restartApp()
+        finish()
+    }
+
+    override fun akfProfileRegistrationError(error: Throwable, participantId: String) {
+        if (error is IOException) {
+            showNetworkErrorMessage(R.string.data_error)
+        }
     }
 
     override fun showCreateTeam() {

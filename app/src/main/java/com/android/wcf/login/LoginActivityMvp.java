@@ -13,11 +13,10 @@ public interface LoginActivityMvp {
 
         void showLoginView();
 
-        void showAKFProfileView();
-
     }
 
     interface Presenter {
-        void  akfProfileCreationComplete();
+        void  loginComplete();
+
     }
 }

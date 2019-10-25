@@ -46,10 +46,11 @@ import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
 import com.android.wcf.model.Constants;
+import com.android.wcf.model.Participant;
 import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.web.WebViewFragment;
 
-public class LoginActivity extends BaseActivity implements LoginActivityMvp.View, LoginMvp.Host, AKFParticipantProfileMvp.Host {
+public class LoginActivity extends BaseActivity implements LoginActivityMvp.View, LoginMvp.Host {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private Toolbar toolbar;
@@ -91,9 +92,8 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
             Fragment fragment = sfm.findFragmentById(R.id.fragment_container);
             if (fragment instanceof LoginFragment) {
                 finish();
-            } else if (fragment instanceof AKFParticipantProfileFragment) {
-                showHomeActivity();
-            } else {
+            }
+            else {
                 super.onBackPressed();
             }
         } else {
@@ -127,8 +127,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
                 .commit();
     }
 
-    @Override
-    public void restartApp() {
+    protected void restartApp() {
         SharedPreferencesUtil.clearMyLogin();
         WCFApplication.instance.restartApp();
         finish();
@@ -157,16 +156,6 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     }
 
     @Override
-    public void showAKFProfileView() {
-        Fragment fragment = new AKFParticipantProfileFragment();
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
-    @Override
     public boolean isOnboardingComplete() {
         return !SharedPreferencesUtil.getShowOnboardingTutorial();
     }
@@ -185,21 +174,8 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
 
     @Override
     public void loginComplete() {
-        LoginHelper.loginIsValid();
-        boolean akfProfileCreated = SharedPreferencesUtil.getAkfProfileCreated();
-
-        if (Constants.getBypassAKFProfile() || akfProfileCreated) {
-            akfProfileCreationComplete();
-        } else {
-            showAKFProfileView();
-        }
+        loginPesenter.loginComplete();
     }
-
-    @Override
-    public void akfProfileCreationComplete() {
-        loginPesenter.akfProfileCreationComplete();
-    }
-
 
     @Override
     public void switchServerForTestingTeam() {

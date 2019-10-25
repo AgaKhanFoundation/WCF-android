@@ -228,8 +228,8 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         alertDialog.show();
     }
 
-    @Override
     public void loginComplete() {
+        LoginHelper.loginIsValid();
         host.loginComplete();
 
     }

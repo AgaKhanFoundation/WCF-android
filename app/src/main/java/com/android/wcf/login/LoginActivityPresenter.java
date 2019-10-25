@@ -12,7 +12,7 @@ public class LoginActivityPresenter implements LoginActivityMvp.Presenter {
     }
 
     @Override
-    public void akfProfileCreationComplete() {
+    public void loginComplete() {
 
         if (view.isOnboardingComplete()) {
             Log.d(TAG, "Login Success: Showing HomeActivity");
