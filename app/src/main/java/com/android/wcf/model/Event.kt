@@ -17,6 +17,7 @@ data class Event(
         @SerializedName("team_building_end") var teamBuildingEnd: Date? = null,
         @SerializedName("locality_id") var localityId: Int = 0,
         @SerializedName("cause_id") var causeId: Int = 0,
+        @SerializedName("default_steps") var defaultSteps: Int = 0,
         @SerializedName("participant_event") var participantCommitment: Commitment? = null
 
 ) {
@@ -91,15 +92,6 @@ data class Event(
         return daysToEndEvent() < 0
     }
 
-    fun getDefaultParticipantCommitment(): Int {
-        val days = getDaysInChallenge()
-        if (days > 0) {
-            return (days * Constants.PARTICIPANT_COMMITMENT_STEPS_PER_DAY_DEFAULT)
-        }
-
-        return Constants.PARTICIPANT_COMMITMENT_STEPS_PER_DAY_DEFAULT
-    }
-
     fun getWeeksInChallenge():Int {
         val days = getDaysInChallenge();
         return days/7
@@ -120,7 +112,7 @@ data class Event(
     }
 
     fun getTeamStepsGoal():Int {
-        return teamLimit * getDefaultParticipantCommitment()
+        return teamLimit * defaultSteps
     }
 
     fun calculateTime(timeIn: Long?): String {

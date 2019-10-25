@@ -3,6 +3,7 @@ package com.android.wcf.home;
 import androidx.annotation.NonNull;
 
 import com.android.wcf.model.Commitment;
+import com.android.wcf.model.Constants;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 
@@ -19,6 +20,45 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
     public HomePresenter(HomeMvp.HomeView homeView) {
         this.homeView = homeView;
 
+    }
+
+    @Override
+    public void confirmAKFProfile( boolean profileCreated) {
+
+        if (Constants.getBypassAKFProfile()) {
+            homeView.akfProfileCreationSkipped();
+            return;
+        }
+
+        boolean profileRegistered = false;
+        if (participant == null) {
+            homeView.participantNotRetrieved();
+            return;
+        }
+
+        profileRegistered = participant.getRegistered();
+
+        if(profileRegistered) {
+            homeView.akfProfileRegistered();
+        }
+
+        if (profileCreated) {
+            super.updateParticipantProfileRegistered(participant.getParticipantId());
+        }
+        else {
+
+            homeView.showAKFProfileView();
+        }
+    }
+
+    protected void onUpdateParticipantProfileRegisteredSuccess(String participantId) {
+        super.onUpdateParticipantProfileRegisteredSuccess(participantId);
+        homeView.akfProfileRegistered();
+    }
+
+    protected void onUpdateParticipantProfileRegisteredError(Throwable error, String participantId) {
+        super.onUpdateParticipantProfileRegisteredError(error, participantId);
+        homeView.akfProfileRegistrationError(error, participantId);
     }
 
     @Override

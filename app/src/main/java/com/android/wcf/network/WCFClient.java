@@ -39,10 +39,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class WCFClient {
 
-    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.PROD; //Ensure its PROD for a store build
+    private static final String TAG = WCFClient.class.getSimpleName();
+
+    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.DEV; //Ensure its PROD for a store build
 
 
-    //this method gets called from Settings to facilitate testing team to switch servers
     public static void switchServerForTestingTeam() {
         if (isProdBackend()) {
             serverEnv = Steps4ChangeEnv.STAGE;
@@ -82,7 +83,7 @@ public class WCFClient {
                 Request request = original.newBuilder()
                         .url(url)
                         .header("Accept", "application/json")
-                        //.header( authHeader.getFirst(), authHeader.getSecond()) //TODO: activate after we have the password and updated in build script
+                        .header( authHeader.getFirst(), authHeader.getSecond()) //TODO: activate after we have the password and updated in build script
                         .method(original.method(), original.body())
                         .build();
 
@@ -280,5 +281,17 @@ public class WCFClient {
 
     public Single<List<Commitment>> getEventCommitments(int eventId) {
         return wcfApi.getEventCommitments(eventId);
+    }
+
+    public Single<List<Integer>> updateParticipantProfileRegistered(String participantId) {
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_REGISTERED, true);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.updateParticipant(participantId, requestBody);
+
+
     }
 }

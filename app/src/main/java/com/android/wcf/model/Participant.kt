@@ -16,6 +16,7 @@ import java.util.ArrayList
 data class Participant(
         @SerializedName("id") var id: Int = 0,
         @SerializedName("fbid") var fbId: String? = "",
+        @SerializedName("registered") var registered: Boolean? = false,
         @SerializedName("team_id") var teamId: Int? = null,
         @SerializedName("cause_id") var causeId: Int? = null,
         @SerializedName("source_id") var sourceId: Int = 0,
@@ -62,5 +63,7 @@ data class Participant(
         const val PARTICIPANT_ATTRIBUTE_LOCALITY_ID = "locality_id"
         const val PARTICIPANT_ATTRIBUTE_EVENT_ID = "event_id"
         const val PARTICIPANT_ATTRIBUTE_SOURCE_ID = "source_id"
+        const val PARTICIPANT_ATTRIBUTE_REGISTERED = "registered"
+
     }
 }

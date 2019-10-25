@@ -198,7 +198,7 @@ public class SharedPreferencesUtil {
 
     public static int getMyStepsCommitted() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        return preferences.getInt(PREF_NAME_USER_STEPS_COMMITTED, Constants.PARTICIPANT_COMMITMENT_STEPS_DEFAULT);
+        return preferences.getInt(PREF_NAME_USER_STEPS_COMMITTED, 0);
     }
 
     public static void savetMyStepsCommitted(int steps) {

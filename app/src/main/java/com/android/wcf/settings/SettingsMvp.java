@@ -65,6 +65,5 @@ public interface SettingsMvp {
 
         void showAKFProfileView();
 
-        void switchServerForTestingTeam();
     }
 }

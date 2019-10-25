@@ -373,7 +373,11 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     void updateInfoDisplay() {
         showParticipantInfo();
         TextView committedDistanceTv = participantSettingsContainer.findViewById(R.id.participant_committed_miles);
-        String formattedDistance = numberFormatter.format(DistanceConverter.distance(SharedPreferencesUtil.getMyStepsCommitted()));
+        int currentCommitmentStep = SharedPreferencesUtil.getMyStepsCommitted();
+        if (currentCommitmentStep == 0 && getEvent() != null) {
+            currentCommitmentStep = getEvent().getDefaultSteps();
+        }
+        String formattedDistance = numberFormatter.format(DistanceConverter.distance(currentCommitmentStep));
         committedDistanceTv.setText(formattedDistance);
 
         setupLeaveTeamClickListeners();
@@ -530,23 +534,5 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         if (host != null) {
             host.signout(complete);
         }
-    }
-
-    int switchRequestClickCount = 0;
-    long lastSwitchClickAt = new Date().getTime();
-    private void switchServerForTestingTeam(){
-        long now = new Date().getTime();
-        Log.d(TAG, "Click count=" + switchRequestClickCount + " timeDelta=" + (now - lastSwitchClickAt));
-        if (now - lastSwitchClickAt  < 500) { //upto .1 sec gap allowed between clicks
-            switchRequestClickCount++;
-            if (switchRequestClickCount >= 5) {
-                switchRequestClickCount = 0;
-                host.switchServerForTestingTeam();
-            }
-        }
-        else {
-            switchRequestClickCount = 0;
-        }
-        lastSwitchClickAt = now;
     }
 }
