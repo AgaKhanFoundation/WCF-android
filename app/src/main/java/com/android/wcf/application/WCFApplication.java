@@ -94,7 +94,6 @@ public class WCFApplication extends Application {
     //  testing team will use this feature
     public static void  switchServerForTestingTeam() {
         Log.d(TAG, "switchServerForTestingTeam()");
-        WCFAuth.clearTokenHeader();
         WCFClient.switchServerForTestingTeam();
         serverSwitched = true;
     }

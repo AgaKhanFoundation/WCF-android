@@ -49,6 +49,8 @@ public interface BaseMvp {
 
         void cacheParticipantTeam(Team team);
 
+        void updateTeamVisibilityInCache(boolean hidden);
+
         Team getParticipantTeam();
 
         void cacheTeamList(List<Team> teams);
@@ -68,6 +70,7 @@ public interface BaseMvp {
         boolean isNetworkConnected();
 
         void showNetworkErrorMessage(@StringRes int error_title_res_id);
+
     }
 
     interface Presenter {

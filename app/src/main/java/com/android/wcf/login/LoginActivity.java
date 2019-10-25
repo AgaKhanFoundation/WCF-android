@@ -141,6 +141,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
         }
         else {
             SharedPreferencesUtil.clearMyLogin();
+            SharedPreferencesUtil.clearMyTeamId();
         }
         FacebookHelper.logout();
         restartApp();
@@ -182,6 +183,6 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
         Log.d(TAG, "Click switchServerForTestingTeam()");
 
         WCFApplication.switchServerForTestingTeam();
-        signout(true);
+        signout(false);
     }
 }

@@ -10,7 +10,7 @@ data class Team(
         @SerializedName("name") var name: String = "",
         @SerializedName("image") var image: String = "",
         @SerializedName("creator_id") var leaderId: String = "",
-        @SerializedName("visibility") var visibility: Boolean = true,
+        @SerializedName("hidden") var hidden: Boolean = false,
         @SerializedName("participants") var participants: List<Participant> = arrayListOf(),
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
 
@@ -66,7 +66,7 @@ data class Team(
     companion object {
         const val TEAM_ATTRIBUTE_NAME = "name"
         const val TEAM_ATTRIBUTE_LEADER_ID = "creator_id"
-        const val TEAM_ATTRIBUTE_VISIBILITY = "visibility"
+        const val TEAM_ATTRIBUTE_VISIBILITY = "hidden"
     }
 
 }

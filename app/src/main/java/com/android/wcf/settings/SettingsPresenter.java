@@ -68,6 +68,9 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
         if (result.get(0) != 1) {
             settingsView.teamPublicVisibilityUpdateError(new Error("Update failed"));
         }
+        else {
+            settingsView.teamPublicVisibilityUpdated();
+        }
     }
 
     @Override

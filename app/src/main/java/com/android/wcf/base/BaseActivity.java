@@ -216,7 +216,11 @@ abstract public class BaseActivity extends AppCompatActivity
     @Override
     public void clearCacheTeamList() {
         DataHolder.setTeamsList(null);
+    }
 
+    @Override
+    public void updateTeamVisibilityInCache(boolean hidden) {
+        DataHolder.getParticipantTeam().setHidden(hidden);
     }
 
     @Override

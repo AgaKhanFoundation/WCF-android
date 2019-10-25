@@ -18,7 +18,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.android.wcf.BuildConfig;
 import com.android.wcf.R;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseFragment;
@@ -26,7 +25,6 @@ import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Team;
-import com.android.wcf.network.WCFClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
@@ -35,7 +33,6 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -68,11 +65,12 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
                     else {
                         teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_off_message));
                     }
-                    settingsPresenter.updateTeamPublicVisibility(team.getId(), isChecked);
+                    settingsPresenter.updateTeamPublicVisibility(team.getId(), !isChecked);
                     break;
             }
         }
     };
+
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
@@ -463,7 +461,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             teamVisibiltySwitch.setEnabled(false);
             teamVisibiltySwitch.setOnCheckedChangeListener(null);
         }
-        if (team != null && !team.getVisibility()) {
+        if (team != null && team.getHidden()) {
             teamVisibiltySwitch.setChecked(false);
             teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_off_message));
         }
@@ -471,6 +469,13 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             teamVisibiltySwitch.setChecked(true);
             teamVisibilityMessageTv.setText(getString(R.string.settings_team_public_visibility_on_message));
         }
+    }
+
+    @Override
+    public void teamPublicVisibilityUpdated() {
+        View teamVisibilityContainer = teamSettingsContainer.findViewById(R.id.team_visibilty_container);
+        SwitchCompat teamVisibiltySwitch = teamVisibilityContainer.findViewById(R.id.team_public_visibility_enabled);
+        updateTeamVisibilityInCache(!teamVisibiltySwitch.isChecked());
     }
 
     @Override

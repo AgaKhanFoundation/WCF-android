@@ -47,10 +47,13 @@ public class WCFClient {
     public static void switchServerForTestingTeam() {
         if (isProdBackend()) {
             serverEnv = Steps4ChangeEnv.STAGE;
+
         }
         else {
             serverEnv = Steps4ChangeEnv.PROD;
         }
+        WCFAuth.clearTokenHeader();
+        instance = null;
     }
 
     private static WCFClient instance;
