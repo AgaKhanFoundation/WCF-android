@@ -271,7 +271,7 @@ class ParticipantActivityFragment : BaseFragment() {
         for (idx in 0..6) {
             var dayIdx:Int
             var progress = 0.0
-            var milesComplete = 0.0
+            var milesComplete = 0L
             stepsInfo?.steps?.let {
 
                 dayIdx = weekStartIndex - idx
@@ -280,7 +280,7 @@ class ParticipantActivityFragment : BaseFragment() {
                     val steps = it.get(dayIdx);
                     milesComplete =  DistanceConverter.distance(steps.value.toInt())
 
-                    progress = (milesComplete / stepsBarMaxMiles) * 100
+                    progress = ((milesComplete * 1.0)/ stepsBarMaxMiles) * 100
 
                     if (knownDateIdx == -1){
                         knownDateIdx = idx
@@ -308,7 +308,7 @@ class ParticipantActivityFragment : BaseFragment() {
         navNext.setEnabled(moreRecentWeekData())
     }
 
-    fun updateWeekDayInfo(idx: Int, milesComplete: Double, progress: Int) {
+    fun updateWeekDayInfo(idx: Int, milesComplete: Long, progress: Int) {
         when (idx) {
             0 -> {
                 activityMonTv.text = numberFormatter.format(milesComplete)

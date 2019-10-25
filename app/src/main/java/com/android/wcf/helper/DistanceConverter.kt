@@ -24,7 +24,7 @@ class DistanceConverter {
         }
 
         @JvmStatic
-        fun distance(steps: Int): Double {
+        fun distance(steps: Int): Long {
             return distance(steps, participantDistanceMetrics)
         }
 
@@ -46,13 +46,13 @@ class DistanceConverter {
         }
 
         @JvmStatic
-        fun distance(steps: Int, metrics: DistanceMetric): Double {
+        fun distance(steps: Int, metrics: DistanceMetric): Long {
             when (metrics) {
                 DistanceMetric.MILES ->
-                    return steps / DistanceMetric.MILES.steps * 1.0
+                    return Math.round(steps / (DistanceMetric.MILES.steps * 1.0))
                 else -> {
                     Log.w(TAG, "Unsupported ${metrics.name}")
-                    return 0.0
+                    return 0L
                 }
             }
         }
