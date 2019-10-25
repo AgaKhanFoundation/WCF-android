@@ -368,4 +368,8 @@ import java.util.List;
         dialogBuilder.show();
     }
 
+    @Override
+    public void updateTeamVisibilityInCache(boolean hidden) {
+        baseView.updateTeamVisibilityInCache(hidden);
+    }
 }

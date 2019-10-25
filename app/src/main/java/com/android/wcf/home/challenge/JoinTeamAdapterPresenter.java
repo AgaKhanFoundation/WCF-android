@@ -127,6 +127,9 @@ public class JoinTeamAdapterPresenter implements JoinTeamAdapterMvp.Presenter {
         int participantsCount = team.getParticipants() != null ? team.getParticipants().size() : 0;
 
         int spotAvailable = teamSizeLimit - participantsCount;
-        return teams.get(pos).getVisibility() && spotAvailable > 0;
+        return (spotAvailable > 0);
+        //TODO: activate this after we implement ability to join a team on invitation
+       // return ((!teams.get(pos).getHidden()) && spotAvailable > 0);
+
     }
 }

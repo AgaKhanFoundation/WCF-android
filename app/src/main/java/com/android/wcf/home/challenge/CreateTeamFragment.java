@@ -73,7 +73,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
                     closeKeyboard();
                     String teamName = teamNameEditText.getText().toString().trim();
                     String teamLeadParticipantId = SharedPreferencesUtil.getMyParticipantId();
-                    boolean teamVisibility = teamVisibiltySwitch.isChecked();
+                    boolean teamVisibility = !teamVisibiltySwitch.isChecked();
                     presenter.createTeam(teamName, teamLeadParticipantId, teamVisibility);
                     break;
                 case R.id.cancel_create_team_button:

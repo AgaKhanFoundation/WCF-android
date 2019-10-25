@@ -28,6 +28,7 @@ public interface SettingsMvp {
 
         void signout(boolean complete);
 
+        void teamPublicVisibilityUpdated();
     }
 
     interface Presenter extends BaseMvp.Presenter{
