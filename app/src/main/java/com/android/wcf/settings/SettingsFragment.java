@@ -531,22 +531,4 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             host.signout(complete);
         }
     }
-
-    int switchRequestClickCount = 0;
-    long lastSwitchClickAt = new Date().getTime();
-    private void switchServerForTestingTeam(){
-        long now = new Date().getTime();
-        Log.d(TAG, "Click count=" + switchRequestClickCount + " timeDelta=" + (now - lastSwitchClickAt));
-        if (now - lastSwitchClickAt  < 500) { //upto .1 sec gap allowed between clicks
-            switchRequestClickCount++;
-            if (switchRequestClickCount >= 5) {
-                switchRequestClickCount = 0;
-                host.switchServerForTestingTeam();
-            }
-        }
-        else {
-            switchRequestClickCount = 0;
-        }
-        lastSwitchClickAt = now;
-    }
 }

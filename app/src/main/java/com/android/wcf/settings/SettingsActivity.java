@@ -125,8 +125,7 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
     }
 
     @Override
-    public void switchServerForTestingTeam() {
-        WCFApplication.switchServerForTestingTeam();
-        signout(true);
+    public void akfProfileCreationSkipped() {
+        super.onBackPressed();
     }
 }
