@@ -5,8 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/color_white_1"
-    android:paddingStart="@dimen/spacing_normal"
-    android:paddingEnd="@dimen/spacing_normal"
     android:paddingTop="@dimen/spacing_normal_half"
     android:paddingBottom="0dp"
     tools:context="com.android.wcf.home.leaderboard.LeaderboardFragment">
@@ -15,10 +13,63 @@
         android:id="@+id/badges_main_container"
         android:background="@color/color_white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/badge_daily_steps_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:layout_marginBottom="@dimen/spacing_normal_half"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/seperator_1" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/seperator_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintGuide_percent=".64"
+            android:orientation="horizontal" />
+
+        <View
+            android:id="@+id/seperator_1_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/color_light_grey_3"
+            app:layout_constraintTop_toBottomOf="@id/badge_daily_steps_list" />
+
+        <TextView
+            android:id="@+id/streak_section_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:layout_marginStart="@dimen/spacing_normal_half"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+
+            android:gravity="start"
+            android:text="@string/streak_section_title"
+            android:textAppearance="@style/TextAppearance.WCF.Subtitle2"
+            app:layout_constraintTop_toBottomOf="@id/seperator_1_1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/challenge_badge_list"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:layout_marginBottom="@dimen/spacing_normal_half"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/streak_section_label"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -11,7 +11,6 @@ import android.widget.TextView
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.helper.DistanceConverter
-import com.android.wcf.model.Constants
 import com.fitbitsdk.service.models.ActivitySteps
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
@@ -174,7 +173,7 @@ class ParticipantActivityFragment : BaseFragment() {
     }
 
     fun sortDescending(data:ActivitySteps):ActivitySteps {
-        var activitySteps:ActivitySteps = ActivitySteps()
+        var activitySteps = ActivitySteps()
         data.steps.sortByDescending { it.date }
         activitySteps.steps = data.steps
         return activitySteps
@@ -254,7 +253,7 @@ class ParticipantActivityFragment : BaseFragment() {
                 val distanceComplete = DistanceConverter.distance(steps.value.toInt())
                 activityCompletedTv.text = numberFormatter.format(distanceComplete)
 
-                val progress = (distanceComplete / activityGoal) * 100
+                val progress = (distanceComplete * 1.0/ activityGoal) * 100
                 activityPb.progress = progress.toInt()
             }
         }
