@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.model.Badge
+import com.android.wcf.model.BadgeType
 
 class BadgesFragment : BaseFragment(), BadgesMvp.View {
 
@@ -103,7 +104,9 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
 
     override fun onBadgesData(challengeBadges:List<Badge>, dailyGoalBadges:List<Badge>, challengeEnded:Boolean) {
         if (challengeEnded) {
-            (dailyStepsBadgeListRecyclerView?.layoutManager as GridLayoutManager).spanCount = 1
+            if (hasEarnedALevelBadge(dailyGoalBadges)) {
+                (dailyStepsBadgeListRecyclerView?.layoutManager as GridLayoutManager).spanCount = 1
+            }
         }
         dailyStepsBadgeListAdapter?.setBadgeData(dailyGoalBadges.sortedByDescending { badge -> badge.date })
 
@@ -113,4 +116,12 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
         emptyContainer.visibility = View.GONE
         mainContainer.visibility = View.VISIBLE
     }
+
+    private fun hasEarnedALevelBadge(dailyGoalBadges: List<Badge>) =
+            dailyGoalBadges.filter {
+                it.type == BadgeType.LEVEL_SILVER
+                        || it.type == BadgeType.LEVEL_GOLD
+                        || it.type == BadgeType.LEVEL_PLATINUM
+                        || it.type == BadgeType.LEVEL_CHAMPION
+            }.size == 1
 }

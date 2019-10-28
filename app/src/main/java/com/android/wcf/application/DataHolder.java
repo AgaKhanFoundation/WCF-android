@@ -10,6 +10,7 @@ import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class DataHolder {
@@ -21,6 +22,7 @@ public class DataHolder {
     private static ArrayList<Badge> dailyThresholdBadgeList;
     private static ArrayList<Badge> challengeBadgeList;
     private static boolean eventEndedForBadges;
+    private static Date lastBadgeSavedAt;
 
     public static Event getEvent() {
         return event;
@@ -132,10 +134,11 @@ public class DataHolder {
     }
 
 
-    public static void saveBadgesEarned(ArrayList<Badge> dailyBadgeList, ArrayList<Badge> challengeBadgeList, boolean eventEndedForBadges){
-        DataHolder.dailyThresholdBadgeList = dailyBadgeList;
+    public static void saveBadgesEarned( ArrayList<Badge> challengeBadgeList, ArrayList<Badge> dailyBadgeList, boolean eventEndedForBadges){
         DataHolder.challengeBadgeList = challengeBadgeList;
+        DataHolder.dailyThresholdBadgeList = dailyBadgeList;
         DataHolder.eventEndedForBadges = eventEndedForBadges;
+        DataHolder.lastBadgeSavedAt = new Date();
     }
 
     public static ArrayList<Badge> getDailyThresholdBadgeList() {
@@ -147,5 +150,8 @@ public class DataHolder {
 
     public static boolean getEventEndedForBadges() {
         return eventEndedForBadges;
+    }
+    public static Date getLastBadgeSavedAt() {
+        return lastBadgeSavedAt;
     }
 }
