@@ -251,5 +251,37 @@
     <string name="badges_empty_message">Come back often to check on what badges you\'ve earned.</string>
     <string name="badges_card_label">Badges</string>
 
+    <string name="badge_title_unknown"></string>
+
+    <string name="badge_title_level_champion">Champion Level</string>
+    <string name="badge_title_level_platinum">Platinum Level</string>
+    <string name="badge_title_level_gold">Gold Level</string>
+    <string name="badge_title_level_silver">Silver Level</string>
+
+    <string name="badge_title_distance_completed">Completed %1$s</string>
+    <string name="badge_title_daily_10k">10k steps in a day</string>
+    <string name="badge_title_daily_15k">15k steps in a day</string>
+    <string name="badge_title_daily_20k">20k steps in a day</string>
+    <string name="badge_title_daily_25k">25k steps in a day</string>
+
+    <string name="badge_title_streak_10_days_10k_each">10 days streak</string>
+    <string name="badge_title_streak_20_days_10k_each">20 days streak</string>
+    <string name="badge_title_streak_30_days_10k_each">30 days streak</string>
+    <string name="badge_title_streak_40_days_10k_each">40 days streak</string>
+    <string name="badge_title_streak_50_days_10k_each">50 days streak</string>
+    <string name="badge_title_streak_60_days_10k_each">60 days streak</string>
+    <string name="badge_title_streak_70_days_10k_each">70 days streak</string>
+    <string name="badge_title_streak_80_days_10k_each">80 days streak</string>
+    <string name="badge_title_streak_90_days_10k_each">90 days streak</string>
+
+    <string name="badge_title_team_completed_25_pct">Team Completed 25\% of Journey</string>
+    <string name="badge_title_team_completed_50_pct">Team Completed 50\% of Journey</string>
+    <string name="badge_title_team_completed_75_pct">Team Completed 75\% of Journey</string>
+
+    <string name="badge_title_silver_level">Silver Level</string>
+    <string name="badge_title_gold_level">Gold Level</string>
+    <string name="badge_title_platinum_level">Platinum Level</string>
+    <string name="badge_title_champion_level">Champion Level</string>
+    <string name="streak_section_title">10,000 steps per day streak</string>
 
 </resources>
