@@ -30,5 +30,8 @@
     <dimen name="graph_vertical_marker_distance">14dp</dimen>
     <dimen name="leaderboard_medal_vertical_offset">90dp</dimen>
     <dimen name="medal_view_size">68dp</dimen>
+    <dimen name="badge_width">180dp</dimen>
+    <dimen name="badge_image_width">80dp</dimen>
+    <dimen name="level_badge_image_width">200dp</dimen>
 
 </resources>

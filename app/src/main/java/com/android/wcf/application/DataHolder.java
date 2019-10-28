@@ -3,11 +3,13 @@ package com.android.wcf.application;
 import android.util.Log;
 
 import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.Badge;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataHolder {
@@ -16,6 +18,9 @@ public class DataHolder {
     private static Participant participant;
     private static Event event;
     private static List<Team> teams;
+    private static ArrayList<Badge> dailyThresholdBadgeList;
+    private static ArrayList<Badge> challengeBadgeList;
+    private static boolean eventEndedForBadges;
 
     public static Event getEvent() {
         return event;
@@ -115,11 +120,32 @@ public class DataHolder {
         participant = null;
         participantTeam = null;
         teams = null;
+        dailyThresholdBadgeList = null;
+        challengeBadgeList = null;
+        eventEndedForBadges = false;
     }
 
     public static void updateParticipantTeamName(String newName) {
         if (participantTeam != null){
             participantTeam.setName(newName);
         }
+    }
+
+
+    public static void saveBadgesEarned(ArrayList<Badge> dailyBadgeList, ArrayList<Badge> challengeBadgeList, boolean eventEndedForBadges){
+        DataHolder.dailyThresholdBadgeList = dailyBadgeList;
+        DataHolder.challengeBadgeList = challengeBadgeList;
+        DataHolder.eventEndedForBadges = eventEndedForBadges;
+    }
+
+    public static ArrayList<Badge> getDailyThresholdBadgeList() {
+        return dailyThresholdBadgeList;
+    }
+    public static ArrayList<Badge> getChallengeBadgeList() {
+        return challengeBadgeList;
+    }
+
+    public static boolean getEventEndedForBadges() {
+        return eventEndedForBadges;
     }
 }

@@ -180,7 +180,6 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
         return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 

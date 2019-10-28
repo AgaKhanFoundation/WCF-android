@@ -23,6 +23,7 @@ data class Participant(
         @SerializedName("team") var team: Team? = Team(),
         @SerializedName("cause") var cause: Cause? = Cause(),
         @SerializedName("events") var events: List<Event> = arrayListOf(),
+        @SerializedName("records") var records: List<Record> = arrayListOf(),
         @SerializedName("achievements") var achievements: List<Achievement> = arrayListOf()) {
 
     fun getEvent(eventId: Int): Event? {
@@ -46,6 +47,14 @@ data class Participant(
         }
         return 0
     }
+
+    fun getDailyCommittedSteps(event:Event): Int {
+        val daysInChallenge = event.getDaysInChallenge()
+        if (daysInChallenge <= 0) return 0
+
+        return Math.round((getCommittedSteps() * 1.0) / daysInChallenge).toInt()
+    }
+
 
     var participantId: String? = ""
             get() = this.fbId

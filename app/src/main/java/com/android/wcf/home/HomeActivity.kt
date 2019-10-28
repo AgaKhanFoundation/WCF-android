@@ -20,6 +20,8 @@ import com.android.wcf.base.BaseActivity
 import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.helper.SharedPreferencesUtil
 import com.android.wcf.home.challenge.*
+import com.android.wcf.home.dashboard.BadgesFragment
+import com.android.wcf.home.dashboard.BadgesMvp
 import com.android.wcf.home.dashboard.DashboardFragment
 import com.android.wcf.home.dashboard.DashboardMvp
 import com.android.wcf.home.leaderboard.LeaderboardFragment
@@ -52,7 +54,8 @@ class HomeActivity : BaseActivity()
         , SupportsInviteMvp.Host
         , LeaderboardMvp.Host
         , NotificationsMvp.Host
-        , AKFParticipantProfileMvp.Host {
+        , AKFParticipantProfileMvp.Host
+        , BadgesMvp.Host{
 
     private lateinit var homePresenter: HomeMvp.HomePresenter
     private var dashboardFragment: DashboardFragment? = null
@@ -517,7 +520,12 @@ class HomeActivity : BaseActivity()
     }
 
     override fun showParticipantBadgesEarned() {
-        // TODO:  create and show participant badges fragment
+        val fragment = BadgesFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
+                .commit()
     }
 
     companion object {
