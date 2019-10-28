@@ -1,5 +1,6 @@
 package com.android.wcf.home.dashboard
 
+import com.android.wcf.application.DataHolder
 import com.android.wcf.helper.DistanceConverter
 import com.android.wcf.home.BasePresenter
 import com.android.wcf.model.*
@@ -13,16 +14,25 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
             return
         }
 
-        val dailyThresholdBadges = arrayListOf<Badge>()
-        val challengeBadges = arrayListOf<Badge>()
+
+        //optimize. save the badge assignment for the session.
+        var dailyThresholdBadges = DataHolder.getDailyThresholdBadgeList() ?: arrayListOf<Badge>()
+        var challengeBadges = DataHolder.getChallengeBadgeList() ?: arrayListOf<Badge>()
+
+        if (dailyThresholdBadges.isNotEmpty() && challengeBadges.isNotEmpty() && DataHolder.getEventEndedForBadges() == event.hasChallengeEnded()) {
+            view.onBadgesData(challengeBadges, dailyThresholdBadges, event.hasChallengeEnded())
+            return
+        }
 
         loadParticipantBadges(participant, event, challengeBadges, dailyThresholdBadges)
+
         val teamBadge = getTeamBadge(event, team)
         teamBadge?.let { challengeBadges.add(it) }
 
         if (challengeBadges.isEmpty() && dailyThresholdBadges.isEmpty()) {
             view.onNoBadgesData(event.hasChallengeEnded())
         } else {
+            DataHolder.saveBadgesEarned(challengeBadges, dailyThresholdBadges, event.hasChallengeEnded())
             view.onBadgesData(challengeBadges, dailyThresholdBadges, event.hasChallengeEnded())
         }
     }
