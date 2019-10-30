@@ -287,5 +287,6 @@
     <string name="badge_detail_title">Badge</string>
     <string name="cheers_message">Way to go!</string>
     <string name="badge_share_message_template">I just earned a badge on my journey on the Steps 4 Impact app</string>
+    <string name="no_app_to_handle_badge_sharing">No apps available on this device that can handle sharing the badge</string>
 
 </resources>

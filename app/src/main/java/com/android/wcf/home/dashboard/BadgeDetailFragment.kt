@@ -16,6 +16,7 @@ import androidx.core.content.FileProvider
 import androidx.core.graphics.drawable.toBitmap
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
+import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.kotlinExtensions.bitmap
 import com.android.wcf.kotlinExtensions.saveToInternalStorage
 import com.android.wcf.model.Badge
@@ -180,18 +181,24 @@ class BadgeDetailFragment : BaseFragment(), BadgeDetailMvp.View {
                         val title = getString(R.string.badge_share_message_template)
                         val intentBuilder = ShareCompat.IntentBuilder.from(activity)
 
-
-                        val shareIntent = Intent(Intent.ACTION_SEND)
+                        val shareIntent = intentBuilder
                                 .setType("image/*")
-                                .putExtra(Intent.EXTRA_TEXT, title)
-                                .putExtra(Intent.EXTRA_STREAM, contentUri)
-                                .putExtra(Intent.EXTRA_SUBJECT, title)
+                                .setText(title)
+                                .setSubject(title)
+                                .setStream(contentUri)
+                                .setChooserTitle("Share Via")
+                                .createChooserIntent()
 
                         if (shareIntent.resolveActivity(activity!!.packageManager) != null) {
                             startActivity(shareIntent)
-                        } else {
-
                         }
+                        else {
+                            showError(getString(R.string.badge_detail_title)
+                                    , getString(R.string.no_app_to_handle_badge_sharing)
+                                    , null)
+                            Log.e(TAG, "No apps can handle sharing badge")
+                        }
+
                     } catch (e: Exception) {
                         Log.e(tag, " Badge share error: " + e.message)
                     }
