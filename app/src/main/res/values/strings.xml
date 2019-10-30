@@ -283,5 +283,9 @@
     <string name="badge_title_platinum_level">Platinum Level</string>
     <string name="badge_title_champion_level">Champion Level</string>
     <string name="streak_section_title">10,000 steps per day streak</string>
+    <string name="share_badge_label">Share</string>
+    <string name="badge_detail_title">Badge</string>
+    <string name="cheers_message">Way to go!</string>
+    <string name="badge_share_message_template">I just earned a badge on my journey on the Steps 4 Impact app</string>
 
 </resources>
