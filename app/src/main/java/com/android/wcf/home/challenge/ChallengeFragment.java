@@ -60,10 +60,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     private ErrorDialogCallback errorDialogCallback = new ErrorDialogCallback() {
         @Override
-        public void onCancel() {
-        }
-
-        @Override
         public void onOk() {
             retrieveViewData();
         }

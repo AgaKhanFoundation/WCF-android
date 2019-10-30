@@ -62,9 +62,7 @@ class HomeActivity : BaseActivity()
     private var notificationsFragment: NotificationsFragment? = null
     private var toolbar: Toolbar? = null
 
-    private val errorDialogCallback = object : ErrorDialogCallback {
-        override fun onCancel() {}
-
+    private val networkErrorDialogCallback = object : ErrorDialogCallback {
         override fun onOk() {
             checkConnections()
         }
@@ -158,7 +156,7 @@ class HomeActivity : BaseActivity()
     }
 
     override fun showNoNetworkMessage() {
-        showError(getString(R.string.no_network), getString(R.string.no_network_message), errorDialogCallback)
+        showError(getString(R.string.no_network), getString(R.string.no_network_message), networkErrorDialogCallback)
     }
 
     private fun checkFitbitConnection() {

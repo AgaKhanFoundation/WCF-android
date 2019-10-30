@@ -68,10 +68,6 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
 
     private ErrorDialogCallback errorDialogCallback = new ErrorDialogCallback() {
         @Override
-        public void onCancel() {
-        }
-
-        @Override
         public void onOk() {
             setSplashDelay();
         }

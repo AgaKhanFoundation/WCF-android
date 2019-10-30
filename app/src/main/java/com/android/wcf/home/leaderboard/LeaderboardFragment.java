@@ -177,11 +177,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
         showError(getString(error_title_res_id), getString(R.string.no_network_message), new ErrorDialogCallback() {
             @Override
-            public void onCancel() {
-
-            }
-
-            @Override
             public void onOk() {
                 leaderboardPresenter.refreshLeaderboard(event);
             }
