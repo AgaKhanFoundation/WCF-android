@@ -20,10 +20,7 @@ import com.android.wcf.base.BaseActivity
 import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.helper.SharedPreferencesUtil
 import com.android.wcf.home.challenge.*
-import com.android.wcf.home.dashboard.BadgesFragment
-import com.android.wcf.home.dashboard.BadgesMvp
-import com.android.wcf.home.dashboard.DashboardFragment
-import com.android.wcf.home.dashboard.DashboardMvp
+import com.android.wcf.home.dashboard.*
 import com.android.wcf.home.leaderboard.LeaderboardFragment
 import com.android.wcf.home.leaderboard.LeaderboardMvp
 import com.android.wcf.home.notifications.NotificationsFragment
@@ -55,7 +52,8 @@ class HomeActivity : BaseActivity()
         , LeaderboardMvp.Host
         , NotificationsMvp.Host
         , AKFParticipantProfileMvp.Host
-        , BadgesMvp.Host{
+        , BadgesMvp.Host
+        , BadgeDetailMvp.Host {
 
     private lateinit var homePresenter: HomeMvp.HomePresenter
     private var dashboardFragment: DashboardFragment? = null
