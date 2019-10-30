@@ -78,7 +78,7 @@ class SupporterInviteFragment : BaseFragment(), SupportsInviteMvp.View {
     }
 
     internal fun closeView() {
-        activity!!.onBackPressed()
+        activity?.onBackPressed()
     }
 
 }
