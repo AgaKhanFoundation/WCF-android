@@ -43,13 +43,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
     private static final String TAG = ChallengeFragment.class.getSimpleName();
 
-    /* the fragment initialization parameters */
-    private static final String ARG_MY_PARTICIPANT_ID = "my_participant_id";
-    private static final String ARG_MY_ACTIVE_EVENT_ID = "my_active_event_id";
-    private static final String ARG_MY_TEAM_ID = "my_team_id";
-
-    /* class constants */
-
     // host for this fragment
     ChallengeMvp.Host mHostingParent;
 
