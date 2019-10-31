@@ -130,7 +130,8 @@
     <string name="challenge_progress_view_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
 
-    <string name="dashboard_distance_goal_template">/%1$s mi</string>
+    <string name="dashboard_distance_goal_template">/%1$s</string>
+    <string name="activity_daily_progress_units">Steps</string>
 
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
