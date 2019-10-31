@@ -160,15 +160,10 @@ class BadgeDetailFragment : BaseFragment(), BadgeDetailMvp.View {
                 val bitmap = badgeView.bitmap
 
                 bitmap?.let {
-                   // it.saveToInternalStorage(context, "${badge.type?.name}.png");
-                    val drawable = resources.getDrawable(badge.type.imageRes, null)
-                    val bitmap = drawable.toBitmap()
-                    val uri = bitmap.saveToInternalStorage(context!!, "${badge.type.name}.png")
-//                    val contentUri = FileProvider.getUriForFile(context!!, activity!!.packageName + ".provider", file)
-
-                    // var bitmap:Bitmap = BitmapFactory.decodeResource(it.getResources(), badge.type.imageRes);
-
                     //save bitmap to app cache folder
+                    val uri =  it.saveToInternalStorage(context, "${badge.type?.name}.png");
+
+                    //retrieve the content uri
                     val outputFile = File(context.getCacheDir(), "${badge.type.name}.png");
                     val outPutStream = FileOutputStream(outputFile)
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, outPutStream);
