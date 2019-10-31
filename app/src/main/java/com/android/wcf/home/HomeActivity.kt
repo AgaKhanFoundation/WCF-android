@@ -519,8 +519,8 @@ class HomeActivity : BaseActivity()
         val fragment = BadgesFragment()
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
+                .add(R.id.fragment_container, fragment)
+                .addToBackStack("BadgesFragment")
                 .commit()
     }
 

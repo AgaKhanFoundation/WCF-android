@@ -1,7 +1,5 @@
 package com.android.wcf.application;
 
-import android.util.Log;
-
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Badge;
 import com.android.wcf.model.Commitment;
@@ -23,6 +21,7 @@ public class DataHolder {
     private static ArrayList<Badge> challengeBadgeList;
     private static boolean eventEndedForBadges;
     private static Date lastBadgeSavedAt;
+    private static int akfProfileShowCount = 0;
 
     public static Event getEvent() {
         return event;
@@ -87,7 +86,7 @@ public class DataHolder {
         if (participantEvent != null) {
             Commitment commitment = participantEvent.getParticipantCommitment();
             if (commitment != null) {
-               commitment.setCommitmentSteps(steps);
+                commitment.setCommitmentSteps(steps);
             }
         }
 
@@ -128,13 +127,13 @@ public class DataHolder {
     }
 
     public static void updateParticipantTeamName(String newName) {
-        if (participantTeam != null){
+        if (participantTeam != null) {
             participantTeam.setName(newName);
         }
     }
 
 
-    public static void saveBadgesEarned( ArrayList<Badge> challengeBadgeList, ArrayList<Badge> dailyBadgeList, boolean eventEndedForBadges){
+    public static void saveBadgesEarned(ArrayList<Badge> challengeBadgeList, ArrayList<Badge> dailyBadgeList, boolean eventEndedForBadges) {
         DataHolder.challengeBadgeList = challengeBadgeList;
         DataHolder.dailyThresholdBadgeList = dailyBadgeList;
         DataHolder.eventEndedForBadges = eventEndedForBadges;
@@ -144,6 +143,7 @@ public class DataHolder {
     public static ArrayList<Badge> getDailyThresholdBadgeList() {
         return dailyThresholdBadgeList;
     }
+
     public static ArrayList<Badge> getChallengeBadgeList() {
         return challengeBadgeList;
     }
@@ -151,7 +151,14 @@ public class DataHolder {
     public static boolean getEventEndedForBadges() {
         return eventEndedForBadges;
     }
+
     public static Date getLastBadgeSavedAt() {
         return lastBadgeSavedAt;
+    }
+
+    public static boolean checkShowAkfProfile() {
+        akfProfileShowCount++;
+        //will remind upto 4 times in a session
+        return (akfProfileShowCount <= 20 && (akfProfileShowCount ==1 ||  akfProfileShowCount % 5 == 0));
     }
 }

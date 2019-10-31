@@ -2,6 +2,7 @@ package com.android.wcf.home;
 
 import androidx.annotation.NonNull;
 
+import com.android.wcf.application.DataHolder;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Participant;
@@ -46,8 +47,9 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
             super.updateParticipantProfileRegistered(participant.getParticipantId());
         }
         else {
-
-            homeView.showAKFProfileView();
+            if (DataHolder.checkShowAkfProfile()) {
+                homeView.showAKFProfileView();
+            }
         }
     }
 
