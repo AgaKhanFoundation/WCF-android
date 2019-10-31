@@ -259,20 +259,20 @@
     <string name="badge_title_level_silver">Silver Level</string>
 
     <string name="badge_title_distance_completed">Completed %1$s</string>
-    <string name="badge_title_daily_10k">10k steps in a day</string>
-    <string name="badge_title_daily_15k">15k steps in a day</string>
-    <string name="badge_title_daily_20k">20k steps in a day</string>
-    <string name="badge_title_daily_25k">25k steps in a day</string>
+    <string name="badge_title_daily_10k">10,000 steps</string>
+    <string name="badge_title_daily_15k">15,000 steps</string>
+    <string name="badge_title_daily_20k">20,000 steps</string>
+    <string name="badge_title_daily_25k">25,000 steps</string>
 
-    <string name="badge_title_streak_10_days_10k_each">10 days streak</string>
-    <string name="badge_title_streak_20_days_10k_each">20 days streak</string>
-    <string name="badge_title_streak_30_days_10k_each">30 days streak</string>
-    <string name="badge_title_streak_40_days_10k_each">40 days streak</string>
-    <string name="badge_title_streak_50_days_10k_each">50 days streak</string>
-    <string name="badge_title_streak_60_days_10k_each">60 days streak</string>
-    <string name="badge_title_streak_70_days_10k_each">70 days streak</string>
-    <string name="badge_title_streak_80_days_10k_each">80 days streak</string>
-    <string name="badge_title_streak_90_days_10k_each">90 days streak</string>
+    <string name="badge_title_streak_10_days_10k_each">10 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_20_days_10k_each">20 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_30_days_10k_each">30 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_40_days_10k_each">40 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_50_days_10k_each">50 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_60_days_10k_each">60 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_70_days_10k_each">70 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_80_days_10k_each">80 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_90_days_10k_each">90 days streak of 10,000 steps</string>
 
     <string name="badge_title_team_completed_25_pct">Team Completed 25\% of Journey</string>
     <string name="badge_title_team_completed_50_pct">Team Completed 50\% of Journey</string>
