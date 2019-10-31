@@ -6,23 +6,39 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.android.wcf.R
-import com.android.wcf.helper.DistanceConverter
 import com.android.wcf.model.Badge
 import com.android.wcf.model.BadgeType
-import java.text.SimpleDateFormat
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.view_list_badge_item.view.*
+import java.text.SimpleDateFormat
 
-class BadgeListAdapter : RecyclerView.Adapter<BadgeListAdapter.BadgeViewHolder>(), BadgeListAdapterMvp.View {
+class BadgeListAdapter(val adapterHost: AdapterHost ) : RecyclerView.Adapter<BadgeListAdapter.BadgeViewHolder>(), BadgeListAdapterMvp.View {
 
     var badgeList:List<Badge> = arrayListOf()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BadgeListAdapter.BadgeViewHolder {
+    val itemClickedListener = object:AdapterViewListener {
+        override fun onItemClick(view: View, position: Int) {
+            when (view.id) {
+                R.id.icon_badge -> {
+                }
+                R.id.badge_description -> {
+                }
+                R.id.badge_date -> {
+                }
+                else -> {
+                    val pos = view.getTag(R.integer.badge_row_num_tag) as Int
+                    adapterHost?.onItemSelected(badgeList.get(position))
+                }
+            }
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BadgeViewHolder {
 
         val view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.view_list_badge_item, parent, false)
 
-        return BadgeViewHolder(view)
+        return BadgeViewHolder(view, itemClickedListener)
     }
 
     fun setBadgeData(badgeData: List<Badge>) {
@@ -34,19 +50,17 @@ class BadgeListAdapter : RecyclerView.Adapter<BadgeListAdapter.BadgeViewHolder>(
         return badgeList.size
     }
 
-    override fun onBindViewHolder(viewHolder: BadgeListAdapter.BadgeViewHolder, position: Int) {
-        val badgeViewHolder = viewHolder as BadgeViewHolder
-        badgeViewHolder.bindView(badgeList[position])
-
+    override fun onBindViewHolder(viewHolder: BadgeViewHolder, position: Int) {
+        viewHolder.bindView(badgeList[position], position)
     }
 
-    class BadgeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class BadgeViewHolder(itemView: View, val clickListener:AdapterViewListener?) : RecyclerView.ViewHolder(itemView) {
 
         val dateFormatter = SimpleDateFormat("MMM d, yyyy")
 
         val res:Resources = itemView.resources
 
-        fun bindView(badge: Badge) {
+        fun bindView(badge: Badge, position: Int) {
             var title = badge.title
             if (title == null) {
                 when (badge.type) {
@@ -66,12 +80,29 @@ class BadgeListAdapter : RecyclerView.Adapter<BadgeListAdapter.BadgeViewHolder>(
             itemView.badge_date.text = dateFormatter.format((badge.date))
             when (badge.type) {
                 BadgeType.LEVEL_SILVER, BadgeType.LEVEL_GOLD, BadgeType.LEVEL_PLATINUM, BadgeType.LEVEL_CHAMPION ->
-                    itemView.icon_badge.getLayoutParams().height = res.getDimensionPixelSize(R.dimen.level_badge_image_width)
+                    itemView.icon_badge.getLayoutParams().height = res.getDimensionPixelSize(R.dimen.level_badge_image_medium_width)
                 else ->
-                    itemView.icon_badge.getLayoutParams().height = res.getDimensionPixelSize(R.dimen.badge_image_width)
+                    itemView.icon_badge.getLayoutParams().height = res.getDimensionPixelSize(R.dimen.badge_image_small_width)
 
             }
-                Glide.with(itemView.context).load(badge.type.imageRes).into(itemView.icon_badge)
+            Glide.with(itemView.context).load(badge.type.imageRes).into(itemView.icon_badge)
+            itemView.setOnClickListener({ view ->
+                clickListener?.let {
+                    val position = adapterPosition
+                    it.onItemClick(view, position)
+                }
+            })
+
+            itemView.setTag(R.integer.badge_row_num_tag, position)
+
         }
+    }
+
+    interface AdapterViewListener {
+        fun onItemClick(view:View, position:Int)
+    }
+
+    interface AdapterHost {
+        fun onItemSelected(badge: Badge)
     }
 }

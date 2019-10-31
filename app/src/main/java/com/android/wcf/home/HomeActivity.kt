@@ -20,10 +20,7 @@ import com.android.wcf.base.BaseActivity
 import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.helper.SharedPreferencesUtil
 import com.android.wcf.home.challenge.*
-import com.android.wcf.home.dashboard.BadgesFragment
-import com.android.wcf.home.dashboard.BadgesMvp
-import com.android.wcf.home.dashboard.DashboardFragment
-import com.android.wcf.home.dashboard.DashboardMvp
+import com.android.wcf.home.dashboard.*
 import com.android.wcf.home.leaderboard.LeaderboardFragment
 import com.android.wcf.home.leaderboard.LeaderboardMvp
 import com.android.wcf.home.notifications.NotificationsFragment
@@ -55,7 +52,8 @@ class HomeActivity : BaseActivity()
         , LeaderboardMvp.Host
         , NotificationsMvp.Host
         , AKFParticipantProfileMvp.Host
-        , BadgesMvp.Host{
+        , BadgesMvp.Host
+        , BadgeDetailMvp.Host {
 
     private lateinit var homePresenter: HomeMvp.HomePresenter
     private var dashboardFragment: DashboardFragment? = null
@@ -64,9 +62,7 @@ class HomeActivity : BaseActivity()
     private var notificationsFragment: NotificationsFragment? = null
     private var toolbar: Toolbar? = null
 
-    private val errorDialogCallback = object : ErrorDialogCallback {
-        override fun onCancel() {}
-
+    private val networkErrorDialogCallback = object : ErrorDialogCallback {
         override fun onOk() {
             checkConnections()
         }
@@ -160,7 +156,7 @@ class HomeActivity : BaseActivity()
     }
 
     override fun showNoNetworkMessage() {
-        showError(getString(R.string.no_network), getString(R.string.no_network_message), errorDialogCallback)
+        showError(getString(R.string.no_network), getString(R.string.no_network_message), networkErrorDialogCallback)
     }
 
     private fun checkFitbitConnection() {
@@ -523,8 +519,8 @@ class HomeActivity : BaseActivity()
         val fragment = BadgesFragment()
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)
+                .add(R.id.fragment_container, fragment)
+                .addToBackStack("BadgesFragment")
                 .commit()
     }
 

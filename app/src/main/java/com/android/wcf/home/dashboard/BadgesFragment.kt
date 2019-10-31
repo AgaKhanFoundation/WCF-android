@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.model.Badge
+import com.android.wcf.model.BadgeType
+
 
 class BadgesFragment : BaseFragment(), BadgesMvp.View {
 
@@ -24,6 +26,13 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
     private var dailyStepsBadgeListAdapter: BadgeListAdapter? = null
     private var challengeBadgeListRecyclerView: RecyclerView? = null
     private var challengeBadgeListAdapter: BadgeListAdapter? = null
+
+
+    val badgeSelectionListener = object: BadgeListAdapter.AdapterHost {
+        override fun onItemSelected(badge: Badge) {
+            showBadgeDetail(badge)
+        }
+    }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -76,7 +85,7 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
 
         mainContainer = view.findViewById(R.id.badges_main_container)
 
-        dailyStepsBadgeListAdapter = BadgeListAdapter()
+        dailyStepsBadgeListAdapter = BadgeListAdapter(badgeSelectionListener)
         dailyStepsBadgeListRecyclerView = mainContainer.findViewById(R.id.badge_daily_steps_list)
         dailyStepsBadgeListRecyclerView?.let {
             it.setHasFixedSize(true)
@@ -85,7 +94,7 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
             it.setAdapter(dailyStepsBadgeListAdapter)
         }
 
-        challengeBadgeListAdapter = BadgeListAdapter()
+        challengeBadgeListAdapter = BadgeListAdapter(badgeSelectionListener)
         challengeBadgeListRecyclerView = mainContainer.findViewById(R.id.challenge_badge_list)
         challengeBadgeListRecyclerView?.let {
             it.setHasFixedSize(true)
@@ -103,7 +112,9 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
 
     override fun onBadgesData(challengeBadges:List<Badge>, dailyGoalBadges:List<Badge>, challengeEnded:Boolean) {
         if (challengeEnded) {
-            (dailyStepsBadgeListRecyclerView?.layoutManager as GridLayoutManager).spanCount = 1
+            if (hasEarnedALevelBadge(dailyGoalBadges)) {
+                (dailyStepsBadgeListRecyclerView?.layoutManager as GridLayoutManager).spanCount = 1
+            }
         }
         dailyStepsBadgeListAdapter?.setBadgeData(dailyGoalBadges.sortedByDescending { badge -> badge.date })
 
@@ -112,5 +123,26 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
 
         emptyContainer.visibility = View.GONE
         mainContainer.visibility = View.VISIBLE
+    }
+
+    private fun hasEarnedALevelBadge(dailyGoalBadges: List<Badge>) =
+            dailyGoalBadges.filter {
+                it.type == BadgeType.LEVEL_SILVER
+                        || it.type == BadgeType.LEVEL_GOLD
+                        || it.type == BadgeType.LEVEL_PLATINUM
+                        || it.type == BadgeType.LEVEL_CHAMPION
+            }.size == 1
+
+
+    override fun showBadgeDetail(badge: Badge) {
+        val fragment = BadgeDetailFragment.newInstance(badge)
+
+        val fragmentManager = activity?.supportFragmentManager
+        fragmentManager?.let {
+            it.beginTransaction()
+                    .add(R.id.fragment_container, fragment!!)
+                    .addToBackStack(null)
+                    .commit()
+        }
     }
 }

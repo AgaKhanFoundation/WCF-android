@@ -1,16 +1,17 @@
 package com.android.wcf.home.dashboard
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import com.android.wcf.base.BaseMvp
-import com.android.wcf.model.Badge
-import com.android.wcf.model.Event
-import com.android.wcf.model.Participant
-import com.android.wcf.model.Team
+import com.android.wcf.model.*
+import java.util.*
 
 interface BadgesMvp {
     interface View: BaseMvp.BaseView {
 
         fun onNoBadgesData(challengeEnded:Boolean)
         fun onBadgesData(challengeBadges:List<Badge>, dailyGoalBadges:List<Badge>, challengeEnded:Boolean)
+        fun showBadgeDetail(badge:Badge)
     }
 
     interface Presenter : BaseMvp.Presenter {
@@ -18,6 +19,5 @@ interface BadgesMvp {
     }
 
     interface Host : BaseMvp.Host{
-
     }
 }

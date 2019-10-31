@@ -4,6 +4,8 @@ import com.android.wcf.application.DataHolder
 import com.android.wcf.helper.DistanceConverter
 import com.android.wcf.home.BasePresenter
 import com.android.wcf.model.*
+import java.util.*
+import kotlin.collections.ArrayList
 
 class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Presenter {
 
@@ -14,33 +16,42 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
             return
         }
 
+        var challengeEnded = event.hasChallengeEnded()
+        var dailyThresholdBadges = arrayListOf<Badge>()
+        var challengeBadges = arrayListOf<Badge>()
+        var now = Date()
 
-        //optimize. save the badge assignment for the session.
-        var dailyThresholdBadges = DataHolder.getDailyThresholdBadgeList() ?: arrayListOf<Badge>()
-        var challengeBadges = DataHolder.getChallengeBadgeList() ?: arrayListOf<Badge>()
+        //optimize the badge assignment for the session.
+        var lastBadgeSaveAt = DataHolder.getLastBadgeSavedAt() ?: Date();
+        if (now.time - lastBadgeSaveAt.time < Constants.BADGE_CALCULATION_DELTA_MIN * 60 * 1000 ) {
 
-        if (dailyThresholdBadges.isNotEmpty() && challengeBadges.isNotEmpty() && DataHolder.getEventEndedForBadges() == event.hasChallengeEnded()) {
-            view.onBadgesData(challengeBadges, dailyThresholdBadges, event.hasChallengeEnded())
-            return
+             dailyThresholdBadges = DataHolder.getDailyThresholdBadgeList()
+                    ?: arrayListOf()
+             challengeBadges = DataHolder.getChallengeBadgeList() ?: arrayListOf()
+
+            if (dailyThresholdBadges.isNotEmpty() && challengeBadges.isNotEmpty() && DataHolder.getEventEndedForBadges() == challengeEnded) {
+                view.onBadgesData(challengeBadges, dailyThresholdBadges, challengeEnded)
+                return
+            }
         }
 
-        loadParticipantBadges(participant, event, challengeBadges, dailyThresholdBadges)
+        loadParticipantBadges(participant, event, challengeBadges, dailyThresholdBadges, challengeEnded)
 
         val teamBadge = getTeamBadge(event, team)
         teamBadge?.let { challengeBadges.add(it) }
 
         if (challengeBadges.isEmpty() && dailyThresholdBadges.isEmpty()) {
-            view.onNoBadgesData(event.hasChallengeEnded())
+            view.onNoBadgesData(challengeEnded)
         } else {
-            DataHolder.saveBadgesEarned(challengeBadges, dailyThresholdBadges, event.hasChallengeEnded())
-            view.onBadgesData(challengeBadges, dailyThresholdBadges, event.hasChallengeEnded())
+            DataHolder.saveBadgesEarned(challengeBadges, dailyThresholdBadges, challengeEnded)
+            view.onBadgesData(challengeBadges, dailyThresholdBadges, challengeEnded)
         }
     }
 
     private fun loadParticipantBadges(participant: Participant
                                       , event: Event
                                       , challengeBadges: ArrayList<Badge>
-                                      , dailyGoalBadges: ArrayList<Badge>) {
+                                      , dailyGoalBadges: ArrayList<Badge>, challengeEnded:Boolean) {
         val recordsList = participant.records?.sortedBy { record -> record.date }
 
         addDistanceBadge(recordsList, challengeBadges)
@@ -48,7 +59,7 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
         var daysWith10KStepsMet = recordsList.filter {
             it.distance ?: 0 >= BadgeType.DAILY_10K_STEPS.threshold
         }
-        if (event.hasChallengeEnded()) {
+        if (challengeEnded) {
             if (daysWith10KStepsMet.size >= BadgeType.LEVEL_CHAMPION.threshold) {
                 dailyGoalBadges.add(Badge(BadgeType.LEVEL_CHAMPION, event.endDate?.time))
             } else if (daysWith10KStepsMet.size >= BadgeType.LEVEL_PLATINUM.threshold) {

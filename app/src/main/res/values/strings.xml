@@ -130,7 +130,8 @@
     <string name="challenge_progress_view_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
 
-    <string name="dashboard_distance_goal_template">/%1$s mi</string>
+    <string name="dashboard_distance_goal_template">/%1$s</string>
+    <string name="activity_daily_progress_units">Steps</string>
 
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
@@ -259,20 +260,20 @@
     <string name="badge_title_level_silver">Silver Level</string>
 
     <string name="badge_title_distance_completed">Completed %1$s</string>
-    <string name="badge_title_daily_10k">10k steps in a day</string>
-    <string name="badge_title_daily_15k">15k steps in a day</string>
-    <string name="badge_title_daily_20k">20k steps in a day</string>
-    <string name="badge_title_daily_25k">25k steps in a day</string>
+    <string name="badge_title_daily_10k">10,000 steps</string>
+    <string name="badge_title_daily_15k">15,000 steps</string>
+    <string name="badge_title_daily_20k">20,000 steps</string>
+    <string name="badge_title_daily_25k">25,000 steps</string>
 
-    <string name="badge_title_streak_10_days_10k_each">10 days streak</string>
-    <string name="badge_title_streak_20_days_10k_each">20 days streak</string>
-    <string name="badge_title_streak_30_days_10k_each">30 days streak</string>
-    <string name="badge_title_streak_40_days_10k_each">40 days streak</string>
-    <string name="badge_title_streak_50_days_10k_each">50 days streak</string>
-    <string name="badge_title_streak_60_days_10k_each">60 days streak</string>
-    <string name="badge_title_streak_70_days_10k_each">70 days streak</string>
-    <string name="badge_title_streak_80_days_10k_each">80 days streak</string>
-    <string name="badge_title_streak_90_days_10k_each">90 days streak</string>
+    <string name="badge_title_streak_10_days_10k_each">10 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_20_days_10k_each">20 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_30_days_10k_each">30 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_40_days_10k_each">40 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_50_days_10k_each">50 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_60_days_10k_each">60 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_70_days_10k_each">70 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_80_days_10k_each">80 days streak of 10,000 steps</string>
+    <string name="badge_title_streak_90_days_10k_each">90 days streak of 10,000 steps</string>
 
     <string name="badge_title_team_completed_25_pct">Team Completed 25\% of Journey</string>
     <string name="badge_title_team_completed_50_pct">Team Completed 50\% of Journey</string>
@@ -283,5 +284,10 @@
     <string name="badge_title_platinum_level">Platinum Level</string>
     <string name="badge_title_champion_level">Champion Level</string>
     <string name="streak_section_title">10,000 steps per day streak</string>
+    <string name="share_badge_label">Share</string>
+    <string name="badge_detail_title">Badge</string>
+    <string name="cheers_message">Way to go!</string>
+    <string name="badge_share_message_template">I just earned a badge on my journey on the Steps 4 Impact app</string>
+    <string name="no_app_to_handle_badge_sharing">No apps available on this device that can handle sharing the badge</string>
 
 </resources>

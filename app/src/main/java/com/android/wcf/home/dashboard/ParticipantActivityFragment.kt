@@ -250,7 +250,7 @@ class ParticipantActivityFragment : BaseFragment() {
                 val steps = it.get(stepsIndex);
                 navPrev.setEnabled(if (stepsIndex < it.size - 1) true else false)
                 dateTv.text = steps.date
-                val distanceComplete = DistanceConverter.distance(steps.value.toInt())
+                val distanceComplete = steps.value.toInt()
                 activityCompletedTv.text = numberFormatter.format(distanceComplete)
 
                 val progress = (distanceComplete * 1.0/ activityGoal) * 100

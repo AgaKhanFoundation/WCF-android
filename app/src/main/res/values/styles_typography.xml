@@ -56,6 +56,10 @@ Reference:
         <item name="android:textStyle">normal</item>
     </style>
 
+    <style name="TextAppearance.WCF.Headline5.Bold">
+        <item name="android:textStyle">bold</item>
+    </style>
+
     <style name="TextAppearance.WCF.Headline6" parent="TextAppearance.MaterialComponents.Headline6">
         <item name="fontFamily">roboto_medium</item>
         <item name="android:fontFamily">roboto_medium</item>
