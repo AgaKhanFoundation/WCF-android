@@ -3,6 +3,7 @@ package com.android.wcf.network;
 
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
 import com.android.wcf.model.Source;
@@ -88,5 +89,10 @@ public interface WCFApiEndpoints {
     /********* RECORDS  ************/
     @POST("records/")
     Single<Record> recordSteps(@Body RequestBody params);
+
+
+    /********* JOURNEY MILESTONES  ************/
+    @GET("/achievement")
+    Single<List<Milestone>> getJourneyMilestones(int eventId);
 
 }

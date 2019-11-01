@@ -27,6 +27,7 @@ import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
@@ -36,6 +37,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
+import java.util.List;
 
 import static com.android.wcf.application.WCFApplication.isProdBackend;
 
@@ -330,8 +332,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public void showJourneyActiveView(Event event) {
         if (journeyCard != null) {
 
-            //TODO: show Milestones view
-
             View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
             if (journeyActiveView != null && journeyActiveView.getVisibility() != View.VISIBLE) {
                 TextView journeyText = journeyActiveView.findViewById(R.id.journey_card_journey_text);
@@ -341,6 +341,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 }
                 else {
                     journeyText.setText(R.string.message_journey_started);
+                    challengePresenter.getJourneyMilestones(event.getId());
                 }
                 journeyActiveView.setVisibility(View.VISIBLE);
             }
@@ -350,6 +351,31 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 journeyStartView.setVisibility(View.GONE);
             }
         }
+    }
+
+    @Override
+    public void updateJourneyMilestones(List<Milestone> journeyMilestones) {
+        if (journeyMilestones == null) {
+            Log.d(TAG, "No Journey milestones returned");
+            return;
+        }
+        Team team = getParticipantTeam();
+        if (team != null) {
+            int teamStepsCompleted = team.geTotalParticipantCompletedSteps();
+            for (Milestone milestone : journeyMilestones) {
+                milestone.hasReached(teamStepsCompleted);
+            }
+        }
+
+        //TODO: Update Journey card
+    }
+
+    @Override
+    public void onGetJourneyMilestoneError(Throwable error) {
+        if (error instanceof IOException) {
+            showNetworkErrorMessage(R.string.data_error);
+        }
+        //TODO: show error?
     }
 
     @Override
