@@ -1,13 +1,21 @@
 package com.android.wcf.model
 
 import com.google.gson.annotations.SerializedName
-import java.util.ArrayList
 
 data class Milestone(
         @SerializedName("id") var id: Int = 0,
-        @SerializedName("miles") var miles: Int = 9999999,
-        @SerializedName("city") var city: String? = "",
-        @SerializedName("country") var country: String? = "",
-        @SerializedName("text") var text: String? = "",
-        @SerializedName("media_list") var achievements: List<Achievement> = ArrayList()) {
+        @SerializedName("sequence") var sequence: Int = 0,
+        @SerializedName("distance") var steps: Int = 9999999,
+        @SerializedName("name") var name: String = "",
+        @SerializedName("flag_name") var flag_name: String = "",
+        @SerializedName("title") var title: String? = null,
+        @SerializedName("subtitle") var subtitle: String? = null,
+        @SerializedName("description") var description: String? = "",
+        @SerializedName("media") var media: String? = null) {
+
+    var reached:Boolean = false
+
+    fun hasReached(stepsCompleted:Int) {
+        reached = stepsCompleted >= steps
+    }
 }
