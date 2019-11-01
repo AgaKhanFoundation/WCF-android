@@ -8,6 +8,7 @@ import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
 import com.android.wcf.model.Source;
@@ -106,6 +107,38 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     protected void onGetEventError(Throwable error) {
         Log.e(TAG, "onGetEventError: " + error.getMessage());
     }
+
+
+    protected void getJourneyMilestones(int eventId) {
+        wcfClient.getJourneyMilestones(eventId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Milestone>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Milestone> journeyMilestones) {
+                        onGetJourneyMilestonesSuccess(journeyMilestones);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onGetJourneyMilestoneError(error);
+                    }
+                });
+    }
+
+    protected void onGetJourneyMilestonesSuccess(List<Milestone> journeyMilestones) {
+        Log.d(TAG, "onGetJourneyMilestonesSuccess");
+    }
+
+    protected void onGetJourneyMilestoneError(Throwable error) {
+        Log.e(TAG, "onGetJourneyMilestoneError: " + error.getMessage());
+    }
+
 
     /******* PARTICIPANT API   ******/
 

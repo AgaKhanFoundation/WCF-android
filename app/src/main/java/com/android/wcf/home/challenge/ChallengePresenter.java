@@ -1,9 +1,12 @@
 package com.android.wcf.home.challenge;
 
+import android.util.Log;
+
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -320,5 +323,20 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
         super.onUpdateParticipantCommitmentSuccess(participantId, eventId, commitmentSteps);
         challengeView.onUpdateParticipantCommitmentToEvent(participantId, eventId, commitmentSteps);
+    }
+
+    @Override
+    public void getJourneyMilestones(int eventId) {
+        super.getJourneyMilestones(eventId);
+    }
+
+    protected void onGetJourneyMilestonesSuccess(List<Milestone> journeyMilestones) {
+        super.onGetJourneyMilestonesSuccess(journeyMilestones);
+        challengeView.updateJourneyMilestones(journeyMilestones);
+    }
+
+    protected void onGetJourneyMilestoneError(Throwable error) {
+        super.onGetJourneyMilestoneError(error);
+        challengeView.onGetJourneyMilestoneError(error);
     }
 }

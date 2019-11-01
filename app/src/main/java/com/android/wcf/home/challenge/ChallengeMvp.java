@@ -6,8 +6,11 @@ import androidx.annotation.StringRes;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
+
+import java.util.List;
 
 public interface ChallengeMvp {
     interface ChallengeView extends BaseMvp.BaseView {
@@ -68,6 +71,10 @@ public interface ChallengeMvp {
         void onGetTeamStatsError(Throwable error);
 
         void onDeleteTeamError(Throwable error);
+
+        void updateJourneyMilestones(List<Milestone> journeyMilestones);
+
+        void onGetJourneyMilestoneError(Throwable error);
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -96,6 +103,8 @@ public interface ChallengeMvp {
         void getTeamParticipantCommitments(final Team team, final int eventId);
 
         void getTeamParticipantsChallengeProgress(final Team team, final int eventId);
+
+        void getJourneyMilestones(int id);
     }
 
     interface Host extends BaseMvp.Host {
