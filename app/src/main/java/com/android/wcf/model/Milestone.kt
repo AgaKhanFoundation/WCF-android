@@ -8,12 +8,12 @@ data class Milestone(
         @SerializedName("sequence") var sequence: Int = 0,
         @SerializedName("distance") var steps: Int = 999999999,
         @SerializedName("name") var name: String = "",
-        @SerializedName("subtext") var subtext: String = "",
+        @SerializedName("description") var description: String = "",
         @SerializedName("flag_name") var flag_name: String = "",
         @SerializedName("journey_map") var journey_map: String = "",
         @SerializedName("title") var title: String = "",
         @SerializedName("subtitle") var subtitle: String = "",
-        @SerializedName("description") var description: String = "",
+        @SerializedName("content") var content: String = "",
         @SerializedName("media") var media: String = "") {
 
     var reached:Boolean = false
