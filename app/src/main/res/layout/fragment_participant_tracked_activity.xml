@@ -98,7 +98,7 @@
             android:layout_height="match_parent"
             android:gravity="center"
             tools:text="/5"
-            android:textAppearance="?textAppearanceHeadline6"
+            android:textAppearance="?textAppearanceSubtitle1"
             app:layout_constraintTop_toBottomOf="@id/activity_completed"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
