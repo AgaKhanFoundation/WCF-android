@@ -94,8 +94,10 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
                     break;
                 case R.id.delete_team:
                     confirmDeleteTeam();
+                    break;
                 case R.id.team_name:
                     editTeamName();
+                    break;
             }
         }
     };
