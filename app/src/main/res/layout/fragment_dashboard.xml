@@ -215,7 +215,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/dashboard_activity_tracked_info_view"
                 android:layout_width="match_parent"
-                android:layout_height="362dp"
+                android:layout_height="380dp"
                 android:padding="@dimen/spacing_normal"
                 android:visibility="visible">
 

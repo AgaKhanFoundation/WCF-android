@@ -33,14 +33,11 @@ public class SharedPreferencesUtil {
     private static String PREF_NAME_USER_EMAIL = "userEmail";
     private static String PREF_NAME_USER_PROFILE_PHOTO_URL = "userProfilePhotoUrl";
     private static String PREF_NAME_USER_STEPS_COMMITTED = "userStepsCommitted";
+    private static String PREF_NAME_ACTIVITY_DAILY_VIEW_TYPE = "activity_daily_view_type";
 
-    public static final String DEFAULT_FB_ID = null;   //TODO: this will be null for not logged-in person
-    public static final int DEFAULT_TEAM_ID = -1;            //TODO: this will be -1 for represent unassigned teamId
-    public static final int DEFAULT_ACTIVE_EVENT_ID = -1;     //TODO: this will be -1 for participants who have not selected event when list is API driven
-
-    public static final int UNKNOWN_ACTIVE_EVENT_ID = -1;
-    public static final int UNKNOWN_TEAM_ID = -1;
-    public static final int UNKNOWN_PARTICIPANT_ID = -1;
+    public static final String DEFAULT_FB_ID = null;        // null for not logged-in person
+    public static final int DEFAULT_TEAM_ID = -1;           // -1 for represent unassigned teamId
+    public static final int DEFAULT_ACTIVE_EVENT_ID = -1;    // -1 for participants who have not selected event when list is API driven
 
     public static SharedPreferences getSharedPrefs(String preferanceTypeName) {
         return WCFApplication.instance.getSharedPreferences(preferanceTypeName, Context.MODE_PRIVATE);
@@ -229,5 +226,16 @@ public class SharedPreferencesUtil {
         preferences.edit()
                 .remove(PREF_NAME_AKF_PROFILE_CREATED)
                 .commit();
+    }
+
+    public static void saveDailyViewSelection(int viewType) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putInt(PREF_NAME_ACTIVITY_DAILY_VIEW_TYPE, viewType);
+        editor.commit();
+    }
+
+    public static int getDailyViewSelection() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getInt(PREF_NAME_ACTIVITY_DAILY_VIEW_TYPE, 0);
     }
 }
