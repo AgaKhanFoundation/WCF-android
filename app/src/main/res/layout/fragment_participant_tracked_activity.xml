@@ -103,16 +103,27 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"/>
 
-        <TextView
-            android:id="@+id/activity_goal_units"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="@string/activity_daily_progress_units"
-            android:textAppearance="?textAppearanceSubtitle1"
-            app:layout_constraintTop_toBottomOf="@id/activity_goal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"/>
+        <RadioGroup
+            android:id="@+id/activity_daily_view_selector_rg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/activity_progress"
+            app:layout_constraintStart_toStartOf="parent">
+
+        <RadioButton
+                android:id="@+id/activity_daily_selector_steps_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="@string/activity_daily_selector_steps_label" />
+
+            <RadioButton
+                android:id="@+id/activity_daily_selector_distance_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/activity_daily_selector_distance_label" />
+        </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -123,7 +134,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nav_container"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/activity_mon_label"

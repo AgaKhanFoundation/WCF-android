@@ -130,8 +130,7 @@
     <string name="challenge_progress_view_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
 
-    <string name="dashboard_distance_goal_template">/%1$s</string>
-    <string name="activity_daily_progress_units">Steps</string>
+    <string name="dashboard_distance_goal_template">/%1$s %2$s</string>
 
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
@@ -289,5 +288,7 @@
     <string name="cheers_message">Way to go!</string>
     <string name="badge_share_message_template">I just earned a badge on my journey on the Steps 4 Impact app</string>
     <string name="no_app_to_handle_badge_sharing">No apps available on this device that can handle sharing the badge</string>
+    <string name="activity_daily_selector_steps_label">Steps</string>
+    <string name="activity_daily_selector_distance_label">Miles</string>
 
 </resources>
