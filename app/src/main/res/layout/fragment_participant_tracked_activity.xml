@@ -111,18 +111,20 @@
             app:layout_constraintTop_toBottomOf="@id/activity_progress"
             app:layout_constraintStart_toStartOf="parent">
 
-        <RadioButton
-                android:id="@+id/activity_daily_selector_steps_rb"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/activity_daily_selector_steps_label" />
-
             <RadioButton
                 android:id="@+id/activity_daily_selector_distance_rb"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/activity_daily_selector_distance_label" />
+
+            <RadioButton
+                android:id="@+id/activity_daily_selector_steps_rb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_normal_half"
+                android:checked="true"
+                android:text="@string/activity_daily_selector_steps_label" />
+
         </RadioGroup>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

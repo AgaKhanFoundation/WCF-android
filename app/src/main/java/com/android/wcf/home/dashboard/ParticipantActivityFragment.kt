@@ -286,14 +286,13 @@ class ParticipantActivityFragment : BaseFragment() {
         }
 
         if (activityDailyViewSteps) {
-            activityGoalTv.text = getString(R.string.dashboard_distance_goal_template,
-                    numberFormatter.format(activityGoal),
-                    getString(R.string.activity_daily_selector_steps_label))
+            activityGoalTv.text = getString(R.string.dashboard_steps_goal_template,
+                    numberFormatter.format(activityGoal))
         } else {
             activityGoalTv.text =
                     getString(R.string.dashboard_distance_goal_template,
                             numberFormatter.format(DistanceConverter.distance(activityGoal)),
-                            getString(R.string.activity_daily_selector_distance_label))
+                            "mi")
         }
 
         navNext.setEnabled(if (stepsIndex > 0) true else false)

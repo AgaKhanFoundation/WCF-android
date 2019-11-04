@@ -2,7 +2,8 @@ package com.android.wcf.model
 
 import com.android.wcf.helper.DistanceConverter
 import com.google.gson.annotations.SerializedName
-import java.util.ArrayList
+import java.text.SimpleDateFormat
+import java.util.*
 
 /*
     Participant:
@@ -34,6 +35,14 @@ data class Participant(
         }
         return null
     }
+
+    fun getLastestRecordDate(): String {
+    var lastRecordDate = records.sortedByDescending { record ->  record.date }.firstOrNull()
+         lastRecordDate?.let {
+             return  SimpleDateFormat("yyyy-MM-dd").format(it.date)}
+        return ""
+    }
+
     var commitment:Commitment? = null //this is set from retrieval of commitments for team members. Also, for the current participant, it comes from participant's event
     var stats:Stats? = null
 

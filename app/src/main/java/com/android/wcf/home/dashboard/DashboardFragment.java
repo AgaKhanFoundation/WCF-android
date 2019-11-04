@@ -159,7 +159,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             activityTrackedInfoView.setVisibility(View.VISIBLE);
 
             if (TrackingHelper.isTimeToSave()) {
-                String lastSavedDate = TrackingHelper.lastTrackerDataSavedDate();
+                String lastSavedDate = participant.getLastestRecordDate();
                 dashboardPresenter.saveStepsData(participant.getId(), trackerSourceId, data, event.getStartDate(), event.getEndDate(), lastSavedDate);
             }
         }
