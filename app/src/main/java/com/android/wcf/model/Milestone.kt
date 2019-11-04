@@ -2,6 +2,7 @@ package com.android.wcf.model
 
 import android.util.Log
 import com.google.gson.annotations.SerializedName
+import java.util.*
 
 data class Milestone(
         @SerializedName("id") var id: Int = 0,
@@ -17,6 +18,7 @@ data class Milestone(
         @SerializedName("media") var media: String = "") {
 
     var reached:Boolean = false
+    var reachedOn: Date? = null
 
     fun hasReached(stepsCompleted:Int) {
         reached = stepsCompleted >= steps
