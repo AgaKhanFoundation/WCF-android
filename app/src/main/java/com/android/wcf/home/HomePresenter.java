@@ -41,6 +41,7 @@ public class HomePresenter extends  BasePresenter implements HomeMvp.HomePresent
 
         if(profileRegistered) {
             homeView.akfProfileRegistered();
+            return;
         }
 
         if (profileCreated) {

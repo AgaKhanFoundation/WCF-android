@@ -435,11 +435,10 @@ class HomeActivity : BaseActivity()
     }
 
     override fun akfProfileRegistered() {
-        onBackPressed()
     }
 
     override fun participantNotRetrieved() {
-        //TODO: Should never be here, but if participant loading is not active, we will have to initiate it
+        showError(getString(R.string.data_error), getString(R.string.participant_data_not_loaded_error), networkErrorDialogCallback)
     }
 
     override fun showAKFProfileView() {
