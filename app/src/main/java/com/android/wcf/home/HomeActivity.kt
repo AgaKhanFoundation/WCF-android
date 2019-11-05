@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -435,11 +436,10 @@ class HomeActivity : BaseActivity()
     }
 
     override fun akfProfileRegistered() {
-        onBackPressed()
     }
 
     override fun participantNotRetrieved() {
-        //TODO: Should never be here, but if participant loading is not active, we will have to initiate it
+        showError(getString(R.string.data_error), getString(R.string.participant_data_not_loaded_error), networkErrorDialogCallback)
     }
 
     override fun showAKFProfileView() {
@@ -522,6 +522,11 @@ class HomeActivity : BaseActivity()
                 .add(R.id.fragment_container, fragment)
                 .addToBackStack("BadgesFragment")
                 .commit()
+    }
+
+    override fun showMilestones() {
+        Toast.makeText(this, "Milestone details coming soon", Toast.LENGTH_SHORT).show()
+        //TODO: create and Milestones fragment
     }
 
     companion object {

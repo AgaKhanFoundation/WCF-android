@@ -20,8 +20,9 @@ data class Milestone(
     var reached:Boolean = false
     var reachedOn: Date? = null
 
-    fun hasReached(stepsCompleted:Int) {
+    fun hasReached(stepsCompleted:Int):Boolean {
         reached = stepsCompleted >= steps
+        return reached
     }
 
     fun getMediaContent():List<Media> {

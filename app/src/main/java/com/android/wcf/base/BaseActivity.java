@@ -26,6 +26,7 @@ import androidx.fragment.app.FragmentManager;
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.network.NetworkUtils;
@@ -196,6 +197,22 @@ abstract public class BaseActivity extends AppCompatActivity
     @Override
     public Team getParticipantTeam() {
         return DataHolder.getParticipantTeam();
+    }
+
+    @Override
+    public void cacheMilestones(List<Milestone> journeyMilestones) {
+        DataHolder.setMilestones(journeyMilestones);
+    }
+
+    @Override
+    public List<Milestone> getMilestones() {
+        return DataHolder.getMilestones();
+    }
+
+    @Override
+    public void clearMilestones() {
+        DataHolder.setMilestones(null);
+
     }
 
     @Override

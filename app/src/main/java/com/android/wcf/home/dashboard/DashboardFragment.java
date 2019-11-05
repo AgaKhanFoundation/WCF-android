@@ -378,7 +378,12 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
         } else {
             int daysRemaining = event.daysToEndEvent();
-            challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
+            if (daysRemaining > 0) {
+                challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
+            }
+            else {
+                challengeDaysRemainingMessage.setText(getResources().getString(R.string.dashboard_challenge_completed_message));
+            }
             challengeDaysRemainingMessage.setVisibility(View.VISIBLE);
 
             int teamGoal = 0;

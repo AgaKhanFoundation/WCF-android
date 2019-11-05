@@ -5,6 +5,7 @@ import android.view.View;
 import androidx.annotation.StringRes;
 
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
@@ -56,6 +57,12 @@ public interface BaseMvp {
         void cacheTeamList(List<Team> teams);
 
         List<Team> getTeamList();
+
+        void cacheMilestones(List<Milestone> journeyMilestones);
+
+        List<Milestone> getMilestones();
+
+        void clearMilestones();
 
         void clearCachedParticipantTeam();
 

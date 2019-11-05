@@ -4,6 +4,7 @@ import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Badge;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 
@@ -22,6 +23,7 @@ public class DataHolder {
     private static boolean eventEndedForBadges;
     private static Date lastBadgeSavedAt;
     private static int akfProfileShowCount = 0;
+    private static List<Milestone> journeyMilestonesList;
 
     public static Event getEvent() {
         return event;
@@ -160,5 +162,13 @@ public class DataHolder {
         akfProfileShowCount++;
         //will remind upto 4 times in a session
         return (akfProfileShowCount <= 20 && (akfProfileShowCount ==1 ||  akfProfileShowCount % 5 == 0));
+    }
+
+    public static void setMilestones(List<Milestone> journeyMilestones) {
+        DataHolder.journeyMilestonesList = journeyMilestones;
+    }
+
+    public static List<Milestone> getMilestones() {
+        return DataHolder.journeyMilestonesList;
     }
 }

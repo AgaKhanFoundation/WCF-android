@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,6 +32,7 @@ import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
+import com.bumptech.glide.Glide;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -85,6 +87,9 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     break;
                 case R.id.show_join_team_button:
                     challengePresenter.showTeamsToJoinView();
+                    break;
+                case R.id.view_milestones_chevron:
+                    showMilestonesInfo();
                     break;
                 case R.id.team_invite_chevron:
                     inviteTeamMembers();
@@ -313,7 +318,12 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                 int daysToStart = event.daysToStartEvent();
                 int flags = DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR;
                 String formattedStartDate = DateUtils.formatDateTime(getContext(), event.getStartDate().getTime(), flags);
-                String msg = getResources().getQuantityString(R.plurals.days_to_event_start, daysToStart, daysToStart, formattedStartDate);
+
+                String msg;
+                if (daysToStart > 0)
+                    msg = getResources().getQuantityString(R.plurals.days_to_event_start, daysToStart, daysToStart, formattedStartDate);
+                else
+                    msg = getResources().getString(R.string.journey_starts_today);
                 journeyText.setText(msg);
             }
 
@@ -333,8 +343,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         if (journeyCard != null) {
 
             View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
-            if (journeyActiveView != null && journeyActiveView.getVisibility() != View.VISIBLE) {
-                TextView journeyText = journeyActiveView.findViewById(R.id.journey_card_journey_text);
+            if (journeyActiveView != null) {
+                TextView journeyText = journeyActiveView.findViewById(R.id.journey_card_message);
 
                 if (isProdBackend() && Constants.getChallengeStartSoonMessage()) {
                     journeyText.setText(R.string.message_journey_starting_soon);
@@ -359,15 +369,43 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             Log.d(TAG, "No Journey milestones returned");
             return;
         }
+
+        //we have an extra milestone "start" to show the starting map. Remove it from counting of milestones total and milestonesCompleted
+        int milestones = journeyMilestones != null ? journeyMilestones.size() - 1 : -1;
+        int milestonesCompleted = 0;
         Team team = getParticipantTeam();
         if (team != null) {
             int teamStepsCompleted = team.geTotalParticipantCompletedSteps();
             for (Milestone milestone : journeyMilestones) {
-                milestone.hasReached(teamStepsCompleted);
+                boolean reached = milestone.hasReached(teamStepsCompleted);
+                if (reached) milestonesCompleted++;
+            }
+            milestonesCompleted--;
+        }
+        cacheMilestones(journeyMilestones);
+
+        if (milestones > 0) {
+            View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
+            ImageView journeyImage = journeyActiveView.findViewById(R.id.journey_card_icon_journey);
+            String imageUrl = journeyMilestones.get(milestonesCompleted).getJourney_map();
+            if (imageUrl != null && !imageUrl.isEmpty()) {
+                Glide.with(getContext())
+                        .load(imageUrl)
+                        .into(journeyImage);
+            }
+            else {
+                journeyImage.setImageResource(R.drawable.journey_map_placeholder);
             }
         }
 
-        //TODO: Update Journey card
+        TextView journeyMessageTv = journeyCard.findViewById(R.id.journey_card_message);
+        if (milestonesCompleted > 0 && milestones > 0) {
+            journeyMessageTv.setText(getResources().getString(R.string.journey_milestones_completed, milestonesCompleted, milestones));
+        } else if (milestones > 0) {
+            journeyMessageTv.setText(getString(R.string.message_journey_started, milestones));
+        } else {
+            journeyMessageTv.setText(getString(R.string.message_no_journey_information));
+        }
     }
 
     @Override
@@ -376,6 +414,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
             showNetworkErrorMessage(R.string.data_error);
         }
         //TODO: show error?
+    }
+
+    protected void showMilestonesInfo(){
+        Log.d(TAG, "showMilestonesInfo");
+        List<Milestone> milestonesList = getMilestones();
+        if (milestonesList != null) {
+            mHostingParent.showMilestones();
+        }
     }
 
     @Override
@@ -483,9 +529,8 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         challengeTeamInviteCard.setVisibility(View.VISIBLE);
 
         TextView inviteMessage = challengeTeamInviteCard.findViewById(R.id.invite_team_members_message);
-        inviteMessage.setText(getResources().getQuantityString(R.plurals.challenge_invite_team_members_message, openSlots, openSlots));
-
         TextView inviteLabel = challengeTeamInviteCard.findViewById(R.id.team_invite_label);
+        inviteMessage.setText(getResources().getQuantityString(R.plurals.challenge_invite_team_members_message, openSlots, openSlots));
         inviteLabel.setText(getResources().getQuantityString(R.plurals.team_invite_more_members_message, openSlots, openSlots));
     }
 
@@ -531,6 +576,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         afterTeamContainer = mainView.findViewById(R.id.after_team_container);
 
         journeyCard = afterTeamContainer.findViewById(R.id.challenge_journey_card);
+        setupChallengeJourneyCard(journeyCard);
         participantTeamSummaryCard = afterTeamContainer.findViewById(R.id.challenge_participant_team_card);
 
         challengeTeamInviteCard = afterTeamContainer.findViewById(R.id.challenge_team_invite_card);
@@ -538,6 +584,14 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
 
         challengeFundraisingProgressCard = afterTeamContainer.findViewById(R.id.challenge_fundraising_progress_card);
         setupChallengeFundraisingCard(challengeFundraisingProgressCard);
+    }
+
+    void setupChallengeJourneyCard(View parentView) {
+        View journeyActiveView = parentView.findViewById(R.id.journey_active_view);
+        View container = journeyActiveView.findViewById(R.id.challenge_journey_view_milestones_container);
+        View image = container.findViewById(R.id.view_milestones_chevron);
+        expandViewHitArea(image, container);
+        image.setOnClickListener(onClickListener);
     }
 
     void setupChallengeTeamInviteCard(View parentView) {

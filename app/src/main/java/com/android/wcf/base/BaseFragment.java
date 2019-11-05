@@ -25,6 +25,7 @@ import com.android.wcf.R;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
@@ -173,6 +174,21 @@ import java.util.List;
     @Override
     public List<Team> getTeamList() {
         return baseView.getTeamList();
+    }
+
+    @Override
+    public void cacheMilestones(List<Milestone> journeyMilestones) {
+        baseView.cacheMilestones(journeyMilestones);
+    }
+
+    @Override
+    public List<Milestone> getMilestones() {
+        return baseView.getMilestones();
+    }
+
+    @Override
+    public void clearMilestones() {
+        baseView.clearMilestones();
     }
 
     @Override
