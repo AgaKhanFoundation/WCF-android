@@ -321,9 +321,9 @@ public class WCFClient {
                 "    \"media\": \"\",\n" +
                 "    \"content\":\"\"\n" +
                 "  },\n" +
-                "  {\n" +
+                "    {\n" +
                 "    \"sequence\": 1,\n" +
-                "    \"distance\": 1624000,\n" +
+                "    \"distance\": 2580000,\n" +
                 "    \"name\": \"Nairobi, Kenya\",\n" +
                 "    \"flag_name\": \"Kenya\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_1.png\",\n" +
@@ -335,7 +335,7 @@ public class WCFClient {
                 "  },\n" +
                 "  {\n" +
                 "    \"sequence\": 2,\n" +
-                "    \"distance\": 3224000,\n" +
+                "    \"distance\": 5120000,\n" +
                 "    \"name\": \"Karachi, Pakistan\",\n" +
                 "    \"flag_name\": \"Pakistan\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_2.png\",\n" +
@@ -347,7 +347,7 @@ public class WCFClient {
                 "  },\n" +
                 "  {\n" +
                 "    \"sequence\": 3,\n" +
-                "    \"distance\": 3824000,\n" +
+                "    \"distance\": 6070000,\n" +
                 "    \"name\": \"Badakhshan, Afghanistan\",\n" +
                 "    \"flag_name\": \"Afghanistan\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_3.png\",\n" +
@@ -359,7 +359,7 @@ public class WCFClient {
                 "  },\n" +
                 "  {\n" +
                 "    \"sequence\": 4,\n" +
-                "    \"distance\": 4456000,\n" +
+                "    \"distance\": 7070000,\n" +
                 "    \"name\": \"Bihar, India\",\n" +
                 "    \"flag_name\": \"India\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_4.png\",\n" +
@@ -371,7 +371,7 @@ public class WCFClient {
                 "  },\n" +
                 "  {\n" +
                 "    \"sequence\": 5,\n" +
-                "    \"distance\": 5060000,\n" +
+                "    \"distance\": 8030000,\n" +
                 "    \"name\": \"Chitral, Pakistan\",\n" +
                 "    \"flag_name\": \"Pakistan\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_5.png\",\n" +
@@ -383,7 +383,7 @@ public class WCFClient {
                 "  },\n" +
                 "  {\n" +
                 "    \"sequence\": 6,\n" +
-                "    \"distance\": 5614000,\n" +
+                "    \"distance\": 8910000,\n" +
                 "    \"name\": \"Jalal-abad, Kyrgyz Republic\",\n" +
                 "    \"flag_name\": \"Kyrgistan\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_6.png\",\n" +
@@ -395,7 +395,7 @@ public class WCFClient {
                 "  },\n" +
                 "  {\n" +
                 "    \"sequence\": 7,\n" +
-                "    \"distance\": 6428000,\n" +
+                "    \"distance\": 10200000,\n" +
                 "    \"name\": \"Gilgit, Pakistan\",\n" +
                 "    \"flag_name\": \"Pakistan\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_7.png\",\n" +
@@ -407,7 +407,7 @@ public class WCFClient {
                 "  },\n" +
                 "  {\n" +
                 "    \"sequence\": 8,\n" +
-                "    \"distance\": 6930000,\n" +
+                "    \"distance\": 11000000,\n" +
                 "    \"name\": \"Khorog, Tajikistan\",\n" +
                 "    \"flag_name\": \"Tajikistan\",\n" +
                 "    \"journey_map\":\"http://wcf.x10host.com/challenge1_8.png\",\n" +
@@ -417,11 +417,7 @@ public class WCFClient {
                 "    \"media\": \"photo:http://wcf.x10host.com/8.Khorog.png\",\n" +
                 "    \"content\":\"In a country where the majority of women head households, not financial entities, Rukhshod\\u2019s story underscores the importance of women\\u2019s inclusion in economic development activities.\\r\\n\\r\\nHer journey into this leadership position began when she became the manager of the women\\u2019s committee of a small village organization. Rukhshod\\u2019s natural ability to engage community members to ensure all voices were heard gained her early respect and recognition among her peers. In 2007, when a Social Union for the Development of Village Organizations (SUDVO) was formed in her area, she was selected to lead, and thrived. \\r\\n \\r\\nAs a result, in 2011, Rukhshod was appointed director of MLO \\u2018\\u2019Rushdi Pomir.\\u201D Thanks to ESCoMIAD, a joint project of AKF and USAID, Rukhshod received training and capacity development needed to be successful in her role. Trainings included topics like business planning; financial statement analysis; and cash management. Her background in economics paved the way for her quick absorption of the material.\\r\\n \\r\\nRead Rukhshod\\u2019s story here:  \\r\\nhttps:\\/\\/www.akfusa.org\\/our-stories\\/rukhshods-story\\/.\"\n" +
                 "  }\n" +
-                "]\n" +
-                "\n" +
-                "\n" +
-                "\n" +
-                "\n"
+                "]\n"
                 ;
     }
 }
