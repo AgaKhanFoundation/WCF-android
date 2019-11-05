@@ -117,7 +117,7 @@
     <string name="events_list_retrieval_error">Could not retrieve events data. Please check network and try again later</string>
     <string name="events_list_not_setup_error">Server data has not been setup yet. Please try again later</string>
     <string name="events_not_selected_error">Event not selected. Please try again later</string>
-
+    <string name="participant_data_not_loaded_error">Error loading data. Please try again.</string>
 
     <string name="leaderboard_data_error">Leaderboard Error</string>
     <string name="events_data_error">Challenge Error</string>
@@ -126,6 +126,10 @@
     <string name="participant_team_join_error">Unable to assign to team</string>
     <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
+
+<!-- end of error messages-->
+    <string name="journey_starts_today">Your journey starts today</string>
+
     <string name="dashboard_activity_card_label">Activity</string>
     <string name="challenge_progress_view_label">Challenge Progress</string>
     <string name="challenge_progress_before_start_message">No data available. You will be able to see your team’s progress once the challenge has started.</string>
@@ -188,6 +192,9 @@
         Download the app here:\n
         iPhone:  http://rebrand.ly/steps4impact-iphone\n
         Android: http://rebrand.ly/steps4impact-android</string>
+
+    <string name="challenge_invite_team_full_message">You have a full team!</string>
+
     <string name="challenge_invite_team_members_label">Invite more friends to join!</string>
     <string name="challenge_invite_team_members_message">Maximize your chances of reaching the team goal. Your team has %1$s remaining. Invite more friends to join!</string>
     <string name="challenge_fundraising_progress_card_label">Fundraise while you stay fit</string>
@@ -214,6 +221,7 @@
     <string name="tracked_info_tab_weekly_label">Weekly</string>
     <string name="dashboard_badges_label">View Badges</string>
     <string name="dashboard_challenge_goal_label">/%1$s %2$s completed</string>
+    <string name="dashboard_challenge_completed_message"></string>
 
     <string name="applink_ios">http://rebrand.ly/steps4impact-iphone</string>
     <string name="applink_android">http://rebrand.ly/steps4impact-android</string>
@@ -244,7 +252,10 @@
     <string name="team_edit_start_title">Edit</string>
     <string name="team_edit_done_title">Done</string>
     <string name="message_journey_starting_soon">Challenge starting soon; check Facebook group for up-to-date information</string>
-    <string name="message_journey_started">Your Journey Started...</string>
+    <string name="message_journey_started">Your Journey Started. You have %1$d milestones on the journey</string>
+    <string name="message_no_journey_information">Your Journey has started. Milestones not available at this time</string>
+    <string name="journey_milestones_completed">%1$d out of %2$d milestones completed</string>
+
     <string name="no_network">Network Connection Error</string>
     <string name="no_network_message">Internet connection is required. Please check connection and try again.</string>
     <string name="dashboard_participant_need_to_join_team">No team selected yet.</string>
@@ -291,5 +302,6 @@
     <string name="no_app_to_handle_badge_sharing">No apps available on this device that can handle sharing the badge</string>
     <string name="activity_daily_selector_steps_label">Steps</string>
     <string name="activity_daily_selector_distance_label">Miles</string>
+    <string name="challenge_view_milestones_label">View milestone details</string>
 
 </resources>
