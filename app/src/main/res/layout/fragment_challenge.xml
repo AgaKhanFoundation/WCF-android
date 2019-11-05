@@ -142,16 +142,18 @@
                         android:id="@+id/journey_before_start_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/spacing_normal"
-                        android:visibility="visible"
+                        android:paddingTop="@dimen/spacing_normal_half"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:visibility="gone"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <ImageView
                             android:id="@+id/icon_journey"
-                            android:layout_width="@dimen/card_image_size"
-                            android:layout_height="wrap_content"
+                            android:layout_height="@dimen/card_image_size"
+                            android:layout_width="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:contentDescription="TODO"
+                            android:contentDescription="@null"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
@@ -187,20 +189,11 @@
                         android:id="@+id/journey_active_view"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:padding="@dimen/spacing_normal"
-                        android:visibility="gone"
+                        android:paddingTop="@dimen/spacing_normal_half"
+                        android:paddingStart="@dimen/spacing_normal"
+                        android:paddingEnd="@dimen/spacing_normal"
+                        android:visibility="visible"
                         app:layout_constraintTop_toTopOf="parent">
-
-                        <ImageView
-                            android:id="@+id/journey_card_icon_journey"
-                            android:layout_width="@dimen/card_image_size"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:contentDescription="Journey is Active"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:srcCompat="@drawable/ic_art_journey" />
 
                         <TextView
                             android:id="@+id/journey_card_journey_label"
@@ -210,22 +203,75 @@
                             android:text="Journey"
                             android:textAppearance="@style/TextAppearance.WCF.Headline6"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/journey_card_icon_journey" />
+                            app:layout_constraintTop_toTopOf="parent" />
 
-                        <!-- journey_card_journey_text android:tex is temporary until the new date is decided -->
+                        <ImageView
+                            android:id="@+id/journey_card_icon_journey"
+                            android:layout_height="160dp"
+                            android:layout_width="match_parent"
+                            android:scaleType="centerCrop"
+                            android:contentDescription="Journey is Active"
+                            android:layout_marginTop="@dimen/spacing_normal_half"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/journey_card_journey_label"
+                            app:srcCompat="@drawable/journey_map_placeholder" />
+
                         <TextView
-                            android:id="@+id/journey_card_journey_text"
+                            android:id="@+id/journey_card_message"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/spacing_normal_half"
+                            android:layout_marginTop="@dimen/spacing_normal"
                             android:contentDescription="@null"
                             android:gravity="start"
                             android:text="@string/message_journey_started"
                             android:lineSpacingMultiplier="@dimen/body_line_spacing_1"
                             android:textAppearance="@style/TextAppearance.WCF.Body1"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@id/journey_card_journey_label"
+                            app:layout_constraintTop_toBottomOf="@id/journey_card_icon_journey"
                             tools:text="@string/message_journey_started" />
+
+                        <View
+                            android:id="@+id/seperator_1_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:layout_marginTop="@dimen/spacing_normal_half"
+                            android:background="@color/color_light_grey_3"
+                            app:layout_constraintTop_toBottomOf="@id/journey_card_message" />
+
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:id="@+id/challenge_journey_view_milestones_container"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:visibility="visible"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@id/seperator_1_2">
+
+
+                            <ImageView
+                                android:id="@+id/view_milestones_chevron"
+                                android:layout_width="wrap_content"
+                                android:layout_height="@dimen/min_button_height"
+                                android:gravity="right"
+                                android:src="@drawable/ic_chevron_right_blue"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/view_milestones_label"
+                                android:layout_width="0dp"
+                                android:layout_height="0dp"
+                                android:layout_marginEnd="@dimen/spacing_normal_half"
+                                android:gravity="start|center"
+                                android:text="@string/challenge_view_milestones_label"
+                                android:textAppearance="?attr/textAppearanceSubtitle1"
+                                android:textColor="@color/color_blue"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintEnd_toStartOf="@id/view_milestones_chevron"
+                                app:layout_constraintBottom_toBottomOf="@id/view_milestones_chevron"
+                                app:layout_constraintTop_toTopOf="@id/view_milestones_chevron"/>
+
+                        </androidx.constraintlayout.widget.ConstraintLayout>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

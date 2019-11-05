@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -521,6 +522,11 @@ class HomeActivity : BaseActivity()
                 .add(R.id.fragment_container, fragment)
                 .addToBackStack("BadgesFragment")
                 .commit()
+    }
+
+    override fun showMilestones() {
+        Toast.makeText(this, "Milestone details coming soon", Toast.LENGTH_SHORT).show()
+        //TODO: create and Milestones fragment
     }
 
     companion object {

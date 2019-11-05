@@ -119,5 +119,6 @@ public interface ChallengeMvp {
 
         void showSupportersInvite();
 
+        void showMilestones();
     }
 }
