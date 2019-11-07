@@ -11,12 +11,13 @@ import com.android.wcf.model.BadgeType
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.view_list_badge_item.view.*
 import java.text.SimpleDateFormat
+import java.util.*
 
-class BadgeListAdapter(val adapterHost: AdapterHost ) : RecyclerView.Adapter<BadgeListAdapter.BadgeViewHolder>(), BadgeListAdapterMvp.View {
+class BadgeListAdapter(val adapterHost: AdapterHost) : RecyclerView.Adapter<BadgeListAdapter.BadgeViewHolder>(), BadgeListAdapterMvp.View {
 
-    var badgeList:List<Badge> = arrayListOf()
+    var badgeList: List<Badge> = arrayListOf()
 
-    val itemClickedListener = object:AdapterViewListener {
+    val itemClickedListener = object : AdapterViewListener {
         override fun onItemClick(view: View, position: Int) {
             when (view.id) {
                 R.id.icon_badge -> {
@@ -54,17 +55,26 @@ class BadgeListAdapter(val adapterHost: AdapterHost ) : RecyclerView.Adapter<Bad
         viewHolder.bindView(badgeList[position], position)
     }
 
-    class BadgeViewHolder(itemView: View, val clickListener:AdapterViewListener?) : RecyclerView.ViewHolder(itemView) {
+    class BadgeViewHolder(itemView: View, val clickListener: AdapterViewListener?) : RecyclerView.ViewHolder(itemView) {
 
-        val dateFormatter = SimpleDateFormat("MMM d, yyyy")
+        companion object {
+            val dateFormatter = initDateFormatter();
 
-        val res:Resources = itemView.resources
+            fun initDateFormatter(): SimpleDateFormat {
+                val dateFormatter =
+                        SimpleDateFormat("MMM d, yyyy")
+                dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"))
+                return dateFormatter
+            }
+        }
+
+        val res: Resources = itemView.resources
 
         fun bindView(badge: Badge, position: Int) {
             var title = badge.title
             if (title == null) {
                 when (badge.type) {
-                    BadgeType.DISTANCE_COMPLETED_50,BadgeType.DISTANCE_COMPLETED_100
+                    BadgeType.DISTANCE_COMPLETED_50, BadgeType.DISTANCE_COMPLETED_100
                         , BadgeType.DISTANCE_COMPLETED_150, BadgeType.DISTANCE_COMPLETED_200
                         , BadgeType.DISTANCE_COMPLETED_250, BadgeType.DISTANCE_COMPLETED_300
                         , BadgeType.DISTANCE_COMPLETED_350, BadgeType.DISTANCE_COMPLETED_400
@@ -75,7 +85,7 @@ class BadgeListAdapter(val adapterHost: AdapterHost ) : RecyclerView.Adapter<Bad
                 }
             }
             itemView.badge_description.text = title
-            itemView.badge_description.visibility = if (title?.length ?:0 > 0) View.VISIBLE else View.GONE
+            itemView.badge_description.visibility = if (title?.length ?: 0 > 0) View.VISIBLE else View.GONE
 
             itemView.badge_date.text = dateFormatter.format((badge.date))
             when (badge.type) {
@@ -99,7 +109,7 @@ class BadgeListAdapter(val adapterHost: AdapterHost ) : RecyclerView.Adapter<Bad
     }
 
     interface AdapterViewListener {
-        fun onItemClick(view:View, position:Int)
+        fun onItemClick(view: View, position: Int)
     }
 
     interface AdapterHost {
