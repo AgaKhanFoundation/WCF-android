@@ -49,8 +49,9 @@ import com.android.wcf.model.Constants;
 import com.android.wcf.model.Participant;
 import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.web.WebViewFragment;
+import com.android.wcf.web.WebViewMvp;
 
-public class LoginActivity extends BaseActivity implements LoginActivityMvp.View, LoginMvp.Host {
+public class LoginActivity extends BaseActivity implements LoginActivityMvp.View, LoginMvp.Host, WebViewMvp.Host {
     private static final String TAG = LoginActivity.class.getSimpleName();
 
     private Toolbar toolbar;
