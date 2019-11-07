@@ -9,7 +9,7 @@ import kotlin.collections.ArrayList
 
 class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Presenter {
 
-    override fun getBadgesData(event: Event, team: Team, participant: Participant) {
+    override fun getBadgesData(event: Event, team: Team?, participant: Participant) {
 
         if (event == null || team == null || participant == null) {
             view.onNoBadgesData(false)
@@ -173,7 +173,7 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
         }
     }
 
-    private fun getTeamBadge(event: Event, team: Team): Badge? {
+    private fun getTeamBadge(event: Event, team: Team?): Badge? {
         return null
     }
 

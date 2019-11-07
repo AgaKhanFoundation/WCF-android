@@ -145,6 +145,7 @@
                         android:paddingTop="@dimen/spacing_normal_half"
                         android:paddingStart="@dimen/spacing_normal"
                         android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_normal_half"
                         android:visibility="gone"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -192,6 +193,7 @@
                         android:paddingTop="@dimen/spacing_normal_half"
                         android:paddingStart="@dimen/spacing_normal"
                         android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_normal_half"
                         android:visibility="visible"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -295,6 +297,7 @@
                         android:paddingTop="@dimen/spacing_normal_half"
                         android:paddingStart="@dimen/spacing_normal"
                         android:paddingEnd="@dimen/spacing_normal"
+                        android:paddingBottom="@dimen/spacing_normal_half"
                         app:layout_constraintTop_toTopOf="parent"
                         android:visibility="gone">
 

@@ -15,7 +15,7 @@ interface BadgesMvp {
     }
 
     interface Presenter : BaseMvp.Presenter {
-        fun getBadgesData(event:Event, team:Team, participant:Participant )
+        fun getBadgesData(event:Event, team:Team?, participant:Participant )
     }
 
     interface Host : BaseMvp.Host{

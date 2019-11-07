@@ -504,8 +504,13 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     }
 
     void showParticipantBadgesEarned() {
-        mFragmentHost.showParticipantBadgesEarned();
+        if (getParticipantTeam() == null) {
+            showError(getString(R.string.participants_data_error),
+                    getString(R.string.dashboard_participant_need_to_join_team), null);
+            return;
+        }
 
+        mFragmentHost.showParticipantBadgesEarned();
     }
 
     void showSupportersInvite() {
