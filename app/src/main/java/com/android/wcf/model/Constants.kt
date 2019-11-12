@@ -20,7 +20,7 @@ class Constants {
         var featureFundraising = false //Hide fundraising until AKF backend integration is complete
 
         @JvmStatic
-        var challengeStartSoonMessage = true
+        var challengeStartSoonMessage = false
 
         @JvmStatic
         var bypassAKFProfile = false  //To  bypass AKF profile creation flow

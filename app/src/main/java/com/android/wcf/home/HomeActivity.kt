@@ -21,6 +21,8 @@ import com.android.wcf.base.BaseActivity
 import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.helper.SharedPreferencesUtil
 import com.android.wcf.home.challenge.*
+import com.android.wcf.home.challenge.journey.JourneyFragment
+import com.android.wcf.home.challenge.journey.JourneyMvp
 import com.android.wcf.home.dashboard.*
 import com.android.wcf.home.leaderboard.LeaderboardFragment
 import com.android.wcf.home.leaderboard.LeaderboardMvp
@@ -54,7 +56,8 @@ class HomeActivity : BaseActivity()
         , NotificationsMvp.Host
         , AKFParticipantProfileMvp.Host
         , BadgesMvp.Host
-        , BadgeDetailMvp.Host {
+        , BadgeDetailMvp.Host
+        , JourneyMvp.Host {
 
     private lateinit var homePresenter: HomeMvp.HomePresenter
     private var dashboardFragment: DashboardFragment? = null
@@ -525,8 +528,12 @@ class HomeActivity : BaseActivity()
     }
 
     override fun showMilestones() {
-        Toast.makeText(this, "Milestone details coming soon", Toast.LENGTH_SHORT).show()
-        //TODO: create and Milestones fragment
+        val fragment = JourneyFragment()
+        supportFragmentManager
+                .beginTransaction()
+                .add(R.id.fragment_container, fragment)
+                .addToBackStack("JourneyFragment")
+                .commit()
     }
 
     companion object {

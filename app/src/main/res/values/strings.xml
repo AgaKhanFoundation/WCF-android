@@ -255,6 +255,11 @@
     <string name="message_journey_started">Your Journey has Started. You have %1$d milestones on this journey</string>
     <string name="message_no_journey_information">Your Journey has started. Milestones not available at this time</string>
     <string name="journey_milestones_completed">%1$d out of %2$d milestones completed</string>
+    <string name="journey_miles_left_1">%1$d/%2$d mi\u0020</string>
+    <string name="journey_miles_left_2">remaining to reach\n%1$s</string>
+    <string name="journey_start">Start</string>
+    <string name="journey_fragment_title">Journey</string>
+    <string name="milestone_title">Milestone %1$d/%2$d</string>
 
     <string name="no_network">Network Connection Error</string>
     <string name="no_network_message">Internet connection is required. Please check connection and try again.</string>
