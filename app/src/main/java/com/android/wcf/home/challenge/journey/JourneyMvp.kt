@@ -6,10 +6,8 @@ import com.android.wcf.model.Milestone
 interface JourneyMvp {
     interface View: BaseMvp.BaseView {
         fun showMilestoneDetail()
-        fun showMilestoneData(milestones: List<Milestone>, currentMilestoneSequence: Int, currentMilestonePercentageCompletion: Double)
-        fun showJourneyOverview(completedMiles: Long, totalMiles: Long, nextLocation: String)
-
-//        fun onNoBadgesData(challengeEnded:Boolean)
+        fun showMilestoneData(milestones: List<Milestone>, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double)
+        fun showJourneyOverview(completedMiles: Long, totalMiles: Long, nextMilestoneName: String)
     }
 
     interface Presenter : BaseMvp.Presenter {

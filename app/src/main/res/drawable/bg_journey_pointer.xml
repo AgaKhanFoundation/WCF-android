@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape xmlns:android="http://schemas.android.com/apk/res/android"
+            android:shape="oval">
+            <solid android:color="#1E00A85D" />
+            <size
+                android:width="@dimen/spacing_big"
+                android:height="@dimen/spacing_big" />
+        </shape>
+
+
+    </item>
+    <item>
+        <inset android:inset="@dimen/spacing_extra_small_2">
+            <shape android:shape="oval">
+                <solid android:color="#FFFFFFFF" />
+                <size
+                    android:width="@dimen/spacing_normal_half"
+                    android:height="@dimen/spacing_normal_half" />
+                <stroke
+                    android:width="2dp"
+                    android:color="#FF00A85D" />
+            </shape>
+        </inset>
+    </item>
+</layer-list>

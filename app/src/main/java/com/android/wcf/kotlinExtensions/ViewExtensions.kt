@@ -30,7 +30,7 @@ fun Bitmap.saveToInternalStorage(context: Context, filename:String): Uri {
     val wrapper = ContextWrapper(context)
 
     // Initializing a new file
-    // The bellow line return a directory in internal storage
+    // The below line return a directory in internal storage
     var file = wrapper.getDir("images", Context.MODE_PRIVATE)
 
 

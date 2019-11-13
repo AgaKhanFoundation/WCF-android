@@ -257,6 +257,8 @@
     <string name="journey_milestones_completed">%1$d out of %2$d milestones completed</string>
     <string name="journey_miles_left_1">%1$d/%2$d mi\u0020</string>
     <string name="journey_miles_left_2">remaining to reach\n%1$s</string>
+    <string name="journey_milestone_reached">Your team reached\n%1$s</string>
+    <string name="journey_completed">Congratulations!\nYour team has completed the journey</string>
     <string name="journey_start">Start</string>
     <string name="journey_fragment_title">Journey</string>
     <string name="milestone_title">Milestone %1$d/%2$d</string>

@@ -3,6 +3,7 @@ package com.android.wcf.home.challenge.journey
 import android.content.Context
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Handler
 import android.text.SpannableString
 import android.text.style.StyleSpan
 import android.view.*
@@ -96,19 +97,38 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
         //TODO: create and Milestones detail fragment
     }
 
-    override fun showMilestoneData(milestones: List<Milestone>, currentMilestoneSequence: Int, currentMilestonePercentageCompletion: Double) {
+    override fun showMilestoneData(milestones: List<Milestone>, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double) {
         val context = context
         val adapter = adapter
         if (context != null && adapter != null) {
-            adapter.setData(milestones, currentMilestoneSequence, currentMilestonePercentageCompletion)
+            adapter.setData(milestones, nextMilestoneSequence, nextMilestonePercentageCompletion)
         }
+        Handler().post({
+            recycler.smoothScrollToPosition(nextMilestoneSequence)
+        })
     }
 
-    override fun showJourneyOverview(completedMiles: Long, totalMiles: Long, nextLocation: String) {
-        val bold = getString(R.string.journey_miles_left_1, completedMiles, totalMiles)
-        val notBold = getString(R.string.journey_miles_left_2, nextLocation)
-        val text = SpannableString(bold + notBold)
-        text.setSpan(StyleSpan(Typeface.BOLD), 0, bold.length, 0)
+    override fun showJourneyOverview(remainingMiles: Long, totalMiles: Long, nextMilestoneName: String) {
+        var text:SpannableString
+        if (totalMiles > 0 && remainingMiles <= totalMiles) {
+            val bold = getString(R.string.journey_miles_left_1, remainingMiles, totalMiles)
+            val notBold = getString(R.string.journey_miles_left_2, nextMilestoneName)
+            text = SpannableString(bold + notBold)
+            text.setSpan(StyleSpan(Typeface.BOLD), 0, bold.length, 0)
+        }
+        else if (totalMiles > 0 && remainingMiles == 0L) {
+            val bold = getString(R.string.journey_milestone_reached, nextMilestoneName)
+            text = SpannableString( bold)
+            text.setSpan(StyleSpan(Typeface.BOLD), 0, bold.length, 0)
+        }
+        else {
+            val bold = getString(R.string.journey_completed)
+            text = SpannableString( bold)
+            text.setSpan(StyleSpan(Typeface.BOLD), 0, bold.length, 0)
+        }
+
         titleText.setText(text, BufferType.SPANNABLE)
+
+
     }
 }
