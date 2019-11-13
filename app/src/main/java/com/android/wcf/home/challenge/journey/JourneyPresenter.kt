@@ -6,8 +6,8 @@ import com.android.wcf.home.BasePresenter
 
 class JourneyPresenter(val view: JourneyMvp.View) : BasePresenter(), JourneyMvp.Presenter {
     private var milestonesCompleted = 0
-    var milestoneTotalDistanceMi: Long = 0
-    var milestoneRemainingDistanceMi: Long = 0
+    var nextMilestoneDistance: Long = 0
+    var nextMilestoneRemainingDistance: Long = 0
 
     override fun getMilestonesData() {
         val team = DataHolder.getParticipantTeam()
@@ -19,17 +19,27 @@ class JourneyPresenter(val view: JourneyMvp.View) : BasePresenter(), JourneyMvp.
                 val reached = milestone.hasReached(teamStepsCompleted)
                 if (reached) milestonesCompleted++
             }
-            //subtract
-            milestonesCompleted--
-            val prevMilestone = journeyMilestones[milestonesCompleted]
-            val currentMilestone = journeyMilestones[milestonesCompleted + 1]
-            val milestoneTotalDistanceSteps = currentMilestone.steps - prevMilestone.steps
-            milestoneTotalDistanceMi = DistanceConverter.distance(milestoneTotalDistanceSteps)
-            milestoneRemainingDistanceMi = DistanceConverter.distance(teamStepsCompleted - prevMilestone.steps)
+            //journeyMilestones[0] is just a start placeholder, so reduce the completed count
+            if (milestonesCompleted > 0)
+                milestonesCompleted--
+            val lastCompletedMilestone = journeyMilestones[milestonesCompleted]
+            val nextMilestone =
+                    if (milestonesCompleted < journeyMilestones.size - 1)
+                        journeyMilestones[milestonesCompleted + 1]
+                    else journeyMilestones[milestonesCompleted]
 
-            view.showJourneyOverview(milestoneRemainingDistanceMi, milestoneTotalDistanceMi, currentMilestone.name)
+            val nextMilestoneSteps = nextMilestone.steps - lastCompletedMilestone.steps
+            val nextMilestoneRemainingSteps = nextMilestone.steps - teamStepsCompleted
+            val nextMilestoneJourneyPctCompleted = if (nextMilestoneSteps == 0)  100.0 else
+                (teamStepsCompleted - lastCompletedMilestone.steps) * 100.0 / nextMilestoneSteps
 
-            view.showMilestoneData(journeyMilestones, milestonesCompleted + 1, milestoneRemainingDistanceMi.toDouble() / milestoneTotalDistanceMi)
+            nextMilestoneDistance = DistanceConverter.distance(nextMilestoneSteps)
+            nextMilestoneRemainingDistance = DistanceConverter.distance(nextMilestoneRemainingSteps)
+            if (nextMilestoneRemainingDistance < 0) nextMilestoneRemainingDistance = 0
+
+            view.showJourneyOverview(nextMilestoneRemainingDistance, nextMilestoneDistance, nextMilestone.name)
+
+            view.showMilestoneData(journeyMilestones, milestonesCompleted, nextMilestoneJourneyPctCompleted)
         }
     }
 

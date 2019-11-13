@@ -9,6 +9,7 @@
     <dimen name="spacing_tiniest">1dp</dimen>
     <dimen name="spacing_tiny">2dp</dimen>
     <dimen name="spacing_extra_small">4dp</dimen>
+    <dimen name="spacing_extra_small_2">6dp</dimen>
     <dimen name="spacing_small">8dp</dimen>
     <dimen name="spacing_small_2">10dp</dimen>
     <dimen name="spacing_medium">12dp</dimen>
