@@ -1,6 +1,7 @@
 package com.android.wcf.home.challenge.journey
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
@@ -72,8 +73,10 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
         val milestoneSequenceLabel: TextView = itemView.findViewById(R.id.milestone_sequence_label)
         val infoContainer: View = itemView.findViewById(R.id.milestone_info_container)
         val milestoneName: TextView = itemView.findViewById(R.id.milestone_name)
+        val milestoneDescription:TextView = itemView.findViewById(R.id.milestone_description)
         val line1: View = itemView.findViewById(R.id.milestone_line_1)
         val line2: View = itemView.findViewById(R.id.milestone_line_2)
+        val line3: View = itemView.findViewById(R.id.milestone_line_3)
         val status: ImageView = itemView.findViewById(R.id.milestone_status)
         val journeyMarker: ImageView = itemView.findViewById(R.id.journey_marker)
         val map: ImageView = itemView.findViewById(R.id.milestone_map)
@@ -86,6 +89,13 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
         private fun updateView(milestone: Milestone, nextMilestoneSequence: Int, numMilestones: Int) {
             milestoneSequenceLabel.text = itemView.context.getString(R.string.milestone_title, milestone.sequence, numMilestones)
             milestoneName.text = milestone.name
+            milestoneDescription.text = milestone.description
+            if (milestone.description.isEmpty()) {
+                milestoneDescription.visibility = View.GONE
+            }
+            else {
+                milestoneDescription.visibility = View.VISIBLE
+            }
 
             if (milestone.sequence == 0) {
                 milestoneSequenceLabel.visibility = View.GONE
