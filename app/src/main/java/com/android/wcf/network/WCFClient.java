@@ -43,7 +43,7 @@ public class WCFClient {
 
     private static final String TAG = WCFClient.class.getSimpleName();
 
-    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.PROD; //Ensure its PROD for a store build
+    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.STAGE; //Ensure its PROD for a store build
 
 
     public static void switchServerForTestingTeam() {
