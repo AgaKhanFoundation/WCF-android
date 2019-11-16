@@ -92,7 +92,7 @@ public interface WCFApiEndpoints {
 
 
     /********* JOURNEY MILESTONES  ************/
-    @GET("/achievement")
-    Single<List<Milestone>> getJourneyMilestones(int eventId);
+    @GET("achievement/")
+    Single<List<Milestone>> getJourneyMilestones();
 
 }
