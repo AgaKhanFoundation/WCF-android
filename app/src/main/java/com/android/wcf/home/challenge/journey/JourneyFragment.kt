@@ -10,11 +10,13 @@ import android.view.*
 import android.widget.TextView
 import android.widget.TextView.BufferType
 import android.widget.Toast
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.model.Milestone
+import com.android.wcf.helper.view.ListPaddingDecoration
 
 class JourneyFragment : BaseFragment(), JourneyMvp.View {
     lateinit var host: JourneyMvp.Host
@@ -79,7 +81,14 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
         titleText = view.findViewById(R.id.toolbar_title)
         recycler = view.findViewById(R.id.journey_recycler)
 
-        recycler.layoutManager = LinearLayoutManager(context);
+        context?.let {
+            recycler.layoutManager = LinearLayoutManager(it)
+//            recycler.addItemDecoration(ListPaddingDecoration(it))
+//
+//            recycler.addItemDecoration(DividerItemDecoration(it, DividerItemDecoration.VERTICAL))
+
+        }
+
         adapter = JourneyMilestonesAdapter(context!!, object : JourneyMilestonesAdapter.AdapterHost {
             override fun onItemSelected(milestone: Milestone) {
                 onMilestoneSelected()
@@ -97,11 +106,11 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
         //TODO: create and Milestones detail fragment
     }
 
-    override fun showMilestoneData(milestones: List<Milestone>, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double) {
+    override fun showMilestoneData(milestones: List<Milestone>, lastCompletedMilestoneSequence:Int, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double) {
         val context = context
         val adapter = adapter
         if (context != null && adapter != null) {
-            adapter.setData(milestones, nextMilestoneSequence, nextMilestonePercentageCompletion)
+            adapter.setData(milestones, lastCompletedMilestoneSequence, nextMilestoneSequence, nextMilestonePercentageCompletion)
         }
         Handler().post({
             recycler.smoothScrollToPosition(nextMilestoneSequence)
@@ -128,7 +137,6 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
         }
 
         titleText.setText(text, BufferType.SPANNABLE)
-
 
     }
 }

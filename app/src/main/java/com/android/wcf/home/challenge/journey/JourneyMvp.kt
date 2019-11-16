@@ -4,9 +4,9 @@ import com.android.wcf.base.BaseMvp
 import com.android.wcf.model.Milestone
 
 interface JourneyMvp {
-    interface View: BaseMvp.BaseView {
+    interface View : BaseMvp.BaseView {
         fun showMilestoneDetail()
-        fun showMilestoneData(milestones: List<Milestone>, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double)
+        fun showMilestoneData(milestones: List<Milestone>, lastCompletedMilestoneSequence: Int, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double)
         fun showJourneyOverview(completedMiles: Long, totalMiles: Long, nextMilestoneName: String)
     }
 
@@ -15,7 +15,7 @@ interface JourneyMvp {
         fun getMilestonesData()
     }
 
-    interface Host : BaseMvp.Host{
+    interface Host : BaseMvp.Host {
 
     }
 }

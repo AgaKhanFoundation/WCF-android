@@ -19,15 +19,36 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/milestone_info_container"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:minHeight="100dp"
-        android:layout_marginEnd="@dimen/spacing_large"
+        android:layout_marginEnd="@dimen/spacing_normal"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/milestone_status"
+            android:layout_width="@dimen/spacing_big"
+            android:layout_height="@dimen/spacing_big"
+            android:layout_marginStart="@dimen/spacing_normal"
+            android:layout_marginTop="@dimen/spacing_extra_small"
+            android:background="@drawable/bg_milestone_green"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/milestone_info_container" />
+
+        <ImageView
+            android:id="@+id/journey_marker"
+            android:layout_width="@dimen/spacing_big"
+            android:layout_height="@dimen/spacing_big"
+            tools:layout_marginTop="150dp"
+            android:visibility="visible"
+            android:background="@drawable/bg_journey_pointer"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="@id/milestone_status"
+            app:layout_constraintEnd_toEndOf="@id/milestone_status" />
 
         <View
             android:id="@+id/milestone_line_1"
@@ -39,42 +60,15 @@
             app:layout_constraintStart_toStartOf="@id/milestone_status"
             app:layout_constraintEnd_toEndOf="@id/milestone_status" />
 
-        <ImageView
-            android:id="@+id/milestone_status"
-            android:layout_width="@dimen/spacing_big"
-            android:layout_height="@dimen/spacing_big"
-            android:layout_marginStart="@dimen/spacing_big"
-            android:layout_marginTop="@dimen/spacing_medium"
-            android:background="@drawable/bg_milestone_green"
-            android:gravity="center"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/milestone_info_container"
-            tools:ignore="SpUsage" />
-
         <View
             android:id="@+id/milestone_line_2"
             android:layout_width="3dp"
             android:layout_height="0dp"
             android:background="@color/color_primary"
             app:layout_constraintTop_toBottomOf="@id/milestone_status"
-            app:layout_constraintBottom_toTopOf="@id/journey_marker"
+            app:layout_constraintBottom_toTopOf="@+id/journey_marker"
             app:layout_constraintStart_toStartOf="@+id/milestone_status"
             app:layout_constraintEnd_toEndOf="@+id/milestone_status" />
-
-
-        <ImageView
-            android:id="@+id/journey_marker"
-            android:layout_width="@dimen/spacing_big"
-            android:layout_height="@dimen/spacing_big"
-            android:layout_marginTop="@dimen/spacing_extra_large"
-            android:visibility="visible"
-            android:background="@drawable/bg_journey_pointer"
-            android:gravity="center"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="@id/milestone_status"
-            app:layout_constraintEnd_toEndOf="@id/milestone_status"
-            tools:ignore="SpUsage"
-            tools:text="2" />
 
         <View
             android:id="@+id/milestone_line_3"
@@ -118,14 +112,17 @@
 
         <ImageView
             android:id="@+id/milestone_map"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="150dp"
             android:layout_marginTop="@dimen/spacing_normal_half"
+            android:layout_marginBottom="@dimen/spacing_normal"
             android:scaleType="centerCrop"
             android:src="@drawable/journey_map_placeholder"
+            android:visibility="visible"
             app:layout_constraintStart_toStartOf="@id/milestone_description"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toBottomOf="@id/milestone_description"
-            android:visibility="visible" />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
