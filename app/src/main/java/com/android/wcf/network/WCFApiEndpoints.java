@@ -3,6 +3,7 @@ package com.android.wcf.network;
 
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -81,6 +82,8 @@ public interface WCFApiEndpoints {
     @PATCH("teams/{id}")
     Single<List<Integer>> updateTeam(@Path("id") int teamId, @Body RequestBody params);
 
+    @GET("teams/stats/{id}")
+    Single<List<LeaderboardTeam>> getLeaderboard(@Path("id") int eventid);
 
     /*********** SOURCES **********/
     @GET("sources/")

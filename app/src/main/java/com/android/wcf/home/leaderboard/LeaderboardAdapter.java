@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.wcf.R;
 import com.android.wcf.helper.DistanceConverter;
+import com.android.wcf.model.LeaderboardTeam;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -62,7 +63,7 @@ public class LeaderboardAdapter extends RecyclerView.Adapter<LeaderboardAdapter.
     public void onBindViewHolder(@NonNull LeaderboardAdapter.TeamViewHolder teamViewHolder, int pos) {
         Resources res = teamViewHolder.itemView.getContext().getResources();
         LeaderboardTeam team = mAdapterPresenter.getTeam(pos);
-        int distanceCompleted = (int) DistanceConverter.distance(team.getStepsCompleted());
+        int distanceCompleted = (int) DistanceConverter.distance(team.getDistance());
 
         teamViewHolder.teamRank.setText(team.getRank() + "");
         teamViewHolder.teamName.setText(team.getName());

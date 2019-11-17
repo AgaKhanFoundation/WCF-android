@@ -29,6 +29,7 @@ import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.model.Participant;
 
 import java.io.IOException;
@@ -194,7 +195,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         TextView teamMiles = bronzeContainer.findViewById(R.id.bronze_team_miles_completed);
         if (bronzeTeam != null){
            teamNameTv.setText(bronzeTeam.getName());
-           double miles = DistanceConverter.distance(bronzeTeam.getStepsCompleted());
+           double miles = DistanceConverter.distance(bronzeTeam.getDistance());
             teamMiles.setText(numberFormatter.format(miles) );
         }
         else {
@@ -208,7 +209,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
 
         if (silverTeam != null){
             teamNameTv.setText(silverTeam.getName());
-            double miles = DistanceConverter.distance(silverTeam.getStepsCompleted());
+            double miles = DistanceConverter.distance(silverTeam.getDistance());
             teamMiles.setText(numberFormatter.format(miles) );
         }
         else {
@@ -223,7 +224,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         if (goldTeam != null) {
             teamNameTv.setText(goldTeam.getName());
 
-            double miles = DistanceConverter.distance(goldTeam.getStepsCompleted());
+            double miles = DistanceConverter.distance(goldTeam.getDistance());
             teamMiles.setText(numberFormatter.format(miles));
         }
         else {
@@ -279,13 +280,13 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
                         leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_DISTANCE_COMPLETED, Constants.SORT_MODE_DESCENDING);
                         break;
                     case 1:
-                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_AMOUNT_ACCRUED, Constants.SORT_MODE_DESCENDING);
-                        break;
-                    case 2:
                         leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_NAME, Constants.SORT_MODE_ASCENDING);
                         break;
-                    case 3:
+                    case 2:
                         leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_NAME, Constants.SORT_MODE_DESCENDING);
+                        break;
+                    case 4:
+                        leaderboardPresenter.sortTeamsBy(LeaderboardTeam.SORT_COLUMN_AMOUNT_ACCRUED, Constants.SORT_MODE_DESCENDING);
                         break;
                 }
             }
