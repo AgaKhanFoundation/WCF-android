@@ -7,6 +7,7 @@ import com.android.wcf.helper.typeadapters.DateStringLongConverter;
 import com.android.wcf.helper.typeadapters.DateStringTypeConverter;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -166,6 +167,10 @@ public class WCFClient {
 
     public Single<List<Integer>> deleteTeam(int teamId) {
         return wcfApi.deleteTeam(teamId);
+    }
+
+    public Single<List<LeaderboardTeam>> getLeaderboard(int eventId) {
+        return wcfApi.getLeaderboard(eventId);
     }
 
     public Single<Participant> createParticipant(String participantId) {

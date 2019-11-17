@@ -3,6 +3,7 @@ package com.android.wcf.home.leaderboard;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.LeaderboardTeam;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -40,7 +41,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             return;
         }
         setMyTeamId(myTeamId);
-        super.getLeaderboard();
+        super.getLeaderboard(event.getId());
     }
 
     @Override
@@ -50,7 +51,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             leaderboardView.showLeaderboardIsEmpty();
             return;
         }
-        super.getLeaderboard();
+        super.getLeaderboard(event.getId());
     }
 
     @Override
@@ -147,7 +148,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             if (sortedByDistance.size() > 0) {
                 team = sortedByDistance.get(0);
 
-                if (team.getStepsCompleted() == 0) {
+                if (team.getDistance() == 0) {
                     teamGold = null;
                     teamSilver = null;
                     teamBronze = null;
@@ -158,7 +159,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             if (sortedByDistance.size() > 1) {
                 team = sortedByDistance.get(1);
 
-                if (team.getStepsCompleted() == 0) {
+                if (team.getDistance() == 0) {
                     teamSilver = null;
                     teamBronze = null;
                     return;
@@ -169,7 +170,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             if (sortedByDistance.size() > 2) {
                 team = sortedByDistance.get(2);
 
-                if (team.getStepsCompleted() == 0) {
+                if (team.getDistance() == 0) {
                     teamBronze = null;
                     return;
                 }

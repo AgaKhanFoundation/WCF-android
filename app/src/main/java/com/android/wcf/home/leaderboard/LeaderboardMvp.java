@@ -2,7 +2,7 @@ package com.android.wcf.home.leaderboard;
 
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Event;
-import com.android.wcf.model.Team;
+import com.android.wcf.model.LeaderboardTeam;
 
 import java.util.List;
 

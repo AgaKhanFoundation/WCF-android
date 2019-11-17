@@ -5,9 +5,9 @@ import android.util.Log;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseMvp;
 import com.android.wcf.facebook.FacebookHelper;
-import com.android.wcf.home.leaderboard.LeaderboardTeam;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
+import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
@@ -574,95 +574,40 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     }
 
     protected void onGetTeamChallengeProgressSuccess(Map<String, Stats> teamChallengeProgress) {
-
     }
 
-    public void getLeaderboard() {
-        wcfClient.getTeamsList()
+    public void getLeaderboard(int eventId) {
+        wcfClient.getLeaderboard(eventId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new SingleObserver<List<Team>>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        disposables.add(d);
-                    }
+                .subscribe(new SingleObserver<List<LeaderboardTeam>>() {
+                               @Override
+                               public void onSubscribe(Disposable d) {
+                                   disposables.add(d);
+                               }
 
-                    @Override
-                    public void onSuccess(List<Team> teams) {
-                        List<LeaderboardTeam> leaderboard = extractTeamStats(teams);
-                        onGetLeaderboardLoadSuccess(leaderboard);
-                    }
+                               @Override
+                               public void onSuccess(List<LeaderboardTeam> leaderboard) {
+                                   onGetLeaderboardLoadSuccess(leaderboard);
+                               }
 
-                    @Override
-                    public void onError(Throwable error) {
-                        onGetLeaderboardError(error);
-                    }
-                });
+                               @Override
+                               public void onError(Throwable error) {
+                                   onGetLeaderboardError(error);
+                               }
+                           }
+                );
     }
 
-    protected static int leaderboardTeamsCount;
-    protected static Map<Integer, Stats> teamsStatsMap = new HashMap();
+    protected void onGetLeaderboardLoadSuccess(List<LeaderboardTeam> leaderboard) {
+        Log.d(TAG, "onGetLeaderboardLoadSuccess");
 
-    protected void onGetLeaderboardLoadSuccess(final List<LeaderboardTeam> teams) {
-        leaderboardTeamsCount = teams.size();
-        teamsStatsMap.clear();
-        Log.d(TAG, "onGetLeaderboardLoadSuccess: " + leaderboardTeamsCount);
-        List<Integer> teamIdList = new ArrayList<>();
-        for (LeaderboardTeam team: teams) {
-            final int teamId = team.getId();
-            teamIdList.add(teamId);
+        rankLeaderboard(leaderboard);
 
-            wcfClient.getTeamStats(teamId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new SingleObserver<Stats>() {
-                        @Override
-                        public void onSubscribe(Disposable d) {
-                            disposables.add(d);
-                        }
-
-                        @Override
-                        public void onSuccess(Stats stats) {
-                            Log.d(TAG, "getTeamStat: " + leaderboardTeamsCount + " " + stats.getDistance());
-                            teamsStatsMap.put(teamId, stats);
-
-                            leaderboardTeamsCount--;
-                            if (leaderboardTeamsCount == 0) {
-                                onGetLeaderboardSuccess(teams, teamsStatsMap);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable error) {
-                            Log.d(TAG, "getParticipantStat error: " + participantsProgressCount + " error=" + error.getMessage());
-
-                            leaderboardTeamsCount--;
-                            if (leaderboardTeamsCount == 0) {
-                                onGetLeaderboardSuccess(teams, teamsStatsMap);
-                            }
-                        }
-                    });
-        }
+        onGetLeaderboardSuccess(leaderboard);
     }
 
-    protected void onGetLeaderboardSuccess(List<LeaderboardTeam> teams, Map<Integer, Stats> teamsStatsMap) {
-        Log.d(TAG, "onGetLeaderboardSuccess");
-
-        for (LeaderboardTeam team: teams) {
-            Stats stats = teamsStatsMap.get(team.getId());
-            if (stats != null) {
-                team.setStepsCompleted(stats.getDistance());
-            }
-            else {
-                team.setStepsCompleted(0);
-            }
-        }
-        rankLeaderboard(teams);
-
-        onGetLeaderboardSuccess(teams);
-    }
-
-    protected void onGetLeaderboardSuccess(List<LeaderboardTeam> teamsStats) {
+    protected void onGetLeaderboardSuccess(List<LeaderboardTeam> leaderboard) {
         Log.d(TAG, "onGetLeaderboardSuccess");
     }
 
@@ -670,73 +615,11 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         Log.e(TAG, "onGetLeaderboardError: " + error.getMessage());
     }
 
-    protected List<LeaderboardTeam> extractTeamStats(List<Team> teams) {
-        List<LeaderboardTeam> leaderboardTeamList = new ArrayList<>();
-        for (Team team : teams) {
-            LeaderboardTeam leaderboardTeam = extractTeamStats(team);
-            if (leaderboardTeam != null) {
-                leaderboardTeamList.add(leaderboardTeam);
-            }
-        }
-        return leaderboardTeamList;
-    }
-
     public void rankLeaderboard(List<LeaderboardTeam> leaderboard) {
         Collections.sort(leaderboard, LeaderboardTeam.SORT_BY_STEPS_COMPLETED);
         for (int index = 0; index < leaderboard.size(); index++) {
             leaderboard.get(index).setRank(index + 1);
         }
-    }
-
-    protected LeaderboardTeam extractTeamStats(Team team) {
-        if (team == null || team.getParticipants() == null) {
-            return null;
-        }
-        Event event = DataHolder.getEvent();
-        if (event == null) {
-            return null;
-        }
-
-        int participantsCount = 0, rank = 0;
-
-        int teamStepsCommitted = 0, teamStepsCompleted = 0;
-        double teamAmountPledged = 0.0, teamAmountAccrued = 0.0;
-
-//        for (Participant participant : team.getParticipants()) {
-//            int participantStepsCommittedSteps = participant.getCommittedSteps();
-//
-//            double participantDistancePledged = (int) DistanceConverter.distance(participant.getCommittedSteps());
-//            if (participantStepsCommittedSteps == 0) {
-//                participantStepsCommittedSteps = event.getDefaultParticipantCommitment();
-//            }
-//            int participantCompletedSteps = participant.getCompletedSteps();
-//            double participantCompletedDistance = (int) DistanceConverter.distance(participant.getCompletedSteps());
-//
-//            double participantAvgSupportPledgePerUnitDistance = 0.0;  //TODO get the pledge avg rate for this participant from AKF
-//            teamAmountPledged += participantDistancePledged * participantAvgSupportPledgePerUnitDistance;
-//            teamAmountAccrued += participantCompletedDistance * participantAvgSupportPledgePerUnitDistance;
-//
-//            teamStepsCommitted += participantStepsCommittedSteps;
-//            teamStepsCompleted += participantCompletedSteps;
-//
-//        }
-
-        // rank = (int) (Math.random() * 15);
-
-        LeaderboardTeam leaderboardTeam = new LeaderboardTeam(
-                rank
-                , team.getId()
-                , team.getName()
-                , team.getImage()
-                , team.getLeaderId()
-                , team.getLeaderName()
-                , participantsCount
-                , teamStepsCommitted
-                , teamStepsCompleted
-                , teamAmountPledged
-                , teamAmountAccrued
-        );
-        return leaderboardTeam;
     }
 
     public void getTeamStats(int teamId) {
@@ -860,7 +743,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     }
 
     protected void onTeamNameUpdateConstraintError(String teamName) {
-        Log.e(TAG, "onTeamNameUpdateConstraintError: teamName=" +  teamName);
+        Log.e(TAG, "onTeamNameUpdateConstraintError: teamName=" + teamName);
     }
 
     protected void onTeamNameUpdateSuccess(List<Integer> results, String teamName) {
@@ -960,7 +843,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     protected void onUpdateParticipantCommitmentSuccess(String participantId, int eventId, int commitmentSteps) {
         Log.d(TAG, "onUpdateParticipantCommitmentSuccess: participantId=" + participantId + " eventId=" + eventId + " commitmentSteps=" + commitmentSteps);
-        DataHolder.updateParticipantCommitmentInCachedTeam( commitmentSteps);
+        DataHolder.updateParticipantCommitmentInCachedTeam(commitmentSteps);
         DataHolder.updateParticipantCommitment(commitmentSteps);
     }
 
@@ -1002,7 +885,7 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
 
     public void updateParticipantProfileRegistered(final String participantId) {
-        wcfClient.updateParticipantProfileRegistered( participantId)
+        wcfClient.updateParticipantProfileRegistered(participantId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<List<Integer>>() {
@@ -1024,11 +907,11 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     }
 
     protected void onUpdateParticipantProfileRegisteredSuccess(String participantId) {
-        Log.d(TAG, "onUpdateParticipantProfileRegisteredSuccess: participantId=" + participantId );
+        Log.d(TAG, "onUpdateParticipantProfileRegisteredSuccess: participantId=" + participantId);
     }
 
     protected void onUpdateParticipantProfileRegisteredError(Throwable error, String participantId) {
-        Log.e(TAG, "onUpdateParticipantProfileRegisteredError: " + error.getMessage() + "\n\tparticipantId=" + participantId );
+        Log.e(TAG, "onUpdateParticipantProfileRegisteredError: " + error.getMessage() + "\n\tparticipantId=" + participantId);
     }
 
     /***** tracking sources *****/

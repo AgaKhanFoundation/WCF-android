@@ -1,5 +1,7 @@
 package com.android.wcf.home.leaderboard;
 
+import com.android.wcf.model.LeaderboardTeam;
+
 import java.util.ArrayList;
 import java.util.List;
 
