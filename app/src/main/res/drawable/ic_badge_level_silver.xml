@@ -19,7 +19,7 @@
   <path
       android:pathData="M18,24L56,24C56,34.4934 47.4934,43 37,43C26.5066,43 18,34.4934 18,24Z"
       android:strokeWidth="1"
-      android:fillColor="#000000"
+      android:fillColor="#FF8E16"
       android:fillAlpha="1"
       android:fillType="evenOdd"
       android:strokeColor="#00000000"/>
@@ -57,7 +57,7 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="21.70019"
           android:startX="24"
           android:endY="40.818398"
@@ -71,7 +71,7 @@
   <path
       android:pathData="M49,18L49,33.5038C49,40.4052 43.4051,46 36.5,46C29.5964,46 24,40.4065 24,33.5038L24,18L49,18Z"
       android:strokeWidth="1"
-      android:fillColor="#000000"
+      android:fillColor="#FF8E16"
       android:fillAlpha="1"
       android:fillType="evenOdd"
       android:strokeColor="#00000000"/>
@@ -96,7 +96,7 @@
         android:strokeColor="#00000000"
         android:fillAlpha="0.2">
       <aapt:attr name="android:fillColor">
-        <gradient 
+        <gradient
             android:startY="20.471054"
             android:startX="32.528873"
             android:endY="41.03433"
@@ -121,7 +121,7 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="17"
           android:startX="23"
           android:endY="18.5"
@@ -136,7 +136,7 @@
   <path
       android:pathData="M23,18.5C23,17.6716 23.6742,17 24.4981,17L50.5019,17C51.3293,17 52,17.6658 52,18.5L52,18.5C52,19.3284 51.3258,20 50.5019,20L24.4981,20C23.6707,20 23,19.3342 23,18.5L23,18.5Z"
       android:strokeWidth="1"
-      android:fillColor="#000000"
+      android:fillColor="#F07D42"
       android:fillAlpha="1"
       android:fillType="evenOdd"
       android:strokeColor="#00000000"/>
@@ -158,7 +158,7 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="51"
           android:startX="36.5"
           android:endY="57"
@@ -172,7 +172,7 @@
   <path
       android:pathData="M30,51L43,51A2,2 0,0 1,45 53L45,55A2,2 0,0 1,43 57L30,57A2,2 0,0 1,28 55L28,53A2,2 0,0 1,30 51z"
       android:strokeWidth="1"
-      android:fillColor="#000000"
+      android:fillColor="#00A85D"
       android:fillAlpha="1"
       android:fillType="evenOdd"
       android:strokeColor="#00000000"/>
