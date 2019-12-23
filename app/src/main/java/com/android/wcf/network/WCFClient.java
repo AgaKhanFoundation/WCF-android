@@ -46,6 +46,9 @@ public class WCFClient {
 
     private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.STAGE; //Ensure its PROD for a store build
 
+    public static Steps4ChangeEnv getServerEnv() {
+        return serverEnv;
+    }
 
     public static void switchServerForTestingTeam() {
         if (isProdBackend()) {
@@ -130,10 +133,11 @@ public class WCFClient {
         return wcfApi.getEvents();
     }
 
-    public Single<Team> createTeam(String teamName, String teamLeadParticipantId, boolean teamVisibility) {
+    public Single<Team> createTeam(String teamName, String teamLeadParticipantId, String teamImageFilename, boolean teamVisibility) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         jsonParams.put(Team.TEAM_ATTRIBUTE_NAME, teamName);
         jsonParams.put(Team.TEAM_ATTRIBUTE_LEADER_ID, teamLeadParticipantId);
+        jsonParams.put(Team.TEAM_ATTRIBUTE_IMAGE, teamImageFilename);
         jsonParams.put(Team.TEAM_ATTRIBUTE_VISIBILITY, teamVisibility);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
@@ -226,6 +230,15 @@ public class WCFClient {
         return wcfApi.updateTeam(teamId, requestBody);
     }
 
+    public Single<List<Integer>> updateTeamImage(int teamId, String imageFilename) {
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put(Team.TEAM_ATTRIBUTE_IMAGE, imageFilename);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.updateTeam(teamId, requestBody);
+    }
     public Single<List<Integer>> updateParticipantTrackingSource(String participantId, Integer sourceId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (sourceId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);

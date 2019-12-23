@@ -46,13 +46,20 @@ android {
             loadProperties()
             //fitbit app in steps4impactapp@gmail.com fitbit acc
             manifestPlaceholders = [
-                    fitbit_client_id: "$buildProps.release_fitbit_client_id",
-                    fitbit_client_secret: "$buildProps.release_fitbit_client_secret",
+                    fitbit_client_id          : "$buildProps.release_fitbit_client_id",
+                    fitbit_client_secret      : "$buildProps.release_fitbit_client_secret",
                     fitbit_client_redirect_url: "$buildProps.release_fitbit_client_redirect_url",
-                    facebook_app_id: "$buildProps.release_facebook_app_id",
-                    prod_wcb_server_password: "$buildProps.prod_wcb_server_password",
-                    stage_wcb_server_password: "$buildProps.stage_wcb_server_password",
-                    dev_wcb_server_password: "$buildProps.dev_wcb_server_password"
+                    facebook_app_id           : "$buildProps.release_facebook_app_id",
+                    prod_wcb_server_password  : "$buildProps.prod_wcb_server_password",
+                    stage_wcb_server_password : "$buildProps.stage_wcb_server_password",
+                    dev_wcb_server_password   : "$buildProps.dev_wcb_server_password",
+                    wcb_image_server_accname  : "$buildProps.wcb_image_server_accname",
+                    wcb_image_server_acckey   : "$buildProps.wcb_image_server_acckey",
+                    wcb_image_server_url      : "$buildProps.wcb_image_server_url",
+                    wcb_image_server_container: "$buildProps.wcb_image_server_container",
+                    prod_wcb_image_folder     : "$buildProps.prod_wcb_image_folder",
+                    stage_wcb_image_folder    : "$buildProps.stage_wcb_image_folder",
+                    dev_wcb_image_folder      : "$buildProps.dev_wcb_image_folder"
             ]
         }
         debug {
@@ -67,13 +74,20 @@ android {
 
             //fitbit test app in keshwaniz@gmail.com fitbit acc
             manifestPlaceholders = [
-                    fitbit_client_id: "$buildProps.debug_fitbit_client_id",
-                    fitbit_client_secret: "$buildProps.debug_fitbit_client_secret",
+                    fitbit_client_id          : "$buildProps.debug_fitbit_client_id",
+                    fitbit_client_secret      : "$buildProps.debug_fitbit_client_secret",
                     fitbit_client_redirect_url: "$buildProps.debug_fitbit_client_redirect_url",
-                    facebook_app_id: "$buildProps.debug_facebook_app_id",
-                    prod_wcb_server_password: "$buildProps.prod_wcb_server_password",
-                    stage_wcb_server_password: "$buildProps.stage_wcb_server_password",
-                    dev_wcb_server_password: "$buildProps.dev_wcb_server_password"
+                    facebook_app_id           : "$buildProps.debug_facebook_app_id",
+                    prod_wcb_server_password  : "$buildProps.prod_wcb_server_password",
+                    stage_wcb_server_password : "$buildProps.stage_wcb_server_password",
+                    dev_wcb_server_password   : "$buildProps.dev_wcb_server_password",
+                    wcb_image_server_accname  : "$buildProps.wcb_image_server_accname",
+                    wcb_image_server_acckey   : "$buildProps.wcb_image_server_acckey",
+                    wcb_image_server_url      : "$buildProps.wcb_image_server_url",
+                    wcb_image_server_container: "$buildProps.wcb_image_server_container",
+                    prod_wcb_image_folder     : "$buildProps.prod_wcb_image_folder",
+                    stage_wcb_image_folder    : "$buildProps.stage_wcb_image_folder",
+                    dev_wcb_image_folder      : "$buildProps.dev_wcb_image_folder"
             ]
         }
     }
@@ -106,7 +120,6 @@ android {
     }
     testOptions { unitTests.all { jvmArgs '-noverify' } }
 }
-
 
 
 def loadProperties() {
@@ -179,7 +192,7 @@ dependencies {
         exclude group: 'com.android.support'
     }
 
-    implementation ("com.facebook.android:facebook-share:${facebookSdkVersion}") {
+    implementation("com.facebook.android:facebook-share:${facebookSdkVersion}") {
         exclude group: 'com.android.support'
     }
     //ExoPlayer Google
@@ -191,6 +204,8 @@ dependencies {
     // dagger
     implementation "com.google.dagger:dagger-android:${dagger2Version}"
     implementation "com.google.dagger:dagger-android-support:${dagger2Version}"
+    implementation 'androidx.appcompat:appcompat:1.1.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     kapt "com.google.dagger:dagger-android-processor:${dagger2Version}"
     kapt "com.google.dagger:dagger-compiler:${daggerKaptCompilerVersion}"
     kaptTest "com.google.dagger:dagger-compiler:${daggerKaptCompilerVersion}"
@@ -214,6 +229,13 @@ dependencies {
 
     //circular imageview
     implementation "de.hdodenhof:circleimageview:${circleimageviewVersion}"
+
+    //Azure
+    implementation "com.microsoft.azure.android:azure-storage-android:${azureStorageAndroidVersion}"
+//    implementation "com.microsoft.azure:azure-mobile-android:${azureMobileAndroidVersion}"
+//    implementation "com.microsoft.identity.client:msal:${MicrosoftAuthenticationLibVersion}"
+//    implementation "com.microsoft.identity.client:msal:${MicrosoftAuthenticationLibVersion}"
+
 
     // Kotlin
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

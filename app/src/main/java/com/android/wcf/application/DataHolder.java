@@ -134,6 +134,11 @@ public class DataHolder {
         }
     }
 
+    public static void updateParticipantTeamImage(String imageFilename) {
+        if (participantTeam != null) {
+            participantTeam.setImage(imageFilename);
+        }
+    }
 
     public static void saveBadgesEarned(ArrayList<Badge> challengeBadgeList, ArrayList<Badge> dailyBadgeList, boolean eventEndedForBadges) {
         DataHolder.challengeBadgeList = challengeBadgeList;

@@ -1,8 +1,14 @@
 package com.android.wcf.settings;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,7 +24,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,6 +32,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.AzureImageManager;
+import com.android.wcf.helper.ManifestHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.helper.view.ListPaddingDecoration;
 import com.android.wcf.model.Constants;
@@ -44,7 +52,10 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 
+import static android.app.Activity.RESULT_OK;
 import static com.android.wcf.application.WCFApplication.isProdBackend;
+import static com.android.wcf.base.RequestCodes.SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE;
+import static com.android.wcf.base.RequestCodes.STORAGE_PERMISSIONS_REQUEST_CODE;
 
 public class TeamMembershipFragment extends BaseFragment implements TeamMembershipMvp.View, TeamMembershipAdapterMvp.Host {
 
@@ -71,6 +82,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     View editTeamDialogView = null;
 
     TextView teamNameTv;
+    ImageView teamProfileIv;
 
     EditTextDialogListener editTeamNameDialogListener = new EditTextDialogListener() {
         @Override
@@ -97,6 +109,9 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
                     break;
                 case R.id.team_name:
                     editTeamName();
+                    break;
+                case R.id.team_image:
+                    editTeamImage();
                     break;
             }
         }
@@ -155,6 +170,55 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         host.setToolbarTitle(getString(R.string.settings_team_membership_title), true);
         presenter = new TeamMembershipPresenter(this);
         setupView(view);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            AzureImageManager azureImageManager = new AzureImageManager();
+            AzureImageManager.BlobUpdateCallback blobUpdateCallback = new AzureImageManager.BlobUpdateCallback() {
+
+                @Override
+                public void onUploadSuccess(String filename) {
+                    updateTeamImage(filename);
+                }
+
+                @Override
+                public void onUploadError(String filename, Throwable exception) {
+                    Log.e(TAG, exception.getMessage());
+                    showError(R.string.team_image_upload_error);
+                }
+            };
+            azureImageManager.UploadImage(picturePath, blobUpdateCallback);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case STORAGE_PERMISSIONS_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(galleryIntent, SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE);
+                } else {
+                    showError(R.string.storage_permission_error);
+                }
+                break;
+        }
     }
 
     @Override
@@ -224,7 +288,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     }
 
     void setupSettingsTeamProfileContainer(View container) {
-        ImageView teamProfileImage = container.findViewById(R.id.team_image);
+        teamProfileIv = container.findViewById(R.id.team_image);
         teamNameTv = container.findViewById(R.id.team_name);
 
         TextView challengeNameTv = container.findViewById(R.id.challenge_name);
@@ -246,18 +310,25 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         teamNameTv.setText(team.getName());
         if (isTeamLead) {
             teamNameTv.setOnClickListener(onClickListener);
+            teamProfileIv.setOnClickListener(onClickListener);
         } else {
             teamNameTv.setOnClickListener(null);
+            teamProfileIv.setOnClickListener(null);
         }
 
         String teamImageUrl = team.getImage();
+        if (teamImageUrl != null && !teamImageUrl.isEmpty()) {
+            teamImageUrl = ManifestHelper.Companion.getWcbImageFolderUrl() + team.getImage();
+        }
         if (teamImageUrl != null && !teamImageUrl.isEmpty()) {
             Log.d(TAG, "teamImageUrl=" + teamImageUrl);
 
             Glide.with(getContext())
                     .load(teamImageUrl)
+                    .placeholder(R.drawable.avatar_team)
+                    .error(R.drawable.avatar_team)
                     .apply(RequestOptions.circleCropTransform())
-                    .into(teamProfileImage);
+                    .into(teamProfileIv);
         }
     }
 
@@ -419,10 +490,56 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         showError("Team Delete Error", error.getMessage(), null);
     }
 
+    public void editTeamImage() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        STORAGE_PERMISSIONS_REQUEST_CODE);
+            } else {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void editTeamName() {
         final TextView teamNameTV = settingsTeamProfileContainer.findViewById(R.id.team_name);
         final String currentTeamName = teamNameTV.getText().toString();
         presenter.onEditTeamName(presenter, currentTeamName, editTeamNameDialogListener);
+    }
+
+    public void updateTeamImage(String filename) {
+        presenter.updateTeamImage(team.getId(), filename);
+    }
+
+    @Override
+    public void onTeamImageUpdateSuccess(String teamImageFilename) {
+        Glide.with(getContext()).clear(teamProfileIv);
+        String wcbImageFolderUrl = ManifestHelper.Companion.getWcbImageFolderUrl();
+        String teamImageUrl = wcbImageFolderUrl + teamImageFilename;
+
+        Glide.with(getContext())
+                .load(teamImageUrl)
+                .placeholder(R.drawable.avatar_team)
+                .error(R.drawable.avatar_team)
+                .apply(RequestOptions.circleCropTransform())
+                .into(teamProfileIv);
+
+        team.setImage(teamImageFilename);
+        DataHolder.updateParticipantTeamImage(teamImageFilename);
+    }
+
+    @Override
+    public void onTeamImageUpdateConstraintError(String teamImage) {
+
+    }
+
+    @Override
+    public void onTeamImageUpdateError(Throwable error) {
+
     }
 
     @Override
@@ -486,6 +603,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
                 if (editTextDialogListener != null) {
                     editTextDialogListener.onDialogCancel();
                 }
+                editTeamDialogView = null;
             }
         });
 
@@ -509,6 +627,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
         if (editTeamNameDialogListener != null) {
             editTeamNameDialogListener.onDialogDone(teamName);
         }
+        editTeamDialogView = null;
     }
 
     @Override
@@ -526,8 +645,7 @@ public class TeamMembershipFragment extends BaseFragment implements TeamMembersh
     public void onTeamNameUpdateError(@NotNull Throwable error) {
         if (error instanceof IOException) {
             showNetworkErrorMessage(R.string.events_data_error);
-        }
-        else {
+        } else {
             TextInputLayout teamNameInputLayout = editTeamDialogView.findViewById(R.id.team_name_input_layout);
             if (teamNameInputLayout != null) {
                 teamNameInputLayout.setError(error.getMessage());

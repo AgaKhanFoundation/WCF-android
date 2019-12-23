@@ -199,9 +199,9 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
         mPermissionList.add(Manifest.permission.INTERNET);
         mPermissionList.add(Manifest.permission.ACCESS_NETWORK_STATE);
         mPermissionList.add(Manifest.permission.ACCESS_WIFI_STATE);
-        mPermissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-        mPermissionList.add(Manifest.permission.RECEIVE_BOOT_COMPLETED);
-        mPermissionList.add(Manifest.permission.CALL_PHONE);
+//        mPermissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+//        mPermissionList.add(Manifest.permission.RECEIVE_BOOT_COMPLETED);
+//        mPermissionList.add(Manifest.permission.CALL_PHONE);
         mApplicationPermission = new ApplicationPermission(getApplicationContext());
         mApplicationPermission.setPermissionList(mPermissionList);
     }

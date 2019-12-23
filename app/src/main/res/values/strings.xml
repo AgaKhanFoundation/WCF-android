@@ -127,7 +127,7 @@
     <string name="team_created_but_participant_team_join_error">Team created but unable to add participant to the team. Please use the JOIN TEAM option</string>
     <string name="teams_list_retrieval_error">Could not retrieve teams list</string>
 
-<!-- end of error messages-->
+    <!-- end of error messages-->
     <string name="journey_starts_today">Your journey starts today</string>
 
     <string name="dashboard_activity_card_label">Activity</string>
@@ -172,6 +172,7 @@
 
     <string name="create_team_title">Create Team</string>
     <string name="team_name_hint_text">Name your team (required)</string>
+    <string name="team_image_label">Upload a team photo</string>
     <string name="create_team_button_text">Create Team</string>
     <string name="team_name_constraint_hint">Minimum length 6 characters</string>
     <string name="team_name_search_hint">Find a team</string>
@@ -310,5 +311,7 @@
     <string name="activity_daily_selector_steps_label">Steps</string>
     <string name="activity_daily_selector_distance_label">Miles</string>
     <string name="challenge_view_milestones_label">View milestone details</string>
+    <string name="storage_permission_error">Permissions not granted to access Gallery</string>
+    <string name="team_image_upload_error">Could not upload the image</string>
 
 </resources>

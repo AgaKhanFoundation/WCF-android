@@ -280,8 +280,8 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
     }
 
     /******* TEAM API   ******/
-    public void createTeam(String teamName, String teamLeadParticipantId, boolean teamVisibility) {
-        wcfClient.createTeam(teamName, teamLeadParticipantId, teamVisibility)
+    public void createTeam(String teamName, String teamLeadParticipantId, String teamImageFilename, boolean teamVisibility) {
+        wcfClient.createTeam(teamName, teamLeadParticipantId, teamImageFilename, teamVisibility)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new SingleObserver<Team>() {
@@ -714,6 +714,44 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
     protected void onAssignParticipantToTeamError(Throwable error, String participantId, final int teamId) {
         Log.e(TAG, "assignParticipantToTeam(participantId, teamId) Error: " + error.getMessage());
+    }
+
+    public void updateTeamImage(int teamId, final String filename) {
+        wcfClient.updateTeamImage(teamId, filename)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onTeamImageUpdateSuccess(results, filename);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        if (error.getMessage().startsWith("HTTP 409") || error.getMessage().startsWith("HTTP 400")) {
+                            onTeamImageUpdateConstraintError(filename);
+                        } else {
+                            onTeamImageUpdateError(error, filename);
+                        }
+                    }
+                });
+    }
+
+    protected void onTeamImageUpdateConstraintError(String filename) {
+        Log.e(TAG, "onTeamImageUpdateConstraintError: filename=" + filename);
+    }
+
+    protected void onTeamImageUpdateSuccess(List<Integer> results, String filename) {
+        Log.d(TAG, "onTeamImageUpdateSuccess success: " + results.get(0));
+    }
+
+    protected void onTeamImageUpdateError(Throwable error, String filename) {
+        Log.e(TAG, "onTeamImageUpdateError(filename) Error: " + error.getMessage());
     }
 
     public void updateTeamName(int teamId, final String teamName) {

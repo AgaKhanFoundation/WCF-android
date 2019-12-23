@@ -74,6 +74,12 @@ public class TeamMembershipPresenter extends BasePresenter implements TeamMember
     }
 
     @Override
+    public void updateTeamImage(int teamId, String imageFilename) {
+        super.updateTeamImage(teamId, imageFilename);
+
+    }
+
+    @Override
     protected void onTeamNameUpdateSuccess(List<Integer> results, String teamName) {
         view.onTeamNameUpdateSuccess(teamName);
     }
@@ -88,6 +94,23 @@ public class TeamMembershipPresenter extends BasePresenter implements TeamMember
     protected void onTeamNameUpdateError(Throwable error, String teamName) {
         view.onTeamNameUpdateError(error);
     }
+
+    @Override
+    protected void onTeamImageUpdateSuccess(List<Integer> results, String filename) {
+        view.onTeamImageUpdateSuccess(filename);
+    }
+
+    @Override
+    protected void onTeamImageUpdateConstraintError(String filename) {
+        Log.e(TAG, "onTeamNameUpdateConstraintError: filename=" + filename);
+        view.onTeamImageUpdateConstraintError(filename);
+    }
+
+    @Override
+    protected void onTeamImageUpdateError(Throwable error, String teamName) {
+        view.onTeamImageUpdateError(error);
+    }
+
 
     @Override
     public String getTag() {
