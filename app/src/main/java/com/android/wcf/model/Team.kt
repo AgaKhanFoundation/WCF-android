@@ -65,6 +65,7 @@ data class Team(
 
     companion object {
         const val TEAM_ATTRIBUTE_NAME = "name"
+        const val TEAM_ATTRIBUTE_IMAGE = "image"
         const val TEAM_ATTRIBUTE_LEADER_ID = "creator_id"
         const val TEAM_ATTRIBUTE_VISIBILITY = "hidden"
     }

@@ -9,4 +9,8 @@ public class RequestCodes {
 
     public static final int GFIT_PERMISSIONS_REQUEST_CODE = 1001;
 
+    public static final int STORAGE_PERMISSIONS_REQUEST_CODE = 1002;
+
+    public static final int SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE = 1003;
+
 }

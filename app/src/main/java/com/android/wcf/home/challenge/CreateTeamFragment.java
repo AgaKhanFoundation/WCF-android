@@ -1,8 +1,16 @@
 package com.android.wcf.home.challenge;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -10,24 +18,34 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
 
 import com.android.wcf.R;
 import com.android.wcf.base.BaseFragment;
+import com.android.wcf.helper.AzureImageManager;
+import com.android.wcf.helper.ManifestHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Team;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+
+import static android.app.Activity.RESULT_OK;
+import static com.android.wcf.base.RequestCodes.SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE;
+import static com.android.wcf.base.RequestCodes.STORAGE_PERMISSIONS_REQUEST_CODE;
 
 public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.View {
 
@@ -40,23 +58,24 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     private Button createTeamButton = null;
     private Button cancelCreateTeamButton = null;
     private TextInputLayout teamNameInputLayout = null;
+    private ImageView teamProfileIv = null;
     private TextInputEditText teamNameEditText = null;
     private SwitchCompat teamVisibiltySwitch = null;
 
     private TextView teamInviteMessageTv = null;
     private Button inviteMembersButton = null;
     private View teamCreatedContinueView = null;
-
+    private String teamImageFilename = null;
     private boolean teamCreated = false;
 
     private TextWatcher creatTeamEditWatcher = new TextWatcher() {
         @Override
-        public void beforeTextChanged(CharSequence charSequence,  int start, int before, int count) {
+        public void beforeTextChanged(CharSequence charSequence, int start, int before, int count) {
 
         }
 
         @Override
-        public void onTextChanged(CharSequence charSequence,  int start, int before, int count) {
+        public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
             enableCreateTeamButton();
         }
 
@@ -74,7 +93,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
                     String teamName = teamNameEditText.getText().toString().trim();
                     String teamLeadParticipantId = SharedPreferencesUtil.getMyParticipantId();
                     boolean teamVisibility = !teamVisibiltySwitch.isChecked();
-                    presenter.createTeam(teamName, teamLeadParticipantId, teamVisibility);
+                    presenter.createTeam(teamName, teamLeadParticipantId, teamImageFilename, teamVisibility);
                     break;
                 case R.id.cancel_create_team_button:
                     if (teamCreated) {
@@ -88,6 +107,10 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
                     break;
                 case R.id.team_created_continue:
                     closeView();
+                    break;
+                case R.id.team_image:
+                    editTeamImage();
+                    break;
             }
         }
     };
@@ -138,6 +161,80 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE && resultCode == RESULT_OK && null != data) {
+            Uri selectedImage = data.getData();
+            String[] filePathColumn = {MediaStore.Images.Media.DATA};
+
+            Cursor cursor = getContext().getContentResolver().query(selectedImage,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            AzureImageManager azureImageManager = new AzureImageManager();
+            AzureImageManager.BlobUpdateCallback blobUpdateCallback = new AzureImageManager.BlobUpdateCallback() {
+                @Override
+                public void onUploadSuccess(final String filename) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            updateTeamImage(filename);
+                        }
+                    });
+                }
+
+                @Override
+                public void onUploadError(String filename, final Throwable exception) {
+                    Handler handler = new Handler(Looper.getMainLooper());
+                    handler.post(new Runnable() {
+                        public void run() {
+                            showError(exception);
+                        }
+                    });
+                }
+            };
+            azureImageManager.UploadImage(picturePath, blobUpdateCallback);
+        }
+    }
+
+    public void updateTeamImage(final String teamImageFilename) {
+        this.teamImageFilename = teamImageFilename;
+
+        Glide.with(getContext()).clear(teamProfileIv);
+        String wcbImageFolderUrl = ManifestHelper.Companion.getWcbImageFolderUrl();
+        String teamImageUrl = wcbImageFolderUrl + teamImageFilename;
+
+        Glide.with(getContext())
+                .load(teamImageUrl)
+                .placeholder(R.drawable.avatar_team)
+                .error(R.drawable.avatar_team)
+                .apply(RequestOptions.circleCropTransform())
+                .into(teamProfileIv);
+
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String permissions[], @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case STORAGE_PERMISSIONS_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    startActivityForResult(galleryIntent, SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE);
+                } else {
+                    showError(R.string.storage_permission_error);
+                }
+                break;
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -174,8 +271,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     public void onCreateTeamError(@NotNull Throwable error) {
         if (error instanceof IOException) {
             showNetworkErrorMessage(R.string.events_data_error);
-        }
-        else {
+        } else {
             showError(R.string.teams_data_error, error.getMessage(), null);
         }
     }
@@ -215,6 +311,21 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         dialogBuilder.show();
     }
 
+    public void editTeamImage() {
+        try {
+            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(getActivity(),
+                        new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                        STORAGE_PERMISSIONS_REQUEST_CODE);
+            } else {
+                Intent galleryIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(galleryIntent, SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     void closeView() {
         getActivity().onBackPressed();
     }
@@ -247,6 +358,8 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
         }
         teamNameInputLayout = createTeamCard.findViewById(R.id.team_name_input_layout);
 
+        teamProfileIv = createTeamCard.findViewById(R.id.team_image);
+        teamProfileIv.setOnClickListener(onClickListener);
         teamVisibiltySwitch = createTeamCard.findViewById(R.id.team_public_visibility_enabled);
 
         enableCreateTeamButton();

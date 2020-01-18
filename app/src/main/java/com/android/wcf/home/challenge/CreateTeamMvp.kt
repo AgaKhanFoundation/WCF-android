@@ -14,7 +14,7 @@ interface CreateTeamMvp {
     }
 
     interface Presenter : BaseMvp.Presenter {
-        fun createTeam(teamName: String, teamLeadParticipantId: String, teamVisibility: Boolean? = true)
+        fun createTeam(teamName: String, teamLeadParticipantId: String, teamImageFilename:String?, teamVisibility: Boolean? = true)
         fun assignParticipantToTeam(participantId: String, teamId: Int)
     }
 

@@ -18,11 +18,11 @@ public class CreateTeamPresenter extends BasePresenter implements CreateTeamMvp.
     }
 
     @Override
-    public void createTeam(@NotNull String teamName, @Nullable String teamLeadParticipantId, @Nullable Boolean teamVisibility) {
+    public void createTeam(@NotNull String teamName, @Nullable String teamLeadParticipantId, String teamImageFilename, @Nullable Boolean teamVisibility) {
         if (teamVisibility == null) {
             teamVisibility = true;
         }
-        super.createTeam(teamName, teamLeadParticipantId, teamVisibility);
+        super.createTeam(teamName, teamLeadParticipantId, teamImageFilename, teamVisibility);
     }
 
     @Override

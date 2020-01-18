@@ -14,6 +14,13 @@ public interface TeamMembershipMvp extends BaseMvp.BaseView {
         void onTeamNameUpdateConstraintError(String teamName);
 
         void onTeamNameUpdateError(Throwable error);
+
+        void onTeamImageUpdateSuccess(String teamImage);
+
+        void onTeamImageUpdateConstraintError(String teamImage);
+
+        void onTeamImageUpdateError(Throwable error);
+
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -21,6 +28,7 @@ public interface TeamMembershipMvp extends BaseMvp.BaseView {
         void deleteTeam(int teamId);
         void onEditTeamName(final TeamMembershipMvp.Presenter presenter, final String currentName, final EditTextDialogListener editTextDialogListener);
         void updateTeamName(int teamId, String teamName);
+        void updateTeamImage(int teamId, String imageFilename);
     }
 
     interface Host extends BaseMvp.Host {
