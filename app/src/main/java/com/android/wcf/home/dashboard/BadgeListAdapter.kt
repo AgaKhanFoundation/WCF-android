@@ -87,7 +87,13 @@ class BadgeListAdapter(val adapterHost: AdapterHost) : RecyclerView.Adapter<Badg
             itemView.badge_description.text = title
             itemView.badge_description.visibility = if (title?.length ?: 0 > 0) View.VISIBLE else View.GONE
 
-            itemView.badge_date.text = dateFormatter.format((badge.date))
+            if (badge.date != null) {
+                itemView.badge_date.text = dateFormatter.format((badge.date))
+                itemView.badge_date.visibility = View.VISIBLE
+            }
+            else {
+                itemView.badge_date.visibility = View.INVISIBLE
+            }
             when (badge.type) {
                 BadgeType.LEVEL_SILVER, BadgeType.LEVEL_GOLD, BadgeType.LEVEL_PLATINUM, BadgeType.LEVEL_CHAMPION ->
                     itemView.icon_badge.getLayoutParams().height = res.getDimensionPixelSize(R.dimen.level_badge_image_medium_width)
