@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.fragment_badge_detail.view.*
 import java.io.File
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
+import java.util.*
 
 
 class BadgeDetailFragment : BaseFragment(), BadgeDetailMvp.View {
@@ -114,6 +115,8 @@ class BadgeDetailFragment : BaseFragment(), BadgeDetailMvp.View {
     fun showBadge() {
         badge?.let { badge ->
             val dateFormatter = SimpleDateFormat("MMMM d, yyyy")
+            dateFormatter.setTimeZone(TimeZone.getTimeZone("UTC"))
+
             Glide.with(context!!).load(badge.type?.imageRes).into(badgeView.icon_badge)
 
             var title = badge.title

@@ -209,9 +209,9 @@
 
                         <ImageView
                             android:id="@+id/journey_card_icon_journey"
-                            android:layout_height="160dp"
+                            android:layout_height="wrap_content"
                             android:layout_width="match_parent"
-                            android:scaleType="centerCrop"
+                            android:scaleType="centerInside"
                             android:contentDescription="Journey is Active"
                             android:layout_marginTop="@dimen/spacing_normal_half"
                             app:layout_constraintEnd_toEndOf="parent"

@@ -174,6 +174,27 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
     }
 
     private fun getTeamBadge(event: Event, team: Team?): Badge? {
+
+        team?.let {
+            val teamStepsCommitment = it.geTotalParticipantCommitmentSteps()
+            val teamStepsCompleted = it.geTotalParticipantCompletedSteps()
+            if (teamStepsCommitment > 0) {
+                val completePct = ( teamStepsCompleted/ teamStepsCommitment ) * 100
+                if (completePct >= BadgeType.TEAM_GOAL_100_PCT.threshold) {
+                    return Badge(BadgeType.TEAM_GOAL_100_PCT)
+                }
+                if (completePct >= BadgeType.TEAM_GOAL_75_PCT.threshold) {
+                    return Badge(BadgeType.TEAM_GOAL_75_PCT)
+                }
+                if (completePct >= BadgeType.TEAM_GOAL_50_PCT.threshold) {
+                    return Badge(BadgeType.TEAM_GOAL_50_PCT)
+                }
+                if (completePct >= BadgeType.TEAM_GOAL_25_PCT.threshold) {
+                    return Badge(BadgeType.TEAM_GOAL_25_PCT)
+                }
+            }
+        }
+
         return null
     }
 

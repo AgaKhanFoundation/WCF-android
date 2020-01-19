@@ -113,16 +113,14 @@
         <ImageView
             android:id="@+id/milestone_map"
             android:layout_width="0dp"
-            android:layout_height="150dp"
-            android:layout_marginTop="@dimen/spacing_normal_half"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
             android:layout_marginBottom="@dimen/spacing_normal"
-            android:scaleType="centerCrop"
             android:src="@drawable/journey_map_placeholder"
             android:visibility="visible"
-            app:layout_constraintStart_toStartOf="@id/milestone_description"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/milestone_description"
-            app:layout_constraintBottom_toBottomOf="parent" />
+            app:layout_constraintStart_toStartOf="@id/milestone_name"
+            app:layout_constraintTop_toBottomOf="@id/milestone_description" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
