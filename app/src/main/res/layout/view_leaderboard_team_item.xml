@@ -20,14 +20,24 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:text="1000"/>
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/team_image"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:contentDescription="@string/content_description_team_photo"
+        android:layout_marginStart="@dimen/spacing_normal_half"
+        app:layout_constraintStart_toEndOf="@id/team_rank"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/avatar_team" />
+
     <TextView
         android:id="@+id/team_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/spacing_normal"
+        android:layout_marginStart="@dimen/spacing_normal_half"
         android:textAppearance="@style/TextAppearance.WCF.Body1"
         app:layout_constraintBaseline_toBaselineOf="@id/team_rank"
-        app:layout_constraintStart_toEndOf="@id/team_rank"
+        app:layout_constraintStart_toEndOf="@id/team_image"
         app:layout_constraintEnd_toStartOf="@+id/team_distance_completed"
         app:layout_constraintTop_toTopOf="parent"
         android:gravity="start"
@@ -52,6 +62,7 @@
         android:textAppearance="@style/TextAppearance.WCF.Body1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/team_distance_completed"
+        android:visibility="gone"
         android:gravity="right"
         tools:text="$56.20"/>
 

@@ -225,7 +225,7 @@
                 android:id="@+id/leaderboard_team_name_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/spacing_normal"
+                android:layout_marginStart="@dimen/spacing_extra_large"
                 android:gravity="start"
                 android:text="Team Name"
                 android:textAppearance="@style/TextAppearance.WCF.Subtitle1.Medium.Bold"
