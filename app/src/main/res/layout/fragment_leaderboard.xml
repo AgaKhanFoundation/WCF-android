@@ -7,8 +7,8 @@
     android:background="@color/color_white_1"
     android:paddingStart="@dimen/spacing_normal"
     android:paddingEnd="@dimen/spacing_normal"
-    android:paddingTop="@dimen/spacing_normal_half"
-    android:paddingBottom="0dp"
+    android:paddingTop="@dimen/spacing_normal"
+    android:paddingBottom="@dimen/spacing_normal"
     tools:context="com.android.wcf.home.leaderboard.LeaderboardFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout

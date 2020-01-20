@@ -31,6 +31,9 @@
     </string-array>
 
     <string name="nav_notifications">Notifications</string>
+    <string name="notifications_data_error">Notifications Error</string>
+    <string name="notification_empty_message">You don\'t have any notifications right now</string>
+
 
     <string name="akf_profileview_title">AKF Profile</string>
     <string name="login_id_not_found">Login data not found. Please login or contact the support team for assistance</string>
