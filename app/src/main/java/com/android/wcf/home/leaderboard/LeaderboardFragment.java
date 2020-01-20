@@ -69,10 +69,7 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        if (leaderboardPresenter == null) {
-            leaderboardPresenter = new LeaderboardPresenter(this );
-        }
+        leaderboardPresenter = new LeaderboardPresenter(this );
     }
 
     @Override
@@ -84,7 +81,6 @@ public class LeaderboardFragment extends BaseFragment implements LeaderboardMvp.
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.d(TAG, "onCreateView");
         View view = inflater.inflate(R.layout.fragment_leaderboard, container, false);
         return view;
     }

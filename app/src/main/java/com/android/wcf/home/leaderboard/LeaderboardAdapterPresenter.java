@@ -48,7 +48,7 @@ public class LeaderboardAdapterPresenter implements LeaderboardAdapterMvp.Presen
 
     @Override
     public String getTag() {
-        return null;
+        return LeaderboardAdapterPresenter.class.getSimpleName();
     }
 
     @Override
