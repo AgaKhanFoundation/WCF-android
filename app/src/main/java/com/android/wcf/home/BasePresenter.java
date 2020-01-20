@@ -9,6 +9,7 @@ import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
 import com.android.wcf.model.Source;
@@ -1026,5 +1027,67 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 + " stepsDate=" + stepsDate
                 + " stepsCount=" + stepsCount
         );
+    }
+
+    /* notifications */
+
+    public void getParticipantNotifications(String fbid, int eventId) {
+        wcfClient.getParticipantNotifications(fbid, eventId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Notification>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Notification> notifications) {
+                        onParticipantNotificationsRetrieved(notifications);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onGetParticipantNotificationsError(error);
+                    }
+                });
+    }
+
+    protected void onParticipantNotificationsRetrieved(List<Notification> notifications){
+        Log.d(TAG, "showNotifications success ");
+    }
+
+    protected void onGetParticipantNotificationsError(Throwable error) {
+        Log.e(TAG, "onGetParticipantNotificationsError(Error: " + error.getMessage());
+    }
+
+    public void updateParticipantNotificationRead(final int participantNotificationId, final boolean readFlag) {
+        wcfClient.updateParticipantNotificationAsRead(participantNotificationId, readFlag)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<List<Integer>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(List<Integer> results) {
+                        onUpdateParticipantNotificationReadSuccess(participantNotificationId, readFlag);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onUpdateParticipantNotificationReadError(error);
+                    }
+                });
+    }
+
+    private void onUpdateParticipantNotificationReadSuccess(int participantNotificationId, boolean readFlag) {
+        Log.d(TAG, "onUpdateParticipantNotificationReadSuccess: participantNotificationId=" + participantNotificationId);
+    }
+
+    private void onUpdateParticipantNotificationReadError(Throwable error) {
+        Log.e(TAG, "onUpdateParticipantNotificationReadError: " + error.getMessage());
     }
 }

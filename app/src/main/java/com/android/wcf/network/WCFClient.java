@@ -9,6 +9,7 @@ import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
 import com.android.wcf.model.Source;
@@ -54,8 +55,7 @@ public class WCFClient {
         if (isProdBackend()) {
             serverEnv = Steps4ChangeEnv.STAGE;
 
-        }
-        else {
+        } else {
             serverEnv = Steps4ChangeEnv.PROD;
         }
         WCFAuth.clearTokenHeader();
@@ -88,11 +88,11 @@ public class WCFClient {
                 HttpUrl url = original.url().newBuilder()
                         .build();
 
-              Pair<String, String> authHeader = WCFAuth.basicHeader(serverEnv);
+                Pair<String, String> authHeader = WCFAuth.basicHeader(serverEnv);
                 Request request = original.newBuilder()
                         .url(url)
                         .header("Accept", "application/json")
-                        .header( authHeader.getFirst(), authHeader.getSecond()) //TODO: activate after we have the password and updated in build script
+                        .header(authHeader.getFirst(), authHeader.getSecond()) //TODO: activate after we have the password and updated in build script
                         .method(original.method(), original.body())
                         .build();
 
@@ -201,7 +201,8 @@ public class WCFClient {
             jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_FBID, newParticipantId);
         if (teamId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_TEAM_ID, teamId);
         if (causeId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_CAUSE_ID, causeId);
-        if (localityId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_LOCALITY_ID, localityId);
+        if (localityId > 0)
+            jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_LOCALITY_ID, localityId);
         if (eventId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_EVENT_ID, eventId);
 
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
@@ -239,6 +240,7 @@ public class WCFClient {
 
         return wcfApi.updateTeam(teamId, requestBody);
     }
+
     public Single<List<Integer>> updateParticipantTrackingSource(String participantId, Integer sourceId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (sourceId > 0) jsonParams.put(Participant.PARTICIPANT_ATTRIBUTE_SOURCE_ID, sourceId);
@@ -319,7 +321,8 @@ public class WCFClient {
     public Single<List<Milestone>> getJourneyMilestones(int eventId) {
         if (1 == 1) { //until the API is fixed, return a hard-coded resultset
             Gson gson = new Gson();
-            List<Milestone> result = gson.fromJson(getMilestonesJson(),new TypeToken<List<Milestone>>(){}.getType());
+            List<Milestone> result = gson.fromJson(getMilestonesJson(), new TypeToken<List<Milestone>>() {
+            }.getType());
             return Single.just(result);
         }
         return wcfApi.getJourneyMilestones();
@@ -438,4 +441,80 @@ public class WCFClient {
                 "]\n"
                 ;
     }
+
+    public Single<List<Notification>> getParticipantNotifications(String fbid, int eventId) {
+        if (1 == 1) {
+            Gson gson = new Gson();
+            List<Notification> result = gson.fromJson(getNotificationsJon(), new TypeToken<List<Notification>>() {
+            }.getType());
+            return Single.just(result);
+        }
+        return wcfApi.getParticipantNotifications(fbid, eventId);
+    }
+
+    private String getNotificationsJon() {
+        return "[\n" +
+                "  {\n" +
+                "    \"id\" : 0,\n" +
+                "    \"notification_id\": 0,\n" +
+                "    \"message\": \"Firstname lastname has joined your team\",\n" +
+                "    \"message_date\": \"2020-01-20T02:53:00Z\" ,\n" +
+                "    \"priority\": 0,\n" +
+                "    \"event_id\": 1,\n" +
+                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
+                "    \"read_flag\":false\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\" : 1,\n" +
+                "    \"notification_id\": 1,\n" +
+                "    \"message\": \"You have been removed from the team team1\",\n" +
+                "    \"message_date\": \"2020-01-20T01:53:00Z\" ,\n" +
+                "    \"priority\": 0,\n" +
+                "    \"event_id\": 1,\n" +
+                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
+                "    \"read_flag\":true\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\" : 2,\n" +
+                "    \"notification_id\": 2,\n" +
+                "    \"message\": \"Challenge event1 has ended\",\n" +
+                "    \"message_date\": \"2020-01-20T00:53:00Z\" ,\n" +
+                "    \"priority\": 0,\n" +
+                "    \"event_id\": 1,\n" +
+                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
+                "    \"read_flag\":false\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\" : 3,\n" +
+                "    \"notification_id\": 3,\n" +
+                "    \"message\": \"Abigail Gates is going to Nike run with 80 others\",\n" +
+                "    \"message_date\": \"2020-01-20T00:03:00Z\" ,\n" +
+                "    \"priority\": 0,\n" +
+                "    \"event_id\": 1,\n" +
+                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
+                "    \"read_flag\":false\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\" : 4,\n" +
+                "    \"notification_id\": 4,\n" +
+                "    \"message\": \"AKF challenge is starting soon. Register your friends\",\n" +
+                "    \"message_date\": \"2020-01-18T02:53:00Z\",\n" +
+                "    \"priority\": 0,\n" +
+                "    \"event_id\": 1,\n" +
+                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
+                "    \"read_flag\":true\n" +
+                "  }\n" +
+                "]\n";
+    }
+
+    public Single<List<Integer>> updateParticipantNotificationAsRead(int participantNotificationId, boolean readFlag) {
+        Map<String, Object> jsonParams = new ArrayMap<>();
+        jsonParams.put(Notification.NOTIFICATION_ATTRIBUTE_READ_FLAG, readFlag);
+
+        RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
+                new JSONObject(jsonParams).toString());
+
+        return wcfApi.updateParticipantNotification(participantNotificationId, requestBody);
+    }
+
 }
