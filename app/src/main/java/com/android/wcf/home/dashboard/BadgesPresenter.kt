@@ -180,9 +180,9 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
             val teamStepsCompleted = it.geTotalParticipantCompletedSteps()
             if (teamStepsCommitment > 0) {
                 val completePct = ( teamStepsCompleted/ teamStepsCommitment ) * 100
-                if (completePct >= BadgeType.TEAM_GOAL_100_PCT.threshold) {
-                    return Badge(BadgeType.TEAM_GOAL_100_PCT)
-                }
+//                if (completePct >= BadgeType.TEAM_GOAL_100_PCT.threshold) {
+//                    return Badge(BadgeType.TEAM_GOAL_100_PCT)
+//                }
                 if (completePct >= BadgeType.TEAM_GOAL_75_PCT.threshold) {
                     return Badge(BadgeType.TEAM_GOAL_75_PCT)
                 }
