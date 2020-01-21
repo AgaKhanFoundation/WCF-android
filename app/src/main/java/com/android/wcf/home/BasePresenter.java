@@ -1083,11 +1083,11 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                 });
     }
 
-    private void onUpdateParticipantNotificationReadSuccess(int participantNotificationId, boolean readFlag) {
+    protected void onUpdateParticipantNotificationReadSuccess(int participantNotificationId, boolean readFlag) {
         Log.d(TAG, "onUpdateParticipantNotificationReadSuccess: participantNotificationId=" + participantNotificationId);
     }
 
-    private void onUpdateParticipantNotificationReadError(Throwable error) {
+    protected void onUpdateParticipantNotificationReadError(Throwable error) {
         Log.e(TAG, "onUpdateParticipantNotificationReadError: " + error.getMessage());
     }
 }

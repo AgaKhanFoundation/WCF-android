@@ -9,9 +9,9 @@ interface NotificationsMvp {
 
         fun onGetParticipantNotificationsError(error: Throwable)
 
-        fun onUpdateParticipantNotificationSuccess(notificationId: Int)
+        fun onUpdateParticipantNotificationReadSuccess(notificationId: Int)
 
-        fun onUpdateParticipantNotificationError(error: Throwable)
+        fun onUpdateParticipantNotificationReadError(error: Throwable)
 
         fun showNotificationsIsEmpty()
 

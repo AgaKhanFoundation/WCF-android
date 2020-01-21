@@ -24,11 +24,19 @@ class NotificationsAdapter(var mHost: NotificationsAdapterMvp.Host) :
             return
         }
         mHost.hideEmptyNotificationsView()
-        mAdapterPresenter?.updateNotificationsData(notifications)
+        mAdapterPresenter.updateNotificationsData(notifications)
+    }
+
+    override fun notificationUpdated(participantNotificationId: Int) {
+        mAdapterPresenter.notificationUpdated(participantNotificationId)
     }
 
     override fun notificationsUpdated() {
         notifyDataSetChanged()
+    }
+
+    override fun notificationItemChanged(pos: Int) {
+        notifyItemChanged(pos)
     }
 
     override fun getItemCount(): Int {

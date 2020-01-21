@@ -87,7 +87,7 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
             when (item.itemId) {
                 R.id.menu_item_refresh -> {
                     handled = true
-                    notificationPresenter!!.refreshParticipantNotifications(participant!!.fbId!!, event!!.id)
+                    notificationPresenter?.refreshParticipantNotifications(participant!!.fbId!!, event!!.id)
                 }
             }
         }
@@ -161,11 +161,11 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
         }
     }
 
-    override fun onUpdateParticipantNotificationSuccess(notificationId: Int) {
-
+    override fun onUpdateParticipantNotificationReadSuccess(notificationId: Int) {
+        notificationsAdapter?.notificationUpdated(notificationId)
     }
 
-    override fun onUpdateParticipantNotificationError(error: Throwable) {
+    override fun onUpdateParticipantNotificationReadError(error: Throwable) {
 
     }
 

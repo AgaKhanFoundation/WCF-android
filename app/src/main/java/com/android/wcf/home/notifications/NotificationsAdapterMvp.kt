@@ -7,7 +7,12 @@ interface NotificationsAdapterMvp {
     interface View {
         fun updateNotificationsData(notifications: List<Notification>)
 
+        fun notificationUpdated(participantNotificationId: Int)
+
         fun notificationsUpdated()
+
+        fun notificationItemChanged(pos:Int)
+
     }
 
     interface Presenter : BaseMvp.Presenter {
@@ -21,6 +26,9 @@ interface NotificationsAdapterMvp {
         fun getViewType(pos: Int): Int
 
         fun messageClicked(pos: Int)
+
+        fun notificationUpdated(participantNotificationId: Int)
+
     }
 
     interface Host {
@@ -29,5 +37,6 @@ interface NotificationsAdapterMvp {
         fun hideEmptyNotificationsView()
 
         fun messageSelected(notification: Notification)
+
     }
 }
