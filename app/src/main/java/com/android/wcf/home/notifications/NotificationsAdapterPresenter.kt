@@ -33,6 +33,16 @@ class NotificationsAdapterPresenter(val mView: NotificationsAdapterMvp.View, val
         }
     }
 
+    override fun notificationUpdated(participantNotificationId: Int) {
+        notificationList?.let {
+            val pos = it.indexOfFirst({ it.id == participantNotificationId }) ?: -1
+            if (pos >= 0) {
+                it.get(pos).readFlag = true
+                mView.notificationItemChanged(pos)
+            }
+        }
+    }
+
     override fun getViewType(pos: Int): Int {
         return 0
     }

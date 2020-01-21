@@ -1,5 +1,6 @@
 package com.android.wcf.home.notifications
 
+import android.util.Log
 import com.android.wcf.home.BasePresenter
 import com.android.wcf.model.Notification
 
@@ -26,6 +27,14 @@ class NotificationsPresenter(private val notificationView: NotificationsMvp.Noti
     override fun updateParticipantNotificationRead(participantNotificationId: Int, readFlag: Boolean) {
         super.updateParticipantNotificationRead(participantNotificationId, readFlag)
 
+    }
+
+    override fun onUpdateParticipantNotificationReadSuccess(participantNotificationId: Int, readFlag: Boolean) {
+        notificationView.onUpdateParticipantNotificationReadSuccess(participantNotificationId)
+    }
+
+    override fun onUpdateParticipantNotificationReadError(error: Throwable) {
+        notificationView.onUpdateParticipantNotificationReadError(error)
     }
 
     override fun getTag(): String {
