@@ -120,7 +120,7 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
             if (milestone.sequence == lastCompletedMilestoneSequence && nexttMilestonePercentageCompletion < 100) {
                 showMap(milestone)
             } else {
-                val mapUrl = milestone.journey_map
+                val mapUrl = milestone.mapImage
                 if (!mapUrl.isNullOrEmpty()) {
                     Log.d(TAG, "hiding sequence=${milestone.sequence} mapUrl=" + mapUrl)
                 }
@@ -180,7 +180,7 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
             map.visibility = View.VISIBLE
             //cardView.visibility = View.VISIBLE
 
-            val mapUrl = milestone.journey_map
+            val mapUrl = milestone.mapImage
             if (!mapUrl.isNullOrEmpty()) {
                 Log.d(TAG, "sequence=${milestone.sequence} mapUrl=" + mapUrl)
 

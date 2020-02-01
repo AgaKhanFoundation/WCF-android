@@ -11,7 +11,7 @@ data class Milestone(
         @SerializedName("name") var name: String = "",
         @SerializedName("description") var description: String = "",
         @SerializedName("flag_name") var flag_name: String = "",
-        @SerializedName("journey_map") var journey_map: String = "",
+        @SerializedName("map_image") var mapImage: String = "",
         @SerializedName("title") var title: String = "",
         @SerializedName("subtitle") var subtitle: String = "",
         @SerializedName("content") var content: String = "",
