@@ -209,15 +209,15 @@
 
                         <ImageView
                             android:id="@+id/journey_card_icon_journey"
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
+                            android:layout_height="225dp"
+                            android:layout_width="wrap_content"
                             android:scaleType="centerInside"
                             android:contentDescription="Journey is Active"
                             android:layout_marginTop="@dimen/spacing_normal_half"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/journey_card_journey_label"
-                            app:srcCompat="@drawable/journey_map_placeholder" />
+                            tools:src="@drawable/journey_map_placeholder" />
 
                         <TextView
                             android:id="@+id/journey_card_message"
