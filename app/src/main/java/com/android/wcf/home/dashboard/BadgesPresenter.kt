@@ -56,17 +56,18 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
 
         addDistanceBadge(recordsList, challengeBadges)
 
+        val daysInChallenge = event.getDaysInChallenge()
         var daysWith10KStepsMet = recordsList.filter {
             it.distance ?: 0 >= BadgeType.DAILY_10K_STEPS.threshold
         }
         if (challengeEnded) {
-            if (daysWith10KStepsMet.size >= BadgeType.LEVEL_CHAMPION.threshold) {
+            if ( (daysWith10KStepsMet.size / daysInChallenge)*100 >= BadgeType.LEVEL_CHAMPION.threshold) {
                 dailyGoalBadges.add(Badge(BadgeType.LEVEL_CHAMPION, event.endDate?.time))
-            } else if (daysWith10KStepsMet.size >= BadgeType.LEVEL_PLATINUM.threshold) {
+            } else if ((daysWith10KStepsMet.size / daysInChallenge)*100  >= BadgeType.LEVEL_PLATINUM.threshold) {
                 dailyGoalBadges.add(Badge(BadgeType.LEVEL_PLATINUM, event.endDate?.time))
-            } else if (daysWith10KStepsMet.size >= BadgeType.LEVEL_GOLD.threshold) {
+            } else if ((daysWith10KStepsMet.size / daysInChallenge)*100  >= BadgeType.LEVEL_GOLD.threshold) {
                 dailyGoalBadges.add(Badge(BadgeType.LEVEL_GOLD, event.endDate?.time))
-            } else if (daysWith10KStepsMet.size >= BadgeType.LEVEL_SILVER.threshold) {
+            } else if ((daysWith10KStepsMet.size / daysInChallenge)*100 >= BadgeType.LEVEL_SILVER.threshold) {
                 dailyGoalBadges.add(Badge(BadgeType.LEVEL_SILVER, event.endDate?.time))
             }
         }
@@ -180,9 +181,9 @@ class BadgesPresenter(val view: BadgesMvp.View) : BasePresenter(), BadgesMvp.Pre
             val teamStepsCompleted = it.geTotalParticipantCompletedSteps()
             if (teamStepsCommitment > 0) {
                 val completePct = ( teamStepsCompleted/ teamStepsCommitment ) * 100
-                if (completePct >= BadgeType.TEAM_GOAL_100_PCT.threshold) {
-                    return Badge(BadgeType.TEAM_GOAL_100_PCT)
-                }
+//                if (completePct >= BadgeType.TEAM_GOAL_100_PCT.threshold) {
+//                    return Badge(BadgeType.TEAM_GOAL_100_PCT)
+//                }
                 if (completePct >= BadgeType.TEAM_GOAL_75_PCT.threshold) {
                     return Badge(BadgeType.TEAM_GOAL_75_PCT)
                 }

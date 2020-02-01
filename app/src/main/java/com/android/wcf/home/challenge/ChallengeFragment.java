@@ -387,7 +387,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         if (milestones > 0) {
             View journeyActiveView = journeyCard.findViewById(R.id.journey_active_view);
             ImageView journeyImage = journeyActiveView.findViewById(R.id.journey_card_icon_journey);
-            String imageUrl = journeyMilestones.get(milestonesCompleted).getJourney_map();
+            String imageUrl = journeyMilestones.get(milestonesCompleted).getMapImage();
             if (imageUrl != null && !imageUrl.isEmpty()) {
                 Glide.with(getContext())
                         .load(imageUrl)
