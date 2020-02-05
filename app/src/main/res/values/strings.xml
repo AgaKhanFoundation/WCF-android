@@ -143,6 +143,12 @@
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
 
+
+    <string name="dashboard_challenge_completed">Challenge completed</string>
+    <string name="dashboard_challenge_remaining_days_template">You have %1$d days remaining!</string>
+    <string name="dashboard_challenge_remaining_days_hours_template">You have %1$d days and %2$d hours remaining!</string>
+    <string name="dashboard_challenge_remaining_hours_template">You have %1$d hours remaining!</string>
+
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
     <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
     <string name="invite_supporters_message">Get sponsored by your friends. When your friends sign up to support you, you will raise money for every mile you move. Proceeds will be donated to AKF.</string>
