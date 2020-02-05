@@ -10,7 +10,7 @@ data class Milestone(
         @SerializedName("distance") var steps: Int = 999999999,
         @SerializedName("name") var name: String = "",
         @SerializedName("description") var description: String = "",
-        @SerializedName("flag_name") var flag_name: String = "",
+        @SerializedName("icon_name") var iconName: String = "",
         @SerializedName("map_image") var mapImage: String = "",
         @SerializedName("title") var title: String = "",
         @SerializedName("subtitle") var subtitle: String = "",
