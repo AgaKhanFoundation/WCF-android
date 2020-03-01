@@ -27,6 +27,7 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
     lateinit var notificationListContainer: View
     lateinit var notificationRecyclerView: RecyclerView
     private var notificationsAdapter: NotificationsAdapter? = null
+    private var unreadMessageCount = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,6 +54,10 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
         Log.d(TAG, "onStart")
         super.onStart()
         mFragmentHost?.setToolbarTitle(getString(R.string.nav_notifications), false)
+        retrieveNotifications()
+    }
+
+    private fun retrieveNotifications() {
         currentParticipant = getParticipant()
         currentEvent = getEvent()
         currentParticipant?.let { thisParticipant ->
@@ -138,7 +143,7 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
     }
 
     override fun showNotifications(notifications: List<Notification>) {
-        val unreadMessageCount = getUnreadNotificationsCount( notifications)
+        unreadMessageCount = getUnreadNotificationsCount( notifications)
         mFragmentHost?.showNotificationsCount(unreadMessageCount)
         notificationsAdapter?.updateNotificationsData(notifications)
     }
@@ -160,6 +165,8 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
     override fun messageSelected(notification: Notification) {
         if (!notification.readFlag){
             notificationPresenter?.updateParticipantNotificationRead(notification.id, true)
+            unreadMessageCount--
+            mFragmentHost?.showNotificationsCount(unreadMessageCount)
         }
     }
 
@@ -171,12 +178,6 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
 
     }
 
-    private fun getUnreadNotificationsCount( notifications: List<Notification>?):Int {
-        notifications?.let {
-            return it.count {notification -> (notification.readFlag == true) }
-        }
-        return 0
-    }
     companion object {
         private val TAG = NotificationsFragment::class.java.simpleName
 
