@@ -138,6 +138,8 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
     }
 
     override fun showNotifications(notifications: List<Notification>) {
+        val unreadMessageCount = getUnreadNotificationsCount( notifications)
+        mFragmentHost?.showNotificationsCount(unreadMessageCount)
         notificationsAdapter?.updateNotificationsData(notifications)
     }
 
@@ -169,6 +171,12 @@ class NotificationsFragment : BaseFragment(), NotificationsMvp.NotificationView,
 
     }
 
+    private fun getUnreadNotificationsCount( notifications: List<Notification>?):Int {
+        notifications?.let {
+            return it.count {notification -> (notification.readFlag == true) }
+        }
+        return 0
+    }
     companion object {
         private val TAG = NotificationsFragment::class.java.simpleName
 

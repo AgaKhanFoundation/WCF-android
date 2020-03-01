@@ -536,6 +536,16 @@ class HomeActivity : BaseActivity()
                 .commit()
     }
 
+    override fun showNotificationsCount(count: Int) {
+        val navBar = findViewById<BottomNavigationView>(R.id.home_navigation)
+        if (count == 0) {
+            navBar.removeBadge(R.id.nav_notifications)
+        }
+        else {
+            navBar.getOrCreateBadge(R.id.nav_notifications).number = count
+        }
+    }
+
     companion object {
 
         private val TAG = HomeActivity::class.java.simpleName
