@@ -26,6 +26,7 @@ import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
@@ -48,12 +49,12 @@ import java.util.List;
     }
 
     @Override
-     public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
-         showError(getString(error_title_res_id), getString(R.string.no_network_message), null);
-     }
+    public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
+        showError(getString(error_title_res_id), getString(R.string.no_network_message), null);
+    }
 
 
-     //TODO: implement the proper dialogFragment for showing error messages
+    //TODO: implement the proper dialogFragment for showing error messages
 
     @Override
     public void showError(int messageId) {
@@ -256,7 +257,7 @@ import java.util.List;
         if (view == null) {
             view = new View(activity);
         }
-       boolean closed = imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        boolean closed = imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         if (!closed) {
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
@@ -387,5 +388,17 @@ import java.util.List;
     @Override
     public void updateTeamVisibilityInCache(boolean hidden) {
         baseView.updateTeamVisibilityInCache(hidden);
+    }
+
+    protected int getUnreadNotificationsCount(List<Notification> notifications) {
+        int count = 0;
+        if (notifications != null && !notifications.isEmpty()) {
+            for (Notification notification : notifications) {
+                if (!notification.getReadFlag()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }

@@ -7,6 +7,7 @@ import com.android.wcf.base.BaseMvp;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
@@ -75,6 +76,10 @@ public interface ChallengeMvp {
         void updateJourneyMilestones(List<Milestone> journeyMilestones);
 
         void onGetJourneyMilestoneError(Throwable error);
+
+        void onParticipantNotificationsRetrieved(List<Notification> notifications);
+
+        void onGetParticipantNotificationsError(Throwable error);
     }
 
     interface Presenter extends BaseMvp.Presenter {
@@ -105,6 +110,9 @@ public interface ChallengeMvp {
         void getTeamParticipantsChallengeProgress(final Team team, final int eventId);
 
         void getJourneyMilestones(int id);
+
+        void getParticipantNotifications(String fbid, int eventId);
+
     }
 
     interface Host extends BaseMvp.Host {
@@ -120,5 +128,8 @@ public interface ChallengeMvp {
         void showSupportersInvite();
 
         void showMilestones();
+
+        void showNotificationsCount(int count);
+
     }
 }
