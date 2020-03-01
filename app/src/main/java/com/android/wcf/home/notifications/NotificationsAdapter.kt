@@ -75,7 +75,7 @@ class NotificationsAdapter(var mHost: NotificationsAdapterMvp.Host) :
         val day = 24 * 60 * 60 * 1000L
         val week = 7 * 24 * 60 * 60 * 1000L
         val month = 4 * 7 * 24 * 60 * 60 * 1000L
-        val dateFormatter = SimpleDateFormat("yyyy MMM d, HH:mm:ss")
+        val dateFormatter = SimpleDateFormat("MMM d, yyyy")
 
         messageDate?.let {
             val delta = now.time - it.time
