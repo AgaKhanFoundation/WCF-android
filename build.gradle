@@ -38,7 +38,8 @@ ext {
     buildToolsVer = '28.0.3'
 
     //Support Libs
-    supportLibVersion = '1.0.0'
+    supportLibVersion = '1.1.0'
+    cardViewLibVersion = '1.0.0'
     multidexLibVersion = '2.0.0'
     constraintLayoutVersion = '2.0.0-beta2'
     versions_core_ktx = "1.1.0"

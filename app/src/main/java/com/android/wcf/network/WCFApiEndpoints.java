@@ -104,7 +104,7 @@ public interface WCFApiEndpoints {
     @GET("notifications/participant/{fbid}/event/{eventId}")
     Single<List<Notification>> getParticipantNotifications(@Path("fbid") String fbId, @Path("eventId") int eventId );
 
-    @PATCH("notifications/participant/{id}")
-    Single<List<Integer>> updateParticipantNotification(@Path("id") int participantNotificationId, @Body RequestBody params);
+    @PATCH("notifications/notification/{participantNotificationId}")
+    Single<List<Integer>> updateParticipantNotification(@Path("participantNotificationId") int participantNotificationId, @Body RequestBody params);
 
 }

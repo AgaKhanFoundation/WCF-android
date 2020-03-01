@@ -156,7 +156,7 @@ dependencies {
 
     //Support Libs
     implementation "androidx.appcompat:appcompat:${supportLibVersion}"
-    implementation "androidx.cardview:cardview:${supportLibVersion}"
+    implementation "androidx.cardview:cardview:${cardViewLibVersion}"
     implementation "androidx.annotation:annotation:${supportLibVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
     implementation "androidx.vectordrawable:vectordrawable:${supportLibVersion}"

@@ -27,5 +27,7 @@ interface NotificationsMvp {
         fun updateParticipantNotificationRead(id: Int, readFlag: Boolean)
     }
 
-    interface Host : BaseMvp.Host
+    interface Host : BaseMvp.Host {
+        fun showNotificationsCount(count:Int)
+    }
 }
