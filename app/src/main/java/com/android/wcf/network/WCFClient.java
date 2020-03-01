@@ -443,68 +443,7 @@ public class WCFClient {
     }
 
     public Single<List<Notification>> getParticipantNotifications(String fbid, int eventId) {
-        if (1 == 2) {
-            Gson gson = new Gson();
-            List<Notification> result = gson.fromJson(getNotificationsJon(), new TypeToken<List<Notification>>() {
-            }.getType());
-            return Single.just(result);
-        }
         return wcfApi.getParticipantNotifications(fbid, eventId);
-    }
-
-    private String getNotificationsJon() {
-        return "[\n" +
-                "  {\n" +
-                "    \"id\" : 0,\n" +
-                "    \"notification_id\": 0,\n" +
-                "    \"message\": \"Firstname lastname has joined your team\",\n" +
-                "    \"message_date\": \"2020-01-20T02:53:00Z\" ,\n" +
-                "    \"priority\": 0,\n" +
-                "    \"event_id\": 1,\n" +
-                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
-                "    \"read_flag\":false\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\" : 1,\n" +
-                "    \"notification_id\": 1,\n" +
-                "    \"message\": \"You have been removed from the team team1\",\n" +
-                "    \"message_date\": \"2020-01-20T01:53:00Z\" ,\n" +
-                "    \"priority\": 0,\n" +
-                "    \"event_id\": 1,\n" +
-                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
-                "    \"read_flag\":true\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\" : 2,\n" +
-                "    \"notification_id\": 2,\n" +
-                "    \"message\": \"Challenge event1 has ended\",\n" +
-                "    \"message_date\": \"2020-01-20T00:53:00Z\" ,\n" +
-                "    \"priority\": 0,\n" +
-                "    \"event_id\": 1,\n" +
-                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
-                "    \"read_flag\":false\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\" : 3,\n" +
-                "    \"notification_id\": 3,\n" +
-                "    \"message\": \"Abigail Gates is going to Nike run with 80 others\",\n" +
-                "    \"message_date\": \"2020-01-20T00:03:00Z\" ,\n" +
-                "    \"priority\": 0,\n" +
-                "    \"event_id\": 1,\n" +
-                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
-                "    \"read_flag\":false\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\" : 4,\n" +
-                "    \"notification_id\": 4,\n" +
-                "    \"message\": \"AKF challenge is starting soon. Register your friends\",\n" +
-                "    \"message_date\": \"2020-01-18T02:53:00Z\",\n" +
-                "    \"priority\": 0,\n" +
-                "    \"event_id\": 1,\n" +
-                "    \"expiry_date\":\"2020-05-18T02:53:00Z\",\n" +
-                "    \"read_flag\":true\n" +
-                "  }\n" +
-                "]\n";
     }
 
     public Single<List<Integer>> updateParticipantNotificationAsRead(int participantNotificationId, boolean readFlag) {
