@@ -45,7 +45,7 @@ public class WCFClient {
 
     private static final String TAG = WCFClient.class.getSimpleName();
 
-    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.PROD; //Ensure its PROD for a store build
+    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.STAGE; //Ensure its PROD for a store build
 
     public static Steps4ChangeEnv getServerEnv() {
         return serverEnv;
@@ -269,6 +269,11 @@ public class WCFClient {
         RequestBody requestBody = RequestBody.create(okhttp3.MediaType.parse("application/json; charset=utf-8"),
                 new JSONObject(jsonParams).toString());
 
+        try {
+            Thread.sleep(100); //pause between POST. This is a workaround for Database timeout error
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return wcfApi.recordSteps(requestBody);
     }
 
