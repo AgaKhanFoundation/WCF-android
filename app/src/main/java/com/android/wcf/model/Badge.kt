@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
 enum class BadgeType (@DrawableRes val imageRes:Int, @StringRes val titleRes:Int, val threshold:Int) {
-    UNKNOWN(R.drawable.ic_badge_distance, R.string.badge_title_unknown, 0)
+    UNKNOWN(R.drawable.ic_badge_unknown, R.string.badge_title_unknown, 0)
     ,DISTANCE_COMPLETED_50(R.drawable.ic_badge_distance_50, R.string.badge_title_distance_completed, 50)
     ,DISTANCE_COMPLETED_100(R.drawable.ic_badge_distance_100, R.string.badge_title_distance_completed, 100)
     ,DISTANCE_COMPLETED_150(R.drawable.ic_badge_distance_150, R.string.badge_title_distance_completed, 150)
