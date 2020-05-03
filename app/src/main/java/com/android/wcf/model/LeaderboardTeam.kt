@@ -12,7 +12,7 @@ data class LeaderboardTeam(
         @SerializedName("creator_id") var leaderId: String = "",
         @SerializedName("hidden") var hidden: Boolean = false,
         @SerializedName("distance") var distance: Int = 0,
-        @SerializedName("commitment") var commitment: Int = 0
+        @SerializedName("commitment") var commitment: Long = 0
 ) : Parcelable {
     var rank: Int = 0
     var amountPledged: Double = 0.0
