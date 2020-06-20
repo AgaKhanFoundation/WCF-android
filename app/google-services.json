@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "312206975123",
+    "firebase_url": "https://steps4impact-15f2a.firebaseio.com",
+    "project_id": "steps4impact-15f2a",
+    "storage_bucket": "steps4impact-15f2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:312206975123:android:aee949d9dcb8d4b4956d66",
+        "android_client_info": {
+          "package_name": "org.akf.steps4impact"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "312206975123-hbq1imlksmvac7rsosim4v2gta1blanf.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuMIr0E1ePkD3Xo4ekG-3ApemnowU_ghk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "312206975123-hbq1imlksmvac7rsosim4v2gta1blanf.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "312206975123-v1nel13i562ir77rpr0690lnfrst278n.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.akf.WalkingChallenge",
+                "app_store_id": "1245444135"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
