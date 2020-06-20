@@ -317,5 +317,8 @@
     <string name="challenge_view_milestones_label">View milestone details</string>
     <string name="storage_permission_error">Permissions not granted to access Gallery</string>
     <string name="team_image_upload_error">Could not upload the image</string>
+    <string name="default_notification_channel_id">Steps4Impact</string>
+    <string name="default_notification_channel_name">Steps4Impact messages</string>
+    <string name="fcm_message">Steps 4 Impact</string>
 
 </resources>

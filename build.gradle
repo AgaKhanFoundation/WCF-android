@@ -4,6 +4,9 @@ buildscript {
     ext.kotlin_version = '1.3.50'
     ext.android_gradle_plugin = '3.5.1'
     ext.navigationVersion = '2.1.0'
+    ext.googleServicesPluginVersion = '4.3.3'
+    ext.firebaseCrashlyticsPluginVersion = '2.0.0'
+
 
     repositories {
         google()
@@ -14,6 +17,8 @@ buildscript {
         classpath "com.android.tools.build:gradle:$android_gradle_plugin"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
 
+        classpath "com.google.gms:google-services:$googleServicesPluginVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$firebaseCrashlyticsPluginVersion"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -45,11 +50,13 @@ ext {
     versions_core_ktx = "1.1.0"
     versions_arch_core = "2.0.1"
 
-    googleApiVersion = '17.0.0'
-
     //Google Play Services
     playServicesVersion = '17.0.0'
     playServicesCoreVersion = '1.6.3'
+    googleApiVersion = '17.0.0'
+    firebaseBOMVersion = '25.3.0'
+//    firebaseAnalyticsApiVersion = '17.4.0'
+//    firebaseCrashlyticsApiVersion = '17.0.0'
 
     //Facebook
     facebookSdkVersion = '[5,6)'
