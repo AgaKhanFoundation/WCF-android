@@ -3,6 +3,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs"
+apply plugin: 'com.google.gms.google-services' // Google Services Gradle plugin
+apply plugin: 'com.google.firebase.crashlytics' //Crashlytics Gradle plugin
 
 android {
     compileSdkVersion compileSdkVer
@@ -176,6 +178,11 @@ dependencies {
 
     implementation "com.google.android.gms:play-services-fitness:${googleApiVersion}"
     implementation "com.google.android.gms:play-services-auth:${googleApiVersion}"
+
+    implementation platform("com.google.firebase:firebase-bom:${firebaseBOMVersion}")
+    implementation "com.google.firebase:firebase-analytics"
+    implementation "com.google.firebase:firebase-crashlytics"
+    implementation "com.google.firebase:firebase-messaging"
 
     //    implementation "androidx.legacy:legacy-support-v4:${supportLibVersion}"
     //Install Referrer

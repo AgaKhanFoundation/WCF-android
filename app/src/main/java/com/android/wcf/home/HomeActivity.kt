@@ -42,6 +42,8 @@ import com.android.wcf.tracker.fitbit.FitbitHelper
 import com.android.wcf.tracker.googlefit.GoogleFitHelper
 import com.facebook.AccessToken
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.iid.FirebaseInstanceId
+import com.google.android.gms.tasks.OnCompleteListener
 import java.io.IOException
 
 class HomeActivity : BaseActivity()
@@ -149,6 +151,22 @@ class HomeActivity : BaseActivity()
             return
         }
 
+        FirebaseInstanceId.getInstance().instanceId
+                .addOnCompleteListener(OnCompleteListener { task ->
+                    if (!task.isSuccessful) {
+                        Log.w(TAG, "Firebase getInstanceId failed", task.exception)
+                    }
+                    // Get new Instance ID token
+                    val token = task.result?.token
+                    Log.d(TAG, "Firebase token=$token")
+                    token?.let {
+                        //register token with backend
+                    }
+                    afterFirebaseConnection()
+                })
+    }
+
+    private fun afterFirebaseConnection() {
         val fitnessTracker = TrackingHelper.getSelectedFitnessTracker()
         if (fitnessTracker == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
             checkFitbitConnection()

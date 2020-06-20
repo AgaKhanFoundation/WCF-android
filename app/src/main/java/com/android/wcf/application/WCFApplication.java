@@ -29,10 +29,13 @@ package com.android.wcf.application;
  **/
 
 import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.os.Build;
 import android.util.Base64;
 import android.util.Log;
 
@@ -65,6 +68,20 @@ public class WCFApplication extends Application {
         DistanceConverter.setDefaultMetrics(DistanceMetric.MILES); //TODO this can be driven by Locale
         PreferenceManager.setDefaultValues(this, R.xml.settings_preferences_root, false);
         instance = this;
+
+        createNotificationChannels();
+
+    }
+
+    private void createNotificationChannels() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // Create channel to show notifications.
+            String channelId = getString(R.string.default_notification_channel_id);
+            String channelName = getString(R.string.default_notification_channel_name);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(new NotificationChannel(channelId,
+                    channelName, NotificationManager.IMPORTANCE_LOW));
+        }
 
     }
 
