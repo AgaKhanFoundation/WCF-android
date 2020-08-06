@@ -320,5 +320,6 @@
     <string name="default_notification_channel_id">Steps4Impact</string>
     <string name="default_notification_channel_name">Steps4Impact messages</string>
     <string name="fcm_message">Steps 4 Impact</string>
+    <string name="sign_in_platform_message">Sign in with</string>
 
 </resources>

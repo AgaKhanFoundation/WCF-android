@@ -33,24 +33,71 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/app_icon" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
+    <TextView
+        android:id="@+id/sign_in_message"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/min_button_height"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/spacing_big"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textAppearance="?textAppearanceSubtitle2"
+        android:text="@string/sign_in_platform_message"
+        android:layout_marginTop="@dimen/spacing_big"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/welcome_image"
-    app:layout_constraintBottom_toTopOf="@+id/term_conditions"/>
+        app:layout_constraintTop_toBottomOf="@id/welcome_image" />
+
+    <ImageView
+        android:id="@+id/login_button_facebook"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/min_button_height"
+        android:src="@drawable/ic_facebook_with_ripple"
+        android:layout_gravity="center"
+        android:clickable="true"
+        android:layout_marginTop="@dimen/spacing_big"
+        android:layout_marginStart="@dimen/spacing_big"
+        app:layout_constraintTop_toBottomOf="@id/sign_in_message"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/login_button_apple"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        />
+
+    <ImageView
+        android:id="@+id/login_button_apple"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/min_button_height"
+        android:src="@drawable/ic_apple_with_ripple"
+        android:layout_gravity="center"
+        android:clickable="true"
+        app:layout_constraintTop_toTopOf="@id/login_button_facebook"
+        app:layout_constraintBottom_toBottomOf="@id/login_button_facebook"
+        app:layout_constraintStart_toEndOf="@id/login_button_facebook"
+        app:layout_constraintEnd_toStartOf="@+id/login_button_google"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        />
+
+
+    <ImageView
+        android:id="@+id/login_button_google"
+        android:layout_width="@dimen/min_button_height"
+        android:layout_height="@dimen/min_button_height"
+        android:src="@drawable/ic_google_with_ripple"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/spacing_big"
+        android:clickable="true"
+        app:layout_constraintTop_toTopOf="@id/login_button_facebook"
+        app:layout_constraintBottom_toBottomOf="@id/login_button_facebook"
+        app:layout_constraintStart_toEndOf="@id/login_button_apple"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_chainStyle="spread"
+        />
+
 
     <TextView
         android:id="@+id/term_conditions"
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/min_button_height"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:text="Terms and conditions apply"
-        android:layout_marginBottom="@dimen/spacing_large"
+        android:layout_marginBottom="@dimen/spacing_normal"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/app_version"/>
