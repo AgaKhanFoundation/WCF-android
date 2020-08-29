@@ -2,4 +2,4 @@
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
     android:color="@color/color_light_grey_3">
     <item android:drawable="@drawable/login_square_facebook" />
-</ripple>
+</ripple>e

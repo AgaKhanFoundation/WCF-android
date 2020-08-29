@@ -55,6 +55,11 @@ ext {
     playServicesCoreVersion = '1.6.3'
     googleApiVersion = '17.0.0'
     firebaseBOMVersion = '25.3.0'
+    playServicesGcmVersion = '17.0.0'
+    playServicesFitnessVersion = '18.0.0'
+    firebaseAuthVersion = '19.3.2'
+    payServicesAuthVersion = '18.1.0'
+
 //    firebaseAnalyticsApiVersion = '17.4.0'
 //    firebaseCrashlyticsApiVersion = '17.0.0'
 
