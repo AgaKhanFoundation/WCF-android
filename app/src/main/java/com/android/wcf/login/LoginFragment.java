@@ -34,8 +34,6 @@ import com.facebook.login.widget.LoginButton;
 
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.ConnectException;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -44,19 +42,18 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
     private static final String TAG = LoginFragment.class.getSimpleName();
     private static final String PUBLIC_PROFILE = "public_profile";
 
-    LoginMvp.Host host;
-    LoginMvp.Presenter loginPesenter;
-    private CallbackManager callbackManager;
-    LoginButton loginButton;
-    View termsTv;
+    LoginMvp.Host mLoginHost;
+    LoginMvp.Presenter mLoginPesenter;
+    private CallbackManager mFacebookCallbackManager;
+    LoginButton mLoginButtonFacebook;
+    View mTermsTv;
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         if (context instanceof LoginMvp.Host) {
-            host = (LoginMvp.Host) context;
-        }
-        else {
+            mLoginHost = (LoginMvp.Host) context;
+        } else {
             throw new RuntimeException(context.toString()
                     + " must implement LoginMvp.Host");
         }
@@ -79,35 +76,35 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-        loginPesenter = new LoginPresenter(this);
-        callbackManager = CallbackManager.Factory.create();
+        mLoginPesenter = new LoginPresenter(this);
+        mFacebookCallbackManager = CallbackManager.Factory.create();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        host.hideToolbar();
+        mLoginHost.hideToolbar();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        loginPesenter.onStop();
+        mLoginPesenter.onStop();
     }
 
     private void setupView(View view) {
-        loginButton = view.findViewById(R.id.login_button);
-        termsTv = view.findViewById(R.id.term_conditions);
-        termsTv.setOnClickListener(new View.OnClickListener() {
+        mLoginButtonFacebook = view.findViewById(R.id.login_button_facebook);
+        mTermsTv = view.findViewById(R.id.term_conditions);
+        mTermsTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                host.showTermsAndConditions();
+                mLoginHost.showTermsAndConditions();
             }
         });
         TextView appVersionTv = view.findViewById(R.id.app_version);
@@ -123,10 +120,10 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         TextView hashKeyTV = view.findViewById(R.id.hash_key);
         hashKeyTV.setText(WCFApplication.instance.getHashKey());
 
-        loginButton.setFragment(this);
-        loginButton.setPermissions(Arrays.asList(PUBLIC_PROFILE));
+        mLoginButtonFacebook.setFragment(this);
+        mLoginButtonFacebook.setPermissions(Arrays.asList(PUBLIC_PROFILE));
 
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+        mLoginButtonFacebook.registerCallback(mFacebookCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 Log.d("LoginPresenter", "onSuccess called");
@@ -145,7 +142,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                                     userProfileUrl = response.getJSONObject().getJSONObject("picture").getJSONObject("data").getString("url");
 
                                     String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
-                                    if (!userId.equals(savedParticipantId)){
+                                    if (!userId.equals(savedParticipantId)) {
                                         SharedPreferencesUtil.clearMyStepsCommitted();
                                         SharedPreferencesUtil.clearMyTeamId();
                                         SharedPreferencesUtil.clearAkfProfileCreated();
@@ -158,12 +155,12 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                                     SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
                                     joinFBGroup(userId);
 
-                                    loginPesenter.onLoginSuccess();
+                                    mLoginPesenter.onLoginSuccess();
 
                                 } catch (Exception e) {
                                     Log.e(TAG, "Error processing Facebook Login response\n" + e);
                                     e.printStackTrace();
-                                    loginPesenter.onLoginError(null);
+                                    mLoginPesenter.onLoginError(null);
                                 }
                             }
                         });
@@ -184,15 +181,14 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                 Log.e(TAG, "Facebook Login error: " + error.getMessage());
                 if (error.getMessage().contains("CONNECTION_FAILURE")) {
                     showNetworkErrorMessage(R.string.login_title);
-                }
-                else {
-                    loginPesenter.onLoginError(error.getMessage());
+                } else {
+                    mLoginPesenter.onLoginError(error.getMessage());
                 }
             }
         });
     }
 
-    void joinFBGroup( String userId) {
+    void joinFBGroup(String userId) {
 
         //THIS IS NO LONGER SUPPORTED BY FB
 
@@ -230,22 +226,23 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
 
     public void loginComplete() {
         LoginHelper.loginIsValid();
-        host.loginComplete();
+        mLoginHost.loginComplete();
 
     }
+
     int switchRequestClickCount = 0;
     long lastSwitchClickAt = new Date().getTime();
-    private void switchServerForTestingTeam(){
+
+    private void switchServerForTestingTeam() {
         long now = new Date().getTime();
         Log.d(TAG, "Click count=" + switchRequestClickCount + " timeDelta=" + (now - lastSwitchClickAt));
-        if (now - lastSwitchClickAt  < 1000) { //upto .1 sec gap allowed between clicks
+        if (now - lastSwitchClickAt < 1000) { //upto .1 sec gap allowed between clicks
             switchRequestClickCount++;
             if (switchRequestClickCount >= 2) {
                 switchRequestClickCount = 0;
                 confirmServerSwitch();
             }
-        }
-        else {
+        } else {
             switchRequestClickCount = 0;
         }
         lastSwitchClickAt = now;
@@ -260,8 +257,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         final TextView connectionMessageTv = dialogView.findViewById(R.id.current_connection_message);
         if (WCFClient.isProdBackend()) {
             connectionMessageTv.setText(getString(R.string.connected_to_prod_server));
-        }
-        else {
+        } else {
             connectionMessageTv.setText(getString(R.string.connected_to_test_server));
         }
 
@@ -282,9 +278,8 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
                 dialogBuilder.dismiss();
                 closeKeyboard();
                 if (editText.getText().toString().equals("akftester1")) {
-                    host.switchServerForTestingTeam();
-                }
-                else {
+                    mLoginHost.switchServerForTestingTeam();
+                } else {
                     Toast.makeText(getContext(), getString(R.string.invalid_password), Toast.LENGTH_SHORT).show();
                 }
             }
