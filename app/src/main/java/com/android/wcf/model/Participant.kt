@@ -37,7 +37,6 @@ data class Participant(
     }
 
     fun getLastestRecordDate(): String {
-        val sortedDates = records.sortedByDescending { record -> record.date }
         var lastRecordDate = records.sortedByDescending { record -> record.date }.firstOrNull()
         lastRecordDate?.let {
             return SimpleDateFormat("yyyy-MM-dd").format(it.date)

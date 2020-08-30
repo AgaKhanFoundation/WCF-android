@@ -75,7 +75,7 @@ class BadgeDetailFragment : BaseFragment(), BadgeDetailMvp.View {
         setHasOptionsMenu(true)
         host?.setToolbarTitle(getString(R.string.badge_detail_title), true)
 
-        badge = arguments?.getParcelable(ARG_BADGE) as Badge
+        badge = arguments?.getParcelable(ARG_BADGE)
 
         setupView(view)
 
