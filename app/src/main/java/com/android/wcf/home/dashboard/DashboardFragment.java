@@ -117,6 +117,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     private TrackerStepsCallback trackerStepsCallback = new TrackerStepsCallback() {
         @Override
         public void onTrackerStepsError(@NotNull Throwable error) {
+            hideLoadingProgressViewUnStack("onTrackerStepsError");
             activityTrackedInfoView.setVisibility(View.GONE);
 
             Toast.makeText(getContext(), getString(R.string.tracker_connection_check_error), Toast.LENGTH_LONG).show();
@@ -124,6 +125,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
         @Override
         public void trackerNeedsReLogin(int trackerId) {
+            hideLoadingProgressViewUnStack("trackerNeedsReLogin id" + trackerId);
             String title = "";
             if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
                 title = getString(R.string.tracker_connection_title_template, "Fitbit");

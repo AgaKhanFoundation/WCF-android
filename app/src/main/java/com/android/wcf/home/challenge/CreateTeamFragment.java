@@ -13,6 +13,7 @@ import android.os.Looper;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -249,7 +250,7 @@ public class CreateTeamFragment extends BaseFragment implements CreateTeamMvp.Vi
     @Override
     public void teamCreated(@NotNull Team team) {
         cacheParticipantTeam(team);
-        showMessage("New team " + team.getName() + " created");
+        Log.d(TAG, "New team " + team.getName() + " created");
 
         String participantId = SharedPreferencesUtil.getMyParticipantId();
         presenter.assignParticipantToTeam(participantId, team.getId());

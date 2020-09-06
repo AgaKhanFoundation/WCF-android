@@ -44,6 +44,10 @@ ext {
 
     //Support Libs
     supportLibVersion = '1.1.0'
+    supportMaterialLibVersion = '1.2.0'
+    supportVectorDrawbleLibVersion = '1.1.0'
+    supportPreferenceLibVersion = '1.1.0'
+    supportAppCompatLibVersion = '1.2.0'
     cardViewLibVersion = '1.0.0'
     multidexLibVersion = '2.0.0'
     constraintLayoutVersion = '2.0.0-beta2'
@@ -56,9 +60,10 @@ ext {
     googleApiVersion = '17.0.0'
     firebaseBOMVersion = '25.3.0'
     playServicesGcmVersion = '17.0.0'
-    playServicesFitnessVersion = '18.0.0'
+    playServicesFitnessVersion = '19.0.0'
     firebaseAuthVersion = '19.3.2'
     payServicesAuthVersion = '18.1.0'
+    firebaseUiAuthVersion = '6.2.1'
 
 //    firebaseAnalyticsApiVersion = '17.4.0'
 //    firebaseCrashlyticsApiVersion = '17.0.0'

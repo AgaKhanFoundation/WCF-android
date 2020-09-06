@@ -69,10 +69,10 @@ data class Participant(
     var participantId: String? = ""
             get() = this.fbId
 
-        var participantProfile:String? = ""
-        var name:String?  = ""
-        var fundsCommitted:Double = 0.0
-        var fundsAccrued:Double = 0.0
+    var participantProfile: String? = ""
+    var name: String? = ""
+    var fundsCommitted: Double = 0.0
+    var fundsAccrued: Double = 0.0
 
     companion object {
         const val PARTICIPANT_ATTRIBUTE_ID = "id"

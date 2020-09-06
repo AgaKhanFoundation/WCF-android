@@ -6,10 +6,10 @@ import android.util.Log;
 
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.login.LoginHelper;
+import com.android.wcf.model.AuthSource;
 import com.android.wcf.model.Constants;
 import com.android.wcf.tracker.TrackingHelper;
 
-import static com.android.wcf.model.Constants.AUTH_FACEBOOK;
 
 public class SharedPreferencesUtil {
 
@@ -19,6 +19,8 @@ public class SharedPreferencesUtil {
 
     /* property names for individual preferences */
     private static String PREF_NAME_MY_FACEBOOK_ID = "MY_FB_ID";
+    private static String PREF_NAME_MY_APPLE_ID = "MY_APPLE_ID";
+    private static String PREF_NAME_MY_GOOGLE_ID = "MY_GOOGLE_ID";
 
     private static String PREF_NAME_MY_AUTH_METHOD_ID = "MY_AUTH_METHOD_NAME";
     private static String PREF_NAME_MY_LOGIN_ID = "MY_LOGIN_ID";
@@ -35,7 +37,7 @@ public class SharedPreferencesUtil {
     private static String PREF_NAME_USER_STEPS_COMMITTED = "userStepsCommitted";
     private static String PREF_NAME_ACTIVITY_DAILY_VIEW_TYPE = "activity_daily_view_type";
 
-    public static final String DEFAULT_FB_ID = null;        // null for not logged-in person
+    public static final String DEFAULT_ID = null;        // null for not logged-in person
     public static final int DEFAULT_TEAM_ID = -1;           // -1 for represent unassigned teamId
     public static final int DEFAULT_ACTIVE_EVENT_ID = -1;    // -1 for participants who have not selected event when list is API driven
 
@@ -51,44 +53,81 @@ public class SharedPreferencesUtil {
         TrackingHelper.clearAll();
     }
 
-    public static void saveMyLoginId(String loginId, String authSource) {
-        if (AUTH_FACEBOOK.equals(authSource)) {
-            saveMyFacebookId(loginId);
-            saveMyAuthSource(AUTH_FACEBOOK);
-        } else {
+    public static void saveMyLoginId(String loginId, AuthSource authSource, String authSourceUserId) {
+        if (AuthSource.Facebook != authSource &&
+                AuthSource.Apple != authSource &&
+                AuthSource.Google != authSource) {
             Log.w(TAG, "Unsupported authentication source " + authSource);
+
+            return;
+        }
+
+        saveMyLoginIdAndAuthSource(loginId, authSource.name());
+
+        switch (authSource) {
+            case Facebook:
+                saveMyFacebookId(authSourceUserId);
+                break;
+            case Apple:
+                saveMyAppleId(authSourceUserId);
+                break;
+            case Google:
+                saveMyGoogleId(authSourceUserId);
+                break;
+            default:
         }
     }
 
-    public static void saveMyAuthSource(String authSource) {
+    public static void saveMyLoginIdAndAuthSource(String loginId, String authSource) {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putString(PREF_NAME_MY_LOGIN_ID, loginId);
         editor.putString(PREF_NAME_MY_AUTH_METHOD_ID, authSource);
         editor.commit();
     }
 
     public static String getMyAuthSource() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        return preferences.getString(PREF_NAME_MY_AUTH_METHOD_ID, AUTH_FACEBOOK);
+        return preferences.getString(PREF_NAME_MY_AUTH_METHOD_ID, AuthSource.Facebook.name());
     }
 
-    public static void saveMyFacebookId(String fbId) {
+    public static void saveMyFacebookId(String id) {
         SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
-        editor.putString(PREF_NAME_MY_FACEBOOK_ID, fbId);
+        editor.putString(PREF_NAME_MY_FACEBOOK_ID, id);
         editor.commit();
     }
 
     public static String getMyFacebookId() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
-        return preferences.getString(PREF_NAME_MY_FACEBOOK_ID, DEFAULT_FB_ID);
+        return preferences.getString(PREF_NAME_MY_FACEBOOK_ID, DEFAULT_ID);
     }
 
+
+    public static void saveMyAppleId(String id) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putString(PREF_NAME_MY_APPLE_ID, id);
+        editor.commit();
+    }
+
+    public static String getMyAppleId() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getString(PREF_NAME_MY_FACEBOOK_ID, DEFAULT_ID);
+    }
+
+    public static void saveMyGoogleId(String id) {
+        SharedPreferences.Editor editor = getSharedPrefs(PREF_TYPE_NAME_APP).edit();
+        editor.putString(PREF_NAME_MY_GOOGLE_ID, id);
+        editor.commit();
+    }
+
+    public static String getMyGoogleId() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getString(PREF_NAME_MY_GOOGLE_ID, DEFAULT_ID);
+    }
+
+
     public static String getMyParticipantId() {
-        String authSource = getMyAuthSource();
-        if (AUTH_FACEBOOK.equals(authSource)) {
-            return getMyFacebookId();
-        }
-        Log.w(TAG, "Unsupported authentication source " + authSource);
-        return "";
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        return preferences.getString(PREF_NAME_MY_LOGIN_ID, DEFAULT_ID);
     }
 
     public static int getMyTeamId() {
@@ -125,6 +164,16 @@ public class SharedPreferencesUtil {
     public static void clearMyFacebookId() {
         SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
         preferences.edit().remove(PREF_NAME_MY_FACEBOOK_ID).commit();
+    }
+
+    public static void clearMyAppleId() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        preferences.edit().remove(PREF_NAME_MY_APPLE_ID).commit();
+    }
+
+    public static void clearMyGoogleId() {
+        SharedPreferences preferences = getSharedPrefs(PREF_TYPE_NAME_APP);
+        preferences.edit().remove(PREF_NAME_MY_GOOGLE_ID).commit();
     }
 
     public static int getMyActiveEventId() {

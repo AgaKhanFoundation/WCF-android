@@ -41,6 +41,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             return;
         }
         setMyTeamId(myTeamId);
+        leaderboardView.showLoadingProgressView("getLeaderboard");
         super.getLeaderboard(event.getId());
     }
 
@@ -51,6 +52,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             leaderboardView.showLeaderboardIsEmpty();
             return;
         }
+        leaderboardView.showLoadingProgressView("refreshLeaderboard");
         super.getLeaderboard(event.getId());
     }
 
@@ -84,6 +86,7 @@ public class LeaderboardPresenter extends BasePresenter implements LeaderboardMv
             currentSortColumn = LeaderboardTeam.SORT_COLUMN_NAME;
         }
         sortTeamsBy(currentSortColumn);
+        leaderboardView.hideLoadingProgressView("onGetLeaderboardSuccess");
     }
 
     @Override

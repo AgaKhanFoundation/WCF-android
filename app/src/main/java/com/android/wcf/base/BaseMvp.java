@@ -14,6 +14,8 @@ import java.util.List;
 public interface BaseMvp {
     interface BaseView {
 
+        // oid signout(boolean complete);
+
         void showMessage(String message);
 
         void showError(Throwable error);
@@ -29,14 +31,6 @@ public interface BaseMvp {
         void showError(int titleId, String message, ErrorDialogCallback errorDialogCallback);
 
         void showError(int titleId, int messageId, ErrorDialogCallback errorDialogCallback);
-
-        void showLoadingDialogFragment();
-
-        void hideLoadingDialogFragment();
-
-        View showLoadingView();
-
-        void hideLoadingView();
 
         void closeKeyboard();
 
@@ -78,6 +72,13 @@ public interface BaseMvp {
 
         void showNetworkErrorMessage(@StringRes int error_title_res_id);
 
+        void showLoadingProgressView(String logMarger);
+
+        void initializeLoadingProgressView(String logMarker);
+        void hideLoadingProgressView(String logMarker);
+
+        boolean hideLoadingProgressViewUnStack(String logMarker);
+
     }
 
     interface Presenter {
@@ -92,6 +93,8 @@ public interface BaseMvp {
         void setToolbarTitle(String title, boolean homeAffordance);
 
         void popBackStack(String tag);
+
+        void signout(boolean complete);
 
     }
 }

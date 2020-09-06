@@ -48,11 +48,13 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
     protected void onGetParticipantSuccess(Participant participant) {
         super.onGetParticipantSuccess(participant);
         mParticipant = participant;
+        dashboardView.hideLoadingProgressView("onGetParticipantSuccess");
     }
 
     public void onGetParticipantStatsSuccess(Stats stats) {
         super.onGetParticipantStatsSuccess(stats);
         mParticipantStats = stats;
+        dashboardView.hideLoadingProgressView("onGetParticipantStatsSuccess");
     }
 
     @Override
@@ -79,13 +81,13 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
 
     @Override
     public void getParticipantStats(String participantId) {
+        dashboardView.showLoadingProgressView("getParticipantStats");
         super.getParticipantStats(participantId);
 
     }
 
     @Override
     public void saveStepsData(int participantId, int trackingSourceId, ActivitySteps data, Date startDate, Date endDate, String lastSavedDate) {
-
         totalDaysTracked = 0;
         savedDates.clear();
         failedDates.clear();
@@ -102,6 +104,10 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
         });
 
         totalDaysTracked = stepsDataAscending.size();
+        if (totalDaysTracked > 0) {
+            dashboardView.showLoadingProgressView("saveStepsData");
+        }
+
         for (Steps steps: stepsDataAscending){
             String stepsDateString = steps.getDate();
             try {
@@ -137,6 +143,10 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
                 totalDaysTracked--;
             }
         }
+        if (totalDaysTracked <= 0) {
+            dashboardView.hideLoadingProgressView("saveStepsData");
+
+        }
     }
 
     @Override
@@ -161,6 +171,7 @@ public class DashboardPresenter extends BasePresenter implements DashboardMvp.Pr
 
     protected void checkAndSaveLastTrackedDate() {
         if (savedDates.size() + failedDates.size() >= totalDaysTracked) {
+            dashboardView.hideLoadingProgressView("checkAndSaveLastTrackedDate");
             String lastSavedDate = null;
             if (failedDates.size() > 0) {
                 Collections.sort(failedDates);
