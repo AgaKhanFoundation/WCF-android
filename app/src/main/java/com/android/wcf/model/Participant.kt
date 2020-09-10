@@ -37,7 +37,6 @@ data class Participant(
     }
 
     fun getLastestRecordDate(): String {
-        val sortedDates = records.sortedByDescending { record -> record.date }
         var lastRecordDate = records.sortedByDescending { record -> record.date }.firstOrNull()
         lastRecordDate?.let {
             return SimpleDateFormat("yyyy-MM-dd").format(it.date)
@@ -70,10 +69,10 @@ data class Participant(
     var participantId: String? = ""
             get() = this.fbId
 
-        var participantProfile:String? = ""
-        var name:String?  = ""
-        var fundsCommitted:Double = 0.0
-        var fundsAccrued:Double = 0.0
+    var participantProfile: String? = ""
+    var name: String? = ""
+    var fundsCommitted: Double = 0.0
+    var fundsAccrued: Double = 0.0
 
     companion object {
         const val PARTICIPANT_ATTRIBUTE_ID = "id"
