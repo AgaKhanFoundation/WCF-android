@@ -14,8 +14,8 @@ android {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         applicationId "org.akf.steps4impact"
-        versionCode 40
-        versionName "0.9.8.1.beta"
+        versionCode 41
+        versionName "0.9.8.2.beta"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
@@ -44,6 +44,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             debuggable false
+
             signingConfig signingConfigs.releaseConfig
             loadProperties()
             //fitbit app in steps4impactapp@gmail.com fitbit acc
@@ -157,13 +158,13 @@ dependencies {
     implementation project(':fitbitsdk')
 
     //Support Libs
-    implementation "androidx.appcompat:appcompat:${supportLibVersion}"
+    implementation "androidx.appcompat:appcompat:${supportAppCompatLibVersion}"
     implementation "androidx.cardview:cardview:${cardViewLibVersion}"
     implementation "androidx.annotation:annotation:${supportLibVersion}"
     implementation "androidx.constraintlayout:constraintlayout:${constraintLayoutVersion}"
-    implementation "androidx.vectordrawable:vectordrawable:${supportLibVersion}"
+    implementation "androidx.vectordrawable:vectordrawable:${supportVectorDrawbleLibVersion}"
     implementation "androidx.multidex:multidex:${multidexLibVersion}"
-    implementation "androidx.preference:preference:${supportLibVersion}"
+    implementation "androidx.preference:preference:${supportPreferenceLibVersion}"
 
     implementation "androidx.core:core-ktx:${versions_core_ktx}"
     implementation "androidx.arch.core:core-runtime:$versions_arch_core"
@@ -174,25 +175,31 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
 
-    implementation "com.google.android.material:material:${supportLibVersion}"
+    implementation "com.google.android.material:material:${supportMaterialLibVersion}"
 
-    implementation "com.google.android.gms:play-services-fitness:${googleApiVersion}"
-    implementation "com.google.android.gms:play-services-auth:${googleApiVersion}"
+    implementation "com.google.android.gms:play-services-fitness:${playServicesFitnessVersion}"
 
     implementation platform("com.google.firebase:firebase-bom:${firebaseBOMVersion}")
     implementation "com.google.firebase:firebase-analytics"
     implementation "com.google.firebase:firebase-crashlytics"
     implementation "com.google.firebase:firebase-messaging"
+    implementation "com.google.firebase:firebase-auth:${firebaseAuthVersion}"
+   // implementation "com.firebaseui:firebase-ui-auth:${firebaseUiAuthVersion}"
 
     //    implementation "androidx.legacy:legacy-support-v4:${supportLibVersion}"
     //Install Referrer
     implementation 'com.android.installreferrer:installreferrer:1.0'
 
     //Google Play Services
-    implementation "com.google.android.gms:play-services-gcm:${playServicesVersion}"
-    implementation "com.google.android.gms:play-services-auth:${playServicesVersion}"
+    implementation "com.google.android.gms:play-services-gcm:${playServicesGcmVersion}"
+    implementation "com.google.android.gms:play-services-auth:${payServicesAuthVersion}"
 
     implementation "com.google.android.play:core:${playServicesCoreVersion}"
+
+    // Required only if Facebook login support is required
+    // Find the latest Facebook SDK releases here: https://goo.gl/Ce5L94
+    implementation "com.facebook.android:facebook-core:${facebookSdkVersion}"
+    implementation "com.facebook.android:facebook-login:${facebookSdkVersion}"
 
     //Facebook
     implementation("com.facebook.android:facebook-android-sdk:${facebookSdkVersion}") {
@@ -202,6 +209,7 @@ dependencies {
     implementation("com.facebook.android:facebook-share:${facebookSdkVersion}") {
         exclude group: 'com.android.support'
     }
+
     //ExoPlayer Google
     implementation "com.google.android.exoplayer:exoplayer-core:${exoPlayerVersion}"
     implementation "com.google.android.exoplayer:exoplayer-dash:${exoPlayerVersion}"
