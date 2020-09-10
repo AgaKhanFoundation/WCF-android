@@ -10,7 +10,6 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -32,6 +31,7 @@ import com.android.wcf.login.AKFParticipantProfileFragment
 import com.android.wcf.login.AKFParticipantProfileMvp
 import com.android.wcf.login.LoginActivity
 import com.android.wcf.login.LoginHelper
+import com.android.wcf.model.AuthSource
 import com.android.wcf.model.Commitment
 import com.android.wcf.model.Constants
 import com.android.wcf.model.Participant
@@ -41,9 +41,9 @@ import com.android.wcf.tracker.TrackingHelper
 import com.android.wcf.tracker.fitbit.FitbitHelper
 import com.android.wcf.tracker.googlefit.GoogleFitHelper
 import com.facebook.AccessToken
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.iid.FirebaseInstanceId
-import com.google.android.gms.tasks.OnCompleteListener
 import java.io.IOException
 
 class HomeActivity : BaseActivity()
@@ -118,6 +118,7 @@ class HomeActivity : BaseActivity()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+        initializeLoadingProgressView("onCreate")
 
         myParticipantId = SharedPreferencesUtil.getMyParticipantId()
         myActiveEventId = SharedPreferencesUtil.getMyActiveEventId()
@@ -222,6 +223,7 @@ class HomeActivity : BaseActivity()
     }
 
     fun showTrackerConnectionError(trackerId: Int) {
+        hideLoadingProgressViewUnStack("showTrackerConnectionError id=" + trackerId)
         var title: String = ""
         if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
             title = getString(R.string.tracker_connection_title_template, "Fitbit")
@@ -241,6 +243,7 @@ class HomeActivity : BaseActivity()
     }
 
     fun showTrackerNeedsReLoginError(trackerId: Int) {
+        hideLoadingProgressViewUnStack("showTrackerNeedsReLoginError id=" + trackerId)
         var title: String = ""
         if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
             title = getString(R.string.tracker_connection_title_template, "Fitbit")
@@ -272,6 +275,7 @@ class HomeActivity : BaseActivity()
     }
 
     private fun askToRelogin() {
+        hideLoadingProgressViewUnStack("askToRelogin")
         val message = getString(R.string.login_invalid_relogin_message)
         AlertDialog.Builder(this)
                 .setTitle(R.string.login_title)
@@ -298,8 +302,9 @@ class HomeActivity : BaseActivity()
             val accessToken: AccessToken? = AccessToken.getCurrentAccessToken()
             accessToken?.let {
                 return !it.isExpired
+
+                return false
             }
-            return false
         }
         return true
     }
@@ -447,9 +452,10 @@ class HomeActivity : BaseActivity()
         val navigation = findViewById<BottomNavigationView>(R.id.home_navigation)
         navigation.selectedItemId = R.id.nav_challenge
 
-        val profileCreated = SharedPreferencesUtil.getAkfProfileCreated()
-
-        homePresenter.confirmAKFProfile(profileCreated)
+        Handler().postDelayed({
+            val profileCreated = SharedPreferencesUtil.getAkfProfileCreated()
+            homePresenter.confirmAKFProfile(profileCreated)
+        }, 1000)
     }
 
     override fun akfProfileCreationSkipped() {

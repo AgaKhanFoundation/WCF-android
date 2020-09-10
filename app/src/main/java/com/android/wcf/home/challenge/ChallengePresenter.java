@@ -43,8 +43,21 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
+    public void getParticipant(String participantId) {
+        challengeView.showLoadingProgressView("getParticipant");
+        super.getParticipant(participantId);
+    }
+
+    @Override
+    public void getParticipantStats(String participantId) {
+        challengeView.showLoadingProgressView("getParticipantStats");
+        super.getParticipantStats(participantId);
+    }
+
+    @Override
     public void getEvent(int eventId) {
         if (eventId > 0) {
+            challengeView.showLoadingProgressView("getEvent");
             super.getEvent(eventId);
         } else {
             eventRetrieved = true;
@@ -63,6 +76,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         eventRetrieved = true;
         challengeView.cacheEvent(event);
         updateChallengeView();
+        challengeView.hideLoadingProgressView("onGetEventSuccess");
     }
 
     @Override
@@ -77,6 +91,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         }
 
         if (eventRetrieved && teamRetrieved && participantRetrieved) {
+
             Event event = challengeView.getEvent();
             Team team = challengeView.getParticipantTeam();
             Participant participant = challengeView.getParticipant();
@@ -146,6 +161,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     public void getTeam(int id) {
         if (id > 0) {
+            challengeView.showLoadingProgressView("getTeam id=" + id);
             super.getTeam(id);
         } else {
             teamRetrieved = true;
@@ -158,6 +174,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         super.onGetTeamSuccess(team);
         challengeView.cacheParticipantTeam(team);
         getTeamParticipantsInfoFromFacebook(team);
+        challengeView.hideLoadingProgressView("onGetTeamSuccess");
     }
 
     @Override
@@ -285,6 +302,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         challengeView.cacheParticipant(participant);
         participantRetrieved = true;
         updateChallengeView();
+        challengeView.hideLoadingProgressView("onGetParticipantSuccess");
     }
 
     @Override
@@ -297,6 +315,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetParticipantStatsSuccess(Stats stats) {
         super.onGetParticipantStatsSuccess(stats);
         participantStats = stats;
+        challengeView.hideLoadingProgressView("onGetParticipantStatsSuccess");
     }
 
     @Override

@@ -25,6 +25,9 @@ import androidx.fragment.app.FragmentManager;
 
 import com.android.wcf.R;
 import com.android.wcf.application.DataHolder;
+import com.android.wcf.facebook.FacebookHelper;
+import com.android.wcf.helper.SharedPreferencesUtil;
+import com.android.wcf.model.AuthSource;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
@@ -74,12 +77,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-abstract public class BaseActivity extends AppCompatActivity
+public class BaseActivity extends AppCompatActivity
         implements BaseMvp.BaseView, BaseMvp.Host, FitnessTrackerConnectionMvp.Host, AuthenticationHandler {
+
+    private int progressViewCounter = 0;
 
     protected SharedPreferences trackersSharedPreferences = null;
 
-    protected static final String TAG = BaseActivity.class.getSimpleName();
+    protected static String TAG = BaseActivity.class.getSimpleName();
 
     private LogoutTaskCompletionHandler fitbitLogoutTaskCompletionHandler = new LogoutTaskCompletionHandler() {
         @Override
@@ -98,6 +103,7 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        TAG = getClass().getSimpleName();
         Log.d(TAG, "onCreate");
         super.onCreate(savedInstanceState);
 
@@ -125,10 +131,11 @@ abstract public class BaseActivity extends AppCompatActivity
             case RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE: {
                 //TODO: make a GoogleFitAuthManager similar to Fitbit's
                 onActivityResultForGoogleFit(requestCode, resultCode, data);
-
             }
+            break;
             default:
                 Log.i(TAG, "Unhandled Request Code " + requestCode);
+
         }
     }
 
@@ -157,6 +164,20 @@ abstract public class BaseActivity extends AppCompatActivity
         FragmentManager fm = getSupportFragmentManager();
         // Pop off everything up to and including the current tab
         fm.popBackStack(tag, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+    }
+
+    @Override
+    public void signout(boolean complete) {
+        AuthSource authSource = AuthSource.valueOf(SharedPreferencesUtil.getMyAuthSource());
+        if (authSource == AuthSource.Facebook){
+            FacebookHelper.logout();
+        }
+        DataHolder.clearCache();
+        if (complete) {
+            SharedPreferencesUtil.clearAll();
+        } else {
+            SharedPreferencesUtil.clearMyLogin();
+        }
     }
 
     @Override
@@ -245,6 +266,65 @@ abstract public class BaseActivity extends AppCompatActivity
         return !isDestroyed() && !isFinishing() ;
     }
 
+    @Override
+    public void initializeLoadingProgressView(String logMarker) {
+        Log.d(TAG, logMarker + " initializeLoadingProgressView before progressViewCounter=" + progressViewCounter);
+
+        View rootView = findViewById(android.R.id.content);
+        if (rootView != null) {
+            View progressView = rootView.findViewById(R.id.view_progress);
+            if (progressView != null && progressView.getVisibility() != View.GONE) {
+                progressView.setVisibility(View.GONE);
+            }
+        }
+        progressViewCounter = 0;
+    }
+
+    @Override
+    public void showLoadingProgressView(String logMarker) {
+        Log.d(TAG, logMarker + " showLoadingProgressView before progressViewCounter=" + progressViewCounter);
+        View  rootView = findViewById(android.R.id.content);
+        if (rootView != null) {
+            View progressView = rootView.findViewById(R.id.view_progress);
+            if (progressView != null && progressView.getVisibility() != View.VISIBLE) {
+                progressView.setVisibility(View.VISIBLE);
+            }
+        }
+        ++progressViewCounter;
+
+    }
+
+    @Override
+    public void hideLoadingProgressView(String logMarker) {
+        Log.d(TAG, logMarker + " hideLoadingProgressView before progressViewCounter=" + progressViewCounter);
+
+        if (progressViewCounter > 0){
+            --progressViewCounter;
+        }
+        if (progressViewCounter <= 0) {
+            View  rootView = findViewById(android.R.id.content);
+            if (rootView != null) {
+                View progressView = rootView.findViewById(R.id.view_progress);
+                if (progressView != null && progressView.getVisibility() != View.GONE) {
+                    progressView.setVisibility(View.GONE);
+                }
+            }
+            progressViewCounter = 0;
+        }
+
+    }
+
+    @Override
+    public boolean hideLoadingProgressViewUnStack(String logMarker) {
+        Log.d(TAG, logMarker + " hideLoadingProgressViewUnStack before progressViewCounter=" + progressViewCounter);
+        if(progressViewCounter > 0) {
+            progressViewCounter = 0;
+            hideLoadingProgressView(logMarker);
+            return true;
+        }
+        return false;
+    }
+
     //TODO: implement the proper dialogFragment for showing error messages
 
     @Override
@@ -259,16 +339,21 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Override
     public void showError(Throwable error) {
+        hideLoadingProgressViewUnStack("showError()" + " error=" + error);
         showMessage(error.getMessage());
     }
 
     @Override
     public void showError(String message) {
+        hideLoadingProgressViewUnStack("showError()" +  " message=" + message);
         showMessage(message);
     }
 
     @Override
     public void showError(String title, String message, final ErrorDialogCallback errorDialogCallback) {
+
+        hideLoadingProgressViewUnStack("showError()" + " title=" + title + " message=" + message);
+
         final AlertDialog dialogBuilder = new AlertDialog.Builder(this).create();
         LayoutInflater inflater = this.getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.view_error_dialog, null);
@@ -293,37 +378,21 @@ abstract public class BaseActivity extends AppCompatActivity
 
     @Override
     public void showError(String title, int messageId, final ErrorDialogCallback errorDialogCallback) {
+        hideLoadingProgressViewUnStack("showError()" + " title=" + title + " messageId=" + messageId);
+
         Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void showError(int titleId, String message, final ErrorDialogCallback errorDialogCallback) {
+        hideLoadingProgressViewUnStack("showError()" + " titleId=" + titleId + " message=" + message);
         showMessage(message);
     }
 
     @Override
     public void showError(int titleId, int messageId, final ErrorDialogCallback errorDialogCallback) {
+        hideLoadingProgressViewUnStack("showError()" + " titleId=" + titleId + " messageId=" + messageId);
         Toast.makeText(this, getString(messageId), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showLoadingDialogFragment() {
-
-    }
-
-    @Override
-    public void hideLoadingDialogFragment() {
-
-    }
-
-    @Override
-    public View showLoadingView() {
-        return null;
-    }
-
-    @Override
-    public void hideLoadingView() {
-
     }
 
     @Override

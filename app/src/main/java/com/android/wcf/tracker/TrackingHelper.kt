@@ -18,8 +18,8 @@ class TrackingHelper {
         const val LAST_TRACKER_CHECK_TIME = "tracking_last_check_time"
 
         const val INVALID_TRACKING_SOURCE_ID = -1 //TODO should be lookup value from list of Sources API
-        const val FITBIT_TRACKING_SOURCE_ID = 3 //TODO should be lookup value from list of Sources API
-        const val GOOGLE_FIT_TRACKING_SOURCE_ID = 2 //TODO should be lookup value from list of Sources API
+        const val FITBIT_TRACKING_SOURCE_ID = 2 //TODO should be lookup value from list of Sources API
+        const val GOOGLE_FIT_TRACKING_SOURCE_ID = 3 //TODO should be lookup value from list of Sources API
 
         const val FITBIT_DEVICE_SELECTED = "fitbit_device_selected"
         const val FITBIT_DEVICE_LOGGED_IN = "fitbit_device_logged_in"
