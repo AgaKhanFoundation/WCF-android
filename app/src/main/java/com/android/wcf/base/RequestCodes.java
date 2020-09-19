@@ -13,4 +13,8 @@ public class RequestCodes {
 
     public static final int SELECT_TEAM_IMAGE_GALlERY_REQUEST_CODE = 1003;
 
+    public static final int LOGIN_REQUEST_GOOGLE_CODE = 1004;
+
+    public static final int LOGIN_REQUEST_FACEBOOK_CODE = 1005;
+
 }

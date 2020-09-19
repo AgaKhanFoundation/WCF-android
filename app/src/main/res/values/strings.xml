@@ -31,6 +31,9 @@
     </string-array>
 
     <string name="nav_notifications">Notifications</string>
+    <string name="notifications_data_error">Notifications Error</string>
+    <string name="notification_empty_message">You don\'t have any notifications right now</string>
+
 
     <string name="akf_profileview_title">AKF Profile</string>
     <string name="login_id_not_found">Login data not found. Please login or contact the support team for assistance</string>
@@ -139,6 +142,12 @@
 
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
+
+
+    <string name="dashboard_challenge_completed">Challenge completed</string>
+    <string name="dashboard_challenge_remaining_days_template">You have %1$d days remaining!</string>
+    <string name="dashboard_challenge_remaining_days_hours_template">You have %1$d days and %2$d hours remaining!</string>
+    <string name="dashboard_challenge_remaining_hours_template">You have %1$d hours remaining!</string>
 
     <string name="fundraising_invite_label">Invite supporters to pledge</string>
     <string name="challenge_fundraising_progress_before_start_message">Did you know your friends and family can support you by donating to the cause?</string>
@@ -314,5 +323,8 @@
     <string name="challenge_view_milestones_label">View milestone details</string>
     <string name="storage_permission_error">Permissions not granted to access Gallery</string>
     <string name="team_image_upload_error">Could not upload the image</string>
+    <string name="default_notification_channel_id">Steps4Impact</string>
+    <string name="default_notification_channel_name">Steps4Impact messages</string>
+    <string name="fcm_message">Steps 4 Impact</string>
 
 </resources>

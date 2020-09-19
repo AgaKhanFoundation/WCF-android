@@ -1,5 +1,6 @@
 package com.android.wcf.home.dashboard
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
@@ -75,7 +76,7 @@ class BadgeDetailFragment : BaseFragment(), BadgeDetailMvp.View {
         setHasOptionsMenu(true)
         host?.setToolbarTitle(getString(R.string.badge_detail_title), true)
 
-        badge = arguments?.getParcelable(ARG_BADGE) as Badge
+        badge = arguments?.getParcelable(ARG_BADGE)
 
         setupView(view)
 
@@ -177,7 +178,7 @@ class BadgeDetailFragment : BaseFragment(), BadgeDetailMvp.View {
 
                     try {
                         val title = getString(R.string.badge_share_message_template)
-                        val intentBuilder = ShareCompat.IntentBuilder.from(activity)
+                        val intentBuilder = ShareCompat.IntentBuilder.from(context as Activity)
 
                         val shareIntent = intentBuilder
                                 .setType("image/*")

@@ -67,6 +67,7 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        initializeLoadingProgressView("onCreate");
 
         loginPesenter = new LoginActivityPresenter(this);
 

@@ -42,5 +42,7 @@
     <color name="color_secondary_alpha_mask_2">#10000000</color>
     <color name="color_bronze">#c86831</color>
     <color name="color_silver">#70000000</color>
-    
+    <color name="color_notification_unread">#E9F4EF</color>
+    <color name="color_notification_read">@color/color_white</color>
+
 </resources>

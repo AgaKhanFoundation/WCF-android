@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,6 +118,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
     private TrackerStepsCallback trackerStepsCallback = new TrackerStepsCallback() {
         @Override
         public void onTrackerStepsError(@NotNull Throwable error) {
+            hideLoadingProgressViewUnStack("onTrackerStepsError");
             activityTrackedInfoView.setVisibility(View.GONE);
 
             Toast.makeText(getContext(), getString(R.string.tracker_connection_check_error), Toast.LENGTH_LONG).show();
@@ -124,6 +126,7 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
 
         @Override
         public void trackerNeedsReLogin(int trackerId) {
+            hideLoadingProgressViewUnStack("trackerNeedsReLogin id" + trackerId);
             String title = "";
             if (trackerId == TrackingHelper.FITBIT_TRACKING_SOURCE_ID) {
                 title = getString(R.string.tracker_connection_title_template, "Fitbit");
@@ -377,13 +380,22 @@ public class DashboardFragment extends BaseFragment implements DashboardMvp.Dash
             challengeProgressBeforeStartView.setVisibility(View.VISIBLE);
 
         } else {
-            int daysRemaining = event.daysToEndEvent();
-            if (daysRemaining > 0) {
-                challengeDaysRemainingMessage.setText(getResources().getQuantityString(R.plurals.dashboard_challenge_remaining_days_template, daysRemaining, daysRemaining));
+           Long[] daysRemaining = event.clockToEndEvent();
+            String msg = "";
+            if (daysRemaining[0] <= 0 && daysRemaining[1] <= 0) {
+                msg = getResources().getString(R.string.dashboard_challenge_completed);
+                challengeDaysRemainingMessage.setText(msg);
+            }
+            else if (daysRemaining[0] > 0 && daysRemaining[1] > 0) {
+                msg = getResources().getString(R.string.dashboard_challenge_remaining_days_hours_template, daysRemaining[0], daysRemaining[1]);
+            }
+            else if (daysRemaining[0] == 0 && daysRemaining[1] > 0) {
+                msg = getResources().getString(R.string.dashboard_challenge_remaining_hours_template, daysRemaining[1]);
             }
             else {
-                challengeDaysRemainingMessage.setText(getResources().getString(R.string.dashboard_challenge_completed_message));
+                msg = getResources().getString(R.string.dashboard_challenge_remaining_days_template, daysRemaining[0]);
             }
+            challengeDaysRemainingMessage.setText(msg);
             challengeDaysRemainingMessage.setVisibility(View.VISIBLE);
 
             int teamGoal = 0;

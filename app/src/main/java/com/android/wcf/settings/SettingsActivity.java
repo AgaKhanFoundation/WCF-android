@@ -34,6 +34,7 @@ public class SettingsActivity extends BaseActivity implements SettingsMvp.Host, 
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
+        initializeLoadingProgressView("onCreate");
 
         setupView();
 

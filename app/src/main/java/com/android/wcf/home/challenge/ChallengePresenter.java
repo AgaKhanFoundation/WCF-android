@@ -1,12 +1,11 @@
 package com.android.wcf.home.challenge;
 
-import android.util.Log;
-
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.home.BasePresenter;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -44,8 +43,21 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     }
 
     @Override
+    public void getParticipant(String participantId) {
+        challengeView.showLoadingProgressView("getParticipant");
+        super.getParticipant(participantId);
+    }
+
+    @Override
+    public void getParticipantStats(String participantId) {
+        challengeView.showLoadingProgressView("getParticipantStats");
+        super.getParticipantStats(participantId);
+    }
+
+    @Override
     public void getEvent(int eventId) {
         if (eventId > 0) {
+            challengeView.showLoadingProgressView("getEvent");
             super.getEvent(eventId);
         } else {
             eventRetrieved = true;
@@ -64,6 +76,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         eventRetrieved = true;
         challengeView.cacheEvent(event);
         updateChallengeView();
+        challengeView.hideLoadingProgressView("onGetEventSuccess");
     }
 
     @Override
@@ -78,6 +91,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         }
 
         if (eventRetrieved && teamRetrieved && participantRetrieved) {
+
             Event event = challengeView.getEvent();
             Team team = challengeView.getParticipantTeam();
             Participant participant = challengeView.getParticipant();
@@ -101,6 +115,10 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
             updateTeamSection(event, team, participant);
 
             challengeView.showAfterTeamContainer();
+
+            if (participant != null && event != null) {
+                getParticipantNotifications(participant.getFbId(), event.getId());
+            }
         }
     }
 
@@ -143,6 +161,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     @Override
     public void getTeam(int id) {
         if (id > 0) {
+            challengeView.showLoadingProgressView("getTeam id=" + id);
             super.getTeam(id);
         } else {
             teamRetrieved = true;
@@ -155,6 +174,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         super.onGetTeamSuccess(team);
         challengeView.cacheParticipantTeam(team);
         getTeamParticipantsInfoFromFacebook(team);
+        challengeView.hideLoadingProgressView("onGetTeamSuccess");
     }
 
     @Override
@@ -282,6 +302,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
         challengeView.cacheParticipant(participant);
         participantRetrieved = true;
         updateChallengeView();
+        challengeView.hideLoadingProgressView("onGetParticipantSuccess");
     }
 
     @Override
@@ -294,6 +315,7 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetParticipantStatsSuccess(Stats stats) {
         super.onGetParticipantStatsSuccess(stats);
         participantStats = stats;
+        challengeView.hideLoadingProgressView("onGetParticipantStatsSuccess");
     }
 
     @Override
@@ -338,5 +360,15 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetJourneyMilestoneError(Throwable error) {
         super.onGetJourneyMilestoneError(error);
         challengeView.onGetJourneyMilestoneError(error);
+    }
+
+    protected void onParticipantNotificationsRetrieved(List<Notification> notifications) {
+        super.onParticipantNotificationsRetrieved((notifications));
+        challengeView.onParticipantNotificationsRetrieved(notifications);
+    }
+
+    protected void onGetParticipantNotificationsError(Throwable error) {
+        super.onGetParticipantNotificationsError(error);
+        challengeView.onGetParticipantNotificationsError(error);
     }
 }

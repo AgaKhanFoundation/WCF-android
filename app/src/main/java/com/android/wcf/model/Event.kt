@@ -30,7 +30,8 @@ data class Event(
     }
 
     fun hasTeamBuildingEnded(): Boolean {
-        endDate?.let { //join team allowed to 1 day before challenge end
+        endDate?.let {
+            //join team allowed to 1 day before challenge end
             return (TimeUnit.MILLISECONDS.toDays(Date().time - it.time)).toInt() > 1;
         }
         return false
@@ -58,6 +59,28 @@ data class Event(
             }
         }
         return -1
+    }
+
+    fun clockToEndEvent(): Array<Long> {
+        var days = 0L
+        var hours = 0L
+        val now = Date().time
+        val hourMillis = 60 * 60 * 1000
+        val dayMillis = 24 * hourMillis
+
+        endDate?.let {
+            val difference = it.time - now
+            if (difference > 0) {
+                days = TimeUnit.DAYS.convert(it.time - now, TimeUnit.MILLISECONDS)
+                hours = TimeUnit.HOURS.convert(it.time - (days * dayMillis) - now, TimeUnit.MILLISECONDS)
+            }
+        }
+        if ( hours > 0 && hours < 12) {
+            days++
+            hours = 0
+        }
+
+        return arrayOf(days, hours)
     }
 
     fun daysToEndEvent(): Int {
@@ -89,15 +112,16 @@ data class Event(
     }
 
     fun hasChallengeEnded(): Boolean {
-        return daysToEndEvent() < 0
+        val timeRemaining = clockToEndEvent()
+        return timeRemaining[0] <= 0 && timeRemaining[1] <= 0
     }
 
-    fun getWeeksInChallenge():Int {
+    fun getWeeksInChallenge(): Int {
         val days = getDaysInChallenge();
-        return days/7
+        return days / 7
     }
 
-    fun getDaysInChallenge():Int {
+    fun getDaysInChallenge(): Int {
         startDate?.let { startDate ->
             endDate?.let { endDate ->
                 val daysInChallenge = TimeUnit.DAYS.convert(endDate.time - startDate.time, TimeUnit.MILLISECONDS) + 1
@@ -107,11 +131,11 @@ data class Event(
         return 0
     }
 
-    fun getTeamDistanceGoal():Int {
+    fun getTeamDistanceGoal(): Int {
         return DistanceConverter.distance(getTeamStepsGoal()).toInt();
     }
 
-    fun getTeamStepsGoal():Int {
+    fun getTeamStepsGoal(): Int {
         return teamLimit * defaultSteps
     }
 
@@ -125,14 +149,13 @@ data class Event(
                 minutes.toString() + " Minutes " + seconds.toString() + " Seconds."
     }
 
-    fun getParticipantCommitmentId(eventId:Int):Int {
-      return  participantCommitment?.let {
-          if (it.eventId == eventId) {
-              it.id
-          }
-          else {
-              return 0
-          }
-        }?:0;
+    fun getParticipantCommitmentId(eventId: Int): Int {
+        return participantCommitment?.let {
+            if (it.eventId == eventId) {
+                it.id
+            } else {
+                return 0
+            }
+        } ?: 0;
     }
 }

@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.TouchDelegate;
@@ -17,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
@@ -26,6 +28,7 @@ import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
@@ -40,100 +43,92 @@ import java.util.List;
 
 
 
- abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
+abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
 
     private BaseMvp.BaseView baseView;
+    protected static String TAG = BaseFragment.class.getSimpleName();
 
-    public BaseFragment() {
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        TAG = getClass().getSimpleName();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
-     public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
-         showError(getString(error_title_res_id), getString(R.string.no_network_message), null);
-     }
+    public void signout(boolean complete) {
+        baseView.signout(complete);
+    }
 
+    @Override
+    public void showNetworkErrorMessage(@StringRes int error_title_res_id) {
+        showError(getString(error_title_res_id), getString(R.string.no_network_message), null);
+    }
 
-     //TODO: implement the proper dialogFragment for showing error messages
+    @Override
+    public void initializeLoadingProgressView(String logMarker) {
+        Log.d(TAG, logMarker + " " + "initializeLoadingProgressView");
+         baseView.initializeLoadingProgressView(logMarker);
+    }
+
+    @Override
+    public void showLoadingProgressView(String logMarker) {
+        Log.d(TAG, logMarker + " " + "showLoadingProgressView");
+        baseView.showLoadingProgressView(logMarker);
+    }
+
+    @Override
+    public void hideLoadingProgressView(String logMarker) {
+        Log.d(TAG,  logMarker + " " + "hideLoadingProgressView");
+        baseView.hideLoadingProgressView(logMarker);
+    }
+
+    @Override
+    public boolean hideLoadingProgressViewUnStack(String logMarker) {
+        Log.d(TAG, logMarker + " " + "hideLoadingProgressViewUnStack");
+        return baseView.hideLoadingProgressViewUnStack(logMarker);
+    }
+
+//TODO: implement the proper dialogFragment for showing error messages
 
     @Override
     public void showError(int messageId) {
-        Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
+        baseView.showError(messageId);
     }
 
 
     @Override
     public void showMessage(String message) {
-        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
+        baseView.showMessage(message);
     }
 
     @Override
     public void showError(Throwable error) {
-        showMessage(error.getMessage());
+        baseView.showError(error.getMessage());
     }
 
     @Override
     public void showError(String message) {
-        showMessage(message);
+        baseView.showError(message);
     }
 
     @Override
     public void showError(String title, String message, final ErrorDialogCallback errorDialogCallback) {
-
-        final AlertDialog dialogBuilder = new AlertDialog.Builder(getContext()).create();
-        LayoutInflater inflater = this.getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.view_error_dialog, null);
-        ((TextView) dialogView.findViewById(R.id.error_title)).setText(title);
-        ((TextView) dialogView.findViewById(R.id.error_message)).setText(message);
-
-        Button okBtn = dialogView.findViewById(R.id.ok_button);
-
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialogBuilder.dismiss();
-                if (errorDialogCallback != null) {
-                    errorDialogCallback.onOk();
-                }
-            }
-        });
-
-        dialogBuilder.setView(dialogView);
-        dialogBuilder.show();
+        baseView.showError(title, message, errorDialogCallback);
     }
 
     @Override
     public void showError(String title, int messageId, final ErrorDialogCallback errorDialogCallback) {
-        Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
+        baseView.showError(title, messageId, errorDialogCallback);
     }
 
     @Override
     public void showError(int titleId, String message, final ErrorDialogCallback errorDialogCallback) {
-        showMessage(message);
+        baseView.showError(titleId, message, errorDialogCallback);
     }
 
     @Override
     public void showError(int titleId, int messageId, ErrorDialogCallback errorDialogCallback) {
-        Toast.makeText(getContext(), getString(messageId), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void showLoadingDialogFragment() {
-
-    }
-
-    @Override
-    public void hideLoadingDialogFragment() {
-
-    }
-
-    @Override
-    public View showLoadingView() {
-        return null;
-    }
-
-    @Override
-    public void hideLoadingView() {
-
+        baseView.showError(titleId, messageId, errorDialogCallback);
     }
 
     @Override
@@ -256,7 +251,7 @@ import java.util.List;
         if (view == null) {
             view = new View(activity);
         }
-       boolean closed = imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        boolean closed = imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         if (!closed) {
             activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         }
@@ -387,5 +382,17 @@ import java.util.List;
     @Override
     public void updateTeamVisibilityInCache(boolean hidden) {
         baseView.updateTeamVisibilityInCache(hidden);
+    }
+
+    protected int getUnreadNotificationsCount(List<Notification> notifications) {
+        int count = 0;
+        if (notifications != null && !notifications.isEmpty()) {
+            for (Notification notification : notifications) {
+                if (!notification.getReadFlag()) {
+                    count++;
+                }
+            }
+        }
+        return count;
     }
 }

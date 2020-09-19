@@ -34,4 +34,6 @@
         app:labelVisibilityMode="labeled"
         style="@style/BottomNavigation"/>
 
+    <include layout="@layout/view_progress"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

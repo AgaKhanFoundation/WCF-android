@@ -29,6 +29,7 @@ import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Constants;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
@@ -707,7 +708,18 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
         }
     }
 
-     void showSupportersInvite() {
+    void showSupportersInvite() {
         mHostingParent.showSupportersInvite();
+    }
+
+    @Override
+    public void onParticipantNotificationsRetrieved(List<Notification> notifications) {
+        int unreadMessageCount = getUnreadNotificationsCount( notifications);
+        mHostingParent.showNotificationsCount(unreadMessageCount);
+    }
+
+    @Override
+    public void onGetParticipantNotificationsError(Throwable error) {
+
     }
 }

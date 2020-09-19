@@ -5,6 +5,7 @@ import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.LeaderboardTeam;
 import com.android.wcf.model.Milestone;
+import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
 import com.android.wcf.model.Source;
@@ -97,5 +98,13 @@ public interface WCFApiEndpoints {
     /********* JOURNEY MILESTONES  ************/
     @GET("achievement/")
     Single<List<Milestone>> getJourneyMilestones();
+
+
+    /******* NOTIFICATIONS **********/
+    @GET("notifications/participant/{fbid}/event/{eventId}")
+    Single<List<Notification>> getParticipantNotifications(@Path("fbid") String fbId, @Path("eventId") int eventId );
+
+    @PATCH("notifications/notification/{participantNotificationId}")
+    Single<List<Integer>> updateParticipantNotification(@Path("participantNotificationId") int participantNotificationId, @Body RequestBody params);
 
 }
