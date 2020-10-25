@@ -1,9 +1,7 @@
 package com.android.wcf.model
 
-import com.android.wcf.helper.DistanceConverter
 import com.google.gson.annotations.SerializedName
 import java.text.SimpleDateFormat
-import java.util.*
 
 /*
     Participant:
@@ -58,7 +56,7 @@ data class Participant(
         return 0
     }
 
-    fun getDailyCommittedSteps(event:Event): Int {
+    fun getDailyCommittedSteps(event: Event): Int {
         val daysInChallenge = event.getDaysInChallenge()
         if (daysInChallenge <= 0) return 0
 

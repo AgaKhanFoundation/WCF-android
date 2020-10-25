@@ -2,6 +2,9 @@
     <string name="app_name">Steps4Impact</string>
     <string name="app_name_title">Steps 4 Impact</string>
 
+    <string name="facebook_application_id" translatable="false">246679025737864</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb246679025737864</string>
+
     <!-- for reference only. Build script provides it. release fb app is shared between iOS and Adroid apps  -->
     <!-- debug fb app created under sultan.keshwani@gmail.com -->
     <string name="debug_facebook_app_id">952254615120365</string>
@@ -326,5 +329,6 @@
     <string name="default_notification_channel_id">Steps4Impact</string>
     <string name="default_notification_channel_name">Steps4Impact messages</string>
     <string name="fcm_message">Steps 4 Impact</string>
+    <string name="sign_in_platform_message">Sign in with</string>
 
 </resources>

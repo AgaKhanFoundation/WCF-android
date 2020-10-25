@@ -62,7 +62,7 @@ class AKFParticipantProfileFragment : BaseFragment(), AKFParticipantProfileMvp.V
         host?.setToolbarTitle(getString(R.string.akf_profileview_title), true)
         host?.showToolbar()
         var url = AKF_PROFILE_URL
-        var fbid = SharedPreferencesUtil.getMyFacebookId();
+        var fbid = SharedPreferencesUtil.getMyParticipantId();
 
         if (fbid == null || fbid.isEmpty()) {
             AlertDialog.Builder(context)

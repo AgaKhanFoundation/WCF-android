@@ -21,7 +21,7 @@
     <dimen name="spacing_extra_large">64dp</dimen>
     <dimen name="spacing_100">100dp</dimen>
     <dimen name="button_width_medium">144dp</dimen>
-    <dimen name="min_button_height">48dp</dimen>
+    <dimen name="min_button_height">52dp</dimen>
     <dimen name="card_image_size">135dp</dimen>
     <dimen name="card_image_size_2">200dp</dimen>
     <dimen name="progressbar_height">19dp</dimen>

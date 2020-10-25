@@ -39,14 +39,10 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.wcf.R;
-import com.android.wcf.application.DataHolder;
 import com.android.wcf.application.WCFApplication;
 import com.android.wcf.base.BaseActivity;
-import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.home.HomeActivity;
-import com.android.wcf.model.Constants;
-import com.android.wcf.model.Participant;
 import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.web.WebViewFragment;
 import com.android.wcf.web.WebViewMvp;
@@ -78,12 +74,17 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
-        if (fragment instanceof LoginFragment) {
-            fragment.onActivityResult(requestCode, resultCode, data);
-        }
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+//        if (fragment instanceof LoginFragment) {
+//            fragment.onActivityResult(requestCode, resultCode, data);
+//        }
     }
 
     @Override
@@ -137,15 +138,10 @@ public class LoginActivity extends BaseActivity implements LoginActivityMvp.View
 
     @Override
     public void signout(boolean complete) {
-        DataHolder.clearCache();
-        if (complete) {
-            SharedPreferencesUtil.clearAll();
-        }
-        else {
-            SharedPreferencesUtil.clearMyLogin();
+        super.signout(complete);
+        if (!complete) {
             SharedPreferencesUtil.clearMyTeamId();
         }
-        FacebookHelper.logout();
         restartApp();
     }
     

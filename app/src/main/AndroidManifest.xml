@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.wcf">
 
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -107,7 +108,7 @@
             android:value="${dev_wcb_image_folder}" />
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="${facebook_app_id}" />
+            android:value="${facebook_app_id}" tools:replace="android:value" />
         <meta-data
             android:name="com.facebook.sdk.AutoLogAppEventsEnabled"
             android:value="false" />
