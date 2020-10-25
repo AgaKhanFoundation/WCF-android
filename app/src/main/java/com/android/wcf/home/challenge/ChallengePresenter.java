@@ -173,7 +173,8 @@ public class ChallengePresenter extends BasePresenter implements ChallengeMvp.Pr
     protected void onGetTeamSuccess(Team team) {
         super.onGetTeamSuccess(team);
         challengeView.cacheParticipantTeam(team);
-        getTeamParticipantsInfoFromFacebook(team);
+        getTeamParticipantsInfoFromServer(team);
+//        onGetTeamParticipantsInfoSuccess(team);
         challengeView.hideLoadingProgressView("onGetTeamSuccess");
     }
 
