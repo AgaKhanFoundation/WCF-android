@@ -12,6 +12,7 @@ import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
+import com.android.wcf.model.SocialProfile;
 import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -45,7 +46,7 @@ public class WCFClient {
 
     private static final String TAG = WCFClient.class.getSimpleName();
 
-    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.PROD; //Ensure its PROD for a store build
+    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.STAGE; //Ensure its PROD for a store build
 
     public static Steps4ChangeEnv getServerEnv() {
         return serverEnv;
@@ -193,6 +194,10 @@ public class WCFClient {
 
     public Single<Stats> getParticipantStat(String participantId) {
         return wcfApi.getParticipantStats(participantId);
+    }
+
+    public Single<SocialProfile> getParticipantSocialProfile(String participantId) {
+        return wcfApi.getParticipantSocialProfile(participantId);
     }
 
     public Single<List<Integer>> updateParticipant(String currentParticipantId, String newParticipantId, Integer teamId, Integer causeId, Integer localityId, Integer eventId) {
