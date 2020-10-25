@@ -12,9 +12,9 @@ enum class Steps4ChangeEnv(val url:String) {
 class WCFAuth {
     companion object {
 
-        const val AKF_WCF_BACKEND_URL_PROD = "https://step4change.org"
-        const val AKF_WCF_BACKEND_URL_DEV = "https://dev.step4change.org"
-        const val AKF_WCF_BACKEND_URL_STAGING = "https://staging.step4change.org"
+        const val AKF_WCF_BACKEND_URL_PROD = "https://steps4impact.org"
+        const val AKF_WCF_BACKEND_URL_DEV =  "https://steps4impact-dev.azurewebsites.net"; // "https://dev.step4change.org" // "http://192.168.1.70:7777" // "https://dev.step4change.org"
+        const val AKF_WCF_BACKEND_URL_STAGING = "https://staging.steps4impact.org"
 
         private val AUTH_HEADER_KEY = "Authorization"
         var base64Token:Pair<String, String>? = null
