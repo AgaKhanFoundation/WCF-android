@@ -45,45 +45,77 @@
         android:layout_marginBottom="@dimen/spacing_normal"
         app:layout_constraintBottom_toTopOf="@id/login_button_facebook"/>
 
-
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button_facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_width="@dimen/login_button_width"
+        android:layout_height="@dimen/login_button_height"
+        android:layout_gravity="start"
         android:clickable="true"
-        android:layout_marginBottom="@dimen/spacing_normal"
-        app:layout_constraintBottom_toTopOf="@id/login_button_apple"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
-    <ImageView
-        android:id="@+id/login_button_apple"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/min_button_height"
-        android:layout_gravity="center"
-        android:clickable="true"
-        android:visibility="gone"
         android:layout_marginBottom="@dimen/spacing_normal"
         app:layout_constraintBottom_toTopOf="@id/login_button_google"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        android:elevation="3dp"
         />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/login_button_google"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="@dimen/login_button_width"
+        android:layout_height="@dimen/login_button_height"
         app:buttonSize="wide"
-        android:layout_gravity="center"
+        android:layout_gravity="start"
         android:clickable="true"
         android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/login_button_apple"
         android:layout_marginBottom="@dimen/spacing_normal"
-        app:layout_constraintBottom_toTopOf="@+id/term_conditions"
-        app:layout_constraintStart_toStartOf="@id/login_button_facebook"
-        app:layout_constraintEnd_toEndOf="@id/login_button_facebook"
+        android:textStyle="bold"
+        android:elevation="2dp"
         />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/login_button_apple"
+        android:layout_width="190dp"
+        android:layout_height="40dp"
+        android:layout_gravity="start"
+        android:background="@drawable/sign_in_with_apple_bacground_selector_white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/term_conditions"
+        android:layout_marginBottom="@dimen/spacing_normal"
+        android:elevation="3dp">
+
+        <!-- Button icon -->
+        <ImageView
+            android:id="@+id/login_button_apple_image"
+            android:layout_width="wrap_content"
+            android:layout_height="24dp"
+            android:src="@drawable/sign_in_with_apple_button_icon_black"
+            android:layout_marginStart="@dimen/sign_in_with_apple_button_horizontalPadding"
+            android:contentDescription="@string/sign_in_with_apple_button_iconContentDescription"
+            android:duplicateParentState="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!-- Button text -->
+        <TextView
+            android:id="@+id/login_button_apple_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="end"
+            android:maxLines="1"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/login_button_apple_image"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="@string/sign_in_with_apple_button_signInWithApple"
+            android:textStyle="bold"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
         android:id="@+id/term_conditions"

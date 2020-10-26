@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.android.wcf.R;
 import com.android.wcf.application.WCFApplication;
@@ -66,7 +67,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
     LoginButton mLoginButtonFacebook;
     SignInButton mLoginButtonGoogle;
     GoogleSignInClient mGoogleSignInClient;
-    ImageView mAppleSignInButton;
+    ConstraintLayout mAppleSignInButton;
 
     View mTermsTv;
 
@@ -328,7 +329,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         String userName = "", userId = "", userProfileUrl = "", authSourceUserId;
         userId = user.getUid();
         userName = user.getDisplayName();
-        userProfileUrl = user.getPhotoUrl().toString();
+//        userProfileUrl = user.getPhotoUrl().toString();
         authSourceUserId = getAutSourceId(user, authSource);
 
         Log.d(TAG, "onSigninComplete():"
@@ -347,7 +348,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         SharedPreferencesUtil.saveMyLoginId(userId, authSource, authSourceUserId);
         SharedPreferencesUtil.saveUserLoggedIn(true);
         SharedPreferencesUtil.saveUserFullName(userName);
-        SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
+//        SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
         joinFBGroup(userId);
 
         mLoginPesenter.onLoginSuccess();
