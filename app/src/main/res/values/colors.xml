@@ -15,14 +15,13 @@
     <color name="color_red_dark">#aa0000</color>
     <color name="color_red_alpha_mask_1">#99ff0000</color>
 
-
     <color name="color_dark_green">#045a38</color>
     <color name="color_progress_primary">#FF00A85D</color>
 
     <color name="color_black">#000000</color>
     <color name="color_grey">#58585b</color>
     <color name="color_light_grey_2">#9B9B9B</color>
-    <color name="color_light_grey_3">#C6C6CB</color>
+    <color name="color_light_grey_3">#D6C6CB</color>
     <color name="color_light_grey_4">#DBDBDB</color>
     <color name="color_light_grey_5">#dcdcdc</color>
     <color name="color_light_grey_6">#F1F1F1</color>

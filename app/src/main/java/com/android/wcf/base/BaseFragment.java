@@ -43,7 +43,7 @@ import java.util.List;
 
 
 
-abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
+ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
 
     private BaseMvp.BaseView baseView;
     protected static String TAG = BaseFragment.class.getSimpleName();
@@ -52,11 +52,6 @@ abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView 
     public void onCreate(@Nullable Bundle savedInstanceState) {
         TAG = getClass().getSimpleName();
         super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public void signout(boolean complete) {
-        baseView.signout(complete);
     }
 
     @Override

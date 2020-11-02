@@ -64,6 +64,7 @@ import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.jetbrains.annotations.NotNull;
 
@@ -133,6 +134,13 @@ public class BaseActivity extends AppCompatActivity
                 onActivityResultForGoogleFit(requestCode, resultCode, data);
             }
             break;
+
+            case RequestCodes.LOGIN_REQUEST_GOOGLE_CODE: {
+                onActivityResultForGoogleLogin(requestCode, resultCode, data);
+            }
+            break;
+
+
             default:
                 Log.i(TAG, "Unhandled Request Code " + requestCode);
 
@@ -178,6 +186,7 @@ public class BaseActivity extends AppCompatActivity
         } else {
             SharedPreferencesUtil.clearMyLogin();
         }
+        FirebaseAuth.getInstance().signOut();
     }
 
     @Override
@@ -592,6 +601,15 @@ public class BaseActivity extends AppCompatActivity
             TrackingHelper.googleFitLoggedIn(false);
         }
     }
+
+
+    protected void onActivityResultForGoogleLogin(int requestCode, int resultCode, Intent data) {
+        Log.i(TAG, "onActivityResultForGoogleLogin");
+        if (resultCode == Activity.RESULT_OK) {
+        } else {
+        }
+    }
+
 
     protected void onGoogleFitLoggedIn() {
 

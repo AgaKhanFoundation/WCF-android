@@ -2,6 +2,9 @@
     <string name="app_name">Steps4Impact</string>
     <string name="app_name_title">Steps 4 Impact</string>
 
+    <string name="facebook_application_id" translatable="false">246679025737864</string>
+    <string name="facebook_login_protocol_scheme" translatable="false">fb246679025737864</string>
+
     <!-- for reference only. Build script provides it. release fb app is shared between iOS and Adroid apps  -->
     <!-- debug fb app created under sultan.keshwani@gmail.com -->
     <string name="debug_facebook_app_id">952254615120365</string>
@@ -34,10 +37,8 @@
     <string name="notifications_data_error">Notifications Error</string>
     <string name="notification_empty_message">You don\'t have any notifications right now</string>
 
-
     <string name="akf_profileview_title">AKF Profile</string>
     <string name="login_id_not_found">Login data not found. Please login or contact the support team for assistance</string>
-
 
     <string name="team_card_join_create_team_mesage">Participating in a challenge is always more fun with friends! </string>
     <string name="team_card_show_teams_to_join_button_text">Join an Existing Team</string>
@@ -49,6 +50,7 @@
     <string name="onboard_welcome_start">Tap continue for a quick tour of the app.</string>
     <string name="button_continue_label">Continue</string>
     <string name="onboard_welcome_skip">Skip</string>
+    <string name="welcome_to_app">Welcome to Steps 4 Impact</string>
 
     <string-array name="onboard_tutorial_step_title">
         <item>Create a team or join an existing team</item>
@@ -143,7 +145,6 @@
     <string name="dashboard_fundraising_progress_card_label">Fundraising Progress</string>
     <string name="dashboard_fundraising_progress_before_start_message">No data available. You will be able to see your progress once the challenge has started.</string>
 
-
     <string name="dashboard_challenge_completed">Challenge completed</string>
     <string name="dashboard_challenge_remaining_days_template">You have %1$d days remaining!</string>
     <string name="dashboard_challenge_remaining_days_hours_template">You have %1$d days and %2$d hours remaining!</string>
@@ -166,7 +167,6 @@
     <string name="invite_supporter_template_3">
         From %1$s to %2$s, I will be embarking on %3$s, with the help of the Aga Khan Foundation in the Steps 4 Impact Challenge. I have set a goal to walk %4$d miles in %5$d days. I would like your support for this wonderful cause by pledging at the AKF USA website through https://www.akfusa.org/steps4impactpledge/. The donation will be requested at the end of the challenge when I achieve my goal of walking %4$d miles. 100%% of the proceeds will go to support the initiatives of the Aga Khan Foundation. To learn more about AKF, please visit https://www.akfusa.org/. Thank you for your support
     </string>
-
 
     <string name="invite_supporters_to_pledge_label">Invite Supporters to Pledge</string>
     <string name="supporters_invite_title">Invite Supporters</string>
@@ -326,5 +326,7 @@
     <string name="default_notification_channel_id">Steps4Impact</string>
     <string name="default_notification_channel_name">Steps4Impact messages</string>
     <string name="fcm_message">Steps 4 Impact</string>
+    <string name="sign_in_platform_message">Sign in with</string>
+    <string name="terms_and_conditions_apply">Terms and conditions apply</string>
 
 </resources>

@@ -14,7 +14,7 @@ import java.util.List;
 public interface BaseMvp {
     interface BaseView {
 
-        void signout(boolean complete);
+        // oid signout(boolean complete);
 
         void showMessage(String message);
 
@@ -93,6 +93,8 @@ public interface BaseMvp {
         void setToolbarTitle(String title, boolean homeAffordance);
 
         void popBackStack(String tag);
+
+        void signout(boolean complete);
 
     }
 }

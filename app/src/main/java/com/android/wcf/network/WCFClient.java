@@ -12,6 +12,7 @@ import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
+import com.android.wcf.model.SocialProfile;
 import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -45,7 +46,7 @@ public class WCFClient {
 
     private static final String TAG = WCFClient.class.getSimpleName();
 
-    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.PROD; //Ensure its PROD for a store build
+    private static Steps4ChangeEnv serverEnv = Steps4ChangeEnv.STAGE; //Ensure its PROD for a store build
 
     public static Steps4ChangeEnv getServerEnv() {
         return serverEnv;
@@ -195,6 +196,10 @@ public class WCFClient {
         return wcfApi.getParticipantStats(participantId);
     }
 
+    public Single<SocialProfile> getParticipantSocialProfile(String participantId) {
+        return wcfApi.getParticipantSocialProfile(participantId);
+    }
+
     public Single<List<Integer>> updateParticipant(String currentParticipantId, String newParticipantId, Integer teamId, Integer causeId, Integer localityId, Integer eventId) {
         Map<String, Object> jsonParams = new ArrayMap<>();
         if (newParticipantId != null && !newParticipantId.isEmpty())
@@ -323,8 +328,11 @@ public class WCFClient {
         return wcfApi.updateParticipant(participantId, requestBody);
     }
 
+
     public Single<List<Milestone>> getJourneyMilestones(int eventId) {
-        if (1 == 1) { //until the API is fixed, return a hard-coded resultset
+         boolean USE_TEST_MILESTONE_DATA = false;
+
+        if (USE_TEST_MILESTONE_DATA) { // return a hard-coded resultset
             Gson gson = new Gson();
             List<Milestone> result = gson.fromJson(getMilestonesJson(), new TypeToken<List<Milestone>>() {
             }.getType());
@@ -447,7 +455,9 @@ public class WCFClient {
     }
 
     public Single<List<Notification>> getParticipantNotifications(String fbid, int eventId) {
-        if (1 == 2) {
+        boolean USE_TEST_NOTIFICATIONS_DATA = false;
+
+        if (USE_TEST_NOTIFICATIONS_DATA) {
             Gson gson = new Gson();
             List<Notification> result = gson.fromJson(getNotificationsJon(), new TypeToken<List<Notification>>() {
             }.getType());

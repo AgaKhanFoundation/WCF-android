@@ -8,6 +8,7 @@ import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
+import com.android.wcf.model.SocialProfile;
 import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -48,6 +49,9 @@ public interface WCFApiEndpoints {
 
     @DELETE("participants/{fbid}")
     Single<List<Integer>> deleteParticipant(@Path("fbid") String participantId);
+
+    @GET("participants/{fbid}/social")
+    Single<SocialProfile> getParticipantSocialProfile(@Path("fbid") String participantId);
 
     /*********** PARTICIPANT COMMITMENTS ***********/
 

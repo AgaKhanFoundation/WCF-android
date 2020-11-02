@@ -56,8 +56,6 @@ public interface SettingsMvp {
 
         void showDeviceConnection();
 
-        void signout(boolean complete);
-
         void restartApp();
 
         void restartHomeActivity();

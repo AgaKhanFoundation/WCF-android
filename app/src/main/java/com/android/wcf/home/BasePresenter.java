@@ -4,7 +4,6 @@ import android.util.Log;
 
 import com.android.wcf.application.DataHolder;
 import com.android.wcf.base.BaseMvp;
-import com.android.wcf.facebook.FacebookHelper;
 import com.android.wcf.model.Commitment;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.LeaderboardTeam;
@@ -12,6 +11,8 @@ import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
 import com.android.wcf.model.Record;
+import com.android.wcf.model.SocialProfile;
+import com.android.wcf.model.SocialProfileCallback;
 import com.android.wcf.model.Source;
 import com.android.wcf.model.Stats;
 import com.android.wcf.model.Team;
@@ -28,7 +29,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-
 
 public abstract class BasePresenter implements BaseMvp.Presenter {
 
@@ -186,13 +186,17 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onSuccess(final Participant participant) {
-                        FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
+
+                        getParticipantSocialProfile(participant, new SocialProfileCallback() {
                             @Override
-                            public void onParticipantProfileRetrieved(Participant fbParticipant) {
-                                if (participant.getFbId().equals(fbParticipant.getFbId())) {
-                                    participant.setName(fbParticipant.getName());
-                                    participant.setParticipantProfile(fbParticipant.getParticipantProfile());
-                                }
+                            public void onParticipantProfileRetrieved(SocialProfile socialProfile) {
+                                participant.setName(socialProfile.getDisplayName());
+                                participant.setParticipantProfile(socialProfile.getPhotoURL());
+                                onGetParticipantSuccess(participant);
+                            }
+
+                            @Override
+                            public void onParticipantProfileError(Throwable error) {
                                 onGetParticipantSuccess(participant);
                             }
                         });
@@ -201,6 +205,29 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
                     @Override
                     public void onError(Throwable error) {
                         onGetParticipantError(error);
+                    }
+                });
+    }
+
+    public void getParticipantSocialProfile(final Participant participant, final SocialProfileCallback callback) {
+        wcfClient.getParticipantSocialProfile(participant.getParticipantId())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<SocialProfile>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(SocialProfile socialProfile) {
+                        callback.onParticipantProfileRetrieved(socialProfile);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+
+                        callback.onParticipantProfileError(error);
                     }
                 });
     }
@@ -410,52 +437,79 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
         Log.e(TAG, "onGetTeamError: " + error.getMessage());
     }
 
-    public static int facebookRequestCount;
-    public static Map<String, Participant> participantFacebookMap = new HashMap();
+    public static int teamMembersCount;
+    public static Map<String, Participant> participantProfileMap = new HashMap();
 
-    public void getTeamParticipantsInfoFromFacebook(final Team team) {
-        //https://graph.facebook.com/?ids=user1,user2,user3
+    public void getTeamParticipantsInfoFromServer(final Team team) {
 
-        facebookRequestCount = team.getParticipants().size();
-        Log.d(TAG, "getTeamParticipantsInfoFromFacebook: " + facebookRequestCount);
+        teamMembersCount = team.getParticipants().size();
+        Log.d(TAG, "getTeamParticipantsInfoFromServer: " + teamMembersCount);
         List<String> fbIdList = new ArrayList<>();
         for (final Participant participant : team.getParticipants()) {
             String fbId = participant.getFbId();
             fbIdList.add(fbId);
-            FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
-                @Override
-                public void onParticipantProfileRetrieved(Participant fbParticipant) {
-                    Log.d(TAG, "onParticipantProfileRetrieved: " + facebookRequestCount + " name=" + fbParticipant.getName());
-                    if (participant.getId() == fbParticipant.getId()) {
-                        participant.setParticipantProfile(fbParticipant.getParticipantProfile());
-                        participant.setName(fbParticipant.getName());
-                        participantFacebookMap.put(participant.getFbId(), fbParticipant);
-                    }
-                    --facebookRequestCount;
-                    if (facebookRequestCount == 0) {
-                        Log.d(TAG, "onParticipantProfileRetrieved facebookRequestCount = 0 onGetTeamParticipantsInfoSuccess");
-                        updateParticipantProfilesToTeam(team, participantFacebookMap);
 
+            getParticipantSocialProfile(participant, new SocialProfileCallback() {
+                @Override
+                public void onParticipantProfileError(Throwable error) {
+                    --teamMembersCount;
+                    if (teamMembersCount == 0) {
+                        Log.d(TAG, "onParticipantProfileRetrieved teamMembersCount = 0 updateParticipantProfilesToTeam");
+                        updateParticipantProfilesToTeam(team, participantProfileMap);
+                    }
+                }
+
+                @Override
+                public void onParticipantProfileRetrieved(SocialProfile socialProfile) {
+                    Log.d(TAG, "onParticipantProfileRetrieved: " + teamMembersCount + " name=" + socialProfile.getDisplayName());
+                    participant.setName(socialProfile.getDisplayName());
+                    participant.setParticipantProfile(socialProfile.getPhotoURL());
+                    participantProfileMap.put(participant.getFbId(), participant);
+
+                    --teamMembersCount;
+                    if (teamMembersCount == 0) {
+                        Log.d(TAG, "onParticipantProfileRetrieved teamMembersCount = 0 updateParticipantProfilesToTeam");
+                        updateParticipantProfilesToTeam(team, participantProfileMap);
                     }
                 }
             });
+
+//            FacebookHelper.getParticipantsInfoFromFacebook(participant, new FacebookHelper.OnFacebookProfileCallback() {
+//                @Override
+//                public void onParticipantProfileRetrieved(Participant fbParticipant) {
+//                    Log.d(TAG, "onParticipantProfileRetrieved: " + teamMembersCount + " name=" + fbParticipant.getName());
+//                    if (participant.getId() == fbParticipant.getId()) {
+//                        participant.setParticipantProfile(fbParticipant.getParticipantProfile());
+//                        participant.setName(fbParticipant.getName());
+//                        participantFacebookMap.put(participant.getFbId(), fbParticipant);
+//                    }
+//                    --teamMembersCount;
+//                    if (teamMembersCount == 0) {
+//                        Log.d(TAG, "onParticipantProfileRetrieved teamMembersCount = 0 onGetTeamParticipantsInfoSuccess");
+//                        updateParticipantProfilesToTeam(team, participantFacebookMap);
+//
+//                    }
+//                }
+//            });
         }
     }
 
-    private void updateParticipantProfilesToTeam(Team team, Map<String, Participant> participantFacebookMap) {
+    private void updateParticipantProfilesToTeam(Team team, Map<String, Participant> participantProfileMap) {
 
 //        for (Participant participant : DataHolder.getParticipantTeam().getParticipants()) {
 
         Participant cachedParticipant = DataHolder.getParticipant();
 
         for (Participant participant : team.getParticipants()) {
-            Participant fbParticipant = participantFacebookMap.get(participant.getFbId());
-            participant.setName(fbParticipant.getName());
-            participant.setParticipantProfile(fbParticipant.getParticipantProfile());
+            Participant fbParticipant = participantProfileMap.get(participant.getFbId());
+            if (fbParticipant != null) {
+                participant.setName(fbParticipant.getName());
+                participant.setParticipantProfile(fbParticipant.getParticipantProfile());
 
-            if (cachedParticipant != null && fbParticipant.getFbId().equals(cachedParticipant.getFbId())) {
-                cachedParticipant.setName(fbParticipant.getName());
-                cachedParticipant.setParticipantProfile(fbParticipant.getParticipantProfile());
+                if (cachedParticipant != null && fbParticipant.getFbId().equals(cachedParticipant.getFbId())) {
+                    cachedParticipant.setName(fbParticipant.getName());
+                    cachedParticipant.setParticipantProfile(fbParticipant.getParticipantProfile());
+                }
             }
         }
 

@@ -53,6 +53,9 @@ import com.android.wcf.onboard.OnboardActivity;
 import com.android.wcf.permissions.ApplicationPermission;
 import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Debug;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.FirebaseUserMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -142,7 +145,8 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
             SharedPreferencesUtil.saveMyActiveEvent(event.getId());
         }
 
-        if (!SharedPreferencesUtil.isUserLoggedIn()) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (!SharedPreferencesUtil.isUserLoggedIn() || user == null) {
             startApp(LoginActivity.class);
         } else if (SharedPreferencesUtil.getShowOnboardingTutorial()) {
             startApp(OnboardActivity.class);

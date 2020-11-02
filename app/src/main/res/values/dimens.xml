@@ -21,7 +21,10 @@
     <dimen name="spacing_extra_large">64dp</dimen>
     <dimen name="spacing_100">100dp</dimen>
     <dimen name="button_width_medium">144dp</dimen>
-    <dimen name="min_button_height">48dp</dimen>
+    <dimen name="min_button_height">44dp</dimen>
+    <dimen name="login_button_width">200dp</dimen>
+    <dimen name="login_button_size">42dp</dimen>
+    <dimen name="login_button_size_google">48dp</dimen>
     <dimen name="card_image_size">135dp</dimen>
     <dimen name="card_image_size_2">200dp</dimen>
     <dimen name="progressbar_height">19dp</dimen>

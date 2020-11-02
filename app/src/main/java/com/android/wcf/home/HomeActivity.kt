@@ -43,6 +43,7 @@ import com.android.wcf.tracker.googlefit.GoogleFitHelper
 import com.facebook.AccessToken
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.iid.FirebaseInstanceId
 import java.io.IOException
 
@@ -299,12 +300,22 @@ class HomeActivity : BaseActivity()
 
     private fun isLoginValid(): Boolean {
         if (LoginHelper.isTimeToValidateLogin()) {
-            val accessToken: AccessToken? = AccessToken.getCurrentAccessToken()
-            accessToken?.let {
-                return !it.isExpired
+            val user = FirebaseAuth.getInstance().currentUser
 
-                return false
+            if (user != null) {
+                var authSource = AuthSource.valueOf(SharedPreferencesUtil.getMyAuthSource())
+                when (authSource) {
+                    AuthSource.Facebook -> {
+                        val accessToken: AccessToken? = AccessToken.getCurrentAccessToken()
+                        accessToken?.let {
+                            return !it.isExpired
+                        }
+                        return false
+                    }
+                    else -> return true
+                }
             }
+            return false
         }
         return true
     }
