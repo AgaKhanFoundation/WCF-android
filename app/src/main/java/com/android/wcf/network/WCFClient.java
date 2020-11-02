@@ -328,8 +328,11 @@ public class WCFClient {
         return wcfApi.updateParticipant(participantId, requestBody);
     }
 
+
     public Single<List<Milestone>> getJourneyMilestones(int eventId) {
-        if (1 == 1) { //until the API is fixed, return a hard-coded resultset
+         boolean USE_TEST_MILESTONE_DATA = false;
+
+        if (USE_TEST_MILESTONE_DATA) { // return a hard-coded resultset
             Gson gson = new Gson();
             List<Milestone> result = gson.fromJson(getMilestonesJson(), new TypeToken<List<Milestone>>() {
             }.getType());
@@ -452,7 +455,9 @@ public class WCFClient {
     }
 
     public Single<List<Notification>> getParticipantNotifications(String fbid, int eventId) {
-        if (1 == 2) {
+        boolean USE_TEST_NOTIFICATIONS_DATA = false;
+
+        if (USE_TEST_NOTIFICATIONS_DATA) {
             Gson gson = new Gson();
             List<Notification> result = gson.fromJson(getNotificationsJon(), new TypeToken<List<Notification>>() {
             }.getType());

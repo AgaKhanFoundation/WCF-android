@@ -5,8 +5,7 @@
     <color name="sign_in_with_apple_button_gray">#FF999999</color>
     <color name="sign_in_with_apple_button_gray_2">#FFDDDDDD</color>
 
-    <string name="sign_in_with_apple_button_signInWithApple">Sign in with Apple</string>
-    <string name="sign_in_with_apple_button_iconContentDescription">sign in with apple button icon</string>
+    <string name="sign_in_with_apple_button_iconContentDescription">Sign in with Apple</string>
 
     <dimen name="sign_in_with_apple_button_horizontalPadding">16dp</dimen>
 
