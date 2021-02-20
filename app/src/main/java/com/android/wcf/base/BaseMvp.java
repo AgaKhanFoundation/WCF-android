@@ -7,6 +7,7 @@ import androidx.annotation.StringRes;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.SocialProfile;
 import com.android.wcf.model.Team;
 
 import java.util.List;
@@ -43,6 +44,8 @@ public interface BaseMvp {
         Participant getParticipant();
 
         void cacheParticipantTeam(Team team);
+
+        void updateSocialProfileInCachedParticipant(String participantId, SocialProfile socialProfile);
 
         void updateTeamVisibilityInCache(boolean hidden);
 

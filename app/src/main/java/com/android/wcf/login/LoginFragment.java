@@ -52,6 +52,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.FirebaseUserMetadata;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.auth.OAuthProvider;
+import com.google.firebase.auth.UserInfo;
 
 import java.util.Arrays;
 import java.util.Date;
@@ -316,10 +317,13 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
 
     }
 
-    private String getAutSourceId(FirebaseUser user, AuthSource authSource) {
-       FirebaseUserMetadata result = user.getMetadata();
-       //TODO: find the source auth providers' info from Firebase User
-        return user.getProviderId();
+    private  String getAutSourceId(FirebaseUser user, AuthSource authSource) {
+        int lastIndex = user.getProviderData().size();
+        if (lastIndex > 0) {
+            UserInfo userInfo = user.getProviderData().get(lastIndex - 1);
+            return userInfo.getUid();
+        }
+        return "";
     }
 
     private void onSigninComplete(FirebaseUser user, AuthSource authSource) {
@@ -329,7 +333,9 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         String userName = "", userId = "", userProfileUrl = "", authSourceUserId;
         userId = user.getUid();
         userName = user.getDisplayName();
-//        userProfileUrl = user.getPhotoUrl().toString();
+        if (user.getPhotoUrl() != null) {
+            userProfileUrl = user.getPhotoUrl().toString();
+        }
         authSourceUserId = getAutSourceId(user, authSource);
 
         Log.d(TAG, "onSigninComplete():"
@@ -348,7 +354,7 @@ public class LoginFragment extends BaseFragment implements LoginMvp.View {
         SharedPreferencesUtil.saveMyLoginId(userId, authSource, authSourceUserId);
         SharedPreferencesUtil.saveUserLoggedIn(true);
         SharedPreferencesUtil.saveUserFullName(userName);
-//        SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
+        SharedPreferencesUtil.saveUserProfilePhotoUrl(userProfileUrl);
         joinFBGroup(userId);
 
         mLoginPesenter.onLoginSuccess();

@@ -31,6 +31,7 @@ import com.android.wcf.model.AuthSource;
 import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.SocialProfile;
 import com.android.wcf.model.Team;
 import com.android.wcf.network.NetworkUtils;
 import com.android.wcf.settings.FitnessTrackerConnectionFragment;
@@ -129,17 +130,15 @@ public class BaseActivity extends AppCompatActivity
                 }
                 break;
 
-            case RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE: {
+            case RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE:
                 //TODO: make a GoogleFitAuthManager similar to Fitbit's
                 onActivityResultForGoogleFit(requestCode, resultCode, data);
-            }
-            break;
 
-            case RequestCodes.LOGIN_REQUEST_GOOGLE_CODE: {
+                break;
+
+            case RequestCodes.LOGIN_REQUEST_GOOGLE_CODE:
                 onActivityResultForGoogleLogin(requestCode, resultCode, data);
-            }
-            break;
-
+                break;
 
             default:
                 Log.i(TAG, "Unhandled Request Code " + requestCode);
@@ -212,6 +211,11 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public void cacheParticipant(Participant participant) {
         DataHolder.setParticipant(participant);
+        String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
+        if (savedParticipantId.equals(participant.getFbId())){
+            SharedPreferencesUtil.saveUserFullName(participant.getName());
+            SharedPreferencesUtil.saveUserProfilePhotoUrl(participant.getParticipantProfile());
+        }
     }
 
     @Override
@@ -268,6 +272,15 @@ public class BaseActivity extends AppCompatActivity
     @Override
     public void updateTeamVisibilityInCache(boolean hidden) {
         DataHolder.getParticipantTeam().setHidden(hidden);
+    }
+
+    @Override
+    public void updateSocialProfileInCachedParticipant(String participantId, SocialProfile socialProfile) {
+        Participant participant = DataHolder.getParticipant();
+        if (participant != null && participant.getFbId().equals(participantId)) {
+            participant.setParticipantProfile(socialProfile.getPhotoURL());
+            participant.setName(socialProfile.getDisplayName());
+        }
     }
 
     @Override

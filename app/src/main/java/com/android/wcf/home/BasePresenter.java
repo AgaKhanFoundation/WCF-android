@@ -226,15 +226,43 @@ public abstract class BasePresenter implements BaseMvp.Presenter {
 
                     @Override
                     public void onError(Throwable error) {
-
                         callback.onParticipantProfileError(error);
                     }
                 });
     }
 
+    public void getParticipantSocialProfile(final String participantId) {
+        wcfClient.getParticipantSocialProfile(participantId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new SingleObserver<SocialProfile>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+                        disposables.add(d);
+                    }
+
+                    @Override
+                    public void onSuccess(SocialProfile socialProfile) {
+                        onGetParticipantSocialProfileSuccess(participantId, socialProfile);
+                    }
+
+                    @Override
+                    public void onError(Throwable error) {
+                        onGetParticipantSocialProfileError(error, participantId);
+                    }
+                });
+    }
+
+    protected void onGetParticipantSocialProfileSuccess(String participantId, SocialProfile socialProfile){
+        Log.d(TAG, "onGetParticipantSocialProfileSuccess");
+    }
+
+    protected void onGetParticipantSocialProfileError( Throwable error, String participantId) {
+        Log.e(TAG, "onGetParticipantSocialProfileError (participantId=" + participantId +") : " + error.getMessage());
+    }
+
     protected void onGetParticipantSuccess(Participant participant) {
         Log.d(TAG, "onGetParticipantSuccess");
-
     }
 
     protected void onGetParticipantError(Throwable error) {

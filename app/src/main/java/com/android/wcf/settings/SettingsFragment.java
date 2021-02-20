@@ -24,6 +24,7 @@ import com.android.wcf.base.BaseFragment;
 import com.android.wcf.helper.DistanceConverter;
 import com.android.wcf.helper.SharedPreferencesUtil;
 import com.android.wcf.model.Commitment;
+import com.android.wcf.model.SocialProfile;
 import com.android.wcf.model.Team;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -160,6 +161,7 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     public void onStart() {
         super.onStart();
         setToolbarTitle(getString(R.string.settings_title), true);
+
 
         isTeamLead = false;
         team = getParticipantTeam();
@@ -383,22 +385,21 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
     }
 
     void showParticipantInfo() {
-        ImageView participantImage = participantProfileContainer.findViewById(R.id.participant_image);
-        TextView participantNameTv = participantProfileContainer.findViewById(R.id.participant_name);
         TextView teamNameTv = participantProfileContainer.findViewById(R.id.team_name);
         TextView teamLeadLabelTv = participantProfileContainer.findViewById(R.id.team_lead_label);
 
         String profileImageUrl = SharedPreferencesUtil.getUserProfilePhotoUrl();
+        String fullName = SharedPreferencesUtil.getUserFullName();
+
         if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
             Log.d(TAG, "profileImageUrl=" + profileImageUrl);
-
-            Glide.with(getContext())
-                    .load(profileImageUrl)
-                    .apply(RequestOptions.circleCropTransform())
-                    .into(participantImage);
+            updateParticipantInfoDisplay(fullName, profileImageUrl);
+        }
+        else {
+            String participantId = SharedPreferencesUtil.getMyParticipantId();
+            settingsPresenter.getParticipantSocialProfile(participantId);
         }
 
-        participantNameTv.setText(SharedPreferencesUtil.getUserFullName());
         if (team != null) {
             teamNameTv.setText(team.getName());
             teamLeadLabelTv.setText(isTeamLead ?
@@ -409,6 +410,22 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
         } else {
             teamLeadLabelTv.setVisibility(View.GONE);
         }
+    }
+
+    void updateParticipantInfoDisplay(String fullName, String profileImageUrl) {
+        ImageView participantImage = participantProfileContainer.findViewById(R.id.participant_image);
+        TextView participantNameTv = participantProfileContainer.findViewById(R.id.participant_name);
+
+        if (profileImageUrl != null && !profileImageUrl.isEmpty()) {
+            Log.d(TAG, "profileImageUrl=" + profileImageUrl);
+
+            Glide.with(getContext())
+                    .load(profileImageUrl)
+                    .apply(RequestOptions.circleCropTransform())
+                    .into(participantImage);
+        }
+
+        participantNameTv.setText(fullName);
     }
 
     void setupParticipantProfileView(View parentView) {
@@ -540,4 +557,23 @@ public class SettingsFragment extends BaseFragment implements SettingsMvp.View {
             host.signout(complete);
         }
     }
+
+    @Override
+    public void onGetParticipantSocialProfileSuccess(String participantId,  SocialProfile socialProfile) {
+        String savedParticipantId = SharedPreferencesUtil.getMyParticipantId();
+        if (savedParticipantId.equals(participantId)) {
+            String profilePhotoUrl = socialProfile.getPhotoURL();
+            String fullNmae = socialProfile.getDisplayName();
+            SharedPreferencesUtil.saveUserProfilePhotoUrl(profilePhotoUrl);
+            SharedPreferencesUtil.saveUserFullName(fullNmae);
+            updateSocialProfileInCachedParticipant(participantId, socialProfile);
+            getParticipant();
+            updateParticipantInfoDisplay(socialProfile.getDisplayName(), socialProfile.getPhotoURL());
+        }
+    }
+
+    @Override
+    public void onGetParticipantSocialProfileError(Throwable error, String participantId) {
+    }
+
 }

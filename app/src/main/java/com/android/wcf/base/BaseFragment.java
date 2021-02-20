@@ -30,6 +30,7 @@ import com.android.wcf.model.Event;
 import com.android.wcf.model.Milestone;
 import com.android.wcf.model.Notification;
 import com.android.wcf.model.Participant;
+import com.android.wcf.model.SocialProfile;
 import com.android.wcf.model.Team;
 import com.android.wcf.settings.EditTextDialogListener;
 
@@ -43,7 +44,7 @@ import java.util.List;
 
 
 
- abstract public class BaseFragment extends Fragment implements BaseMvp.BaseView {
+  public class BaseFragment extends Fragment implements BaseMvp.BaseView {
 
     private BaseMvp.BaseView baseView;
     protected static String TAG = BaseFragment.class.getSimpleName();
@@ -389,5 +390,10 @@ import java.util.List;
             }
         }
         return count;
+    }
+
+    @Override
+    public void updateSocialProfileInCachedParticipant(String participantId, SocialProfile socialProfile) {
+        baseView.updateSocialProfileInCachedParticipant(participantId, socialProfile);
     }
 }
