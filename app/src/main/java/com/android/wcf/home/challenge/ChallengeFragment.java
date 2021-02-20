@@ -351,7 +351,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     journeyText.setText(R.string.message_journey_starting_soon);
                 }
                 else {
-                    journeyText.setText(R.string.message_journey_started);
+                    journeyText.setText(R.string.message_journey_started_initial);
                     challengePresenter.getJourneyMilestones(event.getId());
                 }
                 journeyActiveView.setVisibility(View.VISIBLE);
