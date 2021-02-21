@@ -108,6 +108,8 @@
     <string name="connected_to_fitness_app_message">Connected to Google Fit account on Your device</string>
     <string name="google_fit_connection_error_message">\n\n\Google fit connection error:\n\n%1$s</string>
     <string name="disconnected_from_fitness_app_message">Disconnected from Google Fit account on Your device</string>
+    <string name="google_fit_permission_rationale">Permission is required to access your Google Fit data</string>
+    <string name="google_fit_permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
 
     <string name="settings_team_membership_title">Team</string>
 
@@ -329,5 +331,7 @@
     <string name="fcm_message">Steps 4 Impact</string>
     <string name="sign_in_platform_message">Sign in with</string>
     <string name="terms_and_conditions_apply">Terms and conditions apply</string>
+    <string name="ok_text">OK</string>
+    <string name="android_app_settings">Settings</string>
 
 </resources>

@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/color_white"
     android:orientation="vertical">
 
@@ -47,6 +48,19 @@
             app:layout_constraintEnd_toStartOf="@+id/btn_connect_to_fitness_app"
             app:layout_constraintStart_toStartOf="@id/rb_connect_to_fitness_app"
             app:layout_constraintTop_toBottomOf="@+id/rb_connect_to_fitness_app" />
+
+        <TextView
+            android:id="@+id/tv_fitness_app_error_message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_normal_half"
+            android:layout_marginStart="@dimen/spacing_large"
+            tools:text="@string/google_fit_permission_rationale"
+            android:textAppearance="?attr/textAppearanceCaption"
+            android:textColor="@color/color_red"
+            app:layout_constraintEnd_toStartOf="@+id/btn_connect_to_fitness_app"
+            app:layout_constraintStart_toStartOf="@id/rb_connect_to_fitness_app"
+            app:layout_constraintTop_toBottomOf="@+id/tv_fitness_app_message" />
 
         <View
             android:id="@+id/seperator_1"

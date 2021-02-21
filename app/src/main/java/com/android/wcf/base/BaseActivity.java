@@ -38,6 +38,7 @@ import com.android.wcf.settings.FitnessTrackerConnectionFragment;
 import com.android.wcf.settings.FitnessTrackerConnectionMvp;
 import com.android.wcf.tracker.TrackingHelper;
 import com.android.wcf.tracker.fitbit.FitbitHelper;
+import com.android.wcf.tracker.googlefit.GoogleFitHelper;
 import com.fitbitsdk.authentication.AuthenticationConfiguration;
 import com.fitbitsdk.authentication.AuthenticationHandler;
 import com.fitbitsdk.authentication.AuthenticationManager;
@@ -130,12 +131,6 @@ public class BaseActivity extends AppCompatActivity
                 }
                 break;
 
-            case RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE:
-                //TODO: make a GoogleFitAuthManager similar to Fitbit's
-                onActivityResultForGoogleFit(requestCode, resultCode, data);
-
-                break;
-
             case RequestCodes.LOGIN_REQUEST_GOOGLE_CODE:
                 onActivityResultForGoogleLogin(requestCode, resultCode, data);
                 break;
@@ -144,6 +139,11 @@ public class BaseActivity extends AppCompatActivity
                 Log.i(TAG, "Unhandled Request Code " + requestCode);
 
         }
+    }
+    @Override
+
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
@@ -436,20 +436,6 @@ public class BaseActivity extends AppCompatActivity
                 .commit();
     }
 
-    /************* Fitbit related methods   ****************/
-
-    @Override
-    public void connectAppToFitbit() {
-        Log.i(TAG, "connectAppToFitbit");
-        AuthenticationManager.login(this);
-    }
-
-    @Override
-    public void disconnectAppFromFitbit() {
-        Log.i(TAG, "disconnectAppFromFitbit");
-        AuthenticationManager.logout(this, fitbitLogoutTaskCompletionHandler);
-    }
-
     @Override
     public void onAuthFinished(AuthenticationResult result) {
         Log.i(TAG, "onAuthFinished");
@@ -586,23 +572,6 @@ public class BaseActivity extends AppCompatActivity
     /************* end of fitbit related methods ***************/
 
     /************* Google Fit related methods   ****************/
-    @Override
-    public void connectAppToGoogleFit() {
-        FitnessOptions fitnessOptions = FitnessOptions.builder()
-                .addDataType(DataType.TYPE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.AGGREGATE_STEP_COUNT_DELTA, FitnessOptions.ACCESS_READ)
-                .build();
-
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this, // your activity
-                    RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(this),
-                    fitnessOptions);
-        } else {
-            onGoogleFitLoggedIn();
-        }
-    }
 
     protected void onActivityResultForGoogleFit(int requestCode, int resultCode, Intent data) {
         Log.i(TAG, "onActivityResultForGoogleFit");
@@ -753,10 +722,5 @@ public class BaseActivity extends AppCompatActivity
                         Log.i(TAG, "total steps for this week: " + totalSteps);
                     }
                 });
-
-
-
-
     }
-
 }
