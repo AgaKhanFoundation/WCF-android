@@ -17,6 +17,7 @@ import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.model.Milestone
 import com.android.wcf.helper.view.ListPaddingDecoration
+import com.android.wcf.model.Media
 
 class JourneyFragment : BaseFragment(), JourneyMvp.View {
     lateinit var host: JourneyMvp.Host
@@ -91,19 +92,14 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
 
         adapter = JourneyMilestonesAdapter(context!!, object : JourneyMilestonesAdapter.AdapterHost {
             override fun onItemSelected(milestone: Milestone) {
-                onMilestoneSelected()
+                onMilestoneSelected(milestone)
             }
         })
         recycler.adapter = adapter
     }
 
-    fun onMilestoneSelected() {
-        presenter.onMilestoneSelected()
-    }
-
-    override fun showMilestoneDetail() {
-        Toast.makeText(context, "Milestone details coming soon", Toast.LENGTH_SHORT).show()
-        //TODO: create and Milestones detail fragment
+    fun onMilestoneSelected(milestone:Milestone) {
+        host.showMilestoneDetail(milestone)
     }
 
     override fun showMilestoneData(milestones: List<Milestone>, lastCompletedMilestoneSequence:Int, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double) {

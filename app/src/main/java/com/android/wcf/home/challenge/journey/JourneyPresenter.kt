@@ -44,7 +44,4 @@ class JourneyPresenter(val view: JourneyMvp.View) : BasePresenter(), JourneyMvp.
 
     }
 
-    override fun onMilestoneSelected() {
-        view.showMilestoneDetail()
-    }
 }

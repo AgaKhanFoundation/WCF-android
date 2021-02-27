@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -31,10 +32,7 @@ import com.android.wcf.login.AKFParticipantProfileFragment
 import com.android.wcf.login.AKFParticipantProfileMvp
 import com.android.wcf.login.LoginActivity
 import com.android.wcf.login.LoginHelper
-import com.android.wcf.model.AuthSource
-import com.android.wcf.model.Commitment
-import com.android.wcf.model.Constants
-import com.android.wcf.model.Participant
+import com.android.wcf.model.*
 import com.android.wcf.settings.SettingsActivity
 import com.android.wcf.tracker.TrackerLoginStatusCallback
 import com.android.wcf.tracker.TrackingHelper
@@ -569,6 +567,11 @@ class HomeActivity : BaseActivity()
                 .add(R.id.fragment_container, fragment)
                 .addToBackStack("JourneyFragment")
                 .commit()
+    }
+
+    override fun showMilestoneDetail(milestone: Milestone) {
+        Toast.makeText(this, "Milestone details coming soon", Toast.LENGTH_SHORT).show()
+        //TODO: create and Milestones detail fragment
     }
 
     override fun showNotificationsCount(count: Int) {
