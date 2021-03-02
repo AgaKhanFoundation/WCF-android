@@ -5,7 +5,6 @@ import com.android.wcf.model.Milestone
 
 interface JourneyDetailMvp {
     interface View : BaseMvp.BaseView {
-        fun showMilestoneDetail(milestone: Milestone)
     }
 
     interface Presenter : BaseMvp.Presenter {

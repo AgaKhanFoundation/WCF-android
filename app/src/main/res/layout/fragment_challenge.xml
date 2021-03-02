@@ -217,7 +217,7 @@
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/journey_card_journey_label"
-                            tools:src="@drawable/journey_map_placeholder" />
+                            android:src="@drawable/journey_map_placeholder" />
 
                         <TextView
                             android:id="@+id/journey_card_message"
