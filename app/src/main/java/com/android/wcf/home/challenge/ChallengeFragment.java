@@ -145,7 +145,6 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public void onStart() {
         Log.d(TAG, "onStart");
         super.onStart();
-        mHostingParent.setToolbarTitle(getString(R.string.nav_challenge), false);
         participantId = SharedPreferencesUtil.getMyParticipantId();
         if(participantId == null || participantId.isEmpty()) {
             onParticipantIdMissing();
@@ -170,6 +169,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
     public void onResume() {
         Log.d(TAG, "onResume");
         super.onResume();
+        mHostingParent.setToolbarTitle(getString(R.string.nav_challenge), false);
         challengePresenter.getTeamsList(); //TODO: next version, we will have to associate teams to event
     }
 
@@ -351,7 +351,7 @@ public class ChallengeFragment extends BaseFragment implements ChallengeMvp.Chal
                     journeyText.setText(R.string.message_journey_starting_soon);
                 }
                 else {
-                    journeyText.setText(R.string.message_journey_started);
+                    journeyText.setText(R.string.message_journey_started_initial);
                     challengePresenter.getJourneyMilestones(event.getId());
                 }
                 journeyActiveView.setVisibility(View.VISIBLE);

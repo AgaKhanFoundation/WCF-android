@@ -29,9 +29,7 @@ package com.android.wcf.splash;
  **/
 
 import android.Manifest;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
@@ -55,7 +53,6 @@ import com.android.wcf.utils.AppUtil;
 import com.android.wcf.utils.Debug;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.FirebaseUserMetadata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -203,9 +200,7 @@ public class SplashActivity extends BaseActivity implements SplashMvp.SplashView
         mPermissionList.add(Manifest.permission.INTERNET);
         mPermissionList.add(Manifest.permission.ACCESS_NETWORK_STATE);
         mPermissionList.add(Manifest.permission.ACCESS_WIFI_STATE);
-//        mPermissionList.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-//        mPermissionList.add(Manifest.permission.RECEIVE_BOOT_COMPLETED);
-//        mPermissionList.add(Manifest.permission.CALL_PHONE);
+
         mApplicationPermission = new ApplicationPermission(getApplicationContext());
         mApplicationPermission.setPermissionList(mPermissionList);
     }

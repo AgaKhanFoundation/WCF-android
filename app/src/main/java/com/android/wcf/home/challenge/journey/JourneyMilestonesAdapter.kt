@@ -139,7 +139,7 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
                 showJourneyMarker(milestone, lastCompletedMilestoneSequence, nextMilestoneSequence, nexttMilestonePercentageCompletion, infoContainer)
             }
 
-            if (milestone.sequence > 0 && milestone.sequence < nextMilestoneSequence) {
+            if (milestone.sequence > 0 && milestone.sequence <= nextMilestoneSequence) {
 
                 itemView.setOnClickListener { view ->
                     clickListener?.let {

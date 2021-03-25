@@ -14,8 +14,8 @@ android {
         minSdkVersion minSdkVer
         targetSdkVersion targetSdkVer
         applicationId "org.akf.steps4impact"
-        versionCode 42
-        versionName "0.9.8.3.beta"
+        versionCode 44
+        versionName "0.9.8.5.beta"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true

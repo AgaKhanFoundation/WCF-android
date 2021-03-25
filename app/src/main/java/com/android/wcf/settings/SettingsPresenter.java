@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.android.wcf.R;
 import com.android.wcf.home.BasePresenter;
+import com.android.wcf.model.SocialProfile;
 
 import java.io.IOException;
 import java.util.List;
@@ -104,6 +105,17 @@ public class SettingsPresenter extends BasePresenter implements SettingsMvp.Pres
     protected void onDeleteTeamError(Throwable error) {
         super.onDeleteTeamError(error);
         settingsView.signout(true); //TODO view should handle error, not signout
+    }
+
+    @Override
+    protected void onGetParticipantSocialProfileSuccess(String participantId, SocialProfile socialProfile) {
+        super.onGetParticipantSocialProfileSuccess(participantId, socialProfile);
+        settingsView.onGetParticipantSocialProfileSuccess(participantId, socialProfile);
+    }
+
+    @Override
+    protected void onGetParticipantSocialProfileError(Throwable error, String participantId) {
+        super.onGetParticipantSocialProfileError(error, participantId);
     }
 
     @Override

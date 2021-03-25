@@ -342,115 +342,116 @@ public class WCFClient {
     }
 
     private String getMilestonesJson() {
-        return "[{\n" +
-                "   \"sequence\": 0,\n" +
-                "   \"distance\": 0,\n" +
-                "   \"name\": \"Start\",\n" +
-                "   \"icon_name\": \"\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_0_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"\",\n" +
-                "   \"subtitle\": \"\",\n" +
-                "   \"media\": \"\",\n" +
-                "   \"content\": \"\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 1,\n" +
-                "   \"distance\": 164182,\n" +
-                "   \"name\": \"Nairobi, Kenya\",\n" +
-                "   \"icon_name\": \"Kenya\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_1_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"Primary And Secondary: Stretching Their Wings\",\n" +
-                "   \"subtitle\": \"Viola, a student\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_1_v1.png photo:https://teamimages.blob.core.windows.net/akfmedia/1.Nairobi.png\",\n" +
-                "   \"content\": \"<p>Viola is a Grade 9 student at Joy Primary School in Mathare, a notoriously poor neighborhood in Nairobi, Kenya. There, few families have books. Even schools lack suitable reading material. Across Kenya, only 2 percent of public schools have libraries.</p><p>Before, Viola and her friends had very few chances to practice reading. The whole school had just a box of a few textbooks. When Viola first arrived several years ago, she was far behind her peers, with no way to catch up. \\\"I was not good at reading,\\\" she admits.</p><p>That changed when Joy School gained a library, thanks to a Kenyan nonprofit that raised funds for libraries with its Start-A-Library campaign, supported by the Aga Khan Foundation and the Yetu Initiative. The new library at Joy brought in 1,000 storybooks, and Viola started devouring them.</p>Read Viola’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/primary-secondary-stretching-their-wings/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/primary-secondary-stretching-their-wings/</a>.\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 2,\n" +
-                "   \"distance\": 325818,\n" +
-                "   \"name\": \"Karachi, Pakistan\",\n" +
-                "   \"icon_name\": \"Pakistan\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_2_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"Reaching New Heights In National Healthcare: Zainab’s Story\",\n" +
-                "   \"subtitle\": \"Dr. Zainab Samad, a doctor\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_2_v1.png photo:https://teamimages.blob.core.windows.net/akfmedia/2.Karachi.png\",\n" +
-                "   \"content\": \"<p>Dr. Zainab Samad was only 13 years old when she knew she wanted to become a doctor. She was able to fulfill her dream by attending medical school at the Aga Khan University. Growing up, she didn’t see many female leaders in her field and despite her passion for medicine, the idea of playing a leading role at a university was a leap beyond her imagination. Nevertheless, after years of studying at AKU and abroad, Dr. Samad eventually returned to Karachi to lead the Medicine Department at AKU. She’s the youngest person ever to hold that position, and the first woman.</p><p>Zainab’s journey to new heights was long, but she hopes that it will inspire other women to follow in her footsteps. “AKU has had female chairs in other departments, including Obstetrics-Gynecology and Anesthesia,\\\" she said. \\\"I hope it means we’ll have more.\\\"</p><p>Aga Khan University became the leading healthcare institution in Pakistan and influences healthcare practice and policy across the country. AKU Hospital will continue to develop skills of healthcare professionals like Zainab to deliver world-class care.</p>Read Zainab’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/reaching-new-heights-in-national-healthcare/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/reaching-new-heights-in-national-healthcare/</a>.\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 3,\n" +
-                "   \"distance\": 386273,\n" +
-                "   \"name\": \"Badakhshan, Afghanistan\",\n" +
-                "   \"icon_name\": \"Afghanistan\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_3_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"Sara, a young girl who dreams of becoming a doctor\",\n" +
-                "   \"subtitle\": \"Meet Sara\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_3_v1.png photo::http://wcf.x10host.com/3.Badakshan.png video:https://youtu.be/W__4h4p6Zp8\",\n" +
-                "   \"content\": \"<p>Sara is seven years old and lives in one of the world’s most remote areas—in northern Afghanistan. She dreams of becoming a doctor, but access to education isn’t the only thing that will get her there. Sarah needs books, a uniform, safe roads to get to school, qualified teachers, and electricity to study.</p><p>Sara is multifaceted. Her development should be, too. In Afghanistan, where many girls like Sara live, the Aga Khan Foundation applies an integrated development approach.</p>Learn more about Sara and AKF’s approach here:<br><a href=\\\"https://www.akfusa.org/ourwork/meet-sara/\\\" target=\\\"_blank\\\">https://www.akfusa.org/ourwork/meet-sara/</a>.\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 4,\n" +
-                "   \"distance\": 449909,\n" +
-                "   \"name\": \"Bihar, India\",\n" +
-                "   \"icon_name\": \"India\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_4_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"Supporting the Empowerment of Adolescent Girls in India\",\n" +
-                "   \"subtitle\": \"Jyothi, a participant of AKF’s girls empowerment program\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_4_v1.png photo:https://teamimages.blob.core.windows.net/akfmedia/4.Bihar.png\",\n" +
-                "   \"content\": \"<p>As India’s population has become younger, the rapidly growing proportion of young girls in the country presents an opportunity for early investment in their learning and overall development.</p><p>AKF works with out-of-school adolescent girls from poor and disadvantaged communities in rural India to prioritize their education, health, and wellbeing so that they can achieve economic and social empowerment. Key to AKF’s strategy is community engagement and building awareness among parents and community members about the importance of supporting girls to fulfill their potential. AKF’s approach to adolescent girls’ empowerment is three-pronged, comprising of (1) scholastic support, (2) vocational training, and (3) life skills education. The strategy supports out-of-school girls to build on their education, whether through functional literacy training, remedial support, or school enrollment assistance.</p>Learn more about AKF’s work to support girls in India:<br><a href=\\\"https://www.akdn.org/sites/akdn/files/2018_09_-_akf_india_-_supporting_the_empowerment_of_adolescent_girls_in_india.pdf\\\" target=\\\"_blank\\\">https://www.akdn.org/sites/akdn/files/2018_09_-_akf_india_-_supporting_the_empowerment_of_adolescent_girls_in_india.pdf</a>.\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 5,\n" +
-                "   \"distance\": 511000,\n" +
-                "   \"name\": \"Chitral, Pakistan\",\n" +
-                "   \"icon_name\": \"Pakistan\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_5_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"Title: In Chitral, Pakistan, Educators Champion Change\",\n" +
-                "   \"subtitle\": \"Shanila Parveen, a teacher\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_5_v1.png photo:https://teamimages.blob.core.windows.net/akfmedia/5.Chirtal.png\",\n" +
-                "   \"content\": \"<p>In a country where the majority of women head households, not financial entities, Rukhshod’s story underscores the importance of women’s inclusion in economic development activities.</p><p>Her journey into this leadership position began when she became the manager of the women’s committee of a small village organization. Rukhshod’s natural ability to engage community members to ensure all voices were heard gained her early respect and recognition among her peers. In 2007, when a Social Union for the Development of Village Organizations (SUDVO) was formed in her area, she was selected to lead, and thrived.</p><p>As a result, in 2011, Rukhshod was appointed director of MLO ‘’Rushdi Pomir.\\\" Thanks to ESCoMIAD, a joint project of AKF and USAID, Rukhshod received training and capacity development needed to be successful in her role. Trainings included topics like business planning; financial statement analysis; and cash management. Her background in economics paved the way for her quick absorption of the material.</p>Read Rukhshod’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/rukhshods-story/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/rukhshods-story/</a>.\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 6,\n" +
-                "   \"distance\": 567000,\n" +
-                "   \"name\": \"Jalal-abad, Kyrgyz Republic\",\n" +
-                "   \"icon_name\": \"Kyrgistan\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_6_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"In The Kyrgyz Republic, Going From Unemployment To Dream Job\",\n" +
-                "   \"subtitle\": \"Baisal, a graphic designer\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_6_v1.png photo:https://teamimages.blob.core.windows.net/akfmedia/6.Jalal-Abad.png\",\n" +
-                "   \"content\": \"<p>From a young age growing up in the Kyrgyz Republic, Baisal was drawn to the arts. Given that Jalal-Abad is a region dependent on agriculture, there were few opportunities for him to engage with his passion. He received his degree in programming, but after struggling with unemployment, Baisal found an alternative and decided to apply to an artistic apprenticeship program offered in Jalal-Abad through the USAID-funded Demilgeluu Jashtar (Youth Initiative). The program is managed primarily by the Aga Khan Foundation’s Mountain Societies Development Support Program.</p><p>The training program, he says, was “really eye-opening for me, because I did not know that there was a field where I could find a good job that used my love of art as well as my technical programming skills.” Now, at 19, Baisal has a leg up thanks to the training and his ability to combine his skills with his passion. He is working as a graphic designer.</p><p>This program aims to help the Kyrgyz Republic’s workforce, particularly youth, fulfill their potential by equipping them with highly sought-after job skills.</p>Read Baisal’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/</a>.\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 7,\n" +
-                "   \"distance\": 649091,\n" +
-                "   \"name\": \"Gilgit, Pakistan\",\n" +
-                "   \"icon_name\": \"Pakistan\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_7_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"Enterprise Development And Employable Skills\",\n" +
-                "   \"subtitle\": \"Chand, a tailor\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_7_v1.png photo:https://teamimages.blob.core.windows.net/akfmedia/7.Gilgit.png\",\n" +
-                "   \"content\": \"<p>Chand Begam attended an enterprise training workshop organized by AKF. As a result, she gained the skills and knowledge needed to open her own professional dressmaking shop, which has allowed her to increase her productivity and income.</p><p>Since 2011, the Aga Khan Development Network, of which the Aga Khan Foundation is a part, has supported 63,000 young people like Chand in northern Pakistan to develop the skills and confidence they need to become more employable and self-enterprising.</p>Learn more about the Network’s efforts in Pakistan:<br><a href=\\\"https://www.akdn.org/where-we-work/south-asia/pakistan/\\\" target=\\\"_blank\\\">https://www.akdn.org/where-we-work/south-asia/pakistan/</a>.\"\n" +
-                " },\n" +
-                " {\n" +
-                "   \"sequence\": 8,\n" +
-                "   \"distance\": 700000,\n" +
-                "   \"name\": \"Khorog, Tajikistan\",\n" +
-                "   \"icon_name\": \"Tajikistan\",\n" +
-                "   \"map_image\": \"http://wcf.x10host.com/challenge1_8_v1.png\",\n" +
-                "   \"description\": \"\",\n" +
-                "   \"title\": \"Financial Inclusion\",\n" +
-                "   \"subtitle\": \"Rukhshod, leader of a national micro-lending organization\",\n" +
-                "   \"media\": \"photo:http://wcf.x10host.com/challenge1_8_v1.png photo:https://teamimages.blob.core.windows.net/akfmedia/8.Khorog.png\",\n" +
-                "   \"content\": \"<p>From a young age growing up in the Kyrgyz Republic, Baisal was drawn to the arts. Given that Jalal-Abad is a region dependent on agriculture, there were few opportunities for him to engage with his passion. He received his degree in programming, but after struggling with unemployment, Baisal found an alternative and decided to apply to an artistic apprenticeship program offered in Jalal-Abad through the USAID-funded Demilgeluu Jashtar (Youth Initiative). The program is managed primarily by the Aga Khan Foundation’s Mountain Societies Development Support Program.</p><p>The training program, he says, was \\\"really eye-opening for me, because I did not know that there was a field where I could find a good job that used my love of art as well as my technical programming skills.\\\" Now, at 19, Baisal has a leg up thanks to the training and his ability to combine his skills with his passion. He is working as a graphic designer.</p><p>This program aims to help the Kyrgyz Republic’s workforce, particularly youth, fulfill their potential by equipping them with highly sought-after job skills.</p>Read Baisal’s story here: <br><a href=\\\"https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/</a>.\"\n" +
-                " }\n" +
-                "]\n"
+        return "[\n" +
+                "  {\n" +
+                "    \"sequence\": 0,\n" +
+                "    \"distance\": 0,\n" +
+                "    \"name\": \"Start\",\n" +
+                "    \"icon_name\": \"\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_0_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"\",\n" +
+                "    \"subtitle\": \"\",\n" +
+                "    \"media\": \"\",\n" +
+                "    \"content\":\"\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 1,\n" +
+                "    \"distance\": 516000,\n" +
+                "    \"name\": \"Nairobi, Kenya\",\n" +
+                "    \"icon_name\": \"Kenya\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_1_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"Primary And Secondary: Stretching Their Wings\",\n" +
+                "    \"subtitle\": \"Viola, a student\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/our-stories/primary-secondary-stretching-their-wings/ photo:https://akfmedia.blob.core.windows.net/media/1.Nairobi.png photo:https://akfmedia.blob.core.windows.net/maps/challenge1_2_v1.png\",\n" +
+                "    \"content\": \"<p>Viola is a Grade 9 student at Joy Primary School in Mathare, a notoriously poor neighborhood in Nairobi, Kenya. There, few families have books. Even schools lack suitable reading material. Across Kenya, only 2 percent of public schools have libraries.</p><p>Before, Viola and her friends had very few chances to practice reading. The whole school had just a box of a few textbooks. When Viola first arrived several years ago, she was far behind her peers, with no way to catch up. \\\"I was not good at reading,\\\" she admits.</p><p>That changed when Joy School gained a library, thanks to a Kenyan nonprofit that raised funds for libraries with its Start-A-Library campaign, supported by the Aga Khan Foundation and the Yetu Initiative. The new library at Joy brought in 1,000 storybooks, and Viola started devouring them.</p>Read Viola’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/primary-secondary-stretching-their-wings/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/primary-secondary-stretching-their-wings/</a>.\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 2,\n" +
+                "    \"distance\": 1024000,\n" +
+                "    \"name\": \"Karachi, Pakistan\",\n" +
+                "    \"icon_name\": \"Pakistan\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_2_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"Reaching New Heights In National Healthcare: Zainab’s Story\",\n" +
+                "    \"subtitle\": \"Dr. Zainab Samad, a doctor\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/our-stories/reaching-new-heights-in-national-healthcare/ photo:https://akfmedia.blob.core.windows.net/media/2.Karachi.png photo:https://akfmedia.blob.core.windows.net/maps/challenge1_3_v1.png\",\n" +
+                "    \"content\": \"<p>Dr. Zainab Samad was only 13 years old when she knew she wanted to become a doctor. She was able to fulfill her dream by attending medical school at the Aga Khan University. Growing up, she didn’t see many female leaders in her field and despite her passion for medicine, the idea of playing a leading role at a university was a leap beyond her imagination. Nevertheless, after years of studying at AKU and abroad, Dr. Samad eventually returned to Karachi to lead the Medicine Department at AKU. She’s the youngest person ever to hold that position, and the first woman.</p><p>Zainab’s journey to new heights was long, but she hopes that it will inspire other women to follow in her footsteps. “AKU has had female chairs in other departments, including Obstetrics-Gynecology and Anesthesia,\\\" she said. \\\"I hope it means we’ll have more.\\\"</p><p>Aga Khan University became the leading healthcare institution in Pakistan and influences healthcare practice and policy across the country. AKU Hospital will continue to develop skills of healthcare professionals like Zainab to deliver world-class care.</p>Read Zainab’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/reaching-new-heights-in-national-healthcare/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/reaching-new-heights-in-national-healthcare/</a>.\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 3,\n" +
+                "    \"distance\": 1214000,\n" +
+                "    \"name\": \"Badakhshan, Afghanistan\",\n" +
+                "    \"icon_name\": \"Afghanistan\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_3_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"Sara, a young girl who dreams of becoming a doctor\",\n" +
+                "    \"subtitle\": \"Meet Sara\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/our-stories/meet-sara/ photo:https://akfmedia.blob.core.windows.net/media/3.Badakshan.png video:https://youtu.be/W__4h4p6Zp8 photo:https://akfmedia.blob.core.windows.net/maps/challenge1_4_v1.png\",\n" +
+                "    \"content\": \"<p>Sara is seven years old and lives in one of the world’s most remote areas—in northern Afghanistan. She dreams of becoming a doctor, but access to education isn’t the only thing that will get her there. Sarah needs books, a uniform, safe roads to get to school, qualified teachers, and electricity to study.</p><p>Sara is multifaceted. Her development should be, too. In Afghanistan, where many girls like Sara live, the Aga Khan Foundation applies an integrated development approach.</p>Learn more about Sara and AKF’s approach here:<br><a href=\\\"https://www.akfusa.org/ourwork/meet-sara/\\\" target=\\\"_blank\\\">https://www.akfusa.org/ourwork/meet-sara/</a>.\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 4,\n" +
+                "    \"distance\": 1414000,\n" +
+                "    \"name\": \"Bihar, India\",\n" +
+                "    \"icon_name\": \"India\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_4_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"Supporting the Empowerment of Adolescent Girls in India\",\n" +
+                "    \"subtitle\": \"Jyothi, a participant of AKF’s girls empowerment program\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/in-the-news/sanitation-facilities-india/ photo:https://akfmedia.blob.core.windows.net/media/4.Bihar.png photo:https://akfmedia.blob.core.windows.net/maps/challenge1_5_v1.png\",\n" +
+                "    \"content\": \"<p>As India’s population has become younger, the rapidly growing proportion of young girls in the country presents an opportunity for early investment in their learning and overall development.</p><p>AKF works with out-of-school adolescent girls from poor and disadvantaged communities in rural India to prioritize their education, health, and wellbeing so that they can achieve economic and social empowerment. Key to AKF’s strategy is community engagement and building awareness among parents and community members about the importance of supporting girls to fulfill their potential. AKF’s approach to adolescent girls’ empowerment is three-pronged, comprising of (1) scholastic support, (2) vocational training, and (3) life skills education. The strategy supports out-of-school girls to build on their education, whether through functional literacy training, remedial support, or school enrollment assistance.</p>Learn more about AKF’s work to support girls in India:<br><a href=\\\"https://www.akdn.org/sites/akdn/files/2018_09_-_akf_india_-_supporting_the_empowerment_of_adolescent_girls_in_india.pdf\\\" target=\\\"_blank\\\">https://www.akdn.org/sites/akdn/files/2018_09_-_akf_india_-_supporting_the_empowerment_of_adolescent_girls_in_india.pdf</a>.\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 5,\n" +
+                "    \"distance\": 1606000,\n" +
+                "    \"name\": \"Chitral, Pakistan\",\n" +
+                "    \"icon_name\": \"Pakistan\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_5_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"Title: In Chitral, Pakistan, Educators Champion Change\",\n" +
+                "    \"subtitle\": \"Shanila Parveen, a teacher\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/our-stories/in-chitral-pakistan-educators-champion-change/ photo:https://akfmedia.blob.core.windows.net/media/5.Chirtal.png photo:https://akfmedia.blob.core.windows.net/maps/challenge1_6_v1.png\",\n" +
+                "    \"content\": \"<p>In a country where the majority of women head households, not financial entities, Rukhshod’s story underscores the importance of women’s inclusion in economic development activities.</p><p>Her journey into this leadership position began when she became the manager of the women’s committee of a small village organization. Rukhshod’s natural ability to engage community members to ensure all voices were heard gained her early respect and recognition among her peers. In 2007, when a Social Union for the Development of Village Organizations (SUDVO) was formed in her area, she was selected to lead, and thrived.</p><p>As a result, in 2011, Rukhshod was appointed director of MLO ‘’Rushdi Pomir.\\\" Thanks to ESCoMIAD, a joint project of AKF and USAID, Rukhshod received training and capacity development needed to be successful in her role. Trainings included topics like business planning; financial statement analysis; and cash management. Her background in economics paved the way for her quick absorption of the material.</p>Read Rukhshod’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/rukhshods-story/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/rukhshods-story/</a>.\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 6,\n" +
+                "    \"distance\": 1782000,\n" +
+                "    \"name\": \"Jalal-abad, Kyrgyz Republic\",\n" +
+                "    \"icon_name\": \"Kyrgistan\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_6_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"In The Kyrgyz Republic, Going From Unemployment To Dream Job\",\n" +
+                "    \"subtitle\": \"Baisal, a graphic designer\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/ photo:https://akfmedia.blob.core.windows.net/media/6.Jalal-Abad.png photo:https://akfmedia.blob.core.windows.net/maps/challenge1_7_v1.png\",\n" +
+                "    \"content\": \"<p>From a young age growing up in the Kyrgyz Republic, Baisal was drawn to the arts. Given that Jalal-Abad is a region dependent on agriculture, there were few opportunities for him to engage with his passion. He received his degree in programming, but after struggling with unemployment, Baisal found an alternative and decided to apply to an artistic apprenticeship program offered in Jalal-Abad through the USAID-funded Demilgeluu Jashtar (Youth Initiative). The program is managed primarily by the Aga Khan Foundation’s Mountain Societies Development Support Program.</p><p>The training program, he says, was “really eye-opening for me, because I did not know that there was a field where I could find a good job that used my love of art as well as my technical programming skills.” Now, at 19, Baisal has a leg up thanks to the training and his ability to combine his skills with his passion. He is working as a graphic designer.</p><p>This program aims to help the Kyrgyz Republic’s workforce, particularly youth, fulfill their potential by equipping them with highly sought-after job skills.</p>Read Baisal’s story here:<br><a href=\\\"https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/</a>.\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 7,\n" +
+                "    \"distance\": 2540000,\n" +
+                "    \"name\": \"Gilgit, Pakistan\",\n" +
+                "    \"icon_name\": \"Pakistan\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_7_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"Enterprise Development And Employable Skills\",\n" +
+                "    \"subtitle\": \"Chand, a tailor\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/our-stories/blazing-new-trails/ photo:https://akfmedia.blob.core.windows.net/media/7.Gilgit.png photo:https://akfmedia.blob.core.windows.net/maps/challenge1_8_v1.png\",\n" +
+                "    \"content\": \"<p>Chand Begam attended an enterprise training workshop organized by AKF. As a result, she gained the skills and knowledge needed to open her own professional dressmaking shop, which has allowed her to increase her productivity and income.</p><p>Since 2011, the Aga Khan Development Network, of which the Aga Khan Foundation is a part, has supported 63,000 young people like Chand in northern Pakistan to develop the skills and confidence they need to become more employable and self-enterprising.</p>Learn more about the Network’s efforts in Pakistan:<br><a href=\\\"https://www.akdn.org/where-we-work/south-asia/pakistan/\\\" target=\\\"_blank\\\">https://www.akdn.org/where-we-work/south-asia/pakistan/</a>.\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"sequence\": 8,\n" +
+                "    \"distance\": 2690000,\n" +
+                "    \"name\": \"Khorog, Tajikistan\",\n" +
+                "    \"icon_name\": \"Tajikistan\",\n" +
+                "    \"map_image\":\"https://akfmedia.blob.core.windows.net/maps/challenge1_8_v1.png\",\n" +
+                "    \"description\":\"\",\n" +
+                "    \"title\": \"Financial Inclusion\",\n" +
+                "    \"subtitle\": \"Rukhshod, leader of a national micro-lending organization\",\n" +
+                "    \"media\": \"article:https://www.akfusa.org/our-stories/rukhshods-story/ photo:https://akfmedia.blob.core.windows.net/media/8.Khorog.png\",\n" +
+                "    \"content\": \"<p>From a young age growing up in the Kyrgyz Republic, Baisal was drawn to the arts. Given that Jalal-Abad is a region dependent on agriculture, there were few opportunities for him to engage with his passion. He received his degree in programming, but after struggling with unemployment, Baisal found an alternative and decided to apply to an artistic apprenticeship program offered in Jalal-Abad through the USAID-funded Demilgeluu Jashtar (Youth Initiative). The program is managed primarily by the Aga Khan Foundation’s Mountain Societies Development Support Program.</p><p>The training program, he says, was \\\"really eye-opening for me, because I did not know that there was a field where I could find a good job that used my love of art as well as my technical programming skills.\\\" Now, at 19, Baisal has a leg up thanks to the training and his ability to combine his skills with his passion. He is working as a graphic designer.</p><p>This program aims to help the Kyrgyz Republic’s workforce, particularly youth, fulfill their potential by equipping them with highly sought-after job skills.</p>Read Baisal’s story here: <br><a href=\\\"https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/\\\" target=\\\"_blank\\\">https://www.akfusa.org/our-stories/kyrgyz-republic-unemployment-to-dream-job/</a>.\"\n" +
+                "  }\n" +
+                "]"
                 ;
     }
 

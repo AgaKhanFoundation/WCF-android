@@ -108,6 +108,8 @@
     <string name="connected_to_fitness_app_message">Connected to Google Fit account on Your device</string>
     <string name="google_fit_connection_error_message">\n\n\Google fit connection error:\n\n%1$s</string>
     <string name="disconnected_from_fitness_app_message">Disconnected from Google Fit account on Your device</string>
+    <string name="google_fit_permission_rationale">Permission is required to access your Google Fit data</string>
+    <string name="google_fit_permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
 
     <string name="settings_team_membership_title">Team</string>
 
@@ -262,6 +264,7 @@
     <string name="team_edit_start_title">Edit</string>
     <string name="team_edit_done_title">Done</string>
     <string name="message_journey_starting_soon">Challenge starting soon; check Facebook group for up-to-date information</string>
+    <string name="message_journey_started_initial">Your Journey has Started.</string>
     <string name="message_journey_started">Your Journey has Started. You have %1$d milestones on this journey</string>
     <string name="message_no_journey_information">Your Journey has started. Milestones not available at this time</string>
     <string name="journey_milestones_completed">%1$d out of %2$d milestones completed</string>
@@ -272,6 +275,7 @@
     <string name="journey_start">Start</string>
     <string name="journey_fragment_title">Journey</string>
     <string name="milestone_title">Milestone %1$d/%2$d</string>
+    <string name="milestone_detail_title">Milestone</string>
 
     <string name="no_network">Network Connection Error</string>
     <string name="no_network_message">Internet connection is required. Please check connection and try again.</string>
@@ -328,5 +332,7 @@
     <string name="fcm_message">Steps 4 Impact</string>
     <string name="sign_in_platform_message">Sign in with</string>
     <string name="terms_and_conditions_apply">Terms and conditions apply</string>
+    <string name="ok_text">OK</string>
+    <string name="android_app_settings">Settings</string>
 
 </resources>

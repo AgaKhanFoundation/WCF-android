@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 
 enum class MediaType {
-    PHOTO, VIDEO
+    PHOTO, ARTICLE, VIDEO
 }
 
 data class Media(

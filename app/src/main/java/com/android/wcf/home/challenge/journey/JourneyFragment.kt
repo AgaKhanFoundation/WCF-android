@@ -17,9 +17,10 @@ import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.model.Milestone
 import com.android.wcf.helper.view.ListPaddingDecoration
+import com.android.wcf.model.Media
 
 class JourneyFragment : BaseFragment(), JourneyMvp.View {
-    lateinit var host: JourneyMvp.Host
+    private var host: JourneyMvp.Host? = null
     lateinit var presenter: JourneyMvp.Presenter
 
     lateinit var titleText: TextView
@@ -31,7 +32,7 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
         if (context is JourneyMvp.Host) {
             host = context
         } else {
-            throw RuntimeException("$context must implement BadgesMvp.Host")
+            throw RuntimeException("$context must implement JourneyMvp.Host")
         }
     }
 
@@ -47,7 +48,6 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        host.setToolbarTitle(getString(R.string.journey_fragment_title), true)
         setupView(view)
     }
 
@@ -77,6 +77,11 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
         presenter.getMilestonesData()
     }
 
+    override fun onResume() {
+        super.onResume()
+        host?.setToolbarTitle(getString(R.string.journey_fragment_title), true)
+    }
+
     fun setupView(view: View) {
         titleText = view.findViewById(R.id.toolbar_title)
         recycler = view.findViewById(R.id.journey_recycler)
@@ -91,19 +96,14 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
 
         adapter = JourneyMilestonesAdapter(context!!, object : JourneyMilestonesAdapter.AdapterHost {
             override fun onItemSelected(milestone: Milestone) {
-                onMilestoneSelected()
+                onMilestoneSelected(milestone)
             }
         })
         recycler.adapter = adapter
     }
 
-    fun onMilestoneSelected() {
-        presenter.onMilestoneSelected()
-    }
-
-    override fun showMilestoneDetail() {
-        Toast.makeText(context, "Milestone details coming soon", Toast.LENGTH_SHORT).show()
-        //TODO: create and Milestones detail fragment
+    fun onMilestoneSelected(milestone:Milestone) {
+        host?.showMilestoneDetail(milestone)
     }
 
     override fun showMilestoneData(milestones: List<Milestone>, lastCompletedMilestoneSequence:Int, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double) {

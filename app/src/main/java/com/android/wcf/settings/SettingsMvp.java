@@ -1,6 +1,7 @@
 package com.android.wcf.settings;
 
 import com.android.wcf.base.BaseMvp;
+import com.android.wcf.model.SocialProfile;
 
 public interface SettingsMvp {
     interface View extends BaseMvp.BaseView {
@@ -29,6 +30,11 @@ public interface SettingsMvp {
         void signout(boolean complete);
 
         void teamPublicVisibilityUpdated();
+
+        void onGetParticipantSocialProfileSuccess(String participantId, SocialProfile socialProfile);
+
+        void onGetParticipantSocialProfileError(Throwable error, String participantId);
+
     }
 
     interface Presenter extends BaseMvp.Presenter{
@@ -49,6 +55,8 @@ public interface SettingsMvp {
         void deleteParticipant(String participantId);
 
         void deleteLeaderTeam(int myTeamId);
+
+        void getParticipantSocialProfile(String participantId);
 
     }
 

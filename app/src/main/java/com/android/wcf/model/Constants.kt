@@ -1,7 +1,7 @@
 package com.android.wcf.model
 
 enum class AuthSource {
-    Facebook, Apple, Google
+    Facebook, Apple, Google, Unknown
 }
 
 class Constants {

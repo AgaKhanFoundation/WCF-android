@@ -10,6 +10,7 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
@@ -20,8 +21,10 @@ import com.android.wcf.base.BaseActivity
 import com.android.wcf.base.ErrorDialogCallback
 import com.android.wcf.helper.SharedPreferencesUtil
 import com.android.wcf.home.challenge.*
+import com.android.wcf.home.challenge.journey.JourneyDetailMvp
 import com.android.wcf.home.challenge.journey.JourneyFragment
 import com.android.wcf.home.challenge.journey.JourneyMvp
+import com.android.wcf.home.challenge.journey.MilestoneDetailFragment
 import com.android.wcf.home.dashboard.*
 import com.android.wcf.home.leaderboard.LeaderboardFragment
 import com.android.wcf.home.leaderboard.LeaderboardMvp
@@ -31,10 +34,7 @@ import com.android.wcf.login.AKFParticipantProfileFragment
 import com.android.wcf.login.AKFParticipantProfileMvp
 import com.android.wcf.login.LoginActivity
 import com.android.wcf.login.LoginHelper
-import com.android.wcf.model.AuthSource
-import com.android.wcf.model.Commitment
-import com.android.wcf.model.Constants
-import com.android.wcf.model.Participant
+import com.android.wcf.model.*
 import com.android.wcf.settings.SettingsActivity
 import com.android.wcf.tracker.TrackerLoginStatusCallback
 import com.android.wcf.tracker.TrackingHelper
@@ -60,7 +60,8 @@ class HomeActivity : BaseActivity()
         , AKFParticipantProfileMvp.Host
         , BadgesMvp.Host
         , BadgeDetailMvp.Host
-        , JourneyMvp.Host {
+        , JourneyMvp.Host
+        , JourneyDetailMvp.Host {
 
     private lateinit var homePresenter: HomeMvp.HomePresenter
     private var dashboardFragment: DashboardFragment? = null
@@ -557,7 +558,7 @@ class HomeActivity : BaseActivity()
         val fragment = BadgesFragment()
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .addToBackStack("BadgesFragment")
                 .commit()
     }
@@ -566,8 +567,17 @@ class HomeActivity : BaseActivity()
         val fragment = JourneyFragment()
         supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragment_container, fragment)
+                .replace(R.id.fragment_container, fragment)
                 .addToBackStack("JourneyFragment")
+                .commit()
+    }
+
+    override fun showMilestoneDetail(milestone: Milestone) {
+        val fragment = MilestoneDetailFragment.newInstance(milestone)
+        supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.fragment_container, fragment)
+                .addToBackStack(null)
                 .commit()
     }
 

@@ -140,7 +140,7 @@ class BadgesFragment : BaseFragment(), BadgesMvp.View {
         val fragmentManager = activity?.supportFragmentManager
         fragmentManager?.let {
             it.beginTransaction()
-                    .add(R.id.fragment_container, fragment!!)
+                    .replace(R.id.fragment_container, fragment!!)
                     .addToBackStack(null)
                     .commit()
         }

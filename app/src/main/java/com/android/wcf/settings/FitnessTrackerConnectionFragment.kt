@@ -1,12 +1,17 @@
 package com.android.wcf.settings
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.text.Html
 import android.text.Spanned
 import android.util.Log
@@ -18,11 +23,14 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat.checkSelfPermission
+import com.android.wcf.BuildConfig
 import com.android.wcf.R
 import com.android.wcf.base.BaseFragment
 import com.android.wcf.base.RequestCodes
 import com.android.wcf.tracker.TrackingHelper
 import com.android.wcf.tracker.googlefit.GoogleFitHelper
+import com.android.wcf.tracker.googlefit.GoogleFitHelper.Companion.googleFitFitnessDataOptions
 import com.android.wcf.tracker.googlefit.GoogleFitSubscriptionCallback
 import com.fitbitsdk.authentication.AuthenticationManager
 import com.fitbitsdk.authentication.LogoutTaskCompletionHandler
@@ -36,6 +44,7 @@ import com.google.android.gms.fitness.request.DataReadRequest
 import com.google.android.gms.fitness.result.DataReadResponse
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_device_connection.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -46,6 +55,8 @@ import java.util.concurrent.TimeUnit
 class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectionMvp.View {
 
     internal var sharedPreferences: SharedPreferences? = null
+
+    lateinit var errorMessageView:TextView
 
     companion object {
         val TAG = FitnessTrackerConnectionFragment::class.java.simpleName
@@ -91,6 +102,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         sharedPreferences = TrackingHelper.getSharedPrefs()
         val fragmentView = inflater.inflate(R.layout.fragment_device_connection, container, false)
 
+        errorMessageView = fragmentView.findViewById(R.id.tv_fitness_app_error_message)
         val fitnessAppButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_app)
         val fitnessDeviceButton: Button = fragmentView.findViewById(R.id.btn_connect_to_fitness_device)
 
@@ -161,15 +173,14 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE -> {
+            RequestCodes.GFIT_DATA_READ_PERMISSIONS_REQUEST_CODE,
+            RequestCodes.GFIT_ACTIVITY_RECOGNITION_PERMISSIONS_REQUEST_CODE -> {
                 run {
                     //TODO: make a GoogleFitAuthManager similar to Fitbit's
                     if (data != null) {
                         onActivityResultForGoogleFit(requestCode, resultCode, data)
                     }
-
                 }
-                Log.e(TAG, "Unhandled Request Code $requestCode")
             }
             else -> Log.e(TAG, "Unhandled Request Code $requestCode")
         }
@@ -277,7 +288,6 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
                     }
                 }
-
             }
         }
     }
@@ -407,33 +417,166 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
 
 
     fun connectAppToGoogleFit() {
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(activity), GoogleFitHelper.googleFitFitnessOptions)) {
+        checkPermissionsAndRun(RequestCodes.GFIT_ACTIVITY_RECOGNITION_PERMISSIONS_REQUEST_CODE)
+    }
 
-            context?.let { context ->
-                val client = GoogleSignIn.getClient(context, GoogleFitHelper.googleFitSignInOptions) //
-                val intent = client.getSignInIntent()
-                startActivityForResult(intent, RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE);
+    private val runningQOrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q
+    private fun oAuthPermissionsApproved() = GoogleSignIn.hasPermissions(getGoogleAccount(), googleFitFitnessDataOptions)
+
+    /**
+     * Gets a Google account for use in creating the Fitness client. This is achieved by either
+     * using the last signed-in account, or if necessary, prompting the user to sign in.
+     * `getAccountForExtension` is recommended over `getLastSignedInAccount` as the latter can
+     * return `null` if there has been no sign in before.
+     */
+    private fun getGoogleAccount() = GoogleSignIn.getAccountForExtension(activity!!, googleFitFitnessDataOptions)
+
+    private fun checkPermissionsAndRun(requestcode: Int) {
+        if (permissionApproved()) {
+            fitSignIn(requestcode)
+        } else {
+            requestRuntimePermissions(requestcode)
+        }
+    }
+
+    private fun permissionApproved(): Boolean {
+        val approved = if (runningQOrLater) {
+            activity?.let { activity ->
+                PackageManager.PERMISSION_GRANTED == checkSelfPermission(
+                        activity,
+                        Manifest.permission.ACTIVITY_RECOGNITION)
+            } ?: false
+        } else {
+            true
+        }
+        return approved
+    }
+
+
+    private fun requestRuntimePermissions(requestCode: Int) {
+        activity?.let { activity ->
+            val shouldProvideRationale =
+                    shouldShowRequestPermissionRationale( Manifest.permission.ACTIVITY_RECOGNITION)
+
+            // Provide an additional rationale to the user. This would happen if the user denied the
+            // request previously, but didn't check the "Don't ask again" checkbox.
+            if (shouldProvideRationale) {
+                Log.i(TAG, "Displaying permission rationale to provide additional context.")
+                Snackbar.make(
+                        errorMessageView,
+                        R.string.google_fit_permission_rationale,
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.ok_text, { askForGoogleFitPermission(requestCode)})
+                        .show()
+            } else {
+                Log.i(TAG, "Requesting permission")
+                // Request permission. It's possible this can be auto answered if device policy
+                // sets the permission in a given state or the user denied the permission
+                // previously and checked "Never ask again".
+                askForGoogleFitPermission(requestCode)
+            }
+        }
+    }
+
+    private fun askForGoogleFitPermission(requestCode: Int ) {
+        requestPermissions(
+                arrayOf(Manifest.permission.ACTIVITY_RECOGNITION),
+                requestCode)
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>,
+                                            grantResults: IntArray) {
+        when {
+            grantResults.isEmpty() -> {
+                // If user interaction was interrupted, the permission request
+                // is cancelled and you receive empty arrays.
+                Log.i(TAG, "User interaction was cancelled.")
+            }
+            grantResults[0] == PackageManager.PERMISSION_GRANTED -> {
+                fitSignIn(requestCode)
+            }
+            else -> {
+                Log.e(TAG, "Permission denied.")
+                // Permission denied.
+
+                // In this Activity we've chosen to notify the user that they
+                // have rejected a core permission for the app since it makes the Activity useless.
+                // We're communicating this message in a Snackbar since this is a sample app, but
+                // core permissions would typically be best requested during a welcome-screen flow.
+
+                // Additionally, it is important to remember that a permission might have been
+                // rejected without asking the user for permission (device policy or "Never ask
+                // again" prompts). Therefore, a user interface affordance is typically implemented
+                // when permissions are denied. Otherwise, your app could appear unresponsive to
+                // touches or interactions which have required permissions.
+
+                Snackbar.make(
+                        errorMessageView,
+                        R.string.google_fit_permission_denied_explanation,
+                        Snackbar.LENGTH_INDEFINITE)
+                        .setAction(R.string.android_app_settings) {
+                            // Build intent that displays the App settings screen.
+                            val intent = Intent()
+                            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                            val uri = Uri.fromParts("package",
+                                    BuildConfig.APPLICATION_ID, null)
+                            intent.data = uri
+                            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                            startActivity(intent)
+                        }
+                        .show()
+            }
+        }
+    }
+    /**
+     * Checks that the user is signed in, and if so, executes the specified function. If the user is
+     * not signed in, initiates the sign in flow, specifying the post-sign in function to execute.
+     *
+     * @param requestCode The request code corresponding to the action to perform after sign in.
+     */
+    private fun fitSignIn(requestCode: Int) {
+        if (isAdded) {
+            if (oAuthPermissionsApproved()) {
+                if (requestCode == RequestCodes.GFIT_ACTIVITY_RECOGNITION_PERMISSIONS_REQUEST_CODE) {
+                    subscribeTpRecordStepsUsingGoogleFit()
+                }
+                if (requestCode == RequestCodes.GFIT_DATA_READ_PERMISSIONS_REQUEST_CODE) {
+                    readStepsCountForWeek()
+                }
+            } else {
+                GoogleSignIn.requestPermissions(
+                        this,
+                        requestCode,
+                        getGoogleAccount(), GoogleFitHelper.googleFitFitnessDataOptions)
+
             }
         } else {
-            if (isAdded) {
-                GoogleFitHelper.subscribeToRecordSteps(context!!, object : GoogleFitSubscriptionCallback {
-                    override fun onSubscriptionSuccess() {
-                        TrackingHelper.googleFitLoggedIn(true)
-                        onGoogleFitAuthComplete()
+            TrackingHelper.googleFitLoggedIn(false)
+            onGoogleFitAuthComplete()
+        }
+    }
 
-                        AlertDialog.Builder(context)
-                                .setTitle(getString(R.string.settings_connect_device_title))
-                                .setMessage(getString(R.string.connected_to_fitness_app_message))
-                                .setCancelable(false)
-                                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
-                                })
-                                .show()
-                    }
+    protected fun subscribeTpRecordStepsUsingGoogleFit() {
+        context?.let { context ->
+            GoogleFitHelper.subscribeToRecordSteps(context, object : GoogleFitSubscriptionCallback {
+                override fun onSubscriptionSuccess() {
+                    TrackingHelper.googleFitLoggedIn(true)
+                    onGoogleFitAuthComplete()
 
-                    override fun onSubscriptionError(exception: Exception?) {
-                        TrackingHelper.googleFitLoggedIn(false)
-                        onGoogleFitAuthComplete()
+                    AlertDialog.Builder(context)
+                            .setTitle(getString(R.string.settings_connect_device_title))
+                            .setMessage(getString(R.string.connected_to_fitness_app_message))
+                            .setCancelable(false)
+                            .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                            })
+                            .show()
+                }
 
+                override fun onSubscriptionError(exception: Exception?) {
+                    TrackingHelper.googleFitLoggedIn(false)
+                    onGoogleFitAuthComplete()
+
+                    if (exception?.message?.contains("cancel") == false) {
                         AlertDialog.Builder(context)
                                 .setTitle(getString(R.string.settings_connect_device_title))
                                 .setMessage(getString(R.string.google_fit_connection_error_message, exception?.message))
@@ -442,85 +585,33 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                                 })
                                 .show()
                     }
-                })
-            } else {
-                TrackingHelper.googleFitLoggedIn(false)
-                onGoogleFitAuthComplete()
-
-            }
-
+                }
+            })
         }
-    }
-
-    protected fun disconnectAppFromGoogleFit() {
-        context?.let { context ->
-            val client = GoogleSignIn.getClient(context, GoogleFitHelper.googleFitSignInOptions)
-            client.revokeAccess()
-        }
-
-        val googleSignInAccount = GoogleSignIn.getLastSignedInAccount(activity)
-
-        if (googleSignInAccount != null) {
-            val configClient = Fitness.getConfigClient(activity!!, googleSignInAccount)
-            configClient?.disableFit()
-        }
-
-        TrackingHelper.clearTrackerConnectionCheck()
-
-        sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false)?.commit()
-
-        sharedPreferences?.edit()?.remove(TrackingHelper.GOOGLE_FIT_USER_DISPLAY_NAME)?.commit()
-        sharedPreferences?.edit()?.remove(TrackingHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL)?.commit()
-
-        onGoogleFitAuthComplete()
-
-        AlertDialog.Builder(context)
-                .setTitle(getString(R.string.settings_connect_device_title))
-                .setMessage(getString(R.string.disconnected_from_fitness_app_message))
-                .setCancelable(false)
-                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
-                })
-                .show()
     }
 
     protected fun onActivityResultForGoogleFit(requestCode: Int, resultCode: Int, data: Intent) {
         Log.d(TAG, "onActivityResultForGoogleFit")
-        sharedPreferences?.let { sharedPreferences ->
-            if (requestCode == RequestCodes.GFIT_PERMISSIONS_REQUEST_CODE && resultCode == Activity.RESULT_OK ) {
 
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == RequestCodes.GFIT_ACTIVITY_RECOGNITION_PERMISSIONS_REQUEST_CODE) {
+                Log.d(TAG, "onActivityResultForGoogleFit GFIT_ACTIVITY_RECOGNITION_PERMISSIONS_REQUEST_CODE resultCode=RESULT_OK")
                 if (isAdded) {
-                    GoogleFitHelper.subscribeToRecordSteps(context!!, object : GoogleFitSubscriptionCallback {
-                        override fun onSubscriptionSuccess() {
-                            TrackingHelper.googleFitLoggedIn(true)
-                            onGoogleFitAuthComplete()
-
-                            AlertDialog.Builder(context)
-                                    .setTitle(getString(R.string.settings_connect_device_title))
-                                    .setMessage(getString(R.string.connected_to_fitness_app_message))
-                                    .setCancelable(false)
-                                    .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
-                                    })
-                                    .show()
-                        }
-
-                        override fun onSubscriptionError(exception: Exception?) {
-                            TrackingHelper.googleFitLoggedIn(false)
-                            onGoogleFitAuthComplete()
-
-                            AlertDialog.Builder(context)
-                                    .setTitle(getString(R.string.settings_connect_device_title))
-                                    .setMessage(getString(R.string.google_fit_connection_error_message, exception?.message))
-                                    .setCancelable(false)
-                                    .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
-                                    })
-                                    .show()
-                        }
-                    })
+                    subscribeTpRecordStepsUsingGoogleFit()
                 } else {
                     TrackingHelper.googleFitLoggedIn(false)
                     onGoogleFitAuthComplete()
-
                 }
+            } else if (requestCode == RequestCodes.GFIT_DATA_READ_PERMISSIONS_REQUEST_CODE) {
+                Log.d(TAG, "onActivityResultForGoogleFit GFIT_PERMISSIONS_REQUEST_CODE resultCode=RESULT_OK")
+                if (isAdded) {
+                    readStepsCountForWeek()
+                } else {
+                    TrackingHelper.googleFitLoggedIn(false)
+                    onGoogleFitAuthComplete()
+                }
+            } else {
+                Log.d(TAG, "onActivityResultForGoogleFit  There was an error signing into Fit. requestCode=$requestCode resultCode=$resultCode")
             }
         }
     }
@@ -556,34 +647,11 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                 .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                 .build()
 
-        GoogleSignIn.getLastSignedInAccount(activity)?.let {
-            Fitness.getHistoryClient(activity as Activity, it).readData(readRequest)
-                    .addOnSuccessListener { dataReadResponse ->
-                        val buckets = dataReadResponse.buckets
-
-                        var totalSteps = 0
-
-                        for (bucket in buckets) {
-
-                            val dataSets = bucket.dataSets
-
-                            for (dataSet in dataSets) {
-                                // if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
-
-                                for (dp in dataSet.dataPoints) {
-                                    for (field in dp.dataType.fields) {
-                                        val steps = dp.getValue(field).asInt()
-                                        totalSteps += steps
-                                    }
-                                }
-                            }
-                            // }
-                        }
-                        Log.d(TAG, "total steps for this week: $totalSteps")
-                    }
-                    .addOnCompleteListener(object : OnCompleteListener<DataReadResponse> {
-                        override fun onComplete(task: Task<DataReadResponse>) {
-                            val buckets = (task.result as DataReadResponse).buckets
+        activity?.let { activity ->
+            GoogleSignIn.getLastSignedInAccount(activity)?.let { lastLoginAccount ->
+                Fitness.getHistoryClient(activity, lastLoginAccount).readData(readRequest)
+                        .addOnSuccessListener { dataReadResponse ->
+                            val buckets = dataReadResponse.buckets
 
                             var totalSteps = 0
 
@@ -592,8 +660,7 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                                 val dataSets = bucket.dataSets
 
                                 for (dataSet in dataSets) {
-                                    //                                if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
-
+                                    // if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
 
                                     for (dp in dataSet.dataPoints) {
                                         for (field in dp.dataType.fields) {
@@ -602,12 +669,64 @@ class FitnessTrackerConnectionFragment : BaseFragment(), FitnessTrackerConnectio
                                         }
                                     }
                                 }
-                                //                            }
+                                // }
                             }
                             Log.d(TAG, "total steps for this week: $totalSteps")
                         }
-                    })
+                        .addOnCompleteListener(object : OnCompleteListener<DataReadResponse> {
+                            override fun onComplete(task: Task<DataReadResponse>) {
+                                val buckets = (task.result as DataReadResponse).buckets
+
+                                var totalSteps = 0
+
+                                for (bucket in buckets) {
+                                    val dataSets = bucket.dataSets
+                                    for (dataSet in dataSets) {
+                                        // if (dataSet.getDataType() == DataType.TYPE_STEP_COUNT_DELTA) {
+                                        for (dp in dataSet.dataPoints) {
+                                            for (field in dp.dataType.fields) {
+                                                val steps = dp.getValue(field).asInt()
+                                                totalSteps += steps
+                                            }
+                                        }
+                                    }
+                                    //                            }
+                                }
+                                Log.d(TAG, "total steps for this week: $totalSteps")
+                            }
+                        })
+            }
         }
+    }
+
+    protected fun disconnectAppFromGoogleFit() {
+        context?.let { context ->
+            val googleSignInAccount = GoogleFitHelper.getGoogleAccount(context)
+            if (googleSignInAccount != null) {
+                val configClient = Fitness.getConfigClient(context, googleSignInAccount)
+                configClient?.disableFit()
+            }
+            val client = GoogleSignIn.getClient(context, GoogleFitHelper.googleFitSignInOptions)
+            client.revokeAccess()
+
+        }
+
+        TrackingHelper.clearTrackerConnectionCheck()
+
+        sharedPreferences?.edit()?.putBoolean(TrackingHelper.GOOGLE_FIT_APP_LOGGED_IN, false)?.commit()
+
+        sharedPreferences?.edit()?.remove(TrackingHelper.GOOGLE_FIT_USER_DISPLAY_NAME)?.commit()
+        sharedPreferences?.edit()?.remove(TrackingHelper.GOOGLE_FIT_USER_DISPLAY_EMAIL)?.commit()
+
+        onGoogleFitAuthComplete()
+
+        AlertDialog.Builder(context)
+                .setTitle(getString(R.string.settings_connect_device_title))
+                .setMessage(getString(R.string.disconnected_from_fitness_app_message))
+                .setCancelable(false)
+                .setPositiveButton(android.R.string.yes, DialogInterface.OnClickListener { dialog, which ->
+                })
+                .show()
     }
 
 }

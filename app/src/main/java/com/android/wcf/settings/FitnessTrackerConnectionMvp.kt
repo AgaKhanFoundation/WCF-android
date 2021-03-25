@@ -12,9 +12,5 @@ interface FitnessTrackerConnectionMvp {
     }
 
     interface Host : BaseMvp.Host {
-        fun connectAppToFitbit()
-        fun connectAppToGoogleFit()
-        fun disconnectAppFromFitbit()
-        fun disconnectAppFromGoogleFit()
     }
 }
