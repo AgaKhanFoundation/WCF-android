@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.android.wcf.R
 import com.android.wcf.model.Milestone
 import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 
 
 class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) : RecyclerView.Adapter<JourneyMilestonesAdapter.MilestoneViewHolder>() {
@@ -83,7 +82,7 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
                               val black: Int, val grey: Int, val blue: Int, val green: Int, val disabledGreyColor: Int,
                               val lastCompletedMilestoneSequence: Int,
                               val nextMilestoneSequence: Int,
-                              val nexttMilestonePercentageCompletion: Double) : RecyclerView.ViewHolder(itemView) {
+                              val nextMilestonePercentageCompletion: Double) : RecyclerView.ViewHolder(itemView) {
 
         val cardView: CardView = itemView.findViewById(R.id.milestone_cardview)
         val infoContainer: View = itemView.findViewById(R.id.milestone_info_container)
@@ -117,7 +116,7 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
                 milestoneDescription.visibility = View.VISIBLE
             }
 
-            if (milestone.sequence == lastCompletedMilestoneSequence && nexttMilestonePercentageCompletion < 100) {
+            if (milestone.sequence == lastCompletedMilestoneSequence && nextMilestonePercentageCompletion < 100) {
                 showMap(milestone)
             } else {
                 val mapUrl = milestone.mapImage
@@ -136,11 +135,10 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
             }
 
             Handler().post {
-                showJourneyMarker(milestone, lastCompletedMilestoneSequence, nextMilestoneSequence, nexttMilestonePercentageCompletion, infoContainer)
+                showJourneyMarker(milestone, lastCompletedMilestoneSequence, nextMilestoneSequence, nextMilestonePercentageCompletion, infoContainer)
             }
 
-            if (milestone.sequence > 0 && milestone.sequence <= nextMilestoneSequence) {
-
+            if (milestone.sequence > 0 && milestone.sequence <= lastCompletedMilestoneSequence ) {
                 itemView.setOnClickListener { view ->
                     clickListener?.let {
                         val position = adapterPosition
@@ -198,7 +196,7 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
         private fun showJourneyMarker(milestone: Milestone,
                                       lastCompletedMilestoneSequence: Int,
                                       nextMilestoneSequence: Int,
-                                      nexttMilestonePercentageCompletion: Double,
+                                      nextMilestonePercentageCompletion: Double,
                                       infoContainer: View) {
 
             val journeyMarker: ImageView = infoContainer.findViewById(R.id.journey_marker)
@@ -233,7 +231,7 @@ class JourneyMilestonesAdapter(context: Context, val adapterHost: AdapterHost) :
             if (gone) {
                 markerTopMargin = 0
             } else if (visible) {
-                markerTopMargin = ((itemView.height * nexttMilestonePercentageCompletion) / 100).toInt()
+                markerTopMargin = ((itemView.height * nextMilestonePercentageCompletion) / 100).toInt()
                 //our status marker is offset from the top, so try to position the journey marker by offseting it as well
                 val statusOffset = (status.getLayoutParams() as MarginLayoutParams).topMargin
                 if (markerTopMargin <= statusOffset + (status.height / 2)) {

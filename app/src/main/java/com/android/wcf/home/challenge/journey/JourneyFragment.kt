@@ -108,7 +108,7 @@ class JourneyFragment : BaseFragment(), JourneyMvp.View {
 
     override fun showMilestoneData(milestones: List<Milestone>, lastCompletedMilestoneSequence:Int, nextMilestoneSequence: Int, nextMilestonePercentageCompletion: Double) {
         val context = context
-        val adapter = adapter
+        val adapter = this.adapter
         if (context != null && adapter != null) {
             adapter.setData(milestones, lastCompletedMilestoneSequence, nextMilestoneSequence, nextMilestonePercentageCompletion)
         }
